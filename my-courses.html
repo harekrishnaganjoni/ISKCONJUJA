@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>ISKCON JUJA | My Courses</title>
+ <link rel="icon" href="images/favicon.png" type="image/png">
+ <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+ <header class="site-header">
+  <div class="header-top">
+   <div class="header-top__inner">
+    <label class="menu-button" for="menu-toggle" aria-label="Open menu"><span></span></label>
+    <a class="brand" href="index.html" aria-label="ISKCON JUJA home">
+     <img class="brand-logo" src="images/juja-logo.svg" alt="ISKCON Juja">
+     <span class="brand-text"><span class="brand-name">ISKCON JUJA</span></span>
+    </a>
+    <div class="header-mantra" aria-label="Maha Mantra">
+     <p>Hare Krishna Hare Krishna Krishna Krishna Hare Hare</p>
+     <p>Hare Rama Hare Rama Rama Rama Hare Hare</p>
+    </div>
+    <div class="prabhupada-block">
+     <p class="prabhupada-caption">ISKCON Founder Acharya HDG Srila A.C Bhaktivedanta Swami Prabhupada</p>
+     <img class="prabhupada-portrait" src="images/prabhupada-sitting.webp" alt="Srila Prabhupada" width="55" height="55">
+    </div>
+   </div>
+  </div>
+  <div class="nav-container">
+   <nav class="header-nav" aria-label="Main navigation" data-public-nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="events.html">Events</a>
+    <a href="merch.html" data-show-if="store_enabled" hidden>Merchandise</a>
+    <a class="nav-cta" href="participate.html">Get Involved</a>
+    <a href="learn.html">Learn</a>
+   </nav>
+   <nav class="header-nav member-quicknav" aria-label="Member navigation" data-member-nav hidden>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="my-courses.html" class="active">My Courses</a>
+   </nav>
+   <div class="header-actions">
+    <a class="profile-icon" href="devotees.html" title="Member Login" aria-label="Member Login" data-public-nav>
+     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+    </a>
+    <a href="admin.html" class="profile-icon" title="Admin Panel" aria-label="Admin Panel" data-admin-nav hidden style="font-size:16px;">&#128274;</a>
+    <a href="#" class="sign-out-trigger" data-member-nav hidden style="font-weight:700;font-size:14px;">Sign Out</a>
+    <button class="theme-switch-nav" type="button" data-theme-toggle aria-label="Toggle theme"></button>
+   </div>
+  </div>
+  <input class="menu-toggle" type="checkbox" id="menu-toggle">
+  <aside class="menu-drawer" id="mobile-nav-drawer" aria-label="Mobile navigation">
+   <div class="drawer-head">
+    <img class="drawer-logo" src="images/juja-logo.svg" alt="ISKCON Juja">
+    <label class="drawer-close" for="menu-toggle" aria-label="Close menu">&times;</label>
+   </div>
+   <nav class="drawer-nav" data-public-nav>
+    <a href="index.html">&#127968; Home</a>
+    <a href="about.html">&#128725; About Our Community</a>
+    <a href="events.html">&#128197; Weekly Programs &amp; Events</a>
+    <a href="merch.html" data-show-if="store_enabled" hidden>&#128085; Merchandise</a>
+    <a href="participate.html">&#129309; Get Involved / Volunteer</a>
+    <a href="learn.html">&#128218; Learn</a>
+    <a href="devotees.html">&#128274; Member Login</a>
+   </nav>
+   <nav class="drawer-nav" data-member-nav hidden>
+    <a href="dashboard.html">&#128274; Member Dashboard</a>
+    <a href="my-courses.html">&#128218; My Courses</a>
+    <a href="#" class="sign-out-trigger">&#128682; Sign Out</a>
+   </nav>
+   <div class="drawer-footer" data-public-nav>
+    <a class="button" href="#" data-whatsapp="Hi ISKCON JUJA! I would like to join the next program. Please send me the location and any details I need.">Join Our Next Program</a>
+   </div>
+  </aside>
+  <label class="menu-scrim" for="menu-toggle" aria-label="Close menu"></label>
+ </header>
+ <main>
+  <section class="page-hero has-bg-courses">
+   <div class="section-inner">
+    <div class="eyebrow">Member Area</div>
+    <h1>My Courses</h1>
+    <p>Courses you have joined and your progress will appear here.</p>
+    <p style="font-style:italic;font-size:16px;margin-top:20px;border-left:3px solid var(--gold);padding-left:14px;">&ldquo;If you want to know me, read my books.&rdquo; <span style="display:block;font-size:13px;opacity:0.85;margin-top:4px;">&mdash; Srila Prabhupada</span></p>
+   </div>
+  </section>
+  <section class="section">
+   <div class="section-inner" style="max-width:720px;margin:0 auto;">
+    <div class="empty-state" data-my-courses-list>
+     <h3>You have not joined any courses yet</h3>
+     <p>Browse the course catalog to see what is available. Member accounts and course progress tracking are coming soon.</p>
+     <p style="margin-top:16px;"><a class="button" href="courses.html">Browse the Course Catalog</a></p>
+    </div>
+   </div>
+  </section>
+ </main>
+ <footer class="footer">
+   <div class="footer-grid">
+    <div class="footer-brand">
+     <img class="brand-logo" src="images/juja-logo.svg" alt="ISKCON Juja">
+     <h2>ISKCON JUJA</h2>
+    </div>
+    <div>
+     <h3>Related Links</h3>
+     <a href="https://bbt.org/" target="_blank" rel="noopener">BBT</a>
+     <a href="https://www.prabhupada.net/" target="_blank" rel="noopener">Srila Prabhupada</a>
+     <a href="https://iskcon.org/" target="_blank" rel="noopener">ISKCON Official</a>
+     <a href="https://vedabase.io/en/" target="_blank" rel="noopener">Vedabase</a>
+    </div>
+    <div>
+     <h3>Contacts &amp; Map</h3>
+     <address>Anthusia Apartments hse GH 3, Muraya Access road, Juja</address>
+     <p>&#128222; <a data-contact-phone href="#">Call or WhatsApp us</a></p>
+     <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Anthusia+Apartments+Muraya+Access+Road+Gachororo+Juja+Kenya" target="_blank" rel="noopener">&#128506;&#65039; Open in Google Maps</a>
+    </div>
+    <div>
+     <h3>Socials</h3>
+     <a href="#" data-setting-link="facebook_url" aria-label="Facebook" hidden>&#128218; Facebook</a>
+     <a href="#" data-setting-link="instagram_url" aria-label="Instagram" hidden>&#128248; Instagram</a>
+     <a href="#" data-setting-link="youtube_url" aria-label="YouTube" hidden>&#127916; YouTube</a>
+     <a href="#" data-whatsapp="Hi ISKCON JUJA! I found you online and wanted to reach out.">&#128172; WhatsApp</a>
+    </div>
+   </div>
+   <div class="footer-bottom">
+    <p>&copy; <span data-year></span> ISKCON JUJA. All Rights Reserved. &middot; <a href="privacy.html" style="text-decoration:underline;">Privacy Policy</a></p>
+   </div>
+  </footer>
+ <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="auth-guard.js" data-require="member"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <div class="float-stack">
+   <div class="float-menu" id="float-menu" hidden>
+    <a href="message-board.html">&#128172; Community Message Board</a>
+    <a href="#" data-whatsapp="Hi ISKCON JUJA! I would like to get in touch.">&#128241; Chat on WhatsApp</a>
+   </div>
+   <button type="button" class="float-whatsapp" id="float-toggle" aria-label="Contact us" title="Contact us" aria-expanded="false">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+   </button>
+  </div>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="site.js"></script>
+</body>
+</html>

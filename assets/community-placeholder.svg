@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" role="img" aria-label="Warm community gathering placeholder">
+  <rect width="1400" height="900" fill="#efe2c6"/>
+  <circle cx="1060" cy="180" r="250" fill="#d99a1e" opacity=".26"/>
+  <circle cx="260" cy="690" r="340" fill="#7b1718" opacity=".18"/>
+  <path d="M0 620c210-90 350-80 560-10 240 80 410 80 840-50v340H0z" fill="#7b1718"/>
+  <g fill="#4d0c0f" opacity=".78">
+    <circle cx="420" cy="422" r="58"/>
+    <circle cx="560" cy="390" r="64"/>
+    <circle cx="710" cy="420" r="58"/>
+    <circle cx="850" cy="396" r="62"/>
+  </g>
+  <g fill="#ef7d22" opacity=".55">
+    <path d="M346 662c30-118 116-174 190-174s158 56 188 174z"/>
+    <path d="M646 682c32-128 126-188 206-188s174 60 208 188z"/>
+  </g>
+  <g stroke="#d99a1e" stroke-width="8" fill="none" opacity=".55">
+    <path d="M520 274c60-90 150-90 210 0"/>
+    <path d="M620 250c30-52 82-52 112 0"/>
+  </g>
+</svg>

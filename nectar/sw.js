@@ -1,23 +1,42 @@
-/* Offline support. If you change any file after publishing, increase this number (v1 -> v2) so phones get the update. */
-var VERSION = "v1";
+/* Offline support. Online, the newest files are always used. Offline, the saved copies are used. */
+var VERSION = "v3";
 var CACHE = "nectar-" + VERSION;
 var FILES = [
   "./", "index.html", "style.css", "data.js", "app.js", "manifest.webmanifest", "icon-192.png", "icon-512.png",
   "content/preface.txt", "content/text-1.txt", "content/text-2.txt", "content/text-3.txt", "content/text-4.txt",
   "content/text-5.txt", "content/text-6.txt", "content/text-7.txt", "content/text-8.txt", "content/text-9.txt",
-  "content/text-10.txt", "content/text-11.txt"
+  "content/text-10.txt", "content/text-11.txt", "content/damodarastakam.txt",
+  "reminders-morning.ics", "reminders-midday.ics", "reminders-evening.ics"
 ];
 self.addEventListener("install", function (e) {
-  e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
+  e.waitUntil(caches.open(CACHE).then(function (c) {
+    return Promise.all(FILES.map(function (f) { return c.add(f).catch(function () {}); }));
+  }).then(function () { return self.skipWaiting(); }));
 });
 self.addEventListener("activate", function (e) {
   e.waitUntil(caches.keys().then(function (keys) {
     return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
   }).then(function () { return self.clients.claim(); }));
 });
+function networkFirst(req) {
+  return new Promise(function (resolve) {
+    var done = false;
+    var timer = setTimeout(function () {
+      caches.match(req, { ignoreSearch: true }).then(function (hit) { if (hit && !done) { done = true; resolve(hit); } });
+    }, 3000);
+    fetch(req).then(function (res) {
+      clearTimeout(timer);
+      if (res && res.ok) { var copy = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, copy); }); }
+      if (!done) { done = true; resolve(res); }
+    }).catch(function () {
+      clearTimeout(timer);
+      caches.match(req, { ignoreSearch: true }).then(function (hit) {
+        if (!done) { done = true; resolve(hit || caches.match("index.html")); }
+      });
+    });
+  });
+}
 self.addEventListener("fetch", function (e) {
   if (e.request.method !== "GET") return;
-  e.respondWith(caches.match(e.request, { ignoreSearch: true }).then(function (hit) {
-    return hit || fetch(e.request).catch(function () { return caches.match("index.html"); });
-  }));
+  e.respondWith(networkFirst(e.request));
 });

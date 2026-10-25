@@ -69,3 +69,19 @@ ul.items, ol.items { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
 .tick { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-size: 13px; color: transparent; font-weight: 700; }
 .tick.on { background: var(--done); border-color: var(--done); color: #fff; }
 @media (prefers-reduced-motion: no-preference) { .card { animation: fade .2s ease-out; } @keyframes fade { from { opacity: .4; } to { opacity: 1; } } }
+
+details.dam { background: var(--tint); border-radius: 10px; }
+details.dam summary { cursor: pointer; padding: 14px; font-family: var(--serif); font-size: 18px; font-weight: 700; list-style: none; }
+details.dam summary::-webkit-details-marker { display: none; }
+details.dam summary::after { content: " +"; color: var(--accent-ink); }
+details.dam[open] summary::after { content: " \2212"; }
+.dam-body { padding: 0 14px 16px; display: grid; gap: 18px; }
+.dam-body .reading { background: var(--surface); }
+
+.input { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 12px; font: inherit; background: var(--surface); color: var(--ink); }
+.btn.opt { text-align: left; }
+.btn.opt.sel { border-color: var(--flame); box-shadow: 0 0 0 2px var(--flame); background: var(--tint); }
+.btn[disabled] { opacity: .45; }
+.bignum { font-family: var(--serif); font-size: 44px; font-weight: 700; color: var(--accent-ink); line-height: 1.1; }
+a.btn { text-decoration: none; color: inherit; }
+a.btn.primary { color: var(--btn-fg); }

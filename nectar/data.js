@@ -1,15 +1,6 @@
 /* Plan data. Edit the wording here if you like. Dates run from Mon 26 Oct to Tue 24 Nov 2026. */
 var START = [2026, 9, 26]; // year, month (0 = Jan), day
 
-var FORMAT = [
-  "Hook (5 min): the opening question, before anything is read.",
-  "Read aloud (5 min): the reading for today.",
-  "Key points (10 min): the main ideas in plain words.",
-  "Discuss (15 to 20 min): two or three questions.",
-  "Try this (5 min): one small thing to do before the next class.",
-  "Sing together and share the feast."
-];
-
 var INTRO = {
   title: "Welcome and the Preface",
   reading: ["preface"],
@@ -22,7 +13,7 @@ var INTRO = {
     ]},
     { head: "How we will read it this month", items: [
       "Mondays and Thursdays: read the next text at home or at the centre.",
-      "Tuesdays and Fridays, 5:30 to 7:00 PM, at the centre: the main discussion class.",
+      "Tuesdays and Fridays, 7:00 to 7:30 PM, at the centre: the main discussion class.",
       "Other days: come to the centre any day to talk, or catch up on your own with the recap.",
       "It is fine to skim. You do not need to understand everything the first time."
     ]}
@@ -217,3 +208,41 @@ var CONCLUSION = {
   ],
   tryThis: "Keep going: pick one of the habits from the book and practise it for the next month."
 };
+
+var DAMODARA = {
+  title: "Damodarastakam: the prayer we sing in Kartik",
+  meanings: [
+    "I bow to Damodara, God, whose form is eternal and full of knowledge and joy. He shines in the village of Gokula with His earrings swinging. He broke a pot of butter, ran from the grinding mortar in fear of His mother Yashoda, and she chased and caught Him.",
+    "He cries and rubs His eyes again and again with both hands. His eyes are full of fear, and His throat, marked with three lines like a conch shell, shakes with sobs. His belly is tied with a rope, bound by His mother's love.",
+    "Through childhood games like these, He fills the cowherd village with joy. He shows those who see Him only as the all-powerful God that He is won by pure love alone.",
+    "I do not ask for liberation or for any other blessing. I ask only that Your child form stay always in my heart.",
+    "I pray that Your lovely face, framed by curling dark hair and kissed again and again by Mother Yashoda, with lips red like bimba fruit, may stay in my heart. I want nothing else.",
+    "I bow to You, Damodara, endless and all-pervading. Please be pleased with me. I am drowning in an ocean of suffering. Shower Your glance of nectar on me and lift me up.",
+    "You freed the two sons of Kuvera, who had been bound as trees, and gave them love for You. In the same way, please give me pure love. That is all I want.",
+    "I bow to the rope that binds Your belly, which shines brightly and holds the whole universe. I bow to Radhika, who is dear to You. And I bow to You, God of endless pastimes."
+  ],
+  why: [
+    "Damodara means the one with a rope around His belly. It is a name of God from the story of God as a baby and His mother Yashoda.",
+    "In the story, Yashoda tried to tie the naughty child to a mortar. Every rope was two fingers too short, until He allowed Himself to be tied out of love for her. It shows that God is bound by love, not by power or wealth.",
+    "The prayer is traditionally taken from the Padma Purana, in the section on the glories of the month of Kartik.",
+    "In Kartik it is sung every evening while offering a small ghee lamp to God as Damodara. All you need is a small lamp and a picture.",
+    "The prayer asks for love, not for comfort or for freedom from this world. That is why it fits the lessons of Nectar of Instruction."
+  ]
+};
+
+/* Final quiz. The quiz opens on this day number (0 = Mon 26 Oct, 28 = Mon 23 Nov). */
+var QUIZ_OPEN_DAY = 28;
+var QUIZ = [
+  { from: "Text 1", q: "Text 1 lists six urges. Which of these is NOT one of them?", a: "Sleep", w: ["Anger", "Speech", "The tongue"] },
+  { from: "Text 1", q: "What does Text 1 say is the key to controlling the tongue, the stomach and the other urges?", a: "Eating only food offered to God, at regular times", w: ["Skipping meals completely", "Eating anything, but in small amounts", "Eating only at restaurants with vegetarian menus"] },
+  { from: "Text 2", q: "What is the guiding idea of Text 2?", a: "Plain living and high thinking", w: ["Collecting as much as possible for the future", "Staying silent all day", "Working harder for better things"] },
+  { from: "Text 3", q: "Which of these is one of the six helpful principles in Text 3?", a: "Enthusiasm", w: ["Wealth", "Fame", "Staying silent"] },
+  { from: "Text 4", q: "Which of these is one of the six exchanges of love in Text 4?", a: "Giving and accepting gifts", w: ["Correcting each other in public", "Competing for the best seat", "Keeping everything to yourself"] },
+  { from: "Text 5", q: "For an advanced person who never criticises others, Text 5 says to:", a: "Keep their company and serve them", w: ["Respect them only in the mind", "Avoid them", "Bow to them only on festival days"] },
+  { from: "Text 6", q: "In Text 6, what is the Ganges in the rainy season compared to?", a: "A pure spiritual person whose body may look imperfect", w: ["A busy market", "A beautiful temple", "A wealthy ruler"] },
+  { from: "Text 7", q: "In Text 7, what sickness makes sweet things taste bitter?", a: "Jaundice", w: ["Malaria", "A common cold", "Typhoid"] },
+  { from: "Text 8", q: "What does Text 8 say is the essence of all advice?", a: "Use all twenty-four hours to chant and remember God", w: ["Chant only on Sundays", "Collect as many books as possible", "Give up all work"] },
+  { from: "Text 9", q: "Which place does Text 9 describe as the highest of all?", a: "Radha-kunda", w: ["Mathura", "Vrindavan", "Govardhana Hill"] },
+  { from: "Text 11", q: "According to Text 11, what does even one bath in Radha-kunda awaken?", a: "Pure love for God", w: ["Great wealth", "A long life", "Fame"] },
+  { from: "Damodarastakam", q: "What does the name Damodara mean?", a: "The one with a rope around His belly", w: ["The one who carries a flute", "The lifter of the hill", "The one who sits on a lotus"] }
+];

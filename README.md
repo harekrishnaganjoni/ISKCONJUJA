@@ -342,3 +342,4 @@ The owner created the Supabase project, ran the schema, created their own login,
 Paste this file plus the project files (and `Logo.zip` + the logo manual PDF), then say: *"Follow the ground rules in section 2. Continue at the next TODO in section 5. Ask me about any open decision in section 9 before building."*
 "# ISKCONJUJA" 
 "# ISKCONJUJA" 
+"# ISKCONJUJA" 

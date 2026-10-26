@@ -12,9 +12,9 @@ var DAYS = [
   { kind: "intro", title: "Welcome: a book of simple advice",
     hook: "If you could give a friend just a few pieces of advice for a good life, what would they be?",
     points: [
-      "Nectar of Instruction is a small book of eleven short verses, written about 500 years ago by Srila Rupa Gosvami. Srila Prabhupada translated it and explained each verse.",
+      "Nectar of Instruction is a small book of eleven short verses by Srila Rupa Gosvami. Srila Prabhupada translated each verse and explained it.",
       "Each verse gives practical advice: how to handle our urges, which habits help or harm us, how to treat different people, and how to keep God in mind through the day.",
-      "In Kartik we will read the first eight verses. They are the most useful for daily life.",
+      "In Kartik we will read the first eight verses, which are the most suitable for beginners.",
       "Every day has one topic. Read it on your own, or come to the centre and read it with us.",
       "Tuesdays and Fridays, " + MAIN_TIME + ", are our main discussion days at the centre. You are welcome any other day too.",
       "It is fine to skim. You do not need to understand everything the first time."
@@ -27,11 +27,11 @@ var DAYS = [
     hook: "Have you ever promised to stop a bad habit and done it again the same day?",
     read: R(1, [["placed a number of intelligent questions", "easy process is being recommended"]]),
     points: [
-      "Text 1 says that a sober person who can tolerate six urges (speech, mind, anger, tongue, stomach and the sexual urge) can guide others anywhere. We will cover them over four days.",
+      "Text 1 says that a sober person who can tolerate six urges (speech, mind, anger, tongue, stomach and the sexual urge) is qualified to make disciples all over the world. We will cover them over the next days.",
       "A thief knows he can be caught and punished. Yet after jail he steals again. Punishment alone does not change the heart.",
       "An elephant bathes in the river, then throws dirt over itself on the bank. Saying sorry without changing is like that bath.",
       "The same applies to chanting. We cannot chant and then keep doing wrong, thinking the chanting will cancel it out.",
-      "Real atonement is waking up our love for God. The way is a regulated, healthy life: avoid illicit sex, meat-eating, intoxication and gambling, and serve God."
+      "Real atonement is awakening our dormant God consciousness. The way is a regulated, healthy life: avoid illicit sex, meat-eating, intoxication and gambling, and serve God under the guidance of a genuine teacher."
     ],
     qs: ["Why does punishment alone not stop a habit?", "What has actually helped you change a habit for good?"],
     tryThis: "Pick one habit you want to stop. Write down what you will do instead." },
@@ -60,15 +60,18 @@ var DAYS = [
     qs: ["What helps you stop at 'enough'?", "What would eating only prasada look like for you?", "Which of the three is hardest for you? (No need to answer aloud.)"],
     tryThis: "Eat one meal today at a fixed time and stop before you feel stuffed." },
 
-  { kind: "topic", title: "Text 1 in one picture",
+  { kind: "topic", title: "Text 1: the whole picture",
     hook: "If you could control only one urge, which would make life easiest?",
-    read: R(1, [["in a similar manner, the urges of the genitals", "frustration of material desires produces anger"]]),
+    read: R(1, [["placed a number of intelligent questions", "chewing the chewed"]]),
     points: [
-      "The six urges are speech, mind, anger, tongue, stomach and the sexual urge.",
-      "We are not asked to crush them. We use each one for God: speak about Him, fix the mind on Him, use anger for the right cause, eat only prasada.",
-      "Thinking we are only the body creates three kinds of demands: to speak, of the mind, and of the body. Practising resistance is called austerity.",
-      "Useless talk includes a great deal of what is written and said around the world. Talking about God is the cure.",
-      "The mind is shaken by attachment to plans, and by anger when those plans fail."
+      "The verse: a sober person who can tolerate the urge to speak, the mind's demands, anger, and the urges of the tongue, stomach and sexual urge is qualified to make disciples all over the world.",
+      "Atonement: saying sorry without changing is like the elephant's bath. Real atonement is awakening our dormant God consciousness, through a regulated life.",
+      "Speech, mind, anger: use our words to talk about God (silence is not the answer), fix the mind on God the way sunlight removes darkness, and use anger rightly, as Hanuman and Arjuna did.",
+      "The commentary of Srila Bhaktisiddhanta groups the urges into three: the urge to speak, the mind's demands and the body's demands. Practising resistance to them is called austerity.",
+      "Useless talk is the urge to speak at work. The mind is shaken by attachment to material plans, and by anger when those plans are frustrated.",
+      "The tongue, stomach and sexual urge sit in a line. Control the tongue by eating only prasada, and the other two follow. Even prasada should not be eaten just for taste or in excess. Fasting days help.",
+      "The sexual urge: proper use is within marriage, for children. Illicit use includes thinking, planning and talking about it, and the advice applies also to those in the renounced order.",
+      "The conclusion: one who controls these six is a svami or gosvami, a master of the senses. Others are go-dasa, servants of the senses, who keep 'chewing the chewed'."
     ],
     qs: ["Which urge will you work on this week?", "How can this group help each other with it?"],
     tryThis: "Choose one urge and one small action. Tell someone you trust, and report back on Tuesday." },
@@ -104,8 +107,8 @@ var DAYS = [
     points: [
       "Story: a man worked all his life to build a fortune for his sons and grandsons. In his next life he was born in a cobbler's family near the house he built, and his own sons beat him with shoes. We work hard for our children without knowing our own future.",
       "Rules: follow spiritual rules for spiritual progress, not for material gain. Ignoring them is also a mistake. The four basic rules are to avoid illicit sex, meat-eating, gambling and intoxication.",
-      "Spending time with people who criticise God and God-loving people is not helpful.",
-      "Greed: wanting powers, status or material gain gets in the way."
+      "Staying close to people who blaspheme the Vaishnavas (the God-loving people) is not helpful.",
+      "Greed: wanting mystic powers, merging into the formless, or material prosperity gets in the way."
     ],
     qs: ["Are there rules in your life you follow without knowing why?", "What do you work hardest for? Will it matter in the end?"],
     tryThis: "Write down one rule you keep, and why you keep it." },
@@ -128,8 +131,8 @@ var DAYS = [
     read: R(3, [["devotional service is not a matter of sentimental speculation", "surrendering oneself fully to the lord"]]),
     points: [
       "Text 3 lists six things that help devotion succeed: enthusiasm, confidence, patience, doing the regular practices, leaving bad company, and following the example of great teachers.",
-      "Devotion is practical activity, not daydreaming or feeling. It is like farming: it needs regular work.",
-      "Sitting quietly can stop distractions for a while, but devotion also fills life with meaningful service.",
+      "Devotion is practical activity, not sentimental speculation or imagined ecstasy. It is a kind of cultivation, and cultivation means activity.",
+      "Sitting quietly can stop nonsense activities for a while, but devotion also fills life with meaningful service.",
       "The nine processes are hearing, chanting, remembering, serving, worshipping, offering respect, serving as a servant, friendship, and giving ourselves fully."
     ],
     qs: ["Which of the nine do you already do?", "Which one could you add this week?"],
@@ -204,7 +207,7 @@ var DAYS = [
     points: [
       "Keep the company of people who share the goal, follow the rules, follow great teachers and carry out instructions.",
       "A person at the middle level loves God, makes friends with those who love Him, is kind to the ignorant, and avoids those who are envious.",
-      "Srila Rupa Gosvami gave half of his earnings to the service of God, a quarter to his family and kept a quarter for emergencies. This is a high standard to aim for. We begin with what we can.",
+      "Srila Rupa Gosvami gave half of his earnings to the service of God, a quarter to his relatives and kept a quarter for emergencies. The text says that, whatever one's income, half should be spent for God and His devotees.",
       "The six exchanges of love are how a community stays close."
     ],
     qs: ["What could you give each month for service?", "How could we help each other with giving?"],
@@ -217,7 +220,7 @@ var DAYS = [
     points: [
       "Text 5 says we should respect people according to their level.",
       "A person who chants God's name: respect them in your mind.",
-      "A person who has been formally initiated and is engaged in service: offer a humble bow.",
+      "A person who has been formally initiated and is engaged in worshipping the Deity: offer humble obeisances.",
       "An advanced person whose heart is free of finding fault in others: keep their company and serve them.",
       "The mark of an advanced person is that they do not criticise others."
     ],
@@ -249,7 +252,7 @@ var DAYS = [
 
   { kind: "topic", title: "Faith (Text 5 in one picture)",
     hook: "What does it mean to have faith?",
-    read: R(5, [["while giving instructions to sanatana gosvami", "basis for advancing in spiritual life"]]),
+    read: R(5, [["while giving instructions to sanatana gosvami", "careful to accept an uttama-adhikari"]]),
     points: [
       "Faith is firm, confident trust in the instructions we have received. It is where everything begins.",
       "Faith means accepting the instructions as a whole, not picking and choosing. Arjuna accepted everything he heard.",
@@ -268,7 +271,7 @@ var DAYS = [
       "Text 6 says that a person engaged in pure service to God is above the body, even if the body looks ordinary or imperfect.",
       "Someone who serves God without selfish motives is already free from the pull of material nature.",
       "So we should not look at such a person through the body: family, looks, health or background.",
-      "Beginners cannot easily tell who is advanced, so we must be careful in how we judge."
+      "The text says only someone who is truly devoted can see another such person properly. A beginner cannot easily tell."
     ],
     qs: ["Have you been judged by your appearance? How did it feel?", "How can we make sure no one at the centre feels judged?"],
     tryThis: "Today, speak to someone you normally would not." },
@@ -279,7 +282,7 @@ var DAYS = [
     points: [
       "No one should criticise the bodily faults of a person who is truly engaged in service. We overlook them.",
       "Look at what matters: that person's service to God.",
-      "Someone sincerely devoted to God should be considered good, even if they sometimes slip. Their real identity is service.",
+      "Even if such a person sometimes seems to act badly, the text says to consider them a saintly person, because their real identity is service to God.",
       "The Ganges in the rainy season has foam, bubbles and mud, but it is still pure. People still bathe in it."
     ],
     qs: ["Why is it easy to see faults and hard to see service?", "How can we speak kindly about someone who is not there?"],
@@ -287,7 +290,7 @@ var DAYS = [
 
   { kind: "topic", title: "Status is not by birth (Text 6 in one picture)",
     hook: "Does your family background decide who you are?",
-    read: R(6, [one("even though a pure devotee may not be born in a brahmana"), one("if we consider the bodily defects of a vaisnava")]),
+    read: R(6, [["even though a pure devotee may not be born in a brahmana", "as soon as anyone becomes envious"], one("if we consider the bodily defects of a vaisnava")]),
     points: [
       "A title like gosvami (master of the senses) is not inherited. It is earned by controlling the senses, whatever our birth.",
       "People with a good title must not become proud. Pride brings a quick fall.",
@@ -317,7 +320,7 @@ var DAYS = [
       "For jaundice, sugar candy is the medicine. In the same way, chanting God's name is the remedy for our confusion.",
       "The real disease is in the heart. If the heart is cleansed, material troubles cannot harm us.",
       "Chanting is easy and beneficial. It frees us from the burning fire of material life.",
-      "The movement exists to make a setting where people can chant. We begin with faith, and faith grows by chanting."
+      "The movement exists to make a setting where people can chant."
     ],
     qs: ["What do you notice in yourself when you chant regularly?", "How can we help newcomers start?"],
     tryThis: "Invite a friend to chant with you for five minutes." },
@@ -327,7 +330,8 @@ var DAYS = [
     read: R(7, [["there are three stages in chanting the holy name", "will immediately vanish"]]),
     points: [
       "Three stages of chanting: with offences, with fewer offences, and pure. A beginner makes many mistakes. By avoiding the ten offences we reach the next stage.",
-      "As we keep going, unwanted habits fall away, attachment grows, and finally we taste real joy in it.",
+      "One must begin with faith, and faith increases by chanting.",
+      "As we keep going, unwanted habits fall away, we become attached to devotional activities, and we begin to experience joy in them.",
       "Light and shadow: where the sun is, there is no darkness. Where God is remembered, illusion cannot stay."
     ],
     qs: ["What mistakes do beginners make in chanting?", "What would help you chant every day?"],
@@ -341,7 +345,8 @@ var DAYS = [
       "Text 8 gives the essence of all advice: use all twenty-four hours chanting and remembering God's name, form, qualities and pastimes.",
       "The mind can be our friend or our enemy, so we must train it to remember God.",
       "Whatever we remember at the time of death decides what comes next. So we practise remembering God now.",
-      "Train the tongue to speak about God and to taste only prasada."
+      "Train the tongue to speak about God and to taste only prasada.",
+      "The text also advises living in Vrindavan, or any part of it, and taking shelter of an advanced person there."
     ],
     qs: ["What small reminders could you set during the day?", "What fills your mind when you are alone?"],
     tryThis: "Set a phone reminder at midday to pause and chant for two minutes." },
@@ -350,19 +355,19 @@ var DAYS = [
     hook: "Where do you feel closest to God?",
     read: R(8, [["krsnam smaran janam casya", "spiritually perfect soul"]]),
     points: [
-      "The text advises living in Vrindavan, the holy land, or any part of it, and taking shelter of an advanced person there.",
-      "Always remember God and His dear associates, and follow in the footsteps of those who love God deeply.",
-      "Serve with feelings like theirs, under their guidance.",
-      "This applies at the beginning and at the end of the journey."
+      "Rupa Gosvami's verse: always live in the land of Vraja (Vrindavan) and keep remembering God and His dear associates.",
+      "Follow in the footsteps of those associates, under their guidance, and an intense desire to serve God can grow.",
+      "Serve with a feeling similar to theirs. This applies both while we are still practising and when we have reached perfection."
     ],
     qs: ["Who is a good example of this for you?", "What could make your home feel like a holy place?"],
     tryThis: "Place a picture of God where you will see it each morning." },
 
   { kind: "topic", title: "The essence (Text 8 in one picture)",
     hook: "If you could keep just one point from this book, what would it be?",
-    read: R(8, [one("srila bhaktisiddhanta sarasvati thakura has commented as follows")]),
+    read: R(8, [["srila bhaktisiddhanta sarasvati thakura has commented as follows", "this is the essence of all instruction"]]),
     points: [
-      "In short: give up selfish motives, train the mind by chanting and remembering, and live under the guidance of someone expert.",
+      "In short, the commentary says: give up selfish motives, train the mind by chanting and remembering, and pass our time remembering God under the direction of an expert guide.",
+      "It also describes stages of growth: hearing, then becoming attached to hearing, then remembering, and finally understanding our eternal relationship with God.",
       "The eight texts in a line each: Text 1, control six urges. Text 2, six things that drain us. Text 3, six things that help. Text 4, six ways to show love. Text 5, how to treat different people. Text 6, do not judge by appearances. Text 7, chanting is sweet. Text 8, remember God all day.",
       "The quiz opens today."
     ],
@@ -384,21 +389,20 @@ var DAYS = [
 var DAMODARA = {
   title: "Damodarastakam: the prayer we sing in Kartik",
   meanings: [
-    "I bow to Damodara, God, whose form is eternal and full of knowledge and joy. He shines in the village of Gokula with His earrings swinging. He broke a pot of butter, ran from the grinding mortar in fear of His mother Yashoda, and she chased and caught Him.",
-    "He cries and rubs His eyes again and again with both hands. His eyes are full of fear, and His throat, marked with three lines like a conch shell, shakes with sobs. His belly is tied with a rope, bound by His mother's love.",
-    "Through childhood games like these, He fills the cowherd village with joy. He shows those who see Him only as the all-powerful God that He is won by pure love alone.",
-    "I do not ask for liberation or for any other blessing. I ask only that Your child form stay always in my heart.",
-    "I pray that Your lovely face, framed by curling dark hair and kissed again and again by Mother Yashoda, with lips red like bimba fruit, may stay in my heart. I want nothing else.",
-    "I bow to You, Damodara, endless and all-pervading. Please be pleased with me. I am drowning in an ocean of suffering. Shower Your glance of nectar on me and lift me up.",
-    "You freed the two sons of Kuvera, who had been bound as trees, and gave them love for You. In the same way, please give me pure love. That is all I want.",
-    "I bow to the rope that binds Your belly, which shines brightly and holds the whole universe. I bow to Radhika, who is dear to You. And I bow to You, God of endless pastimes."
+    "Verse 1: We bow to God as Damodara, whose form is eternal, full of knowledge and joy. As a child in Gokula He breaks a pot of yogurt, runs from the grinding mortar in fear of His mother Yasoda, and she runs after Him and catches Him.",
+    "Verse 2: Seeing the stick in His mother's hand, He cries and rubs His eyes again and again. His eyes are full of fear and His necklace shakes with His quick breathing. His belly is bound not with ropes only, but with His mother's pure love.",
+    "Verse 3: By such childhood games He drowns the people of Gokula in joy. He shows those who see Him only as the all-powerful God that He is conquered only by pure love that is close and free from awe.",
+    "Verse 4: We do not ask for liberation, or for Vaikuntha, or for any other blessing. We ask only that God's child form in Vrindavana stays always in our heart.",
+    "Verse 5: We ask that His lovely face, framed by soft dark hair and kissed again and again by Yasoda, stay in our heart. Thousands of other blessings are of no use.",
+    "Verse 6: We bow to Him and pray for mercy, as we are poor, ignorant and drowning in an ocean of sorrow. We ask Him to rescue us and become visible to our eyes.",
+    "Verse 7: As He freed the two sons of Kuvera, Manigriva and Nalakuvara, and made them devotees, we ask Him to give us His own loving devotion. We have no desire for liberation.",
+    "Verse 8: We bow to the bright rope that binds His belly, to His belly which is the abode of the whole universe, to His beloved Srimati Radharani, and to God who shows endless pastimes."
   ],
   why: [
-    "Damodara means the one with a rope around His belly. It is a name of God from the story of God as a baby and His mother Yashoda.",
-    "In the story, Yashoda tried to tie the naughty child to a mortar. Every rope was two fingers too short, until He allowed Himself to be tied out of love for her. It shows that God is bound by love, not by power or wealth.",
-    "The prayer is traditionally taken from the Padma Purana, in the section on the glories of the month of Kartik.",
-    "In Kartik it is sung every evening while offering a small ghee lamp to God as Damodara. All you need is a small lamp and a picture.",
-    "The prayer asks for love, not for comfort or for freedom from this world. That is why it fits the lessons of Nectar of Instruction."
+    "The prayer is found in the Padma Purana. It was spoken by Satyavrata Muni to Narada Muni and Saunaka Rishi.",
+    "The Hari-bhakti-vilasa says that in the month of Kartika one should worship Lord Damodara and recite this prayer daily. That is why we sing it every day of this plan.",
+    "Verse 2 tells us that God's belly is bound not just by rope, but by His mother's pure love. He is won by love, not by power or wealth.",
+    "The prayer asks for love for God, not for comfort or for freedom from this world. That is why it fits the lessons of Nectar of Instruction."
   ]
 };
 
@@ -416,5 +420,5 @@ var QUIZ = [
   { from: "Text 7", q: "In Text 7, what sickness makes sweet things taste bitter?", a: "Jaundice", w: ["Malaria", "A common cold", "Typhoid"] },
   { from: "Text 8", q: "What does Text 8 say is the essence of all advice?", a: "Use all twenty-four hours to chant and remember God", w: ["Chant only on Sundays", "Collect as many books as possible", "Give up all work"] },
   { from: "Text 8", q: "In Text 8, the mind is described as:", a: "Either our friend or our enemy", w: ["Always our enemy", "Always our friend", "Not important"] },
-  { from: "Damodarastakam", q: "What does the name Damodara mean?", a: "The one with a rope around His belly", w: ["The one who carries a flute", "The lifter of the hill", "The one who sits on a lotus"] }
+  { from: "Damodarastakam", q: "In verse 2 of the Damodarastakam, what binds God's belly?", a: "His mother's pure love", w: ["Golden chains", "A promise to the sages", "His own fear"] }
 ];

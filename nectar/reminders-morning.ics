@@ -84,17 +84,17 @@ UID:nectar-2026-day-5@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261030T040000Z
 DTEND:20261030T041500Z
-SUMMARY:Kartik Reading\, Day 5: Text 1 in one picture
+SUMMARY:Kartik Reading\, Day 5: Text 1: the whole picture
 DESCRIPTION:Hook: If you could control only one urge\, which would make li
- fe easiest?\n\nToday's reading: Text 1 in one picture (Text 1). Open the 
- plan and read it.\nMain discussion today at 7:00 PM at the centre.\n\nSin
- g the Damodarastakam today (it is in the plan\, tap the box to open it).\
- n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
+ fe easiest?\n\nToday's reading: Text 1: the whole picture (Text 1). Open 
+ the plan and read it.\nMain discussion today at 7:00 PM at the centre.\n\
+ nSing the Damodarastakam today (it is in the plan\, tap the box to open i
+ t).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 5: Text 1 in one picture
+DESCRIPTION:Kartik Reading\, Day 5: Text 1: the whole picture
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT

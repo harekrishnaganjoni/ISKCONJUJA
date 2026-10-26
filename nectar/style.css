@@ -93,3 +93,47 @@ details.dam[open] summary::after { content: "Tap to close"; }
 .bignum { font-family: var(--serif); font-size: 44px; font-weight: 700; color: var(--accent-ink); line-height: 1.1; }
 a.btn { text-decoration: none; color: inherit; }
 a.btn.primary { color: var(--btn-fg); }
+
+/* group features */
+.bar button[hidden] { display: none; }
+.bar #b-admin { grid-column: 1 / -1; }
+.joinbar { background: var(--tint); border-radius: 12px; padding: 14px; display: grid; gap: 10px; margin-bottom: 12px; }
+textarea.input { resize: vertical; line-height: 1.45; }
+.fab { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(18px, env(safe-area-inset-bottom, 0px)); z-index: 20; border: 0; border-radius: 99px; padding: 14px 20px; font-weight: 700; background: var(--btn-bg); color: var(--btn-fg); box-shadow: 0 4px 14px rgba(0,0,0,.28); }
+.fab[hidden] { display: none; }
+.fab.has::after { content: ""; display: inline-block; width: 9px; height: 9px; margin-left: 8px; border-radius: 50%; background: var(--flame); vertical-align: middle; }
+body { padding-bottom: max(88px, env(safe-area-inset-bottom, 0px)); }
+.sheet-back { position: fixed; inset: 0; z-index: 30; background: rgba(0,0,0,.5); display: flex; align-items: flex-end; justify-content: center; }
+.sheet { background: var(--surface); color: var(--ink); width: 100%; max-width: 640px; max-height: 92vh; overflow-y: auto; border-radius: 18px 18px 0 0; padding: 18px 16px max(22px, env(safe-area-inset-bottom, 0px)); display: grid; gap: 14px; }
+.sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.answer { background: var(--tint); border-radius: 10px; padding: 12px; display: grid; gap: 6px; }
+.answer:empty { display: none; }
+.qbox { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 8px; margin-top: 8px; }
+.prow { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.note.pre { white-space: pre-line; }
+
+/* join banner, notes button, leader tools */
+.bar #b-admin:not([hidden]) { grid-column: 1 / -1; }
+.banner { background: var(--tint); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 12px; display: grid; gap: 10px; }
+.banner-actions { display: grid; grid-template-columns: 2fr 1fr; gap: 8px; }
+.who { margin-bottom: 8px; }
+.field { display: grid; gap: 6px; }
+textarea.input { resize: vertical; line-height: 1.5; min-height: 80px; }
+.btn.small { width: auto; padding: 8px 12px; font-size: 14px; }
+.btn[disabled] { opacity: .5; }
+.fab { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 20; border: 0; border-radius: 99px; padding: 13px 18px; font-weight: 700; background: var(--btn-bg); color: var(--btn-fg); box-shadow: 0 4px 14px rgba(0,0,0,.28); }
+.fab[hidden] { display: none; }
+.fab.has::after { content: ""; display: inline-block; width: 9px; height: 9px; margin-left: 8px; border-radius: 50%; background: var(--flame); }
+body { padding-bottom: max(88px, env(safe-area-inset-bottom, 0px)); }
+.sheet-open { overflow: hidden; }
+.sheet-back { position: fixed; inset: 0; z-index: 30; background: rgba(0,0,0,.5); display: flex; align-items: flex-end; justify-content: center; }
+.sheet { background: var(--surface); color: var(--ink); width: 100%; max-width: 640px; max-height: 92vh; overflow-y: auto; border-radius: 16px 16px 0 0; padding: 16px 16px max(20px, env(safe-area-inset-bottom, 0px)); display: grid; gap: 14px; }
+.sheet-head { display: flex; justify-content: space-between; align-items: center; }
+.sheet-x { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; width: 40px; height: 40px; font-size: 24px; line-height: 1; }
+.answer { background: var(--tint); border-radius: 10px; padding: 12px; display: grid; gap: 6px; }
+.qa { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 8px; margin-top: 8px; }
+.qa.answered { border-color: var(--done); }
+.qa-who { font-weight: 700; font-size: 14px; }
+.qa-q { font-family: var(--serif); font-size: 18px; }
+.person { display: flex; justify-content: space-between; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
+.note.pre { white-space: pre-line; }

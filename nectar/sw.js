@@ -1,11 +1,11 @@
 /* Offline support. Online, the newest files are always used. Offline, the saved copies are used. */
-var VERSION = "v4";
+var VERSION = "v5";
 var CACHE = "nectar-" + VERSION;
 var FILES = [
   "./", "index.html", "style.css", "data.js", "app.js", "manifest.webmanifest", "icon-192.png", "icon-512.png",
   "content/text-1.txt", "content/text-2.txt", "content/text-3.txt", "content/text-4.txt",
   "content/text-5.txt", "content/text-6.txt", "content/text-7.txt", "content/text-8.txt", "content/damodarastakam.txt",
-  "reminders-morning.ics", "reminders-midday.ics", "reminders-evening.ics"
+  "/supabase-config.js", "reminders-morning.ics", "reminders-midday.ics", "reminders-evening.ics"
 ];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
@@ -37,5 +37,10 @@ function networkFirst(req) {
 }
 self.addEventListener("fetch", function (e) {
   if (e.request.method !== "GET") return;
+  /* Only handle this plan's own files. Calls to the database are never saved or changed. */
+  var u = new URL(e.request.url);
+  if (u.origin !== self.location.origin) return;
+  var scopePath = new URL(self.registration.scope).pathname;
+  if (u.pathname.indexOf(scopePath) !== 0 && !/\/supabase-config\.js$/.test(u.pathname)) return;
   e.respondWith(networkFirst(e.request));
 });

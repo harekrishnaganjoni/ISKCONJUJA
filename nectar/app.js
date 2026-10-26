@@ -6,158 +6,194 @@
   try { var s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) store = s; } catch (e) {}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
 
-  var CLASS_BY_IDX = {};
-  Object.keys(CLASSES).forEach(function (k) { CLASSES[k].id = k; CLASS_BY_IDX[CLASSES[k].idx] = CLASSES[k]; });
-  var CLASS_LIST = Object.keys(CLASSES).map(function (k) { return CLASSES[k]; }).sort(function (a, b) { return a.idx - b.idx; });
-
-  function textsLabel(c) { return c.texts.length === 1 ? "Text " + c.texts[0] : "Texts " + c.texts[0] + " to " + c.texts[c.texts.length - 1]; }
-  function nextClass(i) { for (var k = 0; k < CLASS_LIST.length; k++) if (CLASS_LIST[k].idx >= i) return CLASS_LIST[k]; return null; }
-  function lastClass(i) { var r = null; CLASS_LIST.forEach(function (c) { if (c.idx <= i) r = c; }); return r; }
-
-  // what is on each day
-  function dayInfo(i) {
-    if (i === 0) return { type: "intro", label: "Welcome and the Preface", sub: "Start here" };
-    if (i === 29) return { type: "end", label: "Closing", sub: "Kartika Purnima" };
-    if (i === 28) return { type: "review", label: "Review", sub: "Look back at all eight classes" };
-    if (CLASS_BY_IDX[i]) { var c = CLASS_BY_IDX[i]; return { type: "class", cls: c, label: c.title, sub: "Class · " + textsLabel(c) }; }
-    var nx = nextClass(i + 1);
-    if (nx && nx.idx === i + 1) return { type: "ahead", cls: nx, label: "Read ahead: " + textsLabel(nx), sub: "Read for tomorrow's class" };
-    var lc = lastClass(i);
-    return { type: "recap", cls: lc, label: "Recap: " + lc.title, sub: "Catch up or chat at the centre" };
-  }
-
   function dayDate(i) { return new Date(START[0], START[1], START[2] + i); }
   function fmt(d) { return WD[d.getDay()] + " " + d.getDate() + " " + MO[d.getMonth()]; }
+  function isMain(i) { var w = dayDate(i).getDay(); return w === 2 || w === 5; }
   function todayIdx() {
     var n = new Date();
     return Math.round((Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()) - Date.UTC(START[0], START[1], START[2])) / 86400000);
   }
-
   var tIdx = todayIdx();
-  var sel = Math.min(Math.max(tIdx, 0), 29);
+  var sel = Math.min(Math.max(tIdx, 0), DAYS.length - 1);
   var view = "day";
 
   var app = document.getElementById("app");
-  function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.textContent = html; return e; }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function label(t) { return el("p", "label", t); }
+  function listBlock(head, items, ordered) {
+    var b = el("div"); b.appendChild(label(head));
+    var u = el(ordered ? "ol" : "ul", "items"); items.forEach(function (x) { u.appendChild(el("li", "", x)); }); b.appendChild(u); return b;
+  }
+  function hookBlock(text) { var b = el("div"); b.appendChild(label("Hook")); var h = el("div", "hook"); h.appendChild(el("p", "", text)); b.appendChild(h); return b; }
 
+  /* ---------- reading files ---------- */
   var cache = {};
-  function fillText(holder, name, missingMsg) {
-    loadText(name).then(function (t) {
-      if (t === null) { holder.appendChild(el("p", "missing", "This could not be loaded (content/" + name + ".txt). Check that the file is in the content folder and named exactly like that.")); return; }
-      if (!t.trim() || /^\s*\[PASTE/i.test(t)) { holder.appendChild(el("p", "missing", missingMsg)); return; }
-      t.replace(/\r/g, "").split(/\n\s*\n/).forEach(function (p) { if (p.trim()) holder.appendChild(el("p", "", p.trim())); });
+  function loadText(name) {
+    if (cache[name] !== undefined) return Promise.resolve(cache[name]);
+    return fetch("content/" + name + ".txt").then(function (r) { if (!r.ok) throw 0; return r.text(); })
+      .then(function (t) { cache[name] = t; return t; }, function () { cache[name] = null; return null; });
+  }
+  function fold(s) {
+    return s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[‘’]/g, "'").replace(/[“”]/g, '"')
+      .replace(/[–—]/g, "-").toLowerCase().replace(/\s+/g, " ");
+  }
+  var END_JUNK = /^(Text (One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten|Eleven)|Donate.*|His Divine Grace.*|Content used with permission.*|Add Bookmark|Share|Close|Nectar of Instruction \d+|NOI \d+)$/;
+  function cleanLines(t) {
+    var lines = t.replace(/^﻿/, "").replace(/\r/g, "").split("\n").map(function (l) { return l.trim(); });
+    lines = lines.filter(function (l) { return !/^\[PASTE/i.test(l); });
+    var ti = lines.indexOf("Translation");
+    if (ti >= 0) { lines = lines.slice(ti); }
+    else {
+      for (var i = 0; i < Math.min(lines.length, 25); i++) {
+        if (/^Search(…|\.\.\.)$/.test(lines[i])) { lines = lines.slice(i + 1); if (lines.length && /^Library/.test(lines[0])) lines = lines.slice(1); break; }
+      }
+    }
+    for (var k = 0; k < lines.length; k++) { if (END_JUNK.test(lines[k])) { lines = lines.slice(0, k); break; } }
+    return lines;
+  }
+  function toBlocks(lines) {
+    var blocks = [], run = [];
+    function isShort(l) { return l.length <= 90 && !/[.:?!"”\]\)]$/.test(l); }
+    function flush() {
+      if (run.length > 1) blocks.push({ t: "verse", text: run.join("\n") });
+      else if (run.length === 1) blocks.push({ t: "p", text: run[0] });
+      run = [];
+    }
+    lines.forEach(function (l) {
+      if (!l) { flush(); return; }
+      if (l === "Translation" || l === "Purport") { flush(); blocks.push({ t: "h", text: l }); return; }
+      if (isShort(l)) { run.push(l); return; }
+      flush(); blocks.push({ t: "p", text: l });
+    });
+    flush();
+    blocks.forEach(function (b) { b.fold = fold(b.text); });
+    return blocks;
+  }
+  function sliceBlocks(blocks, a, b) {
+    var s = -1, e = -1, i;
+    for (i = 0; i < blocks.length; i++) { if (blocks[i].t !== "h" && blocks[i].fold.indexOf(a) >= 0) { s = i; break; } }
+    if (s < 0) return null;
+    for (i = s; i < blocks.length; i++) { if (blocks[i].fold.indexOf(b) >= 0) { e = i; break; } }
+    if (e < 0) return null;
+    return blocks.slice(s, e + 1);
+  }
+  function addBlock(holder, b) {
+    if (b.t === "h") holder.appendChild(el("h3", "", b.text));
+    else holder.appendChild(el("p", b.t === "verse" ? "verse" : "", b.text));
+  }
+  function isEmptyFile(t) {
+    var rest = t.split(/\r?\n/).filter(function (l) { return !/^\s*\[PASTE/i.test(l); }).join("").trim();
+    return rest.length < 40;
+  }
+
+  function fillDayReading(holder, read) {
+    loadText(read.f).then(function (t) {
+      if (t === null) { holder.appendChild(el("p", "missing", "This could not be loaded (content/" + read.f + ".txt). Check that the file is in the content folder and named exactly like that.")); return; }
+      if (isEmptyFile(t)) { holder.appendChild(el("p", "missing", "The reading has not been added yet.")); return; }
+      var blocks = toBlocks(cleanLines(t));
+      var ti = -1, pi = -1;
+      blocks.forEach(function (b, i) { if (b.t === "h" && b.text === "Translation") ti = i; if (b.t === "h" && b.text === "Purport" && pi < 0) pi = i; });
+      if (ti >= 0) {
+        holder.appendChild(el("h3", "", "Text " + read.n + ": translation"));
+        blocks.slice(ti + 1, pi >= 0 ? pi : blocks.length).forEach(function (b) { addBlock(holder, b); });
+      }
+      var shown = 0;
+      read.parts.forEach(function (p, k) {
+        var part = sliceBlocks(blocks, p[0], p[1]);
+        if (!part) return;
+        if (shown === 0) holder.appendChild(el("h3", "", "From the explanation"));
+        else holder.appendChild(el("p", "gap", "· · ·"));
+        part.forEach(function (b) { addBlock(holder, b); });
+        shown++;
+      });
+      if (shown === 0) holder.appendChild(el("p", "missing", "Today's part could not be found in content/" + read.f + ".txt. Paste the whole page for this text into that file."));
+    });
+  }
+
+  function readingBlock(read) {
+    var box = el("div"); box.appendChild(label("Read"));
+    var sz = el("div", "sizes");
+    var minus = el("button", "", "A−"), plus = el("button", "", "A+");
+    minus.setAttribute("aria-label", "Smaller text"); plus.setAttribute("aria-label", "Larger text");
+    sz.appendChild(minus); sz.appendChild(plus);
+    var body = el("div", "reading"); body.style.setProperty("--read", store.size + "px");
+    function bump(d) { store.size = Math.min(28, Math.max(14, store.size + d)); body.style.setProperty("--read", store.size + "px"); save(); }
+    minus.addEventListener("click", function () { bump(-2); });
+    plus.addEventListener("click", function () { bump(2); });
+    box.appendChild(sz); box.appendChild(body);
+    fillDayReading(body, read);
+    return box;
+  }
+
+  /* ---------- Damodarastakam ---------- */
+  function renderSong(holder, t) {
+    var lines = t.replace(/^﻿/, "").replace(/\r/g, "").split("\n").filter(function (l) { return !/^\s*\[PASTE/i.test(l); });
+    var verses = [], cur = null, mode = "o";
+    lines.forEach(function (raw) {
+      var l = raw.trim(), m = /^VERSE\s+(\d+)/i.exec(l);
+      if (m) { cur = { n: m[1], o: [], t: [] }; verses.push(cur); mode = "o"; return; }
+      if (!cur || !l) return;
+      var tr = /^TRANSLATION\b:?\s*(.*)$/i.exec(l);
+      if (tr) { mode = "t"; if (tr[1]) cur.t.push(tr[1]); return; }
+      (mode === "o" ? cur.o : cur.t).push(l);
+    });
+    if (!verses.length) {
+      toBlocks(lines.map(function (l) { return l.trim(); })).forEach(function (b) { addBlock(holder, b); });
+      return;
+    }
+    verses.forEach(function (v) {
+      var card = el("div", "vcard");
+      card.appendChild(el("h3", "", "Verse " + v.n));
+      card.appendChild(el("p", "verse", v.o.join("\n")));
+      if (v.t.length) { card.appendChild(el("p", "trl-label", "Meaning")); card.appendChild(el("p", "", v.t.join(" "))); }
+      holder.appendChild(card);
     });
   }
   function damBlock(full) {
     var d = el("details", "dam");
     d.appendChild(el("summary", "", full ? DAMODARA.title : "Sing today: Damodarastakam"));
     var inner = el("div", "dam-body");
-    inner.appendChild(label("The original"));
+    inner.appendChild(label("The song, with its meaning"));
     var orig = el("div", "reading"); orig.style.setProperty("--read", store.size + "px");
-    var holder = el("div"); holder.style.display = "grid"; holder.style.gap = "12px";
+    var holder = el("div"); holder.style.display = "grid"; holder.style.gap = "14px";
     orig.appendChild(holder); inner.appendChild(orig);
-    fillText(holder, "damodarastakam", "The original has not been added yet.");
+    loadText("damodarastakam").then(function (t) {
+      if (t === null) { holder.appendChild(el("p", "missing", "This could not be loaded (content/damodarastakam.txt).")); return; }
+      if (isEmptyFile(t)) { holder.appendChild(el("p", "missing", "The song has not been added yet.")); return; }
+      renderSong(holder, t);
+    });
     if (full) {
-      inner.appendChild(listBlock("What each verse means", DAMODARA.meanings, true));
+      inner.appendChild(listBlock("What each verse means, in plain words", DAMODARA.meanings, true));
       inner.appendChild(listBlock("Why we sing it in Kartik", DAMODARA.why));
     }
     d.appendChild(inner);
-    return d;
-  }
-  function loadText(name) {
-    if (cache[name] !== undefined) return Promise.resolve(cache[name]);
-    return fetch("content/" + name + ".txt").then(function (r) { if (!r.ok) throw 0; return r.text(); })
-      .then(function (t) { cache[name] = t; return t; }, function () { cache[name] = null; return null; });
+    var wrap = el("div"); wrap.appendChild(el("p", "tapnote", "Tap the box below to open the song."));
+    wrap.appendChild(d);
+    return wrap;
   }
 
-  function readingBlock(names, titleFor) {
-    var box = el("div");
-    box.appendChild(label("Read"));
-    var sz = el("div", "sizes");
-    var minus = el("button", "", "A−"), plus = el("button", "", "A+");
-    minus.setAttribute("aria-label", "Smaller text"); plus.setAttribute("aria-label", "Larger text");
-    sz.appendChild(minus); sz.appendChild(plus);
-    var body = el("div", "reading");
-    body.style.setProperty("--read", store.size + "px");
-    function bump(d) { store.size = Math.min(28, Math.max(14, store.size + d)); body.style.setProperty("--read", store.size + "px"); save(); }
-    minus.addEventListener("click", function () { bump(-2); });
-    plus.addEventListener("click", function () { bump(2); });
-    box.appendChild(sz); box.appendChild(body);
-    names.forEach(function (name, k) {
-      var h = el("h3", "", titleFor(name, k));
-      body.appendChild(h);
-      var holder = el("div"); holder.style.display = "grid"; holder.style.gap = "12px";
-      body.appendChild(holder);
-      fillText(holder, name, "The reading has not been added yet.");
-    });
-    return box;
-  }
-  function textName(n) { return "text-" + n; }
-  function textTitle(name) { return name === "preface" ? "Preface" : "Text " + name.replace("text-", ""); }
-
-  function hooksBlock(hooks) {
-    var b = el("div"); b.appendChild(label(hooks.length > 1 ? "Hooks" : "Hook"));
-    var h = el("div", "hook"); hooks.forEach(function (x) { h.appendChild(el("p", "", x)); }); b.appendChild(h); return b;
-  }
-  function listBlock(head, items, ordered) {
-    var b = el("div"); b.appendChild(label(head));
-    var u = el(ordered ? "ol" : "ul", "items"); items.forEach(function (x) { u.appendChild(el("li", "", x)); }); b.appendChild(u); return b;
-  }
-
+  /* ---------- views ---------- */
   function renderDay() {
     app.innerHTML = "";
-    var i = sel, info = dayInfo(i), card = el("article", "card");
+    var i = sel, d = DAYS[i], card = el("article", "card");
     var meta = el("div", "meta");
-    meta.appendChild(el("b", "", "Day " + (i + 1) + " of 30 · " + fmt(dayDate(i))));
+    meta.appendChild(el("b", "", "Day " + (i + 1) + " of " + DAYS.length + " · " + fmt(dayDate(i))));
     if (i === tIdx) meta.appendChild(el("span", "pill today", "Today"));
+    if (isMain(i)) meta.appendChild(el("span", "pill main", "Main discussion, " + MAIN_TIME));
     if (store.done[i]) meta.appendChild(el("span", "pill done", "Done"));
     card.appendChild(meta);
-    card.appendChild(el("h2", "", info.label));
+    card.appendChild(el("h2", "", d.title));
     if (tIdx < 0 && i === 0) card.appendChild(el("p", "note", "The plan starts on Monday 26 October."));
+    if (i > 0) card.appendChild(el("p", "note", "Yesterday: " + DAYS[i - 1].title));
 
-    if (info.type === "intro") {
-      card.appendChild(hooksBlock(INTRO.hooks));
-      INTRO.sections.forEach(function (s) { card.appendChild(listBlock(s.head, s.items)); });
-      card.appendChild(readingBlock(["preface"], textTitle));
-      card.appendChild(listBlock("Discuss", INTRO.questions));
-      card.appendChild(damBlock(true));
-      card.appendChild(listBlock("Try this", [INTRO.tryThis]));
-    } else if (info.type === "class") {
-      var c = info.cls;
-      card.appendChild(hooksBlock(c.hooks));
-      card.appendChild(readingBlock(c.texts.map(textName), textTitle));
-      c.sections.forEach(function (s) { card.appendChild(listBlock(s.head, s.items)); });
-      card.appendChild(listBlock("Discuss", c.questions));
-      card.appendChild(listBlock("Try this", [c.tryThis]));
-    } else if (info.type === "ahead") {
-      var c2 = info.cls;
-      card.appendChild(el("p", "note", "Read this before tomorrow's class. Skimming is fine."));
-      card.appendChild(hooksBlock(c2.hooks));
-      card.appendChild(readingBlock(c2.texts.map(textName), textTitle));
-    } else if (info.type === "recap") {
-      var c3 = info.cls;
-      card.appendChild(el("p", "note", "A lighter day. Come to the centre to chat, or catch up here."));
-      card.appendChild(hooksBlock(c3.hooks));
-      c3.sections.forEach(function (s) { card.appendChild(listBlock(s.head, s.items)); });
-      card.appendChild(listBlock("Think about", c3.questions));
-      var go = el("button", "btn", "Open the full class: " + textsLabel(c3));
-      go.addEventListener("click", function () { sel = c3.idx; renderDay(); window.scrollTo(0, 0); });
-      card.appendChild(go);
-    } else if (info.type === "review") {
-      card.appendChild(hooksBlock(REVIEW.hooks));
-      card.appendChild(listBlock("What we covered", REVIEW.points));
-      card.appendChild(listBlock("Think about", REVIEW.questions));
-      card.appendChild(listBlock("Try this", [REVIEW.tryThis]));
-    } else {
-      card.appendChild(hooksBlock(CONCLUSION.hooks));
-      CONCLUSION.sections.forEach(function (s) { card.appendChild(listBlock(s.head, s.items)); });
-      card.appendChild(listBlock("Discuss", CONCLUSION.questions));
-      card.appendChild(damBlock(true));
-      card.appendChild(listBlock("Try this", [CONCLUSION.tryThis]));
-    }
+    card.appendChild(hookBlock(d.hook));
+    if (d.read) card.appendChild(readingBlock(d.read));
+    card.appendChild(listBlock("Key points", d.points));
+    card.appendChild(listBlock("Discuss", d.qs));
+    card.appendChild(listBlock("Try this", [d.tryThis]));
+    card.appendChild(damBlock(d.kind === "intro" || d.kind === "closing"));
+    if (i < DAYS.length - 1) card.appendChild(el("p", "note", "Tomorrow: " + DAYS[i + 1].title));
 
-    if (info.type !== "intro" && info.type !== "end") card.appendChild(damBlock(false));
     var act = el("div", "actions");
     var mk = el("button", "btn primary" + (store.done[i] ? " is-done" : ""), store.done[i] ? "Done. Tap to undo" : "Mark this day as done");
     mk.addEventListener("click", function () { if (store.done[i]) delete store.done[i]; else store.done[i] = true; save(); renderDay(); });
@@ -167,7 +203,7 @@
     var nav = el("div", "nav");
     var pr = el("button", "btn", "← Previous"); pr.disabled = i === 0;
     pr.addEventListener("click", function () { sel--; renderDay(); window.scrollTo(0, 0); });
-    var nx = el("button", "btn", "Next →"); nx.disabled = i === 29;
+    var nx = el("button", "btn", "Next →"); nx.disabled = i === DAYS.length - 1;
     nx.addEventListener("click", function () { sel++; renderDay(); window.scrollTo(0, 0); });
     nav.appendChild(pr); nav.appendChild(nx); app.appendChild(nav);
   }
@@ -175,15 +211,16 @@
   function renderAll() {
     app.innerHTML = "";
     var list = el("div", "list");
-    for (var i = 0; i < 30; i++) (function (i) {
-      var info = dayInfo(i);
+    DAYS.forEach(function (d, i) {
       var r = el("button", "row" + (i === tIdx ? " is-today" : ""));
       r.appendChild(el("span", "dt", fmt(dayDate(i))));
-      var t = el("span", "rt", info.label); t.appendChild(el("small", "", info.sub)); r.appendChild(t);
+      var t = el("span", "rt", d.title);
+      t.appendChild(el("small", "", (d.read ? "Text " + d.read.n : d.kind === "intro" ? "Introduction" : "Closing") + (isMain(i) ? " · Main discussion" : "")));
+      r.appendChild(t);
       r.appendChild(el("span", "tick" + (store.done[i] ? " on" : ""), "✓"));
       r.addEventListener("click", function () { sel = i; setView("day"); window.scrollTo(0, 0); });
       list.appendChild(r);
-    })(i);
+    });
     app.appendChild(list);
   }
 
@@ -191,7 +228,7 @@
     app.innerHTML = "";
     var card = el("article", "card");
     card.appendChild(el("h2", "", "Daily reminders on your phone"));
-    card.appendChild(el("p", "", "Get one reminder a day from 26 October to 24 November. Each one shows that day's hook question and what to read."));
+    card.appendChild(el("p", "", "Get one reminder a day from 26 October to 24 November. Each one shows that day's topic and hook question."));
     card.appendChild(listBlock("How to get them", [
       "Choose ONE time below. Choosing two gives you double reminders.",
       "Your phone will offer to add the events to your calendar. Choose Add or Save. On an iPhone, tap Add All.",
@@ -214,7 +251,7 @@
   function qsave() { try { localStorage.setItem(QKEY, JSON.stringify(qstore)); } catch (e) {} }
   function quizOpen() { return tIdx >= QUIZ_OPEN_DAY || location.hash === "#quiz-preview"; }
   function shuffle(arr) { arr = arr.slice(); for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t; } return arr; }
-  function fmtTime(sec) { var m = Math.floor(sec / 60), s = sec % 60; return m + " min " + s + " s"; }
+  function fmtTime(sec) { return Math.floor(sec / 60) + " min " + (sec % 60) + " s"; }
   function fmtWhen(ms) { var d = new Date(ms); return fmt(d) + ", " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2); }
 
   function resultCard(r, official) {
@@ -237,7 +274,7 @@
     if (!quizOpen()) {
       var c0 = el("article", "card");
       c0.appendChild(el("h2", "", "Final quiz"));
-      c0.appendChild(el("p", "", "The quiz opens on Monday 23 November, the review day. Come back then."));
+      c0.appendChild(el("p", "", "The quiz opens on Monday 23 November. Come back then."));
       app.appendChild(c0); return;
     }
     if (qstore.official) {
@@ -302,7 +339,7 @@
     VIEWS.forEach(function (k) { document.getElementById("b-" + k).setAttribute("aria-pressed", k === v); });
     if (v === "day") renderDay(); else if (v === "all") renderAll(); else if (v === "remind") renderReminders(); else renderQuiz();
   }
-  document.getElementById("b-day").addEventListener("click", function () { if (view === "day") { sel = Math.min(Math.max(tIdx, 0), 29); } setView("day"); });
+  document.getElementById("b-day").addEventListener("click", function () { if (view === "day") { sel = Math.min(Math.max(tIdx, 0), DAYS.length - 1); } setView("day"); });
   ["all", "remind", "quiz"].forEach(function (k) { document.getElementById("b-" + k).addEventListener("click", function () { setView(k); }); });
   setView("day");
 

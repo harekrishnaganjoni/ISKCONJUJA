@@ -40,8 +40,8 @@
     // ============================================================
     var settingsForm = document.getElementById("settings-form");
     var settingsStatus = document.getElementById("settings-status");
-    var TEXT_KEYS = ["mpesa_till", "pesapal_donate_url", "whatsapp_group_invite", "facebook_url", "instagram_url", "youtube_url"];
-    var BOOL_KEYS = ["store_enabled", "articles_enabled", "special_events_enabled", "members_enabled"];
+    var TEXT_KEYS = ["mpesa_till", "pesapal_donate_url", "whatsapp_group_invite", "facebook_url", "instagram_url", "youtube_url", "tiktok_url", "address_short"];
+    var BOOL_KEYS = ["store_enabled", "articles_enabled", "special_events_enabled"];
 
     client.from("site_settings").select("key,value").then(function (r) {
       if (r.error || !r.data) return;
@@ -81,7 +81,13 @@
       e.preventDefault();
       settingsStatus.textContent = "Saving...";
       var updates = [];
-      TEXT_KEYS.forEach(function (k) { updates.push({ key: k, value: settingsForm.elements[k].value || "" }); });
+      var URL_KEYS = ["pesapal_donate_url", "whatsapp_group_invite", "facebook_url", "instagram_url", "youtube_url", "tiktok_url"];
+      TEXT_KEYS.forEach(function (k) {
+        var v = (settingsForm.elements[k].value || "").trim();
+        if (URL_KEYS.indexOf(k) >= 0 && v && !/^https?:\/\//i.test(v)) v = "https://" + v;   // forgive a missing https://
+        settingsForm.elements[k].value = v;
+        updates.push({ key: k, value: v });
+      });
       BOOL_KEYS.forEach(function (k) { updates.push({ key: k, value: settingsForm.elements[k].checked ? "true" : "false" }); });
       client.from("site_settings").upsert(updates).then(function (r) {
         settingsStatus.style.color = r.error ? "#b33a2e" : "#2E7D32";

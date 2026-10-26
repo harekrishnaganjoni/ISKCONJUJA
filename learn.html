@@ -7,12 +7,86 @@
  <title>ISKCON JUJA | Learn</title>
  <link rel="icon" href="images/favicon.png" type="image/png">
  <link rel="stylesheet" href="styles.css">
+ <style>
+  .learn-layout {
+   display: flex;
+   gap: 0;
+   max-width: 1400px;
+   margin: 0 auto;
+   min-height: 85vh;
+   border-top: 1px solid var(--line);
+  }
+  .learn-sidebar {
+   width: 240px;
+   flex-shrink: 0;
+   border-right: 1px solid var(--line);
+   padding: 16px 10px;
+   max-height: calc(100vh - var(--nav-h, 54px) - 12px);
+   overflow-y: auto;
+   position: sticky;
+   top: var(--nav-h, 54px);
+  }
+  .learn-sidebar h3 {
+   font-size: 12px;
+   text-transform: uppercase;
+   letter-spacing: 0.06em;
+   color: var(--muted);
+   padding: 6px 10px;
+   margin: 10px 0 4px;
+  }
+  .learn-sidebar button {
+   display: block;
+   width: 100%;
+   text-align: left;
+   background: none;
+   border: none;
+   padding: 8px 10px;
+   font-size: 13px;
+   border-radius: 6px;
+   cursor: pointer;
+   color: var(--body-text);
+  }
+  .learn-sidebar button:hover { background: var(--gold-soft); }
+  .learn-sidebar button.active { background: var(--maroon); color: #fff; }
+  .learn-main {
+   flex: 1;
+   min-width: 0;
+   display: flex;
+   flex-direction: column;
+   padding: 16px 20px;
+  }
+  .learn-search {
+   display: flex;
+   gap: 8px;
+   margin-bottom: 14px;
+  }
+  .learn-search input {
+   flex: 1;
+   padding: 10px 14px;
+   border: 1px solid var(--line);
+   border-radius: 8px;
+   font: inherit;
+  }
+  .learn-reader-wrap {
+   flex: 1;
+   min-height: 70vh;
+   border: 1px solid var(--line);
+   border-radius: 8px;
+   overflow: hidden;
+  }
+  .learn-reader-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+  @media (max-width: 860px) {
+   .learn-layout { flex-direction: column; }
+   .learn-sidebar { width: 100%; max-height: 220px; position: static; border-right: none; border-bottom: 1px solid var(--line); }
+   .learn-main { padding: 16px; }
+   .learn-reader-wrap { min-height: 60vh; }
+  }
+ </style>
 </head>
-<body>
+<body data-no-toc>
  <header class="site-header">
   <div class="header-top">
    <div class="header-top__inner">
-    <label class="menu-button" for="menu-toggle" aria-label="Open menu"><span></span></label>
     <a class="brand" href="index.html" aria-label="ISKCON JUJA home">
      <img class="brand-logo" src="images/juja-logo.svg" alt="ISKCON Juja">
      <span class="brand-text"><span class="brand-name">ISKCON JUJA</span></span>
@@ -28,6 +102,7 @@
    </div>
   </div>
   <div class="nav-container">
+   <label class="menu-button" for="menu-toggle" aria-label="Open menu"><span></span></label>
    <nav class="header-nav" aria-label="Main navigation" data-public-nav>
     <a href="index.html">Home</a>
     <a href="about.html">About Us</a>
@@ -76,53 +151,39 @@
   <label class="menu-scrim" for="menu-toggle" aria-label="Close menu"></label>
  </header>
  <main>
-  <section class="page-hero">
-   <div class="section-inner">
-    <div class="eyebrow">Learn</div>
-    <h1>Read &amp; Study</h1>
-    <p>Browse Srila Prabhupada's books online, free, and see our public courses. Members get access to the full course library from their dashboard.</p>
-   </div>
-  </section>
 
-  <!-- READ ONLINE: book-by-book, not the whole library crammed into one frame -->
-  <section class="section">
-   <div class="section-inner">
-    <div class="section-header-center" style="margin-bottom:20px;">
-     <div class="eyebrow">Vedabase Library</div>
-     <h2>Read a Book Online</h2>
-     <p>Pick a title below to open it. Each book loads on its own, so the page stays fast.</p>
+  <div class="section-inner" style="padding:28px 16px 10px;text-align:center;">
+   <div class="eyebrow">Learn</div>
+   <h1 style="margin:4px 0 6px;">Read &amp; Study</h1>
+   <p style="color:var(--muted);">Pick a book from the list, search across everything, or browse our public courses below.</p>
+  </div>
+
+  <div class="learn-layout">
+   <aside class="learn-sidebar" aria-label="Book list">
+    <div id="vedabase-picker"></div>
+   </aside>
+
+   <div class="learn-main">
+    <form class="learn-search" id="vedabase-search-form">
+     <input type="search" id="vedabase-search-input" placeholder="Search the full Vedabase collection..." aria-label="Search Vedabase">
+     <button class="button" type="submit" style="white-space:nowrap;">Search</button>
+    </form>
+    <div class="learn-reader-wrap">
+     <iframe id="vedabase-reader" title="Vedabase reader" src="https://vedabase.io/en/library/bg/" loading="lazy"></iframe>
     </div>
-
-    <div id="vedabase-picker" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:900px;margin:0 auto 20px;"></div>
-
-    <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;height:65vh;min-height:400px;max-width:900px;margin:0 auto;">
-     <iframe id="vedabase-reader" title="Vedabase reader" src="https://vedabase.io/en/library/bg/" loading="lazy" style="width:100%;height:100%;border:0;"></iframe>
-    </div>
-    <p style="text-align:center;margin-top:10px;font-size:13px;color:var(--muted);max-width:900px;margin-left:auto;margin-right:auto;">
-     If a book doesn't load above, <a id="vedabase-open-new-tab" href="https://vedabase.io/en/library/bg/" target="_blank" rel="noopener" style="font-weight:700;">open it in a new tab</a> instead.
+    <p style="text-align:center;margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5;">
+     His Divine Grace A.C. Bhaktivedanta Swami Prabh&#257;p&#257;da, Founder-&#256;c&#257;rya of the International Society for Krishna Consciousness.<br>
+     Content used with permission of &copy; The Bhaktivedanta Book Trust International, Inc. All rights reserved. And the Bhaktivedanta Archives Inc, Owner of the VedaBase&trade;.<br>
+     <a href="https://vedabase.io/" target="_blank" rel="noopener" style="font-weight:700;">Vedabase.io</a> &middot;
+     <a href="https://bbt.org/" target="_blank" rel="noopener" style="font-weight:700;">BBT.org</a> &middot;
+     <a href="https://vedabase.io/en/privacy-policy/" target="_blank" rel="noopener" style="font-weight:700;">Vedabase Privacy Policy</a> &middot;
+     If a page doesn't load above, <a id="vedabase-open-new-tab" href="https://vedabase.io/en/library/bg/" target="_blank" rel="noopener" style="font-weight:700;">open it in a new tab</a> instead.
     </p>
    </div>
-  </section>
-
-  <!-- SEARCH THE WHOLE COLLECTION -->
-  <section class="section section-alt">
-   <div class="section-inner" style="max-width:900px;margin:0 auto;">
-    <div class="section-header-center" style="margin-bottom:20px;">
-     <div class="eyebrow">Search Everything</div>
-     <h2>Search the Full Collection</h2>
-     <p>Search across every book, transcript and letter at once.</p>
-    </div>
-    <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;height:60vh;min-height:360px;">
-     <iframe title="Vedabase search" src="https://vedabase.io/en/search/" loading="lazy" style="width:100%;height:100%;border:0;"></iframe>
-    </div>
-    <p style="text-align:center;margin-top:10px;font-size:13px;color:var(--muted);">
-     If search doesn't load above, <a href="https://vedabase.io/en/search/" target="_blank" rel="noopener" style="font-weight:700;">open Vedabase Search in a new tab</a>.
-    </p>
-   </div>
-  </section>
+  </div>
 
   <!-- PUBLIC COURSES -->
-  <section class="section">
+  <section class="section section-alt">
    <div class="section-inner">
     <div class="section-header-center" style="margin-bottom:20px;">
      <div class="eyebrow">Public Courses</div>
@@ -154,14 +215,15 @@
     </div>
     <div>
      <h3>Contacts &amp; Map</h3>
-     <address>Anthusia Apartments hse GH 3, Muraya Access road, Juja</address>
+     <address data-setting-text="address_short">Anthusia Apartments hse GH 3, Muraya Access road, Juja</address>
      <p>&#128222; <a data-contact-phone href="#">Call or WhatsApp us</a></p>
-     <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Anthusia+Apartments+Muraya+Access+Road+Gachororo+Juja+Kenya" target="_blank" rel="noopener">&#128506;&#65039; Open in Google Maps</a>
+     <a class="map-link" data-map-link href="https://www.google.com/maps/search/?api=1&amp;query=Anthusia+Apartments+Muraya+Access+Road+Gachororo+Juja+Kenya" target="_blank" rel="noopener">&#128506;&#65039; Open in Google Maps</a>
     </div>
     <div>
      <h3>Socials</h3>
      <a href="#" data-setting-link="facebook_url" aria-label="Facebook" hidden>&#128218; Facebook</a>
      <a href="#" data-setting-link="instagram_url" aria-label="Instagram" hidden>&#128248; Instagram</a>
+     <a href="#" data-setting-link="tiktok_url" aria-label="TikTok" hidden>&#127925; TikTok</a>
      <a href="#" data-setting-link="youtube_url" aria-label="YouTube" hidden>&#127916; YouTube</a>
      <a href="#" data-whatsapp="Hi ISKCON JUJA! I found you online and wanted to reach out.">&#128172; WhatsApp</a>
     </div>
@@ -170,10 +232,11 @@
     <p>&copy; <span data-year></span> ISKCON JUJA. All Rights Reserved. &middot; <a href="privacy.html" style="text-decoration:underline;">Privacy Policy</a></p>
    </div>
   </footer>
- <script src="supabase-config.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
- <script src="data.js"></script>
- <div class="float-stack">
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data.js"></script>
+  <script src="site.js"></script>
+  <div class="float-stack">
    <div class="float-menu" id="float-menu" hidden>
     <a href="message-board.html">&#128172; Community Message Board</a>
     <a href="#" data-whatsapp="Hi ISKCON JUJA! I would like to get in touch.">&#128241; Chat on WhatsApp</a>
@@ -182,10 +245,6 @@
     <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
    </button>
   </div>
-  <script src="supabase-config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="data.js"></script>
-  <script src="site.js"></script>
 
  <script>
  (function () {
@@ -205,21 +264,19 @@
    ["\u015Ar\u012Bla Prabhup\u0101da-l\u012Bl\u0101m\u1E5Bta", "spl"], ["R\u0101m\u0101ya\u1E47a", "rkd"],
    ["Mah\u0101bh\u0101rata", "mbk"]
   ];
-  var EXTRAS = [["Transcripts (lectures & conversations)", "transcripts", true], ["Letters", "letters", true]];
+  var EXTRAS = [["Transcripts (lectures & talks)", "transcripts"], ["Letters", "letters"]];
 
   var picker = document.getElementById("vedabase-picker");
   var frame = document.getElementById("vedabase-reader");
   var newTabLink = document.getElementById("vedabase-open-new-tab");
 
-  function addBtn(label, slug, isSection) {
+  function addBtn(label, slug) {
    var btn = document.createElement("button");
    btn.type = "button";
    btn.textContent = label;
-   btn.className = "button secondary";
-   btn.style.cssText = "font-size:12px;padding:6px 12px;min-height:auto;";
    btn.addEventListener("click", function () {
-    picker.querySelectorAll("button").forEach(function (b) { b.classList.remove("active"); b.style.background = ""; b.style.color = ""; });
-    btn.style.background = "var(--maroon)"; btn.style.color = "#fff";
+    picker.querySelectorAll("button").forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
     var url = "https://vedabase.io/en/library/" + slug + "/";
     frame.src = url;
     newTabLink.href = url;
@@ -227,12 +284,28 @@
    picker.appendChild(btn);
   }
 
+  var h = document.createElement("h3"); h.textContent = "Books"; picker.appendChild(h);
   BOOKS.forEach(function (b) { addBtn(b[0], b[1]); });
+  var h2 = document.createElement("h3"); h2.textContent = "More"; picker.appendChild(h2);
   EXTRAS.forEach(function (e) { addBtn(e[0], e[1]); });
+  picker.querySelector("button").classList.add("active");
 
-  // Public courses: same as the member course catalog, but filtered to
-  // visibility = 'public' only. Members see ALL courses (public + members +
-  // internal) from their own dashboard/course catalog instead.
+  // Slim search box: we cannot embed only Vedabase's search *widget* (an
+  // iframe always shows a whole page, never a page fragment) and we also
+  // could not confirm Vedabase's exact search query-parameter format from
+  // here — this uses the common "?q=" convention as a best effort. Loads
+  // into the same reading frame, so if the filter doesn't land exactly
+  // right, Vedabase's own working search box is right there once it loads.
+  document.getElementById("vedabase-search-form").addEventListener("submit", function (e) {
+   e.preventDefault();
+   var q = document.getElementById("vedabase-search-input").value.trim();
+   if (!q) return;
+   picker.querySelectorAll("button").forEach(function (b) { b.classList.remove("active"); });
+   var url = "https://vedabase.io/en/search/?q=" + encodeURIComponent(q);
+   frame.src = url;
+   newTabLink.href = url;
+  });
+
   function renderPublicCourses() {
    if (!window.ISKCON_DATA || !window.ISKCON_DATA.READY) return;
    window.ISKCON_DATA.client.from("courses").select("*")

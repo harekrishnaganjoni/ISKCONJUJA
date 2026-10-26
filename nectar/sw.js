@@ -1,11 +1,10 @@
 /* Offline support. Online, the newest files are always used. Offline, the saved copies are used. */
-var VERSION = "v3";
+var VERSION = "v4";
 var CACHE = "nectar-" + VERSION;
 var FILES = [
   "./", "index.html", "style.css", "data.js", "app.js", "manifest.webmanifest", "icon-192.png", "icon-512.png",
-  "content/preface.txt", "content/text-1.txt", "content/text-2.txt", "content/text-3.txt", "content/text-4.txt",
-  "content/text-5.txt", "content/text-6.txt", "content/text-7.txt", "content/text-8.txt", "content/text-9.txt",
-  "content/text-10.txt", "content/text-11.txt", "content/damodarastakam.txt",
+  "content/text-1.txt", "content/text-2.txt", "content/text-3.txt", "content/text-4.txt",
+  "content/text-5.txt", "content/text-6.txt", "content/text-7.txt", "content/text-8.txt", "content/damodarastakam.txt",
   "reminders-morning.ics", "reminders-midday.ics", "reminders-evening.ics"
 ];
 self.addEventListener("install", function (e) {

@@ -7,17 +7,18 @@ UID:nectar-2026-day-1@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261026T093000Z
 DTEND:20261026T094500Z
-SUMMARY:Kartik Reading\, Day 1: Welcome and the Preface
-DESCRIPTION:Hook: If you could give a friend just eleven pieces of advice 
- for a good life\, what would they be?\n\nToday: read the Preface\, and Te
- xt 1 if you can. Our first class is tomorrow at 7:00 PM at the centre.\n\
- nThis evening: offer a lamp and sing the Damodarastakam (it is in the pla
- n).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 1: Welcome: a book of simple advice
+DESCRIPTION:Hook: If you could give a friend just a few pieces of advice f
+ or a good life\, what would they be?\n\nToday: a short welcome to the boo
+ k. Open the plan and read the summary.\nEveryone is welcome at the centre
+  at 7:00 PM. If you cannot come\, read on your own.\n\nSing the Damodaras
+ takam today (it is in the plan\, tap the box to open it).\n\nOpen the pla
+ n: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 1: Welcome and the Preface
+DESCRIPTION:Kartik Reading\, Day 1: Welcome: a book of simple advice
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -25,17 +26,17 @@ UID:nectar-2026-day-2@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261027T093000Z
 DTEND:20261027T094500Z
-SUMMARY:Kartik Reading\, Day 2: Class today: The six urges
-DESCRIPTION:Hook: Ever said something you regretted\, or eaten more than y
- ou planned? Who was really in charge?\n\nClass today at 7:00 PM at the ce
- ntre. Read Text 1 before you come.\n\nThis evening: offer a lamp and sing
-  the Damodarastakam (it is in the plan).\n\nOpen the plan: https://iskcon
- juja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 2: Why saying sorry is not enough
+DESCRIPTION:Hook: Have you ever promised to stop a bad habit and done it a
+ gain the same day?\n\nToday's reading: Why saying sorry is not enough (Te
+ xt 1). Open the plan and read it.\nMain discussion today at 7:00 PM at th
+ e centre.\n\nSing the Damodarastakam today (it is in the plan\, tap the b
+ ox to open it).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 2: Class today: The six urges
+DESCRIPTION:Kartik Reading\, Day 2: Why saying sorry is not enough
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -43,17 +44,18 @@ UID:nectar-2026-day-3@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261028T093000Z
 DTEND:20261028T094500Z
-SUMMARY:Kartik Reading\, Day 3: Recap: The six urges
-DESCRIPTION:Hook: Ever said something you regretted\, or eaten more than y
- ou planned? Who was really in charge?\n\nA lighter day. Come to the centr
- e to chat\, or catch up on Text 1 in the plan.\n\nThis evening: offer a l
- amp and sing the Damodarastakam (it is in the plan).\n\nOpen the plan: ht
- tps://iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 3: Speech\, mind and anger
+DESCRIPTION:Hook: Ever said something you regretted? Who was really in cha
+ rge?\n\nToday's reading: Speech\, mind and anger (Text 1). Open the plan 
+ and read it.\nEveryone is welcome at the centre at 7:00 PM. If you cannot
+  come\, read on your own.\n\nSing the Damodarastakam today (it is in the 
+ plan\, tap the box to open it).\n\nOpen the plan: https://iskconjuja.netl
+ ify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 3: Recap: The six urges
+DESCRIPTION:Kartik Reading\, Day 3: Speech\, mind and anger
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -61,17 +63,20 @@ UID:nectar-2026-day-4@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261029T093000Z
 DTEND:20261029T094500Z
-SUMMARY:Kartik Reading\, Day 4: Read ahead: Text 2
-DESCRIPTION:Hook: Too much food\, too much work\, too much gossip. Which o
- ne steals most of your time?\n\nRead Text 2 today\, ready for tomorrow's 
- class at 7:00 PM.\n\nThis evening: offer a lamp and sing the Damodarastak
- am (it is in the plan).\n\nOpen the plan: https://iskconjuja.netlify.app/
- nectar/
+SUMMARY:Kartik Reading\, Day 4: The tongue\, the stomach and the sexual ur
+ ge
+DESCRIPTION:Hook: Why is it so hard to stop eating when the food tastes go
+ od?\n\nToday's reading: The tongue\, the stomach and the sexual urge (Tex
+ t 1). Open the plan and read it.\nEveryone is welcome at the centre at 7:
+ 00 PM. If you cannot come\, read on your own.\n\nSing the Damodarastakam 
+ today (it is in the plan\, tap the box to open it).\n\nOpen the plan: htt
+ ps://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 4: Read ahead: Text 2
+DESCRIPTION:Kartik Reading\, Day 4: The tongue\, the stomach and the sexua
+ l urge
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -79,17 +84,17 @@ UID:nectar-2026-day-5@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261030T093000Z
 DTEND:20261030T094500Z
-SUMMARY:Kartik Reading\, Day 5: Class today: Six habits that drain us
-DESCRIPTION:Hook: Too much food\, too much work\, too much gossip. Which o
- ne steals most of your time?\n\nClass today at 7:00 PM at the centre. Rea
- d Text 2 before you come.\n\nThis evening: offer a lamp and sing the Damo
- darastakam (it is in the plan).\n\nOpen the plan: https://iskconjuja.netl
- ify.app/nectar/
+SUMMARY:Kartik Reading\, Day 5: Text 1 in one picture
+DESCRIPTION:Hook: If you could control only one urge\, which would make li
+ fe easiest?\n\nToday's reading: Text 1 in one picture (Text 1). Open the 
+ plan and read it.\nMain discussion today at 7:00 PM at the centre.\n\nSin
+ g the Damodarastakam today (it is in the plan\, tap the box to open it).\
+ n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 5: Class today: Six habits that drain us
+DESCRIPTION:Kartik Reading\, Day 5: Text 1 in one picture
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -97,17 +102,18 @@ UID:nectar-2026-day-6@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261031T093000Z
 DTEND:20261031T094500Z
-SUMMARY:Kartik Reading\, Day 6: Recap: Six habits that drain us
-DESCRIPTION:Hook: Too much food\, too much work\, too much gossip. Which o
- ne steals most of your time?\n\nA lighter day. Come to the centre to chat
- \, or catch up on Text 2 in the plan.\n\nThis evening: offer a lamp and s
- ing the Damodarastakam (it is in the plan).\n\nOpen the plan: https://isk
- conjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 6: Taking more than we need
+DESCRIPTION:Hook: Birds take a few grains and fly away. People take the wh
+ ole bag. Why?\n\nToday's reading: Taking more than we need (Text 2). Open
+  the plan and read it.\nEveryone is welcome at the centre at 7:00 PM. If 
+ you cannot come\, read on your own.\n\nSing the Damodarastakam today (it 
+ is in the plan\, tap the box to open it).\n\nOpen the plan: https://iskco
+ njuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 6: Recap: Six habits that drain us
+DESCRIPTION:Kartik Reading\, Day 6: Taking more than we need
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -115,17 +121,18 @@ UID:nectar-2026-day-7@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261101T093000Z
 DTEND:20261101T094500Z
-SUMMARY:Kartik Reading\, Day 7: Recap: Six habits that drain us
-DESCRIPTION:Hook: Too much food\, too much work\, too much gossip. Which o
- ne steals most of your time?\n\nA lighter day. Come to the centre to chat
- \, or catch up on Text 2 in the plan.\n\nThis evening: offer a lamp and s
- ing the Damodarastakam (it is in the plan).\n\nOpen the plan: https://isk
- conjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 7: Idle talk and the company we keep
+DESCRIPTION:Hook: How much of your day goes on talking about nothing?\n\nT
+ oday's reading: Idle talk and the company we keep (Text 2). Open the plan
+  and read it.\nEveryone is welcome at the centre at 7:00 PM. If you canno
+ t come\, read on your own.\n\nSing the Damodarastakam today (it is in the
+  plan\, tap the box to open it).\n\nOpen the plan: https://iskconjuja.net
+ lify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 7: Recap: Six habits that drain us
+DESCRIPTION:Kartik Reading\, Day 7: Idle talk and the company we keep
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -133,16 +140,17 @@ UID:nectar-2026-day-8@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261102T093000Z
 DTEND:20261102T094500Z
-SUMMARY:Kartik Reading\, Day 8: Read ahead: Text 3
-DESCRIPTION:Hook: How do you keep going with something good when it gets b
- oring?\n\nRead Text 3 today\, ready for tomorrow's class at 7:00 PM.\n\nT
- his evening: offer a lamp and sing the Damodarastakam (it is in the plan)
- .\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 8: Rules and greed
+DESCRIPTION:Hook: Do rules help us\, or hold us back?\n\nToday's reading: 
+ Rules and greed (Text 2). Open the plan and read it.\nEveryone is welcome
+  at the centre at 7:00 PM. If you cannot come\, read on your own.\n\nSing
+  the Damodarastakam today (it is in the plan\, tap the box to open it).\n
+ \nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 8: Read ahead: Text 3
+DESCRIPTION:Kartik Reading\, Day 8: Rules and greed
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -150,17 +158,20 @@ UID:nectar-2026-day-9@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261103T093000Z
 DTEND:20261103T094500Z
-SUMMARY:Kartik Reading\, Day 9: Class today: Six habits that build us up
-DESCRIPTION:Hook: How do you keep going with something good when it gets b
- oring?\n\nClass today at 7:00 PM at the centre. Read Text 3 before you co
- me.\n\nThis evening: offer a lamp and sing the Damodarastakam (it is in t
- he plan).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 9: Everything belongs to God (Text 2 in one p
+ icture)
+DESCRIPTION:Hook: You find a hundred shillings on the road. What do you do
+ ?\n\nToday's reading: Everything belongs to God (Text 2 in one picture) (
+ Text 2). Open the plan and read it.\nMain discussion today at 7:00 PM at 
+ the centre.\n\nSing the Damodarastakam today (it is in the plan\, tap the
+  box to open it).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar
+ /
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 9: Class today: Six habits that build us 
- up
+DESCRIPTION:Kartik Reading\, Day 9: Everything belongs to God (Text 2 in o
+ ne picture)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -168,17 +179,18 @@ UID:nectar-2026-day-10@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261104T093000Z
 DTEND:20261104T094500Z
-SUMMARY:Kartik Reading\, Day 10: Recap: Six habits that build us up
-DESCRIPTION:Hook: How do you keep going with something good when it gets b
- oring?\n\nA lighter day. Come to the centre to chat\, or catch up on Text
-  3 in the plan.\n\nThis evening: offer a lamp and sing the Damodarastakam
-  (it is in the plan).\n\nOpen the plan: https://iskconjuja.netlify.app/ne
- ctar/
+SUMMARY:Kartik Reading\, Day 10: Devotion is action
+DESCRIPTION:Hook: Is spiritual life about sitting quietly\, or about doing
+  something?\n\nToday's reading: Devotion is action (Text 3). Open the pla
+ n and read it.\nEveryone is welcome at the centre at 7:00 PM. If you cann
+ ot come\, read on your own.\n\nSing the Damodarastakam today (it is in th
+ e plan\, tap the box to open it).\n\nOpen the plan: https://iskconjuja.ne
+ tlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 10: Recap: Six habits that build us up
+DESCRIPTION:Kartik Reading\, Day 10: Devotion is action
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -186,17 +198,18 @@ UID:nectar-2026-day-11@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261105T093000Z
 DTEND:20261105T094500Z
-SUMMARY:Kartik Reading\, Day 11: Read ahead: Text 4
-DESCRIPTION:Hook: What is the quickest way to become real friends? Hint: i
- t involves sharing food.\n\nRead Text 4 today\, ready for tomorrow's clas
- s at 7:00 PM.\n\nThis evening: offer a lamp and sing the Damodarastakam (
- it is in the plan).\n\nOpen the plan: https://iskconjuja.netlify.app/nect
- ar/
+SUMMARY:Kartik Reading\, Day 11: Enthusiasm
+DESCRIPTION:Hook: What gives you energy when you are tired but still want 
+ to succeed?\n\nToday's reading: Enthusiasm (Text 3). Open the plan and re
+ ad it.\nEveryone is welcome at the centre at 7:00 PM. If you cannot come\
+ , read on your own.\n\nSing the Damodarastakam today (it is in the plan\,
+  tap the box to open it).\n\nOpen the plan: https://iskconjuja.netlify.ap
+ p/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 11: Read ahead: Text 4
+DESCRIPTION:Kartik Reading\, Day 11: Enthusiasm
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -204,18 +217,17 @@ UID:nectar-2026-day-12@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261106T093000Z
 DTEND:20261106T094500Z
-SUMMARY:Kartik Reading\, Day 12: Class today: Six ways to build friendship
-DESCRIPTION:Hook: What is the quickest way to become real friends? Hint: i
- t involves sharing food.\n\nClass today at 7:00 PM at the centre. Read Te
- xt 4 before you come.\n\nThis evening: offer a lamp and sing the Damodara
- stakam (it is in the plan).\n\nOpen the plan: https://iskconjuja.netlify.
- app/nectar/
+SUMMARY:Kartik Reading\, Day 12: Patience and regular practice
+DESCRIPTION:Hook: Which is harder: starting something good\, or continuing
+  it?\n\nToday's reading: Patience and regular practice (Text 3). Open the
+  plan and read it.\nMain discussion today at 7:00 PM at the centre.\n\nSi
+ ng the Damodarastakam today (it is in the plan\, tap the box to open it).
+ \n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 12: Class today: Six ways to build friend
- ship
+DESCRIPTION:Kartik Reading\, Day 12: Patience and regular practice
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -223,17 +235,17 @@ UID:nectar-2026-day-13@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261107T093000Z
 DTEND:20261107T094500Z
-SUMMARY:Kartik Reading\, Day 13: Recap: Six ways to build friendship
-DESCRIPTION:Hook: What is the quickest way to become real friends? Hint: i
- t involves sharing food.\n\nA lighter day. Come to the centre to chat\, o
- r catch up on Text 4 in the plan.\n\nThis evening: offer a lamp and sing 
- the Damodarastakam (it is in the plan).\n\nOpen the plan: https://iskconj
- uja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 13: Confidence and keeping going
+DESCRIPTION:Hook: What do you do after a setback?\n\nToday's reading: Conf
+ idence and keeping going (Text 3). Open the plan and read it.\nEveryone i
+ s welcome at the centre at 7:00 PM. If you cannot come\, read on your own
+ .\n\nSing the Damodarastakam today (it is in the plan\, tap the box to op
+ en it).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 13: Recap: Six ways to build friendship
+DESCRIPTION:Kartik Reading\, Day 13: Confidence and keeping going
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -241,17 +253,18 @@ UID:nectar-2026-day-14@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261108T093000Z
 DTEND:20261108T094500Z
-SUMMARY:Kartik Reading\, Day 14: Recap: Six ways to build friendship
+SUMMARY:Kartik Reading\, Day 14: Six ways to show love
 DESCRIPTION:Hook: What is the quickest way to become real friends? Hint: i
- t involves sharing food.\n\nA lighter day. Come to the centre to chat\, o
- r catch up on Text 4 in the plan.\n\nThis evening: offer a lamp and sing 
- the Damodarastakam (it is in the plan).\n\nOpen the plan: https://iskconj
- uja.netlify.app/nectar/
+ t involves sharing food.\n\nToday's reading: Six ways to show love (Text 
+ 4). Open the plan and read it.\nEveryone is welcome at the centre at 7:00
+  PM. If you cannot come\, read on your own.\n\nSing the Damodarastakam to
+ day (it is in the plan\, tap the box to open it).\n\nOpen the plan: https
+ ://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 14: Recap: Six ways to build friendship
+DESCRIPTION:Kartik Reading\, Day 14: Six ways to show love
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -259,17 +272,18 @@ UID:nectar-2026-day-15@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261109T093000Z
 DTEND:20261109T094500Z
-SUMMARY:Kartik Reading\, Day 15: Read ahead: Text 5
-DESCRIPTION:Hook: How should we greet a new visitor\, an elder and a frien
- d? Should it be the same?\n\nRead Text 5 today\, ready for tomorrow's cla
- ss at 7:00 PM.\n\nThis evening: offer a lamp and sing the Damodarastakam 
- (it is in the plan).\n\nOpen the plan: https://iskconjuja.netlify.app/nec
- tar/
+SUMMARY:Kartik Reading\, Day 15: Friendship in everyday life
+DESCRIPTION:Hook: How do business people close a deal? Usually over a meal
+ .\n\nToday's reading: Friendship in everyday life (Text 4). Open the plan
+  and read it.\nEveryone is welcome at the centre at 7:00 PM. If you canno
+ t come\, read on your own.\n\nSing the Damodarastakam today (it is in the
+  plan\, tap the box to open it).\n\nOpen the plan: https://iskconjuja.net
+ lify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 15: Read ahead: Text 5
+DESCRIPTION:Kartik Reading\, Day 15: Friendship in everyday life
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -277,19 +291,20 @@ UID:nectar-2026-day-16@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261110T093000Z
 DTEND:20261110T094500Z
-SUMMARY:Kartik Reading\, Day 16: Class today: How to treat different peopl
- e
-DESCRIPTION:Hook: How should we greet a new visitor\, an elder and a frien
- d? Should it be the same?\n\nClass today at 7:00 PM at the centre. Read T
- ext 5 before you come.\n\nThis evening: offer a lamp and sing the Damodar
- astakam (it is in the plan).\n\nOpen the plan: https://iskconjuja.netlify
- .app/nectar/
+SUMMARY:Kartik Reading\, Day 16: Giving and sharing (Text 4 in one picture
+ )
+DESCRIPTION:Hook: Do you give anything away regularly\, and how do you dec
+ ide how much?\n\nToday's reading: Giving and sharing (Text 4 in one pictu
+ re) (Text 4). Open the plan and read it.\nMain discussion today at 7:00 P
+ M at the centre.\n\nSing the Damodarastakam today (it is in the plan\, ta
+ p the box to open it).\n\nOpen the plan: https://iskconjuja.netlify.app/n
+ ectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 16: Class today: How to treat different p
- eople
+DESCRIPTION:Kartik Reading\, Day 16: Giving and sharing (Text 4 in one pic
+ ture)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -297,17 +312,20 @@ UID:nectar-2026-day-17@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261111T093000Z
 DTEND:20261111T094500Z
-SUMMARY:Kartik Reading\, Day 17: Recap: How to treat different people
+SUMMARY:Kartik Reading\, Day 17: Three kinds of people and how to treat th
+ em
 DESCRIPTION:Hook: How should we greet a new visitor\, an elder and a frien
- d? Should it be the same?\n\nA lighter day. Come to the centre to chat\, 
- or catch up on Text 5 in the plan.\n\nThis evening: offer a lamp and sing
-  the Damodarastakam (it is in the plan).\n\nOpen the plan: https://iskcon
- juja.netlify.app/nectar/
+ d? Should it be the same?\n\nToday's reading: Three kinds of people and h
+ ow to treat them (Text 5). Open the plan and read it.\nEveryone is welcom
+ e at the centre at 7:00 PM. If you cannot come\, read on your own.\n\nSin
+ g the Damodarastakam today (it is in the plan\, tap the box to open it).\
+ n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 17: Recap: How to treat different people
+DESCRIPTION:Kartik Reading\, Day 17: Three kinds of people and how to trea
+ t them
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -315,18 +333,18 @@ UID:nectar-2026-day-18@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261112T093000Z
 DTEND:20261112T094500Z
-SUMMARY:Kartik Reading\, Day 18: Read ahead: Texts 6 to 7
-DESCRIPTION:Hook: Have you ever judged someone by how they look or dress? 
- Were you right? Also: When you are sick\, even your favourite food tastes
-  bitter. Could that be happening with chanting?\n\nRead Texts 6 to 7 toda
- y\, ready for tomorrow's class at 7:00 PM.\n\nThis evening: offer a lamp 
- and sing the Damodarastakam (it is in the plan).\n\nOpen the plan: https:
- //iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 18: Where we start
+DESCRIPTION:Hook: Is it enough to be polite to the deity but ignore the pe
+ ople around us?\n\nToday's reading: Where we start (Text 5). Open the pla
+ n and read it.\nEveryone is welcome at the centre at 7:00 PM. If you cann
+ ot come\, read on your own.\n\nSing the Damodarastakam today (it is in th
+ e plan\, tap the box to open it).\n\nOpen the plan: https://iskconjuja.ne
+ tlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 18: Read ahead: Texts 6 to 7
+DESCRIPTION:Kartik Reading\, Day 18: Where we start
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -334,20 +352,17 @@ UID:nectar-2026-day-19@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261113T093000Z
 DTEND:20261113T094500Z
-SUMMARY:Kartik Reading\, Day 19: Class today: Looking beyond appearances\,
-  and the sweetness of chanting
-DESCRIPTION:Hook: Have you ever judged someone by how they look or dress? 
- Were you right? Also: When you are sick\, even your favourite food tastes
-  bitter. Could that be happening with chanting?\n\nClass today at 7:00 PM
-  at the centre. Read Texts 6 to 7 before you come.\n\nThis evening: offer
-  a lamp and sing the Damodarastakam (it is in the plan).\n\nOpen the plan
- : https://iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 19: Respect anyone who chants
+DESCRIPTION:Hook: Who do you secretly look down on?\n\nToday's reading: Re
+ spect anyone who chants (Text 5). Open the plan and read it.\nMain discus
+ sion today at 7:00 PM at the centre.\n\nSing the Damodarastakam today (it
+  is in the plan\, tap the box to open it).\n\nOpen the plan: https://iskc
+ onjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 19: Class today: Looking beyond appearanc
- es\, and the sweetness of chanting
+DESCRIPTION:Kartik Reading\, Day 19: Respect anyone who chants
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -355,20 +370,17 @@ UID:nectar-2026-day-20@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261114T093000Z
 DTEND:20261114T094500Z
-SUMMARY:Kartik Reading\, Day 20: Recap: Looking beyond appearances\, and t
- he sweetness of chanting
-DESCRIPTION:Hook: Have you ever judged someone by how they look or dress? 
- Were you right? Also: When you are sick\, even your favourite food tastes
-  bitter. Could that be happening with chanting?\n\nA lighter day. Come to
-  the centre to chat\, or catch up on Texts 6 to 7 in the plan.\n\nThis ev
- ening: offer a lamp and sing the Damodarastakam (it is in the plan).\n\nO
- pen the plan: https://iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 20: Faith (Text 5 in one picture)
+DESCRIPTION:Hook: What does it mean to have faith?\n\nToday's reading: Fai
+ th (Text 5 in one picture) (Text 5). Open the plan and read it.\nEveryone
+  is welcome at the centre at 7:00 PM. If you cannot come\, read on your o
+ wn.\n\nSing the Damodarastakam today (it is in the plan\, tap the box to 
+ open it).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 20: Recap: Looking beyond appearances\, a
- nd the sweetness of chanting
+DESCRIPTION:Kartik Reading\, Day 20: Faith (Text 5 in one picture)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -376,20 +388,18 @@ UID:nectar-2026-day-21@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261115T093000Z
 DTEND:20261115T094500Z
-SUMMARY:Kartik Reading\, Day 21: Recap: Looking beyond appearances\, and t
- he sweetness of chanting
+SUMMARY:Kartik Reading\, Day 21: Do not judge by appearances
 DESCRIPTION:Hook: Have you ever judged someone by how they look or dress? 
- Were you right? Also: When you are sick\, even your favourite food tastes
-  bitter. Could that be happening with chanting?\n\nA lighter day. Come to
-  the centre to chat\, or catch up on Texts 6 to 7 in the plan.\n\nThis ev
- ening: offer a lamp and sing the Damodarastakam (it is in the plan).\n\nO
- pen the plan: https://iskconjuja.netlify.app/nectar/
+ Were you right?\n\nToday's reading: Do not judge by appearances (Text 6).
+  Open the plan and read it.\nEveryone is welcome at the centre at 7:00 PM
+ . If you cannot come\, read on your own.\n\nSing the Damodarastakam today
+  (it is in the plan\, tap the box to open it).\n\nOpen the plan: https://
+ iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 21: Recap: Looking beyond appearances\, a
- nd the sweetness of chanting
+DESCRIPTION:Kartik Reading\, Day 21: Do not judge by appearances
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -397,16 +407,18 @@ UID:nectar-2026-day-22@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261116T093000Z
 DTEND:20261116T094500Z
-SUMMARY:Kartik Reading\, Day 22: Read ahead: Text 8
-DESCRIPTION:Hook: How do you remember God at work\, or on the matatu?\n\nR
- ead Text 8 today\, ready for tomorrow's class at 7:00 PM.\n\nThis evening
- : offer a lamp and sing the Damodarastakam (it is in the plan).\n\nOpen t
- he plan: https://iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 22: Overlook the defects
+DESCRIPTION:Hook: Would you refuse a gift because the wrapper was crumpled
+ ?\n\nToday's reading: Overlook the defects (Text 6). Open the plan and re
+ ad it.\nEveryone is welcome at the centre at 7:00 PM. If you cannot come\
+ , read on your own.\n\nSing the Damodarastakam today (it is in the plan\,
+  tap the box to open it).\n\nOpen the plan: https://iskconjuja.netlify.ap
+ p/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 22: Read ahead: Text 8
+DESCRIPTION:Kartik Reading\, Day 22: Overlook the defects
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -414,17 +426,19 @@ UID:nectar-2026-day-23@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261117T093000Z
 DTEND:20261117T094500Z
-SUMMARY:Kartik Reading\, Day 23: Class today: The essence of all advice
-DESCRIPTION:Hook: How do you remember God at work\, or on the matatu?\n\nC
- lass today at 7:00 PM at the centre. Read Text 8 before you come.\n\nThis
-  evening: offer a lamp and sing the Damodarastakam (it is in the plan).\n
- \nOpen the plan: https://iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 23: Status is not by birth (Text 6 in one pic
+ ture)
+DESCRIPTION:Hook: Does your family background decide who you are?\n\nToday
+ 's reading: Status is not by birth (Text 6 in one picture) (Text 6). Open
+  the plan and read it.\nMain discussion today at 7:00 PM at the centre.\n
+ \nSing the Damodarastakam today (it is in the plan\, tap the box to open 
+ it).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 23: Class today: The essence of all advic
- e
+DESCRIPTION:Kartik Reading\, Day 23: Status is not by birth (Text 6 in one
+  picture)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -432,16 +446,18 @@ UID:nectar-2026-day-24@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261118T093000Z
 DTEND:20261118T094500Z
-SUMMARY:Kartik Reading\, Day 24: Recap: The essence of all advice
-DESCRIPTION:Hook: How do you remember God at work\, or on the matatu?\n\nA
-  lighter day. Come to the centre to chat\, or catch up on Text 8 in the p
- lan.\n\nThis evening: offer a lamp and sing the Damodarastakam (it is in 
- the plan).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 24: Why chanting can taste bitter
+DESCRIPTION:Hook: When you are sick\, even your favourite food tastes bitt
+ er. Could that be happening with chanting?\n\nToday's reading: Why chanti
+ ng can taste bitter (Text 7). Open the plan and read it.\nEveryone is wel
+ come at the centre at 7:00 PM. If you cannot come\, read on your own.\n\n
+ Sing the Damodarastakam today (it is in the plan\, tap the box to open it
+ ).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 24: Recap: The essence of all advice
+DESCRIPTION:Kartik Reading\, Day 24: Why chanting can taste bitter
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -449,17 +465,17 @@ UID:nectar-2026-day-25@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261119T093000Z
 DTEND:20261119T094500Z
-SUMMARY:Kartik Reading\, Day 25: Read ahead: Texts 9 to 11
-DESCRIPTION:Hook: What is the most special place you have ever been\, and 
- why did it feel different?\n\nRead Texts 9 to 11 today\, ready for tomorr
- ow's class at 7:00 PM.\n\nThis evening: offer a lamp and sing the Damodar
- astakam (it is in the plan).\n\nOpen the plan: https://iskconjuja.netlify
- .app/nectar/
+SUMMARY:Kartik Reading\, Day 25: The cure is the sweet itself
+DESCRIPTION:Hook: What is the medicine for jaundice?\n\nToday's reading: T
+ he cure is the sweet itself (Text 7). Open the plan and read it.\nEveryon
+ e is welcome at the centre at 7:00 PM. If you cannot come\, read on your 
+ own.\n\nSing the Damodarastakam today (it is in the plan\, tap the box to
+  open it).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 25: Read ahead: Texts 9 to 11
+DESCRIPTION:Kartik Reading\, Day 25: The cure is the sweet itself
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -467,19 +483,19 @@ UID:nectar-2026-day-26@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261120T093000Z
 DTEND:20261120T094500Z
-SUMMARY:Kartik Reading\, Day 26: Class today: Special places and the highe
- st love
-DESCRIPTION:Hook: What is the most special place you have ever been\, and 
- why did it feel different?\n\nClass today at 7:00 PM at the centre. Read 
- Texts 9 to 11 before you come.\n\nThis evening: offer a lamp and sing the
-  Damodarastakam (it is in the plan).\n\nOpen the plan: https://iskconjuja
- .netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 26: Stages of chanting (Text 7 in one picture
+ )
+DESCRIPTION:Hook: Does chanting get easier with time?\n\nToday's reading: 
+ Stages of chanting (Text 7 in one picture) (Text 7). Open the plan and re
+ ad it.\nMain discussion today at 7:00 PM at the centre.\n\nSing the Damod
+ arastakam today (it is in the plan\, tap the box to open it).\n\nOpen the
+  plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 26: Class today: Special places and the h
- ighest love
+DESCRIPTION:Kartik Reading\, Day 26: Stages of chanting (Text 7 in one pic
+ ture)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -487,19 +503,17 @@ UID:nectar-2026-day-27@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261121T093000Z
 DTEND:20261121T094500Z
-SUMMARY:Kartik Reading\, Day 27: Recap: Special places and the highest lov
- e
-DESCRIPTION:Hook: What is the most special place you have ever been\, and 
- why did it feel different?\n\nA lighter day. Come to the centre to chat\,
-  or catch up on Texts 9 to 11 in the plan.\n\nThis evening: offer a lamp 
- and sing the Damodarastakam (it is in the plan).\n\nOpen the plan: https:
- //iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 27: Train the mind
+DESCRIPTION:Hook: How do you remember God at work\, or on the matatu?\n\nT
+ oday's reading: Train the mind (Text 8). Open the plan and read it.\nEver
+ yone is welcome at the centre at 7:00 PM. If you cannot come\, read on yo
+ ur own.\n\nSing the Damodarastakam today (it is in the plan\, tap the box
+  to open it).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 27: Recap: Special places and the highest
-  love
+DESCRIPTION:Kartik Reading\, Day 27: Train the mind
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -507,19 +521,17 @@ UID:nectar-2026-day-28@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261122T093000Z
 DTEND:20261122T094500Z
-SUMMARY:Kartik Reading\, Day 28: Recap: Special places and the highest lov
- e
-DESCRIPTION:Hook: What is the most special place you have ever been\, and 
- why did it feel different?\n\nA lighter day. Come to the centre to chat\,
-  or catch up on Texts 9 to 11 in the plan.\n\nThis evening: offer a lamp 
- and sing the Damodarastakam (it is in the plan).\n\nOpen the plan: https:
- //iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 28: Living in the holy land
+DESCRIPTION:Hook: Where do you feel closest to God?\n\nToday's reading: Li
+ ving in the holy land (Text 8). Open the plan and read it.\nEveryone is w
+ elcome at the centre at 7:00 PM. If you cannot come\, read on your own.\n
+ \nSing the Damodarastakam today (it is in the plan\, tap the box to open 
+ it).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 28: Recap: Special places and the highest
-  love
+DESCRIPTION:Kartik Reading\, Day 28: Living in the holy land
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -527,16 +539,18 @@ UID:nectar-2026-day-29@iskconjuja.netlify.app
 DTSTAMP:20261025T190000Z
 DTSTART:20261123T093000Z
 DTEND:20261123T094500Z
-SUMMARY:Kartik Reading\, Day 29: Review and quiz day
-DESCRIPTION:Hook: Which of these eight classes surprised you most?\n\nSkim
-  the eleven texts' main points. The final quiz opens today in the plan.\n
- \nThis evening: offer a lamp and sing the Damodarastakam (it is in the pl
- an).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
+SUMMARY:Kartik Reading\, Day 29: The essence (Text 8 in one picture)
+DESCRIPTION:Hook: If you could keep just one point from this book\, what w
+ ould it be?\n\nToday's reading: The essence (Text 8 in one picture) (Text
+  8). Open the plan and read it.\nEveryone is welcome at the centre at 7:0
+ 0 PM. If you cannot come\, read on your own.\n\nSing the Damodarastakam t
+ oday (it is in the plan\, tap the box to open it).\n\nOpen the plan: http
+ s://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:PT0M
-DESCRIPTION:Kartik Reading\, Day 29: Review and quiz day
+DESCRIPTION:Kartik Reading\, Day 29: The essence (Text 8 in one picture)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -546,9 +560,10 @@ DTSTART:20261124T093000Z
 DTEND:20261124T094500Z
 SUMMARY:Kartik Reading\, Day 30: Closing
 DESCRIPTION:Hook: Which one point from these four weeks will you keep?\n\n
- Closing today at 7:00 PM at the centre. Bring the one point you will keep
- .\n\nThis evening: offer a lamp and sing the Damodarastakam (it is in the
-  plan).\n\nOpen the plan: https://iskconjuja.netlify.app/nectar/
+ Closing day. Open the plan\, read it\, and bring the one point you will k
+ eep.\nMain discussion today at 7:00 PM at the centre.\n\nSing the Damodar
+ astakam today (it is in the plan\, tap the box to open it).\n\nOpen the p
+ lan: https://iskconjuja.netlify.app/nectar/
 URL:https://iskconjuja.netlify.app/nectar/
 BEGIN:VALARM
 ACTION:DISPLAY

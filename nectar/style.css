@@ -73,8 +73,16 @@ ul.items, ol.items { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
 details.dam { background: var(--tint); border-radius: 10px; }
 details.dam summary { cursor: pointer; padding: 14px; font-family: var(--serif); font-size: 18px; font-weight: 700; list-style: none; }
 details.dam summary::-webkit-details-marker { display: none; }
-details.dam summary::after { content: " +"; color: var(--accent-ink); }
-details.dam[open] summary::after { content: " \2212"; }
+details.dam summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+details.dam summary::after { content: "Tap to open"; flex: none; font-family: var(--sans); font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 99px; background: var(--btn-bg); color: var(--btn-fg); }
+details.dam[open] summary::after { content: "Tap to close"; }
+.tapnote { font-size: 14px; font-weight: 600; color: var(--accent-ink); margin-bottom: 6px; }
+.reading p.verse { font-style: italic; }
+.reading .gap { text-align: center; color: var(--muted); letter-spacing: .3em; }
+.vcard { display: grid; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.vcard:last-child { border-bottom: 0; padding-bottom: 0; }
+.trl-label { font-family: var(--sans); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--accent-ink); }
+.pill.main { background: var(--btn-bg); color: var(--btn-fg); }
 .dam-body { padding: 0 14px 16px; display: grid; gap: 18px; }
 .dam-body .reading { background: var(--surface); }
 

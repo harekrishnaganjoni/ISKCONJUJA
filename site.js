@@ -196,6 +196,94 @@
   });
   }
   
+  // AUTO-GENERATED PAGE-SECTION SIDEBAR
+  // Builds itself from whatever <h2> section headings already exist in
+  // <main> - nothing to maintain by hand as content changes. Opt out with
+  // a data-no-toc attribute on <body> (login/admin/single-task pages).
+  // The full-width banner (hero) at the top of a page is left alone, full
+  // width; only the sections BELOW it sit beside the sidebar.
+  (function buildTocSidebar() {
+    if (document.body.hasAttribute("data-no-toc")) return;
+    const main = document.querySelector("main");
+    if (!main) return;
+
+    const kids = Array.from(main.children);
+    let firstBody = 0;
+    while (firstBody < kids.length && kids[firstBody].matches(".page-hero, .home-hero")) firstBody++;
+    const bodyKids = kids.slice(firstBody);
+
+    const headings = [];
+    bodyKids.forEach(function (k) {
+      if (k.matches("h2")) headings.push(k);
+      k.querySelectorAll("h2").forEach(function (h) { headings.push(h); });
+    });
+    if (headings.length < 2) return; // not worth a sidebar for 0-1 sections
+
+    function slugify(text) {
+      return text.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    }
+    const links = headings.map(function (h, i) {
+      if (!h.id) h.id = slugify(h.textContent) || "section-" + i;
+      return { id: h.id, text: h.textContent };
+    });
+
+    const content = document.createElement("div");
+    content.className = "toc-content";
+    bodyKids.forEach(function (k) { content.appendChild(k); });
+
+    const sidebar = document.createElement("nav");
+    sidebar.className = "toc-sidebar";
+    sidebar.setAttribute("aria-label", "On this page");
+
+    // phones/tablets: one tidy "On this page" button that opens the list
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "toc-toggle";
+    toggle.textContent = "On this page";
+    toggle.setAttribute("aria-expanded", "false");
+    sidebar.appendChild(toggle);
+
+    const listBox = document.createElement("div");
+    listBox.className = "toc-links";
+    const heading = document.createElement("h3");
+    heading.textContent = "On This Page";
+    listBox.appendChild(heading);
+    links.forEach(function (l) {
+      const a = document.createElement("a");
+      a.href = "#" + l.id;
+      a.textContent = l.text;
+      a.addEventListener("click", function () {
+        sidebar.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+      });
+      listBox.appendChild(a);
+    });
+    sidebar.appendChild(listBox);
+
+    toggle.addEventListener("click", function () {
+      const open = sidebar.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+
+    const layout = document.createElement("div");
+    layout.className = "toc-layout";
+    layout.appendChild(sidebar);
+    layout.appendChild(content);
+    main.appendChild(layout);
+
+    // Highlight whichever section is currently in view
+    const sidebarLinks = Array.from(listBox.querySelectorAll("a"));
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        sidebarLinks.forEach(function (a) { a.classList.remove("active"); });
+        const match = listBox.querySelector('a[href="#' + entry.target.id + '"]');
+        if (match) match.classList.add("active");
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    headings.forEach(function (h) { observer.observe(h); });
+  })();
+
   // READ MORE / READ LESS TOGGLE (for long passages)
   document.querySelectorAll(".read-more-toggle").forEach(function (btn) {
   btn.addEventListener("click", function () {

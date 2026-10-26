@@ -39,7 +39,7 @@
     });
     document.querySelectorAll("[data-setting-link]").forEach(function (el) {
       var v = settings[el.getAttribute("data-setting-link")];
-      if (v) { el.setAttribute("href", v); el.setAttribute("target", "_blank"); el.setAttribute("rel", "noopener noreferrer"); el.hidden = false; }
+      if (v) { el.setAttribute("href", /^(https?:\/\/|mailto:|tel:)/i.test(v) ? v : "https://" + v); el.setAttribute("target", "_blank"); el.setAttribute("rel", "noopener noreferrer"); el.hidden = false; }
     });
     document.querySelectorAll("[data-setting-text]").forEach(function (el) {
       var v = settings[el.getAttribute("data-setting-text")];

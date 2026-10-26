@@ -207,7 +207,7 @@ var DAYS = [
     points: [
       "Keep the company of people who share the goal, follow the rules, follow great teachers and carry out instructions.",
       "A person at the middle level loves God, makes friends with those who love Him, is kind to the ignorant, and avoids those who are envious.",
-      "Srila Rupa Gosvami gave half of his earnings to the service of God, a quarter to his relatives and kept a quarter for emergencies. The text says that, whatever one's income, half should be spent for God and His devotees.",
+      "Srila Rupa Gosvami gave half of his earnings to the service of God, a quarter to his relatives and kept a quarter for emergencies. The text says that, whatever one's income, half should be spent on the service of God and of those who serve Him.",
       "The six exchanges of love are how a community stays close."
     ],
     qs: ["What could you give each month for service?", "How could we help each other with giving?"],
@@ -395,7 +395,7 @@ var DAMODARA = {
     "Verse 4: We do not ask for liberation, or for Vaikuntha, or for any other blessing. We ask only that God's child form in Vrindavana stays always in our heart.",
     "Verse 5: We ask that His lovely face, framed by soft dark hair and kissed again and again by Yasoda, stay in our heart. Thousands of other blessings are of no use.",
     "Verse 6: We bow to Him and pray for mercy, as we are poor, ignorant and drowning in an ocean of sorrow. We ask Him to rescue us and become visible to our eyes.",
-    "Verse 7: As He freed the two sons of Kuvera, Manigriva and Nalakuvara, and made them devotees, we ask Him to give us His own loving devotion. We have no desire for liberation.",
+    "Verse 7: As He freed the two sons of Kuvera, Manigriva and Nalakuvara, and gave them love for Him, we ask Him to give us His own loving devotion. We have no desire for liberation.",
     "Verse 8: We bow to the bright rope that binds His belly, to His belly which is the abode of the whole universe, to His beloved Srimati Radharani, and to God who shows endless pastimes."
   ],
   why: [
@@ -422,3 +422,142 @@ var QUIZ = [
   { from: "Text 8", q: "In Text 8, the mind is described as:", a: "Either our friend or our enemy", w: ["Always our enemy", "Always our friend", "Not important"] },
   { from: "Damodarastakam", q: "In verse 2 of the Damodarastakam, what binds God's belly?", a: "His mother's pure love", w: ["Golden chains", "A promise to the sages", "His own fear"] }
 ];
+
+/* Real-life examples (every day) and what research says (some days).
+   Examples are everyday pictures, not stories about real people. */
+var EXTRA = [
+  /* 1 */ { ex: ["A new appliance comes with a short manual. Read it and the machine works for years; ignore it and it breaks early. This book is the short manual for the machine we use every day: ourselves."] },
+  /* 2 */ { ex: [
+    "Imagine someone steps on your foot and says sorry, then steps on it again, and again, with a sorry each time. You would only believe him when he takes his foot away.",
+    "Someone who eats on time, washes his hands and sleeps well does not keep falling sick, so he does not need to keep apologising to his body. A regulated life is what changes things. The text compares real atonement to a regulated, healthy way of living."] },
+  /* 3 */ { ex: [
+    "Speech: A person who just goes silent to stop gossiping drifts back within a week. The one who starts telling the group one good thing he learned each day finds gossip has no room left.",
+    "Mind: Try not to think of a song and it plays louder. Put on a different song and the first one fades. The mind settles when it has something better to hold.",
+    "Anger: A teacher stays calm when a student is rude to him. He acts firmly when the student bullies a younger child or mocks something holy."],
+    sci: [
+      "Mind: In a famous 1987 study by Daniel Wegner, people told not to think of a white bear thought of it about once a minute anyway, and more once the instruction ended. Researchers suggest that giving the mind something absorbing to focus on works better than pushing a thought away (American Psychological Association summary).",
+      "Anger: In a 2002 study of 600 students by Brad Bushman, those who hit a punching bag while thinking about the person who upset them became angrier and more aggressive. Doing nothing at all calmed people more than venting did. Letting anger out is not the same as using it well."] },
+  /* 4 */ { ex: [
+    "Three goats are tied in a line to one rope. Hold the front one firmly and the other two cannot run. The tongue is the front one, so when it is controlled, the rest are easier to control.",
+    "A family that eats at fixed times, with the food offered first, does not wander to the stall all day. The tongue is trained at the table.",
+    "A person who fasts one day a week finds hunger rules the other six days less. Fasting days teach the stomach to wait."],
+    sci: [
+      "Hunger spills over into other desires. In a 2019 study of 50 university students, going about 10 hours without food made them choose rewards now over bigger rewards later, for money as well as for food (Skrynka and Vincent). It was a small study, and the choices were hypothetical.",
+      "Control in one area can help in others. In a 2006 study by Oaten and Cheng, after two months of a regular exercise programme, people reported less smoking, alcohol and caffeine, healthier eating, and better study habits and spending control.",
+      "A fair note: a 2017 review of 33 studies (Friese and colleagues) found that training self-control helps a little (an average effect of about 0.3, and smaller after correcting for bias), but it could not confirm that the benefit spreads to everything. So research supports the idea in part. The text's claim goes further, and we hold it as teaching, not as a proven law."] },
+  /* 5 */ { ex: [
+    "A matatu with six noisy passengers all shouting directions. The master of the senses is the driver, who hears them all and still decides the route.",
+    "The same water that floods a field can be channelled to irrigate it. We do not crush the six urges, we point them at the right use: speech for good talk, anger for the right cause, the tongue for offered food.",
+    "Being able to say enough to a second plate is a small version of being master of the senses."] },
+  /* 6 */ { ex: [
+    "Think of a harvest. The farms grew enough, but a few buyers store the maize and release it slowly, so the shortage shows up in the market. The text says the world has enough for everyone, and scarcity is often made by taking more than we need.",
+    "A family with a small plot and a cow feeds itself, and sells the extra milk. That is plain living and high thinking: needs met, mind free for higher things.",
+    "A bird takes a few grains and flies off. We can learn to take what we need and leave the rest for others."],
+    sci: ["In 2011 the UN food agency (FAO) estimated that roughly one third of the food produced in the world for people each year, about 1.3 billion tonnes, is lost or wasted. So shortages are not only about too little being grown. This is our reading of the figure. FAO's report does not say who holds the food."] },
+  /* 7 */ { ex: [
+    "Talking about a movie with friends is fine. A little relaxation is normal, and only excess is the problem. The trouble starts when it fills every evening. The cure is not to ban it, but to make room for better talk too: one evening a week sharing something we learned.",
+    "Farmers join a cooperative to learn from other farmers, and traders join the chamber of commerce. In the same way we sit with people who are serious about spiritual life, because progress is normal there."] },
+  /* 8 */ { ex: [
+    "Rules for progress: A runner follows his training plan because it makes him faster, not to impress anyone, and he does not skip it when nobody is watching.",
+    "Preparing for what is next: Before travelling abroad you learn the language. You prepare for where you are going, not only where you are now. The man who built a fortune for his sons did not prepare for his own next step.",
+    "Company: A student serious about exams sits with people who study, not with those who laugh at studying.",
+    "Greed: Someone who is content with enough spends his savings on school fees and has peace. The one chasing more has none."] },
+  /* 9 */ { ex: [
+    "You find KSh 1,000 outside a shop. The third person asks the shopkeeper whose it is and returns it. He is both honest and wise.",
+    "A tenant looks after a rented house as the landlord's property: uses it, keeps it clean, does not sell the doors.",
+    "At a wedding feast every guest gets a plate. You eat what you need, trusting the hosts prepared enough for all."] },
+  /* 10 */ { ex: [
+    "Someone who wants to learn the guitar does not only admire guitars. He picks one up and practises daily.",
+    "Quiet sitting can clear the weeds, but then you must plant. Meditation stops the nonsense, and devotion adds meaningful activity.",
+    "A friendship is kept alive by calling, visiting, listening, helping and sharing. There are nine processes in devotion, so start with one."] },
+  /* 11 */ { ex: [
+    "A learner approaches a good mechanic humbly, asks questions and helps in the garage. That is how real knowledge is received.",
+    "An artist practises before sunrise because he loves it. Spiritual life needs the same eagerness.",
+    "A phone made for calls and games can also carry the daily reading to the whole group."] },
+  /* 12 */ { ex: [
+    "A farmer plants beans and does not dig them up every morning to check. Patience and confidence go together.",
+    "A swimmer lets the water hold him because he trusts it. We do our part and trust God to do His.",
+    "Brushing teeth works because it is daily, not once a month. The same goes for our regular practices.",
+    "An athlete trains with athletes. We give up the company that pulls us away and live with those who share our goal."],
+    sci: ["In a 2010 study by Phillippa Lally and colleagues at University College London, 96 university students each picked a new daily habit, and 82 finished. On average it took 66 days to feel automatic, and it ranged from 18 to 254 days for different people. Missing a single day made little difference, but missing many days did."] },
+  /* 13 */ { ex: [
+    "A student who left school and returns later resumes where he stopped, not from the first class. Devotion is never lost.",
+    "Even a little swimming practice can save you in deep water. A little progress here protects us from great fear.",
+    "Water the roots of a tree and the leaves look after themselves. Good qualities grow by themselves in someone devoted to God."] },
+  /* 14 */ { ex: [
+    "Nobody becomes close to someone he never eats with. Sharing food is the quickest way to friendship.",
+    "A neighbour sends a plate of food, and the plate comes back with something in it. Giving and accepting keeps friendship moving.",
+    "Telling a trusted elder your struggle and asking what he did is how confidence between people grows."],
+    sci: ["A 2017 Oxford study led by Robin Dunbar found that the more often people eat with others, the more likely they are to feel happy and satisfied with their lives, and they tend to have wider networks of support. This shows a link, not proof that meals cause it."] },
+  /* 15 */ { ex: [
+    "Business partners settle their plans over lunch. Friends share meals, plans and advice.",
+    "A new member of a choir starts singing, and a new member of a football club starts playing. The company we keep shapes us.",
+    "A mother's voice wakes a sleeping child. The love was already there, and the voice brings it out. Hearing and chanting do the same for the heart."],
+    sci: ["A 2007 study by Christakis and Fowler followed 12,067 people from 1971 to 2003. A person's chance of becoming obese rose by 57% if a close friend became obese. The effect was not seen among neighbours. It shows a link between friends, not proof of cause."] },
+  /* 16 */ { ex: [
+    "A harambee works because everyone gives what they can. Small gifts become a school.",
+    "A family decides at the start of the month: half to the main goal, a quarter to relatives, a quarter for emergencies. This is the pattern Rupa Gosvami followed.",
+    "A good teacher loves his work, befriends other teachers, is patient with weak pupils and keeps away from those who envy him. That is the middle level the text describes."],
+    sci: ["A 2008 study by Elizabeth Dunn, Lara Aknin and Michael Norton found that people who spent a larger share of their money on others were happier. In an experiment, people who were assigned to spend on others felt happier than those assigned to spend on themselves, and even about 5 US dollars made a difference."] },
+  /* 17 */ { ex: [
+    "A new apprentice greets everyone in the workshop. He shows more respect to the one who has finished his training, and learns most from the master who is free of jealousy. Respect fits the level.",
+    "Greeting a stranger with a nod and a kind thought is respect in the mind.",
+    "Standing when a teacher enters is a humble bow.",
+    "Choosing a mentor: pick the one who builds people up, not the one who tears others down."] },
+  /* 18 */ { ex: [
+    "A first-year student only attends lectures. By third year he helps newcomers, joins study groups and is gentle with those who struggle. That is growth.",
+    "An experienced gardener also helps his neighbours and keeps pests away, not only his own plant.",
+    "Staying clear of people who only criticise protects our peace as we grow."] },
+  /* 19 */ { ex: [
+    "A neighbour says a kind word about our teacher. We thank him and do not question his habits.",
+    "Brushing teeth slowly every day keeps them clean. Chanting without offences, daily, slowly clears the heart.",
+    "A champion who stops training loses his form. The text says some great preachers fell after they stopped chanting."] },
+  /* 20 */ { ex: [
+    "A patient finishes the whole course of medicine, not only the pills he likes. Faith means following the whole instruction.",
+    "A learner driver does not copy a racing driver's moves. We know our own level and do not imitate those more advanced.",
+    "We choose a driving instructor with years of safe driving, and in the same way we choose a spiritual guide who is truly advanced.",
+    "A passenger boards a bus trusting the driver and the route. Faith is firm trust in what we are told."] },
+  /* 21 */ { ex: [
+    "A crumpled, torn note still buys the same as a new one. Its value is not in the paper.",
+    "Only a musician can recognise a real musician. A beginner cannot tell, so we hold back from judging.",
+    "Rainy-season river water looks muddy on top, yet people still bathe in it. The Ganges is not polluted by foam."] },
+  /* 22 */ { ex: [
+    "A teacher with a stammer who teaches well. We listen to what he teaches, not how it sounds.",
+    "A mango with a bruised skin can be the sweetest in the bag.",
+    "A gift in a crumpled wrapper is still a gift. We look at the service, not the surface."] },
+  /* 23 */ { ex: [
+    "A doctor's title is earned by study. It cannot be inherited from a parent.",
+    "A newly promoted manager remembers he is still a colleague. Titles that lead to pride lead to a fall.",
+    "In a choir, when one voice shines the others are glad, because the song is better.",
+    "A senior student coaches the juniors, and the juniors listen. The more advanced helps the less advanced."] },
+  /* 24 */ { ex: [
+    "When you have a fever, even your favourite food tastes bitter. The food did not change, we did.",
+    "Many people find coffee bitter at first and love it later. Taste can be developed.",
+    "You keep taking the medicine before you feel better. With care and attention the taste returns."] },
+  /* 25 */ { ex: [
+    "When you are dehydrated, the rehydration drink is the last thing you want and exactly what helps. The remedy is what we resist.",
+    "Wipe the dust off a mirror and you see clearly. Chanting cleans the heart in the same way.",
+    "If the wiring is faulty, changing the bulb does not help. The real disease is in the heart, not in outside things."] },
+  /* 26 */ { ex: [
+    "Learning to drive: first you stall and make many mistakes, then fewer, then it is smooth. Chanting goes through the same three stages.",
+    "Mopping a muddy floor: first mud everywhere, then less, then clean. Offences lessen as we keep going.",
+    "Switch on a lamp and the darkness leaves at once. Remembering God does the same for illusion.",
+    "A new shop earns trust by being used again and again. Faith grows by chanting."] },
+  /* 27 */ { ex: [
+    "A trained guard dog protects the home. An untrained one chases the neighbours' chickens. The mind, trained, becomes a friend.",
+    "The last thing you read before sleep follows you into dreams. Imagine the last thought of life. That is why we practise remembering God now.",
+    "A person who speaks kindly all day finds kind thoughts come first. Train the tongue and the mind follows."],
+    sci: ["In a 2010 study by Matthew Killingsworth and Daniel Gilbert, a phone app contacted 2,250 volunteers at random times. People's minds were on something other than what they were doing 46.9 percent of the time, and they were less happy when their minds wandered."] },
+  /* 28 */ { ex: [
+    "An apprentice learns carpentry by serving a master carpenter in his workshop and copying how he works.",
+    "A trainee chef copies the head chef's feeling for food as well as his steps. We follow the feeling of those who love God.",
+    "A student who moves next to the library studies more without trying. Where good habits are normal, they are easier to keep."] },
+  /* 29 */ { ex: [
+    "A mother packing a child for boarding school gives only the essentials and one line of advice. Text 8 is that one line.",
+    "A learner driver practises with an instructor beside him. That is how we train the mind under expert guidance.",
+    "Learning to swim goes in stages: watching, wading, swimming, diving. Spiritual growth goes through hearing, becoming attached, remembering and understanding."] },
+  /* 30 */ { ex: [
+    "At the end of a course, what you carry home is not the notes but the habit you now practise.",
+    "A seed planted this month needs watering. Keep one habit going."] }
+];
+EXTRA.forEach(function (x, i) { if (DAYS[i]) { DAYS[i].examples = x.ex; if (x.sci) DAYS[i].science = x.sci; } });

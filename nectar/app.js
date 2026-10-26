@@ -105,11 +105,11 @@
   window.addEventListener("online", function () { if (syncMeta.dirty) push(); submitQuizIfPending(); });
 
   /* ---------- leader's edits to the notes (shared by everyone) ---------- */
-  var BASEC = DAYS.map(function (d) { return { title: d.title, hook: d.hook, points: d.points, qs: d.qs, tryThis: d.tryThis }; });
+  var BASEC = DAYS.map(function (d) { return { title: d.title, hook: d.hook, points: d.points, qs: d.qs, tryThis: d.tryThis, examples: d.examples, science: d.science }; });
   var BASED = { meanings: DAMODARA.meanings, why: DAMODARA.why };
   var contentRows = jget(CKEY, []);
   function applyContent() {
-    DAYS.forEach(function (d, i) { var b = BASEC[i]; d.title = b.title; d.hook = b.hook; d.points = b.points; d.qs = b.qs; d.tryThis = b.tryThis; });
+    DAYS.forEach(function (d, i) { var b = BASEC[i]; d.title = b.title; d.hook = b.hook; d.points = b.points; d.qs = b.qs; d.tryThis = b.tryThis; d.examples = b.examples; d.science = b.science; });
     DAMODARA.meanings = BASED.meanings; DAMODARA.why = BASED.why;
     contentRows.forEach(function (r) {
       var m = /^day-(\d+)$/.exec(r.key), x = r.data || {};
@@ -117,6 +117,7 @@
         var d = DAYS[Number(m[1])];
         ["title", "hook", "tryThis"].forEach(function (f) { if (typeof x[f] === "string" && x[f].trim()) d[f] = x[f]; });
         ["points", "qs"].forEach(function (f) { if (Array.isArray(x[f]) && x[f].length) d[f] = x[f]; });
+        ["examples", "science"].forEach(function (f) { if (Array.isArray(x[f])) d[f] = x[f]; });
       } else if (r.key === "dam") {
         ["meanings", "why"].forEach(function (f) { if (Array.isArray(x[f]) && x[f].length) DAMODARA[f] = x[f]; });
       }
@@ -391,8 +392,10 @@
     if (i > 0) card.appendChild(el("p", "note", "Yesterday: " + DAYS[i - 1].title));
 
     card.appendChild(hookBlock(d.hook));
+    if (d.examples && d.examples.length) card.appendChild(listBlock("Real-life examples", d.examples));
     if (d.read) card.appendChild(readingBlock(d.read));
     card.appendChild(listBlock("Key points", d.points));
+    if (d.science && d.science.length) card.appendChild(listBlock("What research says", d.science));
     card.appendChild(listBlock("Discuss", d.qs));
     card.appendChild(listBlock("Try this", [d.tryThis]));
     card.appendChild(damBlock(d.kind === "intro" || d.kind === "closing"));
@@ -590,14 +593,14 @@
     var d = DAYS[i], card = el("article", "card");
     card.appendChild(el("h2", "", "Edit Day " + (i + 1)));
     card.appendChild(el("p", "note", "Changes go live for everyone as soon as you press Save. Write one point or question per line."));
-    var t = textInput(d.title, 120), h = area(d.hook, 3), p = area(d.points.join("\n"), 10), q = area(d.qs.join("\n"), 5), y = area(d.tryThis, 3);
-    card.appendChild(field("Title", t)); card.appendChild(field("Hook (opening question)", h));
-    card.appendChild(field("Key points (one per line)", p)); card.appendChild(field("Discuss questions (one per line)", q)); card.appendChild(field("Try this", y));
+    var t = textInput(d.title, 120), h = area(d.hook, 3), p = area(d.points.join("\n"), 10), q = area(d.qs.join("\n"), 5), y = area(d.tryThis, 3), ex = area((d.examples || []).join("\n"), 8), sc = area((d.science || []).join("\n"), 6);
+    card.appendChild(field("Title", t)); card.appendChild(field("Hook (opening question)", h)); card.appendChild(field("Real-life examples (one per line)", ex));
+    card.appendChild(field("Key points (one per line)", p)); card.appendChild(field("Discuss questions (one per line)", q)); card.appendChild(field("Try this", y)); card.appendChild(field("What research says (one per line, can be left empty)", sc));
     var st = el("p", "note", ""); card.appendChild(st);
     var act = el("div", "actions");
     var sv = el("button", "btn primary", "Save for everyone");
     sv.addEventListener("click", function () {
-      var data = { title: t.value.trim(), hook: h.value.trim(), points: splitLines(p.value), qs: splitLines(q.value), tryThis: y.value.trim() };
+      var data = { title: t.value.trim(), hook: h.value.trim(), points: splitLines(p.value), qs: splitLines(q.value), tryThis: y.value.trim(), examples: splitLines(ex.value), science: splitLines(sc.value) };
       if (!data.title || !data.hook || !data.points.length || !data.qs.length || !data.tryThis) { st.textContent = "Please fill in every box."; return; }
       sv.disabled = true; st.textContent = "Saving...";
       saveContent("day-" + i, data).then(function () { renderDay(); window.scrollTo(0, 0); }, function () { sv.disabled = false; st.textContent = "Could not save. Your leader login may have expired. Sign in on the main site and try again."; });

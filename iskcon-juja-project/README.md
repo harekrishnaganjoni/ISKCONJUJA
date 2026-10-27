@@ -4,7 +4,7 @@
 > - **Part A — for the OWNER** (not technical): what to do, click by click.
 > - **Part B — for the AI AGENT**: ground rules, architecture, how the code works, how to verify, what is left.
 >
-> **Last updated:** October 2026. **Project package:** `iskcon-juja-PROJECT.zip` (this README is inside it). Always treat the zip as the source of truth, not chat history.
+> **Last updated:** 27 Oct 2026 (implementation plan + owner decisions added, §12A and §13). **Project package:** `iskcon-juja-PROJECT.zip` (this README is inside it). Always treat the zip as the source of truth, not chat history.
 
 ---
 
@@ -252,8 +252,20 @@ Dashboard password-change card (`wireChangePassword` in `data.js`) exists becaus
 17. **Installable app (PWA):** `manifest.webmanifest`, icons, service worker (cache static files), install prompt; push notifications optional.
 18. **White-label:** see §18. 19. **Polish:** self-host Google Fonts (needs font files; sandbox has no network), accessibility pass, image optimisation, admin how-to sheet for Tim, monthly export routine.
 
-## 13. OPEN DECISIONS (ask the owner; don't assume)
-Reminder message wording (per program, entered in admin); SMS provider/account; Pesapal merchant account & whether the main temple permits a Till; what "reading progress" means for the course-specific reader; membership application wording; whether to make the brand row itself sticky (currently only the nav bar sticks — owner said "fixed" for the brand row; interpreted as *fixed arrangement*, not sticky).
+## 12A. IMPLEMENTATION PLAN (agreed 27 Oct 2026; supersedes the order in §12 where they differ)
+**Standing rules added by the owner:** (1) THIS folder (`iskcon-juja-project/`) is the source of truth; the root-level README/SQL are older and must not be used. (2) **Nectar problems/corrections have top priority until the end of Kartik (24 Nov 2026)**; do not change Nectar's data model before then. (3) Update THIS README in detail after every major milestone. (4) Never guess or change the owner's plans without confirming; suggestions are welcome (cheaper/free first). (5) The owner will paste the live database SQL for the agent to confirm; until then assume schemas are NOT applied.
+Each phase fits in 3 sessions or fewer.
+- **Phase 0 (1 session): finish Nectar + get live safely.** Nectar fixes first; Damodarastakam text pasted by owner into `nectar/content/damodarastakam.txt`; owner pastes live SQL for confirmation; run hardened `schema.sql`; verify keep-alive; header v2/sidebar screenshots (360/768/desktop); security pass (§12 task 4); `404.html`, `_headers`, privacy-policy fix (§12 task 5).
+- **Phase 1 (2-3 sessions): course engine learner side**, per `docs/COURSE_SYSTEM_SPEC.md` build order 1-4: RLS test by role, anonymous session + email upgrade, catalogue, course page, lesson player, block renderers (quote blocks only if verified), auto-marked quizzes graded server-side, progress. Nectar stays a separate bespoke app (the owner rejected folding it into the engine as a "scheduled reading plan"); reuse its ideas/styling only.
+- **Phase 2 (3 sessions): admin/teacher side**: content editor, JSON import/export, questions inbox, lesson feedback, reviews, certificates + `/verify/<id>`. Then enter the "Introduction to ISKCON" course from the owner's content.
+- **Phase 3 (2-3 sessions): public site polish**: editable contact/address/programs (§12 task 6), quotes admin tab, membership application, login show-password + forgot-password (admin-side reset preferred, free email is rate-limited), message board redesign, domain + email.
+- **Phase 4 (3 sessions): registration + reminders**: calendar (.ics) and Telegram first (free); SMS only if wanted (paid).
+- **Phase 5 (later, 3 sessions each, owner picks order):** Vaishnava calendar (verify first), Verse of the Day engine, cohorts/monitored courses, forum, skill courses, PWA.
+- **ON HOLD:** payments/Pesapal/Till/donations until the temple gives permission. Hide anything related; do not build.
+
+## 13. OPEN DECISIONS / DECISIONS MADE
+**Decided 27 Oct 2026:** source of truth = this folder; keep Nectar as is (no reading-plan template idea); **message board redesign** = collapsible in-page chat popup, Public/Private toggle, **default public, guests may post publicly**, private = addressed to a selected person, visible only to the sender and that person (no one else, admins included unless they are the recipient: confirm before building the admin view); no WhatsApp button there; donations/payments on hold (no Till, no temple permission yet); no other course design docs, owner will share course content later; social: Instagram and TikTok `iskconjuja.ke`, YouTube `iskconjuja` (enter via admin settings; confirm exact URLs); admin emails to create: `iskconjuja@yahoo.com` and `harekrishnaganjoni@gmail.com`.
+**Still open:** live DB state (owner will paste SQL); reminder message wording (per program, in admin); SMS provider/account; membership application wording; what "reading progress" means for the course reader; whether to make the brand row sticky; who is the recipient picker for private messages (admins only, or any member?).
 
 ## 14. LEGAL / PRIVACY (not legal advice)
 Kenya **Data Protection Act 2019** applies to processing Kenyans' personal data regardless of size; **formal ODPC registration** is mandatory only above ~KES 5M annual revenue or 10+ employees (or specific sectors) — likely not needed now, but principles (lawful basis/consent, security, data-subject rights, privacy notice) still apply. Implemented: `privacy.html` (linked in every footer), consent checkbox on the testimonial form, public-board notice, no tracking/analytics, no data sold. To do: login-token disclosure, consent + opt-out wording when reminders/registration/course sign-up are built, retention statement, a Kenyan lawyer's review. Instagram-style "legal trap" posts were assessed: only Google-Fonts-from-Google (EU IP-leak) is relevant (to-do: self-host); CAN-SPAM/COPPA/session-replay/subscriptions/DMCA are not applicable now (revisit DMCA only if public file uploads are added).

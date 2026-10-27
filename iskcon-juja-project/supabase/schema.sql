@@ -2,7 +2,7 @@
 -- ISKCON JUJA — Phase 2 database schema
 -- Run this once, in full, in the Supabase SQL Editor
 -- (your project -> left sidebar -> "SQL Editor" -> "New query").
--- Safe to re-run: it drops and recreates these objects only.
+-- Safe to re-run: every statement is idempotent (checked 27 Oct 2026).
 -- ============================================================
 
 -- ---------- ADMIN ROLES ----------
@@ -17,7 +17,7 @@ create table if not exists public.profiles (
 );
 
 create or replace function public.handle_new_user()
-returns trigger language plpgsql security definer as $$
+returns trigger language plpgsql security definer set search_path = public as $$
 begin
   insert into public.profiles (id, email) values (new.id, new.email);
   return new;
@@ -95,7 +95,7 @@ alter table public.events enable row level security;
 alter table public.products enable row level security;
 
 create or replace function public.is_admin()
-returns boolean language sql security definer stable as $$
+returns boolean language sql security definer stable set search_path = public as $$
   select exists (
     select 1 from public.profiles
     where id = auth.uid() and role in ('admin','super_admin')
@@ -169,7 +169,7 @@ create table if not exists public.weekly_quote (
 -- rotation repeat a quote until every quote has been used once.
 create or replace function public.get_weekly_quote()
 returns table(id uuid, quote_text text, source text)
-language plpgsql security definer as $$
+language plpgsql security definer set search_path = public as $$
 declare
   wk text := to_char(now(), 'IYYY-"W"IW');
   qid uuid;
@@ -188,7 +188,8 @@ end;
 $$;
 
 -- The 25 quotes supplied by the owner, as starter/reserve content.
-insert into public.quotes (quote_text, source) values
+insert into public.quotes (quote_text, source)
+select v.quote_text, v.source from (values
 ('For one who has conquered the mind, the mind is the best of friends; but for one who has failed to do so, his mind will remain the greatest enemy.', 'Bhagavad-gita 6.6'),
 ('One who is not connected with the Supreme can have neither steady intelligence nor a peaceful mind, without which there is no possibility of happiness.', 'Bhagavad-gita 2.66'),
 ('A person who is not disturbed by the incessant flow of desires can alone achieve peace, and not the man who strives to satisfy such desires.', 'Bhagavad-gita 2.70'),
@@ -214,7 +215,8 @@ insert into public.quotes (quote_text, source) values
 ('Peace cannot be achieved by mechanical means; peace is a state of consciousness.', 'Srila Prabhupada, Lecture, New York, 20 Dec 1966'),
 ('Simple living and high thinking is the solution to all problems.', 'Srila Prabhupada, Letter to Vrindavan, 12 Aug 1971'),
 ('Krishna consciousness is not a sectarian religious cult. It is a science of the soul, a universal cultural movement for the spiritual re-education of all human society.', 'Srila Prabhupada, Letter to Dr. Bigelow, 26 Mar 1971')
-on conflict do nothing;
+) as v(quote_text, source)
+where not exists (select 1 from public.quotes q where q.quote_text = v.quote_text);
 
 -- ---------- TESTIMONIALS (homepage; public submit, admin approves) ----------
 create table if not exists public.testimonials (

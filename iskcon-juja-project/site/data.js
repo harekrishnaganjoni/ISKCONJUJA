@@ -303,12 +303,28 @@
       });
   }
 
+  // ---------- SPAM TRAP (honeypot) ----------
+  // Adds an invisible field real people never see or fill. Bots that fill every field are
+  // silently ignored (they are told "thank you" so they do not adapt).
+  function addHoneypot(form) {
+    if (form.querySelector("[data-hp]")) return;
+    var w = document.createElement("div");
+    w.setAttribute("aria-hidden", "true");
+    w.style.cssText = "position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;";
+    var i = document.createElement("input");
+    i.type = "text"; i.name = "website"; i.tabIndex = -1; i.autocomplete = "off"; i.setAttribute("data-hp", "");
+    w.appendChild(i); form.appendChild(w);
+  }
+  function trapped(form) { var i = form.querySelector("[data-hp]"); return !!(i && i.value); }
+
   function wireTestimonialForm() {
     var form = document.querySelector("[data-testimonial-form]");
     if (!form) return;
     var status = form.querySelector("[data-testimonial-status]");
+    addHoneypot(form);
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (trapped(form)) { if (status) status.textContent = "Thank you! Your testimonial will appear once an admin reviews it."; form.reset(); return; }
       if (!READY) { if (status) status.textContent = "Not connected yet — please check back soon."; return; }
       var f = new FormData(form);
       if (status) status.textContent = "Sending...";
@@ -395,9 +411,11 @@
     var wantsName = form.querySelector("[data-board-register-check]");
     var nameField = form.querySelector("[data-board-name-field]");
     if (wantsName && nameField) wantsName.addEventListener("change", function () { nameField.hidden = !wantsName.checked; });
+    addHoneypot(form);
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!READY) return;
+      if (trapped(form)) { form.reset(); return; }
       var f = new FormData(form);
       var registering = wantsName && wantsName.checked;
       var name = registering ? (f.get("author_name") || "Anonymous") : "Anonymous";

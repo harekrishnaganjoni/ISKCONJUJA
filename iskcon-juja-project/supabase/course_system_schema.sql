@@ -181,8 +181,12 @@ create table if not exists public.course_module_unlocks (
   unlocked_at timestamptz not null default now(),
   primary key (cohort_id, module_id)
 );
-alter table public.course_enrolments
-  add constraint course_enrolments_cohort_fk foreign key (cohort_id) references public.course_cohorts(id) on delete set null;
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'course_enrolments_cohort_fk') then
+    alter table public.course_enrolments
+      add constraint course_enrolments_cohort_fk foreign key (cohort_id) references public.course_cohorts(id) on delete set null;
+  end if;
+end $$;
 
 -- ---------- Progress & results (section 12 & 14) ----------
 create table if not exists public.course_lesson_progress (

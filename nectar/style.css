@@ -137,3 +137,6 @@ body { padding-bottom: max(88px, env(safe-area-inset-bottom, 0px)); }
 .qa-q { font-family: var(--serif); font-size: 18px; }
 .person { display: flex; justify-content: space-between; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
 .note.pre { white-space: pre-line; }
+
+/* Keep the notes button clear of any host overlay (e.g. the Netlify badge) at the bottom-right */
+.fab { bottom: max(76px, calc(env(safe-area-inset-bottom, 0px) + 68px)); }

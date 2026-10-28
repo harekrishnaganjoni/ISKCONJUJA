@@ -167,12 +167,12 @@
   // RESOURCE CATALOG FILTERS EXECUTOR
   const resourceGrid = document.querySelector("[data-resource-grid]");
   if (resourceGrid) {
-  const cards = resourceGrid.querySelectorAll("[data-category]");
   const searchInput = document.querySelector("[data-resource-search]");
   const pills = document.querySelectorAll("[data-filter-pill]");
   let activeFilter = "all";
   function filterResources() {
   const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+  const cards = resourceGrid.querySelectorAll("[data-category]");
   cards.forEach(function (card) {
   const cat = card.getAttribute("data-category") || "";
   const text = card.textContent.toLowerCase();
@@ -196,12 +196,13 @@
   });
   }
   
-  // AUTO-GENERATED PAGE-SECTION SIDEBAR
-  // Builds itself from whatever <h2> section headings already exist in
-  // <main> - nothing to maintain by hand as content changes. Opt out with
-  // a data-no-toc attribute on <body> (login/admin/single-task pages).
-  // The full-width banner (hero) at the top of a page is left alone, full
-  // width; only the sections BELOW it sit beside the sidebar.
+  // PAGE SIDEBAR (every page that has 2+ sections)
+  // Items come from elements marked data-toc="Short label" (in page order). A page with no
+  // data-toc marks falls back to its <h2> headings. The hero banner stays full width above;
+  // the sections below sit beside the sidebar. Opt out with data-no-toc on <body>.
+  // A small button collapses the sidebar to a thin rail (remembered). On phones the sidebar
+  // becomes one small menu button. Other scripts (e.g. the Learn page) can add their own
+  // groups to it through window.ISKCON_TOC.listBox.
   (function buildTocSidebar() {
     if (document.body.hasAttribute("data-no-toc")) return;
     const main = document.querySelector("main");
@@ -212,19 +213,30 @@
     while (firstBody < kids.length && kids[firstBody].matches(".page-hero, .home-hero")) firstBody++;
     const bodyKids = kids.slice(firstBody);
 
-    const headings = [];
+    let marked = [];
     bodyKids.forEach(function (k) {
-      if (k.matches("h2")) headings.push(k);
-      k.querySelectorAll("h2").forEach(function (h) { headings.push(h); });
+      if (k.matches("[data-toc]")) marked.push(k);
+      k.querySelectorAll("[data-toc]").forEach(function (h) { marked.push(h); });
     });
-    if (headings.length < 2) return; // not worth a sidebar for 0-1 sections
+    let items;
+    if (marked.length) {
+      items = marked.map(function (el) { return { el: el, text: el.getAttribute("data-toc") }; });
+    } else {
+      const hs = [];
+      bodyKids.forEach(function (k) {
+        if (k.matches("h2")) hs.push(k);
+        k.querySelectorAll("h2").forEach(function (h) { hs.push(h); });
+      });
+      items = hs.map(function (h) { return { el: h, text: h.textContent }; });
+    }
+    if (items.length < 2) return; // not worth a sidebar for 0-1 sections
 
     function slugify(text) {
       return text.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     }
-    const links = headings.map(function (h, i) {
-      if (!h.id) h.id = slugify(h.textContent) || "section-" + i;
-      return { id: h.id, text: h.textContent };
+    items.forEach(function (it, i) {
+      if (!it.el.id) it.el.id = slugify(it.text) || "section-" + i;
+      it.id = it.el.id;
     });
 
     const content = document.createElement("div");
@@ -233,29 +245,34 @@
 
     const sidebar = document.createElement("nav");
     sidebar.className = "toc-sidebar";
-    sidebar.setAttribute("aria-label", "On this page");
+    sidebar.setAttribute("aria-label", "Page sections");
 
-    // phones/tablets: one tidy "On this page" button that opens the list
+    // desktop: small collapse button
+    const collapseBtn = document.createElement("button");
+    collapseBtn.type = "button";
+    collapseBtn.className = "toc-collapse";
+    sidebar.appendChild(collapseBtn);
+
+    // phones/tablets: one small menu button that opens the list
     const toggle = document.createElement("button");
     toggle.type = "button";
     toggle.className = "toc-toggle";
-    toggle.textContent = "On this page";
+    toggle.setAttribute("aria-label", "Show page sections");
     toggle.setAttribute("aria-expanded", "false");
+    toggle.innerHTML = "&#9776;";
     sidebar.appendChild(toggle);
 
     const listBox = document.createElement("div");
     listBox.className = "toc-links";
-    const heading = document.createElement("h3");
-    heading.textContent = "On This Page";
-    listBox.appendChild(heading);
-    links.forEach(function (l) {
+    items.forEach(function (it) {
       const a = document.createElement("a");
-      a.href = "#" + l.id;
-      a.textContent = l.text;
+      a.href = "#" + it.id;
+      a.textContent = it.text;
       a.addEventListener("click", function () {
         sidebar.classList.remove("open");
         toggle.setAttribute("aria-expanded", "false");
       });
+      it.link = a;
       listBox.appendChild(a);
     });
     sidebar.appendChild(listBox);
@@ -271,18 +288,63 @@
     layout.appendChild(content);
     main.appendChild(layout);
 
+    // collapse / expand (desktop), remembered
+    let collapsed = false;
+    try { collapsed = localStorage.getItem("toc-collapsed") === "1"; } catch (e) {}
+    function applyCollapsed() {
+      layout.classList.toggle("toc-collapsed", collapsed);
+      collapseBtn.innerHTML = collapsed ? "&#8250;" : "&#8249;";
+      collapseBtn.setAttribute("aria-label", collapsed ? "Expand sidebar" : "Collapse sidebar");
+      collapseBtn.setAttribute("title", collapsed ? "Expand sidebar" : "Collapse sidebar");
+      collapseBtn.setAttribute("aria-expanded", String(!collapsed));
+    }
+    collapseBtn.addEventListener("click", function () {
+      collapsed = !collapsed;
+      try { localStorage.setItem("toc-collapsed", collapsed ? "1" : "0"); } catch (e) {}
+      applyCollapsed();
+    });
+    applyCollapsed();
+
+    // hide links whose section is hidden (e.g. switched off in the admin settings)
+    function refresh() {
+      items.forEach(function (it) { it.link.hidden = !!it.el.closest("[hidden]"); });
+    }
+    refresh();
+    document.addEventListener("iskcon:settings", refresh);
+    setTimeout(refresh, 1500);
+
+    window.ISKCON_TOC = { sidebar: sidebar, listBox: listBox, layout: layout, refresh: refresh };
+
     // Highlight whichever section is currently in view
-    const sidebarLinks = Array.from(listBox.querySelectorAll("a"));
     const observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        sidebarLinks.forEach(function (a) { a.classList.remove("active"); });
-        const match = listBox.querySelector('a[href="#' + entry.target.id + '"]');
-        if (match) match.classList.add("active");
+        items.forEach(function (it) { it.link.classList.remove("active"); });
+        const match = items.filter(function (it) { return it.el === entry.target; })[0];
+        if (match) match.link.classList.add("active");
       });
     }, { rootMargin: "-20% 0px -70% 0px" });
-    headings.forEach(function (h) { observer.observe(h); });
+    items.forEach(function (it) { observer.observe(it.el); });
   })();
+
+  // SHOW FIRST N (e.g. FAQs): <div data-show-first="3"> with <details class="accordion"> children
+  document.querySelectorAll("[data-show-first]").forEach(function (box) {
+    const n = parseInt(box.getAttribute("data-show-first"), 10) || 3;
+    const rows = Array.from(box.querySelectorAll(":scope > details.accordion"));
+    if (rows.length <= n) return;
+    let open = false;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "button secondary show-more-btn";
+    function apply() {
+      rows.forEach(function (r, i) { r.hidden = !open && i >= n; });
+      btn.textContent = open ? "Show fewer" : "Show " + (rows.length - n) + " more";
+      btn.setAttribute("aria-expanded", String(open));
+    }
+    btn.addEventListener("click", function () { open = !open; apply(); });
+    box.appendChild(btn);
+    apply();
+  });
 
   // READ MORE / READ LESS TOGGLE (for long passages)
   document.querySelectorAll(".read-more-toggle").forEach(function (btn) {

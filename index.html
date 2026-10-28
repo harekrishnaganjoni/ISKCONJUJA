@@ -101,9 +101,20 @@
      </div>
     </section>
   
-    <!-- 60/40 SPLIT GRID SYSTEM FOR SUNDAY EXPERIENCE AND QUOTE -->
-    <section class="section">
-     <div class="section-inner split-grid-60-40">
+    <!-- QUOTE OF THE WEEK (own section, casual) -->
+    <section class="section quote-fun" data-toc="Quote of the week">
+     <div class="section-inner">
+      <aside class="quote-fun-card" aria-labelledby="quote-heading" data-quote-of-week>
+       <span class="quote-fun-sticker" id="quote-heading">&#10024; Quote of the week</span>
+       <p class="quote-fun-text" data-quote-text>The mind is restless, turbulent, obstinate and very strong, but it can be tamed by constant practice.</p>
+       <p class="quote-fun-source" data-quote-source>&mdash; Bhagavad Gita 6.34</p>
+      </aside>
+     </div>
+    </section>
+
+    <!-- WHAT TO EXPECT -->
+    <section class="section" data-toc="What to expect">
+     <div class="section-inner">
       <div>
        <div class="eyebrow">What to Expect at a Program</div>
        <h2>Your First Visit</h2>
@@ -132,15 +143,11 @@
         </div>
        </div>
       </div>
-      <aside class="quote-card" aria-labelledby="quote-heading" data-quote-of-week>
-       <div class="eyebrow" id="quote-heading">Quote of the Week</div>
-       <p class="quote-text" data-quote-text>The mind is restless, turbulent, obstinate and very strong, but it can be tamed by constant practice.</p>
-       <p class="quote-source" data-quote-source>&mdash; Bhagavad Gita 6.34</p>
-      </aside>
+
      </div>
     </section>
   <!-- DYNAMIC MAGAZINE CAROUSEL GRID -->
-  <section class="section section-alt" data-show-if="articles_enabled" hidden>
+  <section class="section section-alt" data-show-if="articles_enabled" data-toc="Insights" hidden>
     <div class="section-inner">  
      <div class="section-header-center">
       <div class="eyebrow">Explore True Wisdom</div>
@@ -155,7 +162,7 @@
       </div>
     </div>
    </section>
-    <section class="section section-alt">
+    <section class="section section-alt" data-toc="Testimonials">
      <div class="section-inner">
       <div class="section-header-center">
        <div class="eyebrow">In Their Words</div>
@@ -166,8 +173,8 @@
       <div class="card highlight" style="max-width:600px;margin:32px auto 0;padding:24px;">
        <h3 style="margin-bottom:12px;">Share Your Experience</h3>
        <form data-testimonial-form style="display:flex;flex-direction:column;gap:12px;">
-        <input name="name" placeholder="Your name" required style="padding:10px;border:1px solid var(--line);border-radius:4px;">
-        <textarea name="message" placeholder="Tell us about your experience with ISKCON JUJA" required style="padding:10px;border:1px solid var(--line);border-radius:4px;min-height:90px;"></textarea>
+        <input name="name" autocomplete="name" maxlength="80" placeholder="Your name" required style="padding:10px;border:1px solid var(--line);border-radius:4px;">
+        <textarea name="message" maxlength="2000" placeholder="Tell us about your experience with ISKCON JUJA" required style="padding:10px;border:1px solid var(--line);border-radius:4px;min-height:90px;"></textarea>
         <label style="font-size:13px;display:flex;align-items:flex-start;gap:8px;"><input type="checkbox" required style="width:auto;margin-top:3px;"> I agree my name and message may be shown publicly on this site. See our <a href="privacy.html" target="_blank" style="text-decoration:underline;">Privacy Policy</a>.</label>
         <button class="button" type="submit">Submit Testimonial</button>
         <p data-testimonial-status style="font-size:13px;"></p>

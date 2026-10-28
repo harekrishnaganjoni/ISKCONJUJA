@@ -17,6 +17,15 @@
     var client = window.ISKCON_DATA.client;
 
     // ---------- Tabs ----------
+    (function () {
+      var layout = document.getElementById("admin-layout"), btn = document.getElementById("admin-collapse");
+      if (!layout || !btn) return;
+      var collapsed = false;
+      try { collapsed = localStorage.getItem("admin-menu-collapsed") === "1"; } catch (e) {}
+      function apply() { layout.classList.toggle("admin-collapsed", collapsed); btn.innerHTML = collapsed ? "&#8250;" : "&#8249;"; btn.setAttribute("aria-label", collapsed ? "Expand menu" : "Collapse menu"); }
+      btn.addEventListener("click", function () { collapsed = !collapsed; try { localStorage.setItem("admin-menu-collapsed", collapsed ? "1" : "0"); } catch (e) {} apply(); });
+      apply();
+    })();
     document.querySelectorAll(".admin-tab-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
         document.querySelectorAll(".admin-tab-btn").forEach(function (b) { b.classList.remove("active"); });
@@ -249,25 +258,32 @@
     });
 
     wireTable("events", "event-form", "events-admin-list", "event-status", function (ev) {
-      return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : ""));
+      return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.image_url ? " \u00b7 has picture" : ""));
     });
 
-    var productPhotoInput = document.getElementById("product-photo-input");
-    if (productPhotoInput) {
-      productPhotoInput.addEventListener("change", function () {
-        var file = productPhotoInput.files[0];
+    // Photo upload helper: file input -> storage bucket "site-images" -> hidden field with the public link.
+    function wirePhoto(inputId, hiddenId, statusId, prefix) {
+      var input = document.getElementById(inputId);
+      var hidden = document.getElementById(hiddenId);
+      if (!input || !hidden) return;
+      var status = document.getElementById(statusId);
+      var form = input.form;
+      function clear() { hidden.value = ""; input.value = ""; if (status) status.textContent = ""; }
+      if (form) form.addEventListener("reset", function () { setTimeout(clear, 0); });
+      input.addEventListener("change", function () {
+        var file = input.files[0];
         if (!file) return;
-        var status = document.getElementById("product-photo-status");
         if (status) status.textContent = "Uploading...";
-        var path = "product-" + Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.]/g, "_");
+        var path = prefix + "-" + Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.]/g, "_");
         client.storage.from("site-images").upload(path, file, { upsert: true }).then(function (up) {
           if (up.error) { if (status) status.textContent = "Upload failed: " + up.error.message; return; }
-          var publicUrl = client.storage.from("site-images").getPublicUrl(path).data.publicUrl;
-          document.getElementById("product-image-url").value = publicUrl;
-          if (status) status.textContent = "Photo attached \u2014 will save with this product.";
+          hidden.value = client.storage.from("site-images").getPublicUrl(path).data.publicUrl;
+          if (status) status.textContent = "Picture attached \u2014 it will save with this item.";
         });
       });
     }
+    wirePhoto("product-photo-input", "product-image-url", "product-photo-status", "product");
+    wirePhoto("event-photo-input", "event-image-url", "event-photo-status", "event");
 
     wireTable("products", "product-form", "products-admin-list", "product-status", function (p) {
       var price = p.price_kes ? "KES " + p.price_kes : "Free";
@@ -438,106 +454,170 @@
     loadBoard();
 
     // ============================================================
-    // BUSINESS CARD GENERATOR (two-sided: front = branding, back = contact)
-    // Everything auto-fills from data already on the site. No typing required.
+    // BUSINESS CARD (85 x 55 mm). Front = all contact details. Back = quote + decoration.
+    // Print sheet: A4, 2 x 5 cards, 2 mm gaps, page 1 fronts, page 2 backs (double-sided, flip on long edge).
+    // Everything fills in from data already on the site; nothing is hardcoded here except the layout.
     // ============================================================
     (function () {
-      var front = document.getElementById("business-card-front");
-      if (!front) return; // panel not present
-
+      var fh = document.getElementById("bc-front-holder");
+      if (!fh) return;
+      var bh = document.getElementById("bc-back-holder");
       var status = document.getElementById("card-status");
+      var sel = document.getElementById("bc-quote-select");
+      var customBox = document.getElementById("bc-custom-box");
+      var customQ = document.getElementById("bc-custom-quote");
+      var customS = document.getElementById("bc-custom-source");
+      var zoomSel = document.getElementById("bc-zoom");
+      var decoInput = document.getElementById("bc-deco-image");
       var siteUrl = window.location.origin;
       var primary = (window.ISKCON && window.ISKCON.WHATSAPP_PRIMARY) || "";
-      var prettyPhone = primary ? "+" + primary.slice(0, 3) + " " + primary.slice(3, 6) + " " + primary.slice(6, 9) + " " + primary.slice(9) : "";
-      var PHONE_ICON = '<svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.4-1.7a11.9 11.9 0 0 0 5.6 1.4c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3z"/></svg>';
+      var data = {
+        address: "Anthusia Apartments, Muraya Access Road, Juja",
+        phone: primary ? "+" + primary.slice(0, 3) + " " + primary.slice(3, 6) + " " + primary.slice(6, 9) + " " + primary.slice(9) : "",
+        site: siteUrl.replace(/^https?:\/\//, ""),
+        socials: [], till: "", quotes: [], quote: "", source: "", deco: "", logoSvg: ""
+      };
+      function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+      var ICON = {
+        whatsapp: '<svg viewBox="0 0 24 24" width="9" height="9" fill="#25D366"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.4-1.7a11.9 11.9 0 0 0 5.6 1.4c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3z"/></svg>',
+        web: '<svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="#800020" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c3 3 3 17 0 20M12 2c-3 3-3 17 0 20"/></svg>',
+        pin: '<svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="#800020" stroke-width="2.4"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+        instagram: '<svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="#800020" stroke-width="2.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="#800020"/></svg>',
+        tiktok: '<svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="#800020" stroke-width="2.6" stroke-linecap="round"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 3 2.5 4.5 5 4.7"/></svg>',
+        youtube: '<svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="#800020" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="#800020"/></svg>',
+        facebook: '<svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="#800020" stroke-width="2.4"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg>'
+      };
+      function handleOf(url) { var m = String(url).replace(/[?#].*$/, "").replace(/\/+$/, "").split("/"); return m[m.length - 1] || ""; }
 
-      // Inline the logo as real SVG markup (not an <img> reference) so the
-      // image-export library can always capture it reliably — this is what
-      // fixed the logo not appearing in the downloaded file.
-      fetch("images/juja-logo.svg").then(function (r) { return r.text(); }).then(function (svgText) {
-        var holder = document.getElementById("card-logo-holder");
-        holder.innerHTML = svgText;
-        var svgEl = holder.querySelector("svg");
-        if (svgEl) { svgEl.setAttribute("height", "70"); svgEl.setAttribute("width", "auto"); }
-      });
-
-      document.getElementById("card-preview-address").textContent = "Anthusia Apartments, Muraya Access Road, Juja";
-      document.getElementById("card-preview-phone").innerHTML = PHONE_ICON + " <span>" + prettyPhone + "</span>";
-      document.getElementById("card-preview-url").textContent = siteUrl.replace(/^https?:\/\//, "");
-
-      client.from("site_settings").select("key,value").then(function (r) {
-        var donateEl = document.getElementById("card-preview-donate");
-        if (r.data) {
-          var till = r.data.find(function (row) { return row.key === "mpesa_till"; });
-          if (till && till.value) donateEl.textContent = "Donate via M-Pesa Till: " + till.value;
-        }
-        var qrHolder = document.getElementById("card-qr-holder");
-        qrHolder.innerHTML = "";
-        if (window.QRCode) new QRCode(qrHolder, { text: siteUrl, width: 95, height: 95, colorDark: "#800020", colorLight: "#ffffff" });
-      });
-
-      // Wait for every <img> inside an element to finish loading before we
-      // try to screenshot it — the classic cause of "images missing" from
-      // html2canvas output is capturing before the browser has actually
-      // finished loading them.
-      function waitForImages(el) {
-        var imgs = Array.from(el.querySelectorAll("img"));
-        return Promise.all(imgs.map(function (img) {
-          if (img.complete) return Promise.resolve();
-          return new Promise(function (resolve) { img.onload = img.onerror = resolve; });
-        }));
+      function qrInto(holder, size) {
+        holder.innerHTML = "";
+        if (window.QRCode) new QRCode(holder, { text: siteUrl, width: size, height: size, colorDark: "#800020", colorLight: "#ffffff" });
       }
 
-      function captureFace(el) {
-        return waitForImages(el).then(function () {
-          return html2canvas(el, { scale: 3, backgroundColor: "#ffffff", useCORS: true });
+      function frontFace() {
+        var d = document.createElement("div");
+        d.className = "bc-face bc-front";
+        var soc = data.socials.map(function (s) { return '<span class="bc-soc">' + ICON[s.kind] + esc(s.text) + "</span>"; }).join("");
+        d.innerHTML =
+          '<div class="bc-left">' +
+           '<p class="bc-title">ISKCON Founder-&#256;c&#257;rya<br>His Divine Grace A.C. Bhaktivedanta Swami Prabhup&#257;da</p>' +
+           '<p class="bc-mantra">Hare K&#7771;&#7779;&#7751;a Hare K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a Hare Hare<br>Hare R&#257;ma Hare R&#257;ma R&#257;ma R&#257;ma Hare Hare</p>' +
+           '<div class="bc-rule"></div>' +
+           '<div class="bc-contact"><div class="bc-lines">' +
+             '<p>' + ICON.pin + esc(data.address) + '</p>' +
+             (data.phone ? '<p><b>' + ICON.whatsapp + esc(data.phone) + '</b></p>' : "") +
+             '<p><b>' + ICON.web + esc(data.site) + '</b></p>' +
+             (data.till ? '<p>M-Pesa Till: <b>' + esc(data.till) + '</b></p>' : "") +
+             (soc ? '<p class="bc-socs">' + soc + '</p>' : "") +
+           '</div><div class="bc-qr"></div></div>' +
+          '</div>' +
+          '<div class="bc-right"><img class="bc-photo" src="images/prabhupada-sitting.webp" alt="">' +
+          '<div class="bc-logo">' + data.logoSvg + '</div></div>';
+        qrInto(d.querySelector(".bc-qr"), 44);
+        return d;
+      }
+
+      var DECO = {
+        lotus: '<svg viewBox="0 0 60 30" width="46" height="23" fill="none" stroke="#e8c85a" stroke-width="1.3"><path d="M30 28C24 22 24 10 30 3c6 7 6 19 0 25zM30 28C20 26 12 18 12 9c9 1 16 8 18 19zM30 28c10-2 18-10 18-19-9 1-16 8-18 19zM30 28C16 28 6 22 3 14c10-1 20 4 27 14zM30 28c14 0 24-6 27-14-10-1-20 4-27 14z"/></svg>',
+        mridanga: '<svg viewBox="0 0 80 28" width="62" height="22" fill="none" stroke="#e8c85a" stroke-width="1.3"><path d="M4 8c0-3 3-4 5-4h2l14 4c10 3 20 3 30 0l14-4h2c2 0 5 1 5 4v12c0 3-3 4-5 4h-2l-14-4c-10-3-20-3-30 0L11 24H9c-2 0-5-1-5-4z"/><ellipse cx="7" cy="14" rx="3" ry="8"/><ellipse cx="73" cy="14" rx="3" ry="8"/><path d="M26 7l4 14M36 9l3 10M44 9l-3 10M54 7l-4 14"/></svg>',
+        karatalas: '<svg viewBox="0 0 40 28" width="30" height="21" fill="none" stroke="#e8c85a" stroke-width="1.3"><circle cx="11" cy="17" r="8"/><circle cx="29" cy="17" r="8"/><circle cx="11" cy="17" r="2.5"/><circle cx="29" cy="17" r="2.5"/><path d="M11 9C13 3 27 3 29 9"/></svg>',
+        corner: '<svg viewBox="0 0 30 30" width="18" height="18" fill="none" stroke="#e8c85a" stroke-width="1.2"><path d="M2 28V10C2 5 5 2 10 2h18"/><path d="M8 28V14c0-3 3-6 6-6h14" opacity=".6"/><circle cx="4" cy="4" r="1.6" fill="#e8c85a" stroke="none"/></svg>'
+      };
+      function backFace() {
+        var d = document.createElement("div");
+        d.className = "bc-face bc-back";
+        var top = data.deco ? '<img class="bc-deco-img" src="' + esc(data.deco) + '" alt="">' : DECO.lotus;
+        d.innerHTML =
+          '<div class="bc-frame"></div>' +
+          '<span class="bc-c bc-c1">' + DECO.corner + '</span><span class="bc-c bc-c2">' + DECO.corner + '</span><span class="bc-c bc-c3">' + DECO.corner + '</span><span class="bc-c bc-c4">' + DECO.corner + '</span>' +
+          '<div class="bc-top">' + top + '</div>' +
+          '<div class="bc-quote"><p>&ldquo;' + esc(data.quote) + '&rdquo;</p>' + (data.source ? '<span>&mdash; ' + esc(data.source) + '</span>' : "") + '</div>' +
+          '<div class="bc-bottom"><span class="bc-kar">' + DECO.karatalas + '</span>' + DECO.mridanga + '<span class="bc-kar bc-flip">' + DECO.karatalas + '</span></div>';
+        return d;
+      }
+
+      function fitQuote(root) {
+        var q = root.querySelector(".bc-quote p"); if (!q) return;
+        var len = q.textContent.length;
+        q.style.fontSize = len > 110 ? "9.5px" : len > 80 ? "10.5px" : "12px";
+      }
+
+      function render() {
+        var z = parseFloat(zoomSel.value) || 1;
+        fh.innerHTML = ""; bh.innerHTML = "";
+        var f = frontFace(), b = backFace(); fitQuote(b);
+        [f, b].forEach(function (x) { x.style.zoom = z; });
+        fh.appendChild(f); bh.appendChild(b);
+      }
+
+      function currentQuote() {
+        if (sel.value === "__custom") { data.quote = customQ.value.trim() || "Your quote here"; data.source = customS.value.trim(); }
+        else { var q = data.quotes[parseInt(sel.value, 10)]; data.quote = q ? q.quote_text : ""; data.source = q ? q.source : ""; }
+      }
+      function refresh() { customBox.hidden = sel.value !== "__custom"; currentQuote(); render(); }
+      sel.addEventListener("change", refresh);
+      [customQ, customS].forEach(function (x) { x.addEventListener("input", refresh); });
+      zoomSel.addEventListener("change", render);
+      decoInput.addEventListener("change", function () {
+        var file = decoInput.files[0];
+        if (!file) { data.deco = ""; refresh(); return; }
+        var rd = new FileReader();
+        rd.onload = function () { data.deco = rd.result; refresh(); };
+        rd.readAsDataURL(file);
+      });
+
+      // ---- load site data ----
+      Promise.all([
+        fetch("images/juja-logo.svg").then(function (r) { return r.text(); }).catch(function () { return ""; }),
+        client.from("site_settings").select("key,value"),
+        client.from("quotes").select("quote_text,source").order("created_at", { ascending: true })
+      ]).then(function (res) {
+        data.logoSvg = (res[0] || "").replace(/<svg /, '<svg height="100%" ');
+        var set = {}; (res[1].data || []).forEach(function (r) { set[r.key] = r.value; });
+        data.till = set.mpesa_till || "";
+        [["instagram_url", "instagram"], ["tiktok_url", "tiktok"], ["youtube_url", "youtube"], ["facebook_url", "facebook"]].forEach(function (p) {
+          if (set[p[0]]) data.socials.push({ kind: p[1], text: handleOf(set[p[0]]) });
         });
-      }
-
-      document.getElementById("card-download-img-btn").addEventListener("click", function () {
-        if (!window.html2canvas) { status.textContent = "Image export library did not load — check your internet connection."; return; }
-        status.textContent = "Generating images...";
-        Promise.all([
-          captureFace(document.getElementById("business-card-front")),
-          captureFace(document.getElementById("business-card-back"))
-        ]).then(function (canvases) {
-          ["front", "back"].forEach(function (side, i) {
-            var link = document.createElement("a");
-            link.download = "iskcon-juja-card-" + side + ".png";
-            link.href = canvases[i].toDataURL("image/png");
-            link.click();
-          });
-          status.textContent = "Downloaded both sides.";
-        }).catch(function (err) { status.textContent = "Could not generate image: " + err.message; });
+        data.quotes = (res[2].data || []).filter(function (q) { return q.quote_text && q.quote_text.length <= 160; });
+        var pref = data.quotes.findIndex(function (q) { return /simple living and high thinking/i.test(q.quote_text); });
+        sel.innerHTML = data.quotes.map(function (q, i) { return '<option value="' + i + '">' + esc(q.quote_text.length > 70 ? q.quote_text.slice(0, 70) + "…" : q.quote_text) + "</option>"; }).join("") +
+          '<option value="__custom">Write my own quote…</option>';
+        if (pref >= 0) sel.value = String(pref);
+        if (!data.quotes.length) sel.value = "__custom";
+        refresh();
       });
 
-      document.getElementById("card-download-pdf-btn").addEventListener("click", function () {
-        if (!window.html2canvas || !window.jspdf) { status.textContent = "Export library did not load — check your internet connection."; return; }
-        status.textContent = "Generating print PDF...";
-        Promise.all([
-          captureFace(document.getElementById("business-card-front")),
-          captureFace(document.getElementById("business-card-back"))
-        ]).then(function (canvases) {
-          var jsPDF = window.jspdf.jsPDF;
-          var doc = new jsPDF({ unit: "mm", format: "a4" });
-          var cardW = 85.6, cardH = 54, gap = 4;
-          var marginX = (210 - (cardW * 2 + gap)) / 2;
-          var marginY = 15;
-          [canvases[0], canvases[1]].forEach(function (canvas, pageIdx) {
-            if (pageIdx > 0) doc.addPage();
-            var img = canvas.toDataURL("image/png");
-            var cols = 2, rows = 4;
-            for (var row = 0; row < rows; row++) {
-              for (var col = 0; col < cols; col++) {
-                var x = marginX + col * (cardW + gap);
-                var y = marginY + row * (cardH + gap);
-                doc.addImage(img, "PNG", x, y, cardW, cardH);
-              }
-            }
-          });
-          doc.save("iskcon-juja-business-cards-print.pdf");
-          status.textContent = "Downloaded print-ready PDF — page 1 is the front, page 2 is the back, same grid positions. Print both pages, then cut.";
-        }).catch(function (err) { status.textContent = "Could not generate PDF: " + err.message; });
+      // ---- print: 2 pages, A4, 2 x 5 cards, 2 mm gap ----
+      document.getElementById("bc-print-btn").addEventListener("click", function () {
+        var root = document.getElementById("card-print-root");
+        if (root) root.remove();
+        root = document.createElement("div"); root.id = "card-print-root";
+        [frontFace, backFace].forEach(function (make) {
+          var sheet = document.createElement("div"); sheet.className = "bc-sheet";
+          for (var i = 0; i < 10; i++) { var f = make(); if (make === backFace) fitQuote(f); sheet.appendChild(f); }
+          root.appendChild(sheet);
+        });
+        document.body.appendChild(root);
+        document.body.classList.add("card-printing");
+        function done() { document.body.classList.remove("card-printing"); window.removeEventListener("afterprint", done); }
+        window.addEventListener("afterprint", done);
+        setTimeout(function () { window.print(); }, 250);
+      });
+
+      // ---- PNG export (each side at high resolution) ----
+      document.getElementById("bc-png-btn").addEventListener("click", function () {
+        if (!window.html2canvas) { status.textContent = "The picture-export library did not load. Check your internet connection."; return; }
+        status.textContent = "Making pictures...";
+        var jobs = [frontFace(), backFace()];
+        var stage = document.createElement("div"); stage.style.cssText = "position:fixed;left:-9999px;top:0;";
+        jobs.forEach(function (f) { stage.appendChild(f); }); document.body.appendChild(stage); fitQuote(jobs[1]);
+        var imgs = Array.from(stage.querySelectorAll("img")).map(function (img) { return img.complete ? Promise.resolve() : new Promise(function (r) { img.onload = img.onerror = r; }); });
+        Promise.all(imgs).then(function () {
+          return Promise.all(jobs.map(function (f) { return html2canvas(f, { scale: 6, backgroundColor: null, useCORS: true }); }));
+        }).then(function (cv) {
+          ["front", "back"].forEach(function (side, i) { var a = document.createElement("a"); a.download = "iskcon-juja-card-" + side + ".png"; a.href = cv[i].toDataURL("image/png"); a.click(); });
+          status.textContent = "Downloaded both sides.";
+        }).catch(function (e) { status.textContent = "Could not make the pictures: " + e.message; }).then(function () { stage.remove(); });
       });
     })();
   });

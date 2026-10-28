@@ -13,26 +13,28 @@
    gap: 0;
    max-width: 1400px;
    margin: 0 auto;
-   min-height: 85vh;
    border-top: 1px solid var(--line);
   }
   .learn-sidebar {
-   width: 240px;
+   width: 260px;
    flex-shrink: 0;
-   border-right: 1px solid var(--line);
-   padding: 16px 10px;
+   background: linear-gradient(180deg, #5a0016 0%, #3d000f 100%);
+   color: #fbeede;
+   padding: 14px 10px 18px;
    max-height: calc(100vh - var(--nav-h, 54px) - 12px);
    overflow-y: auto;
    position: sticky;
    top: var(--nav-h, 54px);
   }
+  .learn-layout.collapsed .learn-sidebar { display: none; }
   .learn-sidebar h3 {
    font-size: 12px;
    text-transform: uppercase;
-   letter-spacing: 0.06em;
-   color: var(--muted);
-   padding: 6px 10px;
-   margin: 10px 0 4px;
+   letter-spacing: 0.1em;
+   color: #e8c85a;
+   padding: 8px 10px 6px;
+   margin: 12px 0 4px;
+   border-bottom: 1px solid rgba(232, 200, 90, 0.28);
   }
   .learn-sidebar button {
    display: block;
@@ -40,14 +42,20 @@
    text-align: left;
    background: none;
    border: none;
-   padding: 8px 10px;
-   font-size: 13px;
-   border-radius: 6px;
+   padding: 9px 10px;
+   font-size: 13.5px;
+   line-height: 1.35;
+   border-radius: 8px;
    cursor: pointer;
-   color: var(--body-text);
+   color: #fbeede;
   }
-  .learn-sidebar button:hover { background: var(--gold-soft); }
-  .learn-sidebar button.active { background: var(--maroon); color: #fff; }
+  .learn-sidebar button:hover { background: rgba(255, 255, 255, 0.1); }
+  .learn-sidebar button.active { background: #e8c85a; color: #3d000f; font-weight: 700; }
+  .learn-toolbar { display: flex; gap: 8px; align-items: stretch; margin-bottom: 14px; }
+  .learn-toolbar .learn-search { margin: 0; flex: 1; }
+  .books-toggle { white-space: nowrap; border: 1px solid var(--maroon); background: var(--card); color: var(--maroon); border-radius: 8px; padding: 0 14px; font: inherit; font-weight: 700; cursor: pointer; }
+  .books-toggle:hover { background: var(--gold-soft); }
+  .reader-heading { padding: 26px 16px 8px; text-align: center; }
   .learn-main {
    flex: 1;
    min-width: 0;
@@ -68,8 +76,8 @@
    font: inherit;
   }
   .learn-reader-wrap {
-   flex: 1;
-   min-height: 70vh;
+   flex: none;
+   height: max(560px, calc(100vh - 140px));
    border: 1px solid var(--line);
    border-radius: 8px;
    overflow: hidden;
@@ -77,9 +85,9 @@
   .learn-reader-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
   @media (max-width: 860px) {
    .learn-layout { flex-direction: column; }
-   .learn-sidebar { width: 100%; max-height: 220px; position: static; border-right: none; border-bottom: 1px solid var(--line); }
+   .learn-sidebar { width: 100%; max-height: 260px; position: static; }
    .learn-main { padding: 16px; }
-   .learn-reader-wrap { min-height: 60vh; }
+   .learn-reader-wrap { height: max(480px, calc(100vh - 130px)); }
   }
  </style>
 </head>
@@ -155,19 +163,55 @@
   <div class="section-inner" style="padding:28px 16px 10px;text-align:center;">
    <div class="eyebrow">Learn</div>
    <h1 style="margin:4px 0 6px;">Read &amp; Study</h1>
-   <p style="color:var(--muted);">Pick a book from the list, search across everything, or browse our public courses below.</p>
+   <p style="color:var(--muted);">Take a course at your own pace, then read the books online further down the page.</p>
   </div>
 
-  <div class="learn-layout">
-   <aside class="learn-sidebar" aria-label="Book list">
+  <!-- KARTIK READING PLAN (added) -->
+  <div class="section-inner" style="padding:0 16px 22px;">
+   <div class="card" style="max-width:720px;margin:0 auto;text-align:center;">
+    <div class="eyebrow">Kartik 2026 &middot; 26 Oct to 24 Nov</div>
+    <h2 style="margin:4px 0 8px;">Nectar of Instruction Reading Plan</h2>
+    <p style="color:var(--muted);">One short reading a day, with questions and a daily song. Join us at the centre on Tuesdays and Fridays at 7:00 PM, or read on your own.</p>
+    <p style="margin-top:14px;"><a class="button" href="nectar/">Open the Reading Plan</a></p>
+   </div>
+  </div>
+
+  <!-- PUBLIC COURSES -->
+  <section class="section section-alt">
+   <div class="section-inner">
+    <div class="section-header-center" style="margin-bottom:20px;">
+     <div class="eyebrow">Public Courses</div>
+     <h2>Open Courses</h2>
+     <p>Free and self-paced: start any time and learn at your own speed. <a href="course.html" style="text-decoration:underline;">See all courses</a></p>
+    </div>
+    <div id="public-courses-list" data-public-courses-list style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+     <div class="empty-state" style="grid-column:1/-1;">
+      <h3>No public courses are open right now</h3>
+      <p>Public courses will appear here once an admin publishes one.</p>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <div class="reader-heading" id="read-books">
+   <div class="eyebrow">Read Online</div>
+   <h2 style="margin:4px 0 6px;">Books &amp; Vedabase</h2>
+   <p style="color:var(--muted);">Pick a book from the list, or search across everything.</p>
+  </div>
+
+  <div class="learn-layout" id="learn-layout">
+   <aside class="learn-sidebar" id="book-list" aria-label="Book list">
     <div id="vedabase-picker"></div>
    </aside>
 
    <div class="learn-main">
-    <form class="learn-search" id="vedabase-search-form">
-     <input type="search" id="vedabase-search-input" placeholder="Search the full Vedabase collection..." aria-label="Search Vedabase">
-     <button class="button" type="submit" style="white-space:nowrap;">Search</button>
-    </form>
+    <div class="learn-toolbar">
+     <button type="button" class="books-toggle" id="books-toggle" aria-expanded="true" aria-controls="book-list">&#9776; Books</button>
+     <form class="learn-search" id="vedabase-search-form">
+      <input type="search" id="vedabase-search-input" placeholder="Search the full Vedabase collection..." aria-label="Search Vedabase">
+      <button class="button" type="submit" style="white-space:nowrap;">Search</button>
+     </form>
+    </div>
     <div class="learn-reader-wrap">
      <iframe id="vedabase-reader" title="Vedabase reader" src="https://vedabase.io/en/library/bg/" loading="lazy"></iframe>
     </div>
@@ -182,22 +226,7 @@
    </div>
   </div>
 
-  <!-- PUBLIC COURSES -->
-  <section class="section section-alt">
-   <div class="section-inner">
-    <div class="section-header-center" style="margin-bottom:20px;">
-     <div class="eyebrow">Public Courses</div>
-     <h2>Open Courses</h2>
-     <p>Anyone can take these. Members get access to our full course library (including these) from their dashboard.</p>
-    </div>
-    <div id="public-courses-list" data-public-courses-list style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
-     <div class="empty-state" style="grid-column:1/-1;">
-      <h3>No public courses are open right now</h3>
-      <p>Public courses will appear here once an admin publishes one.</p>
-     </div>
-    </div>
-   </div>
-  </section>
+
 
  </main>
  <footer class="footer">
@@ -290,6 +319,28 @@
   EXTRAS.forEach(function (e) { addBtn(e[0], e[1]); });
   picker.querySelector("button").classList.add("active");
 
+  // Collapsible book list (remembers the choice; starts closed on phones so the reader gets the space)
+  var layout = document.getElementById("learn-layout");
+  var toggle = document.getElementById("books-toggle");
+  var saved = null;
+  try { saved = localStorage.getItem("learn-books-collapsed"); } catch (e) {}
+  var collapsed = saved === null ? window.innerWidth <= 860 : saved === "1";
+  function applyCollapsed() {
+   layout.classList.toggle("collapsed", collapsed);
+   toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+   toggle.innerHTML = collapsed ? "&#9776; Books" : "&times; Hide books";
+  }
+  toggle.addEventListener("click", function () {
+   collapsed = !collapsed;
+   try { localStorage.setItem("learn-books-collapsed", collapsed ? "1" : "0"); } catch (e) {}
+   applyCollapsed();
+  });
+  applyCollapsed();
+  // picking a book on a phone closes the list so the reader is visible
+  picker.addEventListener("click", function (e) {
+   if (e.target.tagName === "BUTTON" && window.innerWidth <= 860) { collapsed = true; applyCollapsed(); document.getElementById("vedabase-reader").scrollIntoView({ behavior: "smooth", block: "start" }); }
+  });
+
   // Slim search box: we cannot embed only Vedabase's search *widget* (an
   // iframe always shows a whole page, never a page fragment) and we also
   // could not confirm Vedabase's exact search query-parameter format from
@@ -314,14 +365,27 @@
      var box = document.querySelector("[data-public-courses-list]");
      if (r.error || !r.data || !r.data.length || !box) return;
      function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
-     box.innerHTML = r.data.map(function (c) {
-      return '<article class="card highlight" style="padding:22px;">' +
-       '<h3>' + esc(c.title) + '</h3>' +
-       (c.description ? '<p style="margin-top:8px;">' + esc(c.description) + '</p>' : '') +
-       (c.schedule ? '<p style="margin-top:8px;font-size:13px;"><strong>Schedule:</strong> ' + esc(c.schedule) + '</p>' : '') +
-       (c.how_to_join ? '<p style="margin-top:12px;"><a class="button secondary" href="#" data-whatsapp="Hi ISKCON JUJA! I would like to join: ' + esc(c.title) + '">' + esc(c.how_to_join) + '</a></p>' : '') +
-       '</article>';
-     }).join("");
+     function draw(withModules) {
+      box.innerHTML = r.data.map(function (c) {
+       var opens = withModules[c.id];
+       return '<article class="card highlight" style="padding:22px;">' +
+        '<h3>' + esc(c.title) + '</h3>' +
+        (c.subtitle ? '<p style="margin-top:4px;color:var(--muted);">' + esc(c.subtitle) + '</p>' : '') +
+        (c.description ? '<p style="margin-top:8px;">' + esc(c.description.length > 220 ? c.description.slice(0, 220) + "..." : c.description) + '</p>' : '') +
+        (c.estimated_minutes ? '<p style="margin-top:8px;font-size:13px;color:var(--muted);">About ' + c.estimated_minutes + ' min &middot; at your own pace</p>' : '') +
+        (c.schedule ? '<p style="margin-top:8px;font-size:13px;"><strong>Schedule:</strong> ' + esc(c.schedule) + '</p>' : '') +
+        (opens ? '<p style="margin-top:14px;"><a class="button" href="course.html#/c/' + esc(c.id) + '">Open course</a></p>'
+         : (c.how_to_join ? '<p style="margin-top:12px;"><a class="button secondary" href="#" data-whatsapp="Hi ISKCON JUJA! I would like to join: ' + esc(c.title) + '">' + esc(c.how_to_join) + '</a></p>' : '')) +
+        '</article>';
+      }).join("");
+     }
+     draw({});
+     window.ISKCON_DATA.client.from("course_modules").select("course_id").in("course_id", r.data.map(function (c) { return c.id; }))
+      .then(function (m) {
+       var has = {}; (m.data || []).forEach(function (x) { has[x.course_id] = true; });
+       draw(has);
+       document.dispatchEvent(new CustomEvent("iskcon:rerender-whatsapp"));
+      });
      document.dispatchEvent(new CustomEvent("iskcon:rerender-whatsapp"));
     });
   }

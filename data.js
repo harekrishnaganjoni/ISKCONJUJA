@@ -161,6 +161,25 @@
     if (!READY) return Promise.reject(new Error("Backend not configured yet."));
     return client.auth.signInWithPassword({ email: email, password: password });
   }
+  // Continue with Google (no password, no email sent). New people arrive as "pending" until an admin approves them.
+  function signInWithGoogle(next) {
+    if (!READY) return Promise.reject(new Error("Backend not configured yet."));
+    return client.auth.signInWithOAuth({ provider: "google", options: { redirectTo: window.location.origin + "/" + (next || "dashboard.html") } });
+  }
+  // Forgot password: sends a link by email. Works only once custom email (SMTP) is set up in Supabase.
+  function requestPasswordReset(email) {
+    if (!READY) return Promise.reject(new Error("Backend not configured yet."));
+    return client.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + "/devotees.html" });
+  }
+  function setNewPassword(password) {
+    if (!READY) return Promise.reject(new Error("Backend not configured yet."));
+    return client.auth.updateUser({ password: password });
+  }
+  // Calls back when the person arrives from a reset-password email link.
+  function onPasswordRecovery(cb) {
+    if (!READY) return;
+    client.auth.onAuthStateChange(function (event) { if (event === "PASSWORD_RECOVERY") cb(); });
+  }
   function signOut() {
     if (!READY) return Promise.resolve();
     return client.auth.signOut();
@@ -474,6 +493,7 @@
 
   window.ISKCON_DATA = {
     READY: READY, client: client,
-    signIn: signIn, signOut: signOut, getSessionAndRole: getSessionAndRole
+    signIn: signIn, signOut: signOut, getSessionAndRole: getSessionAndRole,
+    signInWithGoogle: signInWithGoogle, requestPasswordReset: requestPasswordReset, setNewPassword: setNewPassword, onPasswordRecovery: onPasswordRecovery
   };
 })();

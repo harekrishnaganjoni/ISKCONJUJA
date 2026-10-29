@@ -50,7 +50,7 @@
     var settingsForm = document.getElementById("settings-form");
     var settingsStatus = document.getElementById("settings-status");
     var TEXT_KEYS = ["mpesa_till", "pesapal_donate_url", "whatsapp_group_invite", "facebook_url", "instagram_url", "youtube_url", "tiktok_url", "address_short"];
-    var BOOL_KEYS = ["store_enabled", "articles_enabled", "special_events_enabled"];
+    var BOOL_KEYS = ["store_enabled", "articles_enabled", "special_events_enabled", "google_signin_enabled", "forgot_password_enabled"];
 
     client.from("site_settings").select("key,value").then(function (r) {
       if (r.error || !r.data) return;

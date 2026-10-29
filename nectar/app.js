@@ -1,4 +1,40 @@
 (function () {
+  /* ---------- moving to the new web address (iskconjuja.co.ke) ----------
+     Phone storage belongs to one web address, so when the plan moved from the old
+     address, everything saved on the phone (sign-up, days done, notes) has to be carried across.
+     OLD address: shows a banner with a button that opens the new address with the saved data attached.
+     NEW address: picks that data up once, then removes it from the address bar. */
+  var NEW_HOME = "https://iskconjuja.co.ke";
+  function nectarKeys() {
+    var out = {};
+    try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (/^nectar-/.test(k)) out[k] = localStorage.getItem(k); } } catch (e) {}
+    return out;
+  }
+  try {
+    var mv = /[#&]move=([^&]+)/.exec(location.hash);
+    if (mv) {
+      var carried = JSON.parse(decodeURIComponent(mv[1]));
+      Object.keys(carried).forEach(function (k) {
+        if (/^nectar-/.test(k) && typeof carried[k] === "string" && localStorage.getItem(k) === null) localStorage.setItem(k, carried[k]);
+      });
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  } catch (e) {}
+  if (/\.netlify\.app$/i.test(location.hostname)) {
+    document.addEventListener("DOMContentLoaded", function () {
+      var bar = document.createElement("div");
+      bar.setAttribute("role", "region"); bar.setAttribute("aria-label", "New web address");
+      bar.style.cssText = "position:sticky;top:0;z-index:50;background:#fff3cd;color:#3d2b00;border-bottom:2px solid #d4ac0d;padding:12px 14px;text-align:center;font:600 15px/1.4 system-ui,sans-serif;";
+      bar.innerHTML = "<div>We have moved to a new web address: <b>iskconjuja.co.ke</b>. Your progress, notes and sign-up come with you.</div>";
+      var a = document.createElement("a");
+      a.textContent = "Continue at iskconjuja.co.ke";
+      a.href = NEW_HOME + "/nectar/";
+      a.style.cssText = "display:inline-block;margin-top:8px;padding:10px 18px;background:#800020;color:#fff;border-radius:8px;text-decoration:none;font-weight:700;";
+      a.addEventListener("click", function () { a.href = NEW_HOME + "/nectar/#move=" + encodeURIComponent(JSON.stringify(nectarKeys())); });
+      bar.appendChild(a);
+      document.body.insertBefore(bar, document.body.firstChild);
+    });
+  }
   var WD = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
   var MO = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   var KEY = "nectar-kartik-2026";

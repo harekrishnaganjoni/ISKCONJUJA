@@ -87,12 +87,12 @@
           
           <form class="form" id="signin-form" style="display: flex; flex-direction: column; gap: 12px;">
            <div>
-            <label style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">Email</label>
-            <input type="email" name="email" placeholder="you@example.com" required style="width: 100%; padding: 10px; border: 1px solid var(--muted); border-radius: 4px;">
+            <label for="login-email" style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">Email</label>
+            <input type="email" name="email" id="login-email" autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false" placeholder="you@example.com" required style="width: 100%; padding: 10px; border: 1px solid var(--muted); border-radius: 4px;">
            </div>
            <div>
-            <label style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">Password</label>
-            <input type="password" name="password" placeholder="••••••••" required style="width: 100%; padding: 10px; border: 1px solid var(--muted); border-radius: 4px;">
+            <label for="login-password" style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">Password</label>
+            <input type="password" name="password" id="login-password" autocomplete="current-password" placeholder="••••••••" required style="width: 100%; padding: 10px; border: 1px solid var(--muted); border-radius: 4px;">
            </div>
            <button class="button" type="submit" style="width: 100%; margin-top: 16px; font-weight: bold;">Sign In</button>
            <p id="signin-status" role="status" style="font-size: 13px; margin-top: 4px;"></p>

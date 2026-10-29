@@ -87,15 +87,37 @@
           
           <form class="form" id="signin-form" style="display: flex; flex-direction: column; gap: 12px;">
            <div>
-            <label style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">Email</label>
-            <input type="email" name="email" placeholder="you@example.com" required style="width: 100%; padding: 10px; border: 1px solid var(--muted); border-radius: 4px;">
+            <label for="login-email" style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">Email</label>
+            <input type="email" name="email" id="login-email" autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false" placeholder="you@example.com" required style="width: 100%; padding: 10px; border: 1px solid var(--muted); border-radius: 4px;">
            </div>
            <div>
-            <label style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">Password</label>
-            <input type="password" name="password" placeholder="••••••••" required style="width: 100%; padding: 10px; border: 1px solid var(--muted); border-radius: 4px;">
+            <label for="login-password" style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">Password</label>
+            <div style="position:relative;"><input type="password" name="password" id="login-password" autocomplete="current-password" placeholder="••••••••" required style="width: 100%; padding: 10px; border: 1px solid var(--muted); border-radius: 4px;"><button type="button" id="show-password" aria-label="Show password" aria-pressed="false" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--maroon,#800020);font-weight:700;font-size:12px;cursor:pointer;padding:6px 8px;">Show</button></div>
            </div>
            <button class="button" type="submit" style="width: 100%; margin-top: 16px; font-weight: bold;">Sign In</button>
            <p id="signin-status" role="status" style="font-size: 13px; margin-top: 4px;"></p>
+          </form>
+
+          <p style="text-align:center;margin-top:10px;" data-show-if="forgot_password_enabled" hidden><a href="#" id="forgot-link" style="font-size:13px;font-weight:700;color:var(--maroon,#800020);text-decoration:underline;">Forgot your password?</a></p>
+
+          <div data-show-if="google_signin_enabled" hidden style="margin-top:16px;">
+           <p style="text-align:center;font-size:12px;color:var(--muted);margin:0 0 10px;">or</p>
+           <button class="button secondary" type="button" id="google-btn" style="width:100%;font-weight:bold;">Continue with Google</button>
+           <p style="font-size:12px;color:var(--muted);margin:8px 0 0;text-align:center;">We only receive your name and email from Google. No password is stored by us.</p>
+          </div>
+
+          <form id="forgot-form" hidden style="display:none;flex-direction:column;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);">
+           <label for="forgot-email" style="font-size:12px;font-weight:bold;">Your email</label>
+           <input type="email" id="forgot-email" name="email" autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false" required style="width:100%;padding:10px;border:1px solid var(--muted);border-radius:4px;">
+           <button class="button" type="submit">Send me a reset link</button>
+           <p id="forgot-status" role="status" style="font-size:13px;margin:0;"></p>
+          </form>
+
+          <form id="newpass-form" hidden style="display:none;flex-direction:column;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);">
+           <p style="margin:0;font-weight:700;">Choose a new password</p>
+           <input type="password" name="password" autocomplete="new-password" minlength="8" placeholder="New password (at least 8 characters)" required style="width:100%;padding:10px;border:1px solid var(--muted);border-radius:4px;">
+           <button class="button" type="submit">Save new password</button>
+           <p id="newpass-status" role="status" style="font-size:13px;margin:0;"></p>
           </form>
       
           <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--muted);">
@@ -126,6 +148,57 @@
           signinStatus.style.color = "#b33a2e";
           return;
         }
+
+        // show / hide password
+        var showBtn = document.getElementById("show-password"), pw = document.getElementById("login-password");
+        showBtn.addEventListener("click", function () {
+          var show = pw.type === "password";
+          pw.type = show ? "text" : "password";
+          showBtn.textContent = show ? "Hide" : "Show";
+          showBtn.setAttribute("aria-pressed", show ? "true" : "false");
+          showBtn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+        });
+
+        // Continue with Google
+        document.getElementById("google-btn").addEventListener("click", function () {
+          signinStatus.style.color = "var(--muted)"; signinStatus.textContent = "Opening Google...";
+          window.ISKCON_DATA.signInWithGoogle().then(function (r) {
+            if (r && r.error) { signinStatus.style.color = "#b33a2e"; signinStatus.textContent = "Google sign-in is not available right now."; }
+          });
+        });
+
+        // Forgot password (the link only shows when the admin has switched it on)
+        var forgotForm = document.getElementById("forgot-form"), forgotStatus = document.getElementById("forgot-status");
+        document.getElementById("forgot-link").addEventListener("click", function (e) {
+          e.preventDefault();
+          forgotForm.hidden = false; forgotForm.style.display = "flex";
+          var typed = document.getElementById("login-email").value; if (typed) document.getElementById("forgot-email").value = typed;
+          document.getElementById("forgot-email").focus();
+        });
+        forgotForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          forgotStatus.style.color = "var(--muted)"; forgotStatus.textContent = "Sending...";
+          window.ISKCON_DATA.requestPasswordReset(document.getElementById("forgot-email").value.trim()).then(function (r) {
+            if (r.error && /rate|limit|too many/i.test(r.error.message)) { forgotStatus.style.color = "#b33a2e"; forgotStatus.textContent = "Please wait a little and try again."; return; }
+            // same message whether or not the email has an account, so nobody can probe who is a member
+            forgotStatus.style.color = "var(--muted)"; forgotStatus.textContent = "If that email belongs to an account, a reset link is on its way. Check your inbox and spam folder.";
+          });
+        });
+
+        // Arriving from the reset email: choose a new password
+        var newForm = document.getElementById("newpass-form"), newStatus = document.getElementById("newpass-status");
+        window.ISKCON_DATA.onPasswordRecovery(function () {
+          document.getElementById("signin-form").style.display = "none";
+          newForm.hidden = false; newForm.style.display = "flex";
+        });
+        newForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          newStatus.style.color = "var(--muted)"; newStatus.textContent = "Saving...";
+          window.ISKCON_DATA.setNewPassword(new FormData(newForm).get("password")).then(function (r) {
+            if (r.error) { newStatus.style.color = "#b33a2e"; newStatus.textContent = r.error.message; return; }
+            window.location.href = "dashboard.html";
+          });
+        });
 
         signinForm.addEventListener("submit", function (e) {
           e.preventDefault();

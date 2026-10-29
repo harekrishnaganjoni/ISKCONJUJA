@@ -1,0 +1,11 @@
+iskcon-juja-project
+supabase
+netlify
+docs
+.github
+README.md
+schema.sql
+index.ts
+*.sql
+*.md
+.assetsignore

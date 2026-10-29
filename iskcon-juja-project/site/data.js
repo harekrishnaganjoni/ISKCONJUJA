@@ -45,6 +45,7 @@
       var v = settings[el.getAttribute("data-setting-text")];
       if (v) el.textContent = v;
     });
+    document.dispatchEvent(new CustomEvent("iskcon:settings"));
   }
 
   // ---------- ARTICLES (homepage) ----------
@@ -77,6 +78,7 @@
         box.innerHTML = '<div class="card-grid-3">' + r.data.map(function (e) {
           var when = escapeHtml(e.start_date) + (e.end_date ? " &ndash; " + escapeHtml(e.end_date) : "");
           return '<article class="card">' +
+            (e.image_url ? '<img src="' + escapeHtml(e.image_url) + '" alt="' + escapeHtml(e.title) + '" loading="lazy" style="width:100%;max-height:240px;object-fit:cover;border-radius:10px;margin-bottom:12px;display:block;">' : '') +
             '<div class="eyebrow">' + when + '</div>' +
             '<h3>' + escapeHtml(e.title) + '</h3>' +
             (e.speakers ? '<p><strong>With:</strong> ' + escapeHtml(e.speakers) + '</p>' : '') +
@@ -108,11 +110,13 @@
             ? '<div id="' + synopsisId + '" hidden style="margin-top:8px;font-size:14px;color:var(--muted);">' + escapeHtml(p.synopsis) + '</div>' +
               '<button type="button" class="read-more-toggle" data-toggle-target="' + synopsisId + '" style="background:none;border:none;color:var(--maroon);font-weight:700;cursor:pointer;padding:0;text-decoration:underline;font-size:13px;margin-top:6px;">Read Synopsis</button>'
             : '';
-          return '<article class="card highlight" style="padding:20px;display:flex;flex-direction:column;justify-content:space-between;">' +
+          return '<article class="card highlight" data-category="' + escapeHtml(p.category || "") + '" style="padding:20px;display:flex;flex-direction:column;justify-content:space-between;">' +
             '<div>' + photo + '<div class="eyebrow">' + escapeHtml(p.category) + '</div><h3>' + escapeHtml(p.name) + '</h3>' +
             '<p>' + escapeHtml(p.description || "") + '</p>' + synopsis + '</div>' +
             '<div style="margin-top:16px;">' + action + '</div></article>';
         }).join("");
+        var storeFilters = document.querySelector("[data-store-filters]");
+        if (storeFilters) storeFilters.hidden = false; // the search only appears once there are products to search
         document.dispatchEvent(new CustomEvent("iskcon:rerender-whatsapp"));
         // re-wire the new "Read Synopsis" toggle buttons (site.js wires these on page load,
         // but these cards are added after that, so wire them here too)

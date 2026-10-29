@@ -1,0 +1,16 @@
+# Keeps the free Supabase database awake (it pauses after a week of no use).
+name: Supabase keep-alive
+on:
+  schedule:
+    - cron: "17 5 * * *"   # every day, 08:17 Nairobi time
+  workflow_dispatch: {}
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ask Supabase for one row
+        run: |
+          curl -fsS "https://zwvgfhgxegxchwlpelbk.supabase.co/rest/v1/events?select=id&limit=1" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY"
+        env:
+          KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3dmdmaGd4ZWd4Y2h3bHBlbGJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2NzE0NDYsImV4cCI6MjEwNjI0NzQ0Nn0.097vrqgSiOSMezVl9xpGtJN8zwpWEQKSSJR9Vzb8r3E

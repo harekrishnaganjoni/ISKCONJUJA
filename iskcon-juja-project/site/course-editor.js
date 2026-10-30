@@ -124,7 +124,7 @@
     // ---------- course list ----------
     function viewList() {
       page("Course editor", '<a href="admin.html">← Admin panel</a>');
-      var bar = el("div", "ce-row"); bar.appendChild(link("Questions and reviews", "#/inbox", "alt")); bar.appendChild(link("Import a course (JSON)", "#/import", "alt")); root.appendChild(bar);
+      var bar = el("div", "ce-row"); bar.appendChild(link("Import a course from a file", "#/import")); bar.appendChild(link("Questions and reviews", "#/inbox", "alt")); root.appendChild(bar);
       var nf = el("div", "ce-card"); nf.appendChild(el("h3", "", "New course"));
       var inp = el("input", "ce-in"); inp.placeholder = "Course title"; nf.appendChild(inp);
       nf.appendChild(el("p", "ce-muted", "It starts hidden. You choose when it goes live."));
@@ -515,22 +515,25 @@
       });
     }
     function viewImport() {
-      page("Import a course", '<a href="#/">← All courses</a>');
+      page("Import a course from a file", '<a href="#/">← All courses</a>');
       var card = el("div", "ce-card");
-      card.appendChild(el("p", "ce-muted", "Paste a course file (JSON) or choose one. Everything is created HIDDEN, so you can look it over first. Quotes only show learners once they are marked verified."));
-      var file = el("input"); file.type = "file"; file.accept = ".json,application/json"; card.appendChild(file);
-      var ta = el("textarea", "ce-in ce-code"); ta.placeholder = IMPORT_HELP; card.appendChild(ta);
-      file.addEventListener("change", function () { var f = file.files[0]; if (!f) return; var r = new FileReader(); r.onload = function () { ta.value = r.result; }; r.readAsText(f); });
-      var status = el("p", "ce-muted"); var go = btn("Check the file", "", function () {
-        var plan; try { plan = JSON.parse(ta.value); validatePlan(plan); } catch (e) { return fail(e); }
+      card.appendChild(el("p", "", "<strong>Step 1.</strong> Choose the course file (it ends in <code>.json</code>). Everything in it fills in by itself: the course details, modules, lessons and quizzes. Nothing goes live until you say so."));
+      var lab = el("label", "ce-btn", "Choose the course file"); var file = el("input"); file.type = "file"; file.accept = ".json,application/json"; file.style.display = "none"; lab.appendChild(file); card.appendChild(lab);
+      var status = el("div", "ce-muted"); status.style.marginTop = "14px"; card.appendChild(status);
+      var det = el("details"); det.style.marginTop = "16px"; det.appendChild(el("summary", "ce-muted", "Or paste the file's text instead"));
+      var ta = el("textarea", "ce-in ce-code"); ta.placeholder = IMPORT_HELP; det.appendChild(ta);
+      var chk = btn("Check pasted text", "alt small", function () { check(ta.value); }); det.appendChild(chk); card.appendChild(det);
+      root.appendChild(card);
+      function check(text) {
+        var plan; try { plan = JSON.parse(text); validatePlan(plan); } catch (e) { status.textContent = ""; return fail(e); }
         var n = countPlan(plan);
-        status.innerHTML = "This will create the course <strong>" + esc(plan.course.title) + "</strong> with " + n.modules + " modules, " + n.lessons + " lessons, " + n.blocks + " blocks (" + n.quotes + " quotes, " + n.unverified + " not verified), " + n.quizzes + " quizzes and " + n.questions + " questions. All hidden.";
-        var confirmBtn = btn("Create it now", "", function (b) {
-          b.disabled = true; doImport(plan, status);
-        });
-        status.appendChild(el("br")); status.appendChild(confirmBtn);
+        status.innerHTML = "<p><strong>Step 2.</strong> This file will create <strong>" + esc(plan.course.title) + "</strong>: " + n.modules + " modules, " + n.lessons + " lessons, " + n.blocks + " blocks (" + n.quotes + " quotes, of which " + n.unverified + " stay hidden until you verify them), " + n.quizzes + " quizzes and " + n.questions + " questions. All of it hidden.</p>";
+        status.appendChild(btn("Create it now", "", function (b) { b.disabled = true; doImport(plan, status); }));
+      }
+      file.addEventListener("change", function () {
+        var f = file.files[0]; if (!f) return;
+        var r = new FileReader(); r.onload = function () { check(String(r.result)); }; r.readAsText(f);
       });
-      card.appendChild(el("div", "ce-row")); card.lastChild.appendChild(go); card.appendChild(status); root.appendChild(card);
     }
     function doImport(plan, status) {
       var out = { quizzes: 0 }, courseId = null;

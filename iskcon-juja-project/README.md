@@ -287,6 +287,8 @@ Each phase fits in 3 sessions or fewer.
 
 **Layout batch (29-30 Oct).** Home hero height `max(340px, 59vh)`, ending where the quote section begins; the sidebar is on every page, lighter (`--side-bg`), full height from just below the hero to just above the footer, collapsible; Learn books are a sidebar subsection; merch search, event pictures (`events.image_url`, needs `events_image.sql`), Nectar has the standard site header (`.sh` in `nectar/index.html` + `nectar/style.css`), Admin "Manage the Site" is the admin sidebar, business card front/back and A4 duplex sheet. Tested with Playwright against a fake Supabase client.
 
+**Nectar plan change (30 Oct 2026):** the group decided to watch the film Mahavatar Narsimha on Fri 30 Oct (Day 5). Day 5 is now a special "Movie day" (`kind: "special"` in `nectar/data.js`: short story of Narasimha and Prahlada from the Srimad-Bhagavatam Canto 7, five main points, a link back to Text 1, discussion questions). It replaced the Text 1 recap day so all later dates and reminders stay unchanged; Text 1 is covered by days 2-4. `nectar/sw.js` VERSION v12.
+
 **Owner to-do still open:** run `events_image.sql` (one line: `alter table public.events add column if not exists image_url text;`); test forgot-password and Google sign-in live; announce the new Nectar link.
 
 ## 13. OPEN DECISIONS / DECISIONS MADE

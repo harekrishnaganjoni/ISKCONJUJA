@@ -1927,3 +1927,61 @@ html { scroll-padding-top: calc(var(--nav-h) + 12px); }
 /* hero secondary button: readable on the dark photo overlay */
 .home-hero .hero-actions .button.secondary, .home-hero .button.secondary { color: #fff; border-color: #fff; background: rgba(255,255,255,.08); }
 .home-hero .button.secondary:hover { background: rgba(255,255,255,.2); }
+
+/* ============================================================
+   v4 (29 Oct 2026): taller hero, lighter full-height sidebar
+   ============================================================ */
+.home-hero { min-height: max(340px, 59vh); padding: 48px 0 44px; }
+@media (max-width: 900px) { .home-hero { min-height: 0; padding: 28px 0 26px; } }
+
+:root {
+  --side-bg: #f1e2d8;       /* a little darker than the page, warm and soft */
+  --side-text: #5a0016;
+  --side-hover: rgba(128, 0, 32, 0.08);
+  --side-active: rgba(128, 0, 32, 0.14);
+  --side-accent: #800020;
+  --side-line: rgba(128, 0, 32, 0.22);
+}
+body.dark-mode {
+  --side-bg: #2d2127;
+  --side-text: #f0eae1;
+  --side-hover: rgba(255, 255, 255, 0.07);
+  --side-active: rgba(243, 156, 18, 0.16);
+  --side-accent: #f3b13a;
+  --side-line: rgba(243, 156, 18, 0.25);
+}
+
+/* full height: from just under the hero to just above the footer */
+.toc-layout { align-items: stretch; gap: 0; }
+.toc-sidebar {
+  position: relative; top: auto;
+  align-self: stretch;
+  margin: 0; padding: 12px 10px 18px;
+  max-height: none; overflow: visible;
+  border-radius: 0;
+  background: var(--side-bg);
+  color: var(--side-text);
+  box-shadow: inset -1px 0 0 var(--side-line);
+}
+.toc-collapse {
+  position: sticky; top: calc(var(--nav-h, 54px) + 10px); z-index: 2;
+  border-color: var(--side-line); color: var(--side-accent); background: var(--side-bg);
+}
+.toc-collapse:hover { background: var(--side-active); }
+.toc-links {
+  position: sticky; top: calc(var(--nav-h, 54px) + 44px);
+  max-height: calc(100vh - var(--nav-h, 54px) - 60px); overflow-y: auto;
+}
+.toc-links a { color: var(--side-text); }
+.toc-links a:hover { background: var(--side-hover); }
+.toc-links a.active { background: var(--side-active); border-left-color: var(--side-accent); color: var(--side-accent); font-weight: 700; }
+.toc-sub h3 { color: var(--side-accent); border-top-color: var(--side-line); }
+.toc-sub button { color: var(--side-text); }
+.toc-sub button:hover { background: var(--side-hover); }
+.toc-sub button.active { background: var(--side-accent); color: #fff; }
+.toc-collapsed .toc-sidebar { width: 44px; padding: 10px 6px; overflow: hidden; }
+@media (max-width: 1100px) {
+  .toc-sidebar, .toc-collapsed .toc-sidebar { background: none; box-shadow: none; padding: 6px; }
+  .toc-toggle { color: var(--side-text); background: var(--side-bg); border-color: var(--side-line); }
+  .toc-links, .toc-collapsed .toc-links { position: static; background: var(--side-bg); max-height: 60vh; }
+}

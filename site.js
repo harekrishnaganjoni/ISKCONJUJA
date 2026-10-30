@@ -18,6 +18,26 @@
  
   
   // ============================================================
+  // PUBLIC SITE vs MEMBER PORTAL (see ISKCON_HOSTS in supabase-config.js)
+  // Visitors see the public website. Anything to do with signing in goes to the portal address.
+  // ============================================================
+  (function () {
+    var H = window.ISKCON_HOSTS || {};
+    if (!H.portalLive) return;
+    if (location.hostname === H.portalHost && !window.ISKCON_IN_PORTAL) {
+      // A public page opened on the portal address: send "/" to the dashboard, everything else to the public site.
+      var p = location.pathname;
+      if (p === "/" || p === "/index.html" || p === "") location.replace("/dashboard.html");
+      else location.replace(H.publicOrigin + p + location.search + location.hash);
+      return;
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+      if ((H.publicHosts || []).indexOf(location.hostname) < 0) return;
+      document.querySelectorAll('a[href="devotees.html"]').forEach(function (a) { a.setAttribute("href", H.portalOrigin + "/devotees.html"); a.setAttribute("title", "Member portal"); });
+    });
+  })();
+
+  // ============================================================
   // SITE SETTINGS — EDIT HERE ONLY (until the admin portal exists).
   // Anything left empty ("") or false is HIDDEN from visitors, so
   // nothing that does not work yet is ever shown. Fill a value in and

@@ -1993,5 +1993,44 @@ body.dark-mode {
 body.dark-mode .gsi-btn { background: #131314; color: #e3e3e3; border-color: #8e918f; }
 body.dark-mode .gsi-btn:hover { background: #1f1f20; }
 
-/* Signed-in people keep the normal site menu; Dashboard and My Courses are added after it. */
-.header-nav.member-quicknav { flex-grow: 0; }
+/* ============================================================
+   MEMBER PORTAL: slim header and footer (portal.js), sign-in page split with the quote of the day
+   ============================================================ */
+.ph { background: #fbf1d6; border-bottom: 1px solid rgba(128, 0, 32, .16); position: sticky; top: 0; z-index: 40; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+body.dark-mode .ph { background: #241a1f; border-bottom-color: rgba(243, 156, 18, .25); }
+.ph-in { width: min(1200px, calc(100% - 24px)); margin: 0 auto; display: flex; align-items: center; gap: 8px 22px; padding: 8px 0; flex-wrap: wrap; }
+.ph-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--maroon); }
+.ph-brand img { height: 44px; width: auto; }
+.ph-brand span { display: flex; flex-direction: column; line-height: 1.15; }
+.ph-brand b { letter-spacing: .06em; font-size: 17px; }
+.ph-brand small { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #a47d00; font-weight: 700; }
+.ph-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+.ph-nav a { padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 14px; color: var(--body-text); text-decoration: none; }
+.ph-nav a:hover { background: var(--gold-soft); color: var(--maroon); }
+.ph-nav a.on { color: var(--maroon); box-shadow: inset 0 -2px 0 var(--gold); }
+.ph-act { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.ph-out { font-weight: 700; font-size: 14px; color: var(--maroon); text-decoration: none; }
+@media (max-width: 640px) { .ph-nav { order: 3; width: 100%; } .ph-brand b { font-size: 15px; } }
+.ph-foot { text-align: center; padding: 22px 12px 30px; font-size: 13px; color: var(--muted); }
+.ph-foot a { color: inherit; text-decoration: underline; }
+
+.sign-split { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); min-height: calc(100vh - 140px); background: var(--canvas); }
+.sign-split.no-quote { grid-template-columns: minmax(0, 1fr); }
+.sign-form-side { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 20px; }
+.sign-quote { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 56px clamp(24px, 6vw, 80px);
+  color: #fff4dc; background: radial-gradient(circle at 25% 0%, rgba(232, 200, 90, .32), transparent 55%), radial-gradient(circle at 90% 100%, rgba(232, 200, 90, .16), transparent 50%), linear-gradient(160deg, #5a0016 0%, #800020 55%, #3d000f 100%); }
+.sign-quote::before { content: ""; position: absolute; inset: 14px; border: 1px solid rgba(232, 200, 90, .35); border-radius: 18px; pointer-events: none; }
+.sq-lotus { width: clamp(120px, 16vw, 190px); height: auto; margin-bottom: 18px; opacity: .95; }
+.sq-kicker { margin: 0 0 14px; font-size: 12px; letter-spacing: .28em; text-transform: uppercase; color: #e8c85a; font-weight: 700; }
+.sign-quote blockquote { margin: 0; position: relative; max-width: 30em; animation: sq-in 1.2s ease both; }
+.sign-quote blockquote::before { content: "\201C"; display: block; font: 700 96px/0.7 Georgia, "Times New Roman", serif; color: rgba(232, 200, 90, .45); margin-bottom: 4px; }
+.sign-quote blockquote p { margin: 0; font: italic 400 clamp(20px, 2.3vw, 28px)/1.5 "Playfair Display", Georgia, "Times New Roman", serif; color: #fff4dc; }
+.sign-quote footer { margin-top: 18px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: #e8c85a; font-style: normal; }
+.sq-orn { display: flex; align-items: center; gap: 10px; margin-top: 26px; color: #e8c85a; }
+.sq-orn span { display: block; width: 64px; height: 1px; background: linear-gradient(90deg, transparent, #e8c85a); }
+.sq-orn span:last-child { background: linear-gradient(270deg, transparent, #e8c85a); }
+.sq-orn i { width: 8px; height: 8px; transform: rotate(45deg); background: #e8c85a; display: block; }
+@keyframes sq-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .sign-quote blockquote { animation: none; } }
+@media (max-width: 900px) { .sign-split { grid-template-columns: minmax(0, 1fr); } .sign-quote { padding: 40px 24px; } }
+.in-portal .float-stack { display: none !important; }

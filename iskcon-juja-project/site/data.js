@@ -214,7 +214,7 @@
     document.querySelectorAll(".sign-out-trigger").forEach(function (out) {
       out.addEventListener("click", function (e) {
         e.preventDefault();
-        signOut().then(function () { window.location.href = "index.html"; });
+        signOut().then(function () { window.location.href = "devotees.html"; });
       });
     });
   });
@@ -455,23 +455,16 @@
   // ---------- ROLE-AWARE NAV (member browsing any page sees only internal links) ----------
   function applyRoleNav() {
     if (!READY) return;
+    // The public website knows nothing about logins: it never shows Dashboard, My Courses, Sign Out or the admin lock.
+    // Only the member portal pages show those (portal.js marks them with ISKCON_IN_PORTAL).
+    if (!window.ISKCON_IN_PORTAL) {
+      document.querySelectorAll("[data-member-nav], [data-admin-nav]").forEach(function (el) { el.hidden = true; });
+      return;
+    }
     getSessionAndRole().then(function (r) {
       var isMember = !!r.session && (r.role === "member" || r.role === "admin" || r.role === "super_admin");
       var isAdmin = !!r.session && (r.role === "admin" || r.role === "super_admin");
-      // Members keep the full site menu (Home, About, Events...). Only the "Member Login" icon/link is swapped for their own links.
-      document.querySelectorAll("[data-public-nav]").forEach(function (el) {
-        if (el.matches(".profile-icon")) el.hidden = isMember;
-        el.querySelectorAll('a[href="devotees.html"]').forEach(function (a) { a.hidden = isMember; });
-      });
       document.querySelectorAll("[data-member-nav]").forEach(function (el) { el.hidden = !isMember; });
-      // In the top bar, Dashboard and My Courses join the normal menu in one row (no second row).
-      var mq = document.querySelector(".header-nav[data-member-nav]"), pn = document.querySelector(".header-nav[data-public-nav]");
-      if (mq && pn) {
-        mq.hidden = true;
-        if (isMember && !pn.querySelector(".member-link")) {
-          mq.querySelectorAll("a").forEach(function (a) { var c = a.cloneNode(true); c.className = "member-link"; pn.appendChild(c); });
-        }
-      }
       document.querySelectorAll("[data-admin-nav]").forEach(function (el) { el.hidden = !isAdmin; });
     });
   }

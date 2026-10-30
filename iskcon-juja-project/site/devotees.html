@@ -75,7 +75,24 @@
   <label class="menu-scrim" for="menu-toggle" aria-label="Close menu"></label>
  </header>
       
-    <main style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; background: var(--canvas); padding: 40px 20px;">
+    <main class="sign-split no-quote" id="sign-split">
+     <aside class="sign-quote" id="qod" hidden aria-label="Quote of the day">
+      <svg class="sq-lotus" viewBox="0 0 200 150" fill="none" stroke="#e8c85a" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+       <path d="M100 14C82 46 82 88 100 116C118 88 118 46 100 14Z" fill="rgba(232,200,90,.12)"/>
+       <path d="M100 116C70 104 48 78 52 40C74 52 92 78 100 116Z" fill="rgba(232,200,90,.08)"/>
+       <path d="M100 116C130 104 152 78 148 40C126 52 108 78 100 116Z" fill="rgba(232,200,90,.08)"/>
+       <path d="M100 116C62 112 30 92 22 62C48 66 82 84 100 116Z"/>
+       <path d="M100 116C138 112 170 92 178 62C152 66 118 84 100 116Z"/>
+       <path d="M100 116C70 124 38 118 14 100C44 96 78 102 100 116Z" opacity=".8"/>
+       <path d="M100 116C130 124 162 118 186 100C156 96 122 102 100 116Z" opacity=".8"/>
+       <path d="M60 134C84 142 116 142 140 134" opacity=".7"/>
+       <path d="M76 144C90 148 110 148 124 144" opacity=".5"/>
+      </svg>
+      <p class="sq-kicker">Quote of the day</p>
+      <blockquote><p id="qod-text"></p><footer id="qod-src"></footer></blockquote>
+      <div class="sq-orn" aria-hidden="true"><span></span><i></i><span></span></div>
+     </aside>
+     <div class="sign-form-side">
         <section class="section" style="width: 100%; max-width: 450px;">
          
          <!-- CONTAINER 1: SIGN-IN (real Supabase auth) -->
@@ -128,10 +145,11 @@
       
          <!-- CO-ORDINATED BOTTOM PUBLIC BACK TRIGGER -->
          <div style="text-align: center; margin-top: 32px;">
-          <a href="index.html" style="font-weight: bold; text-decoration: none; color: var(--muted); font-size: 14px;">&larr; Back to Public Homepage</a>
+          <a href="index.html" data-public-link style="font-weight: bold; text-decoration: none; color: var(--muted); font-size: 14px;">&larr; Back to Public Homepage</a>
          </div>
       
         </section>
+     </div>
     </main>
 
     <script>
@@ -158,6 +176,13 @@
           showBtn.setAttribute("aria-pressed", show ? "true" : "false");
           showBtn.setAttribute("aria-label", show ? "Hide password" : "Show password");
         });
+
+        // Already signed in (and not in the middle of a password reset)? Go straight to the dashboard.
+        if (!/type=recovery|access_token|[?&]code=/.test(window.location.hash + window.location.search)) {
+          window.ISKCON_DATA.getSessionAndRole().then(function (r) {
+            if (r.session && (r.role === "member" || r.role === "admin" || r.role === "super_admin")) window.location.replace("dashboard.html");
+          });
+        }
 
         // Continue with Google
         document.getElementById("google-btn").addEventListener("click", function () {
@@ -248,9 +273,28 @@
    </div>
   </footer>
   <script src="supabase-config.js"></script>
+  <script src="portal.js" data-mode="always"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="data.js"></script>
   <script src="site.js"></script>
+  <script>
+  // Quote of the day: one quote per day (Nairobi time), taken in turn from the quotes list. If it cannot load, the panel stays hidden.
+  (function () {
+    function go() {
+      var D = window.ISKCON_DATA; if (!D || !D.READY) return;
+      D.client.from("quotes").select("id,quote_text,source").order("id", { ascending: true }).then(function (r) {
+        if (r.error || !r.data || !r.data.length) return;
+        var day = Math.floor((Date.now() + 3 * 3600 * 1000) / 86400000), q = r.data[day % r.data.length];
+        document.getElementById("qod-text").textContent = q.quote_text;
+        document.getElementById("qod-src").textContent = q.source ? "\u2014 " + q.source : "";
+        document.getElementById("qod").hidden = false;
+        document.getElementById("sign-split").classList.remove("no-quote");
+      });
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", go); else go();
+  })();
+  </script>
+
   <div class="float-stack">
    <div class="float-menu" id="float-menu" hidden>
     <a href="message-board.html">&#128172; Community Message Board</a>

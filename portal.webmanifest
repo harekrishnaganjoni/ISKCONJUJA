@@ -1,0 +1,15 @@
+{
+  "name": "ISKCON Juja Member Portal",
+  "short_name": "ISKCON Juja",
+  "description": "Courses, dashboard and member details for ISKCON Juja.",
+  "start_url": "/dashboard.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fbf1d6",
+  "theme_color": "#800020",
+  "icons": [
+    { "src": "/images/portal-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/images/portal-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/images/portal-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

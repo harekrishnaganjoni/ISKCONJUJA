@@ -17,3 +17,20 @@
 // ============================================================
 window.SUPABASE_URL = "https://zwvgfhgxegxchwlpelbk.supabase.co";
 window.SUPABASE_ANON_KEY = "sb_publishable_jJ8mJ4E57_d7OO7DYdlbkw_7fjEzgrl";
+
+// ============================================================
+// WHERE THINGS LIVE.
+// The public website is for visitors. Signing in, the dashboard, "My Courses",
+// and the admin tools belong to the member portal. When portalLive is true
+// (after portal.iskconjuja.co.ke has been added in Cloudflare and in Supabase's
+// allowed addresses), those pages open on the portal address and the public
+// pages never show member links. While portalLive is false, everything keeps
+// working on the one address, so nothing breaks during the switch.
+// ============================================================
+window.ISKCON_HOSTS = {
+  portalLive: false,
+  publicHosts: ["iskconjuja.co.ke", "www.iskconjuja.co.ke"],
+  publicOrigin: "https://iskconjuja.co.ke",
+  portalHost: "portal.iskconjuja.co.ke",
+  portalOrigin: "https://portal.iskconjuja.co.ke"
+};

@@ -466,7 +466,7 @@
       var r = el("button", "row" + (i === tIdx ? " is-today" : ""));
       r.appendChild(el("span", "dt", fmt(dayDate(i))));
       var t = el("span", "rt", d.title);
-      t.appendChild(el("small", "", (d.read ? "Text " + d.read.n : d.kind === "intro" ? "Introduction" : "Closing") + (isMain(i) ? " · Main discussion" : "")));
+      t.appendChild(el("small", "", (d.read ? "Text " + d.read.n : d.kind === "intro" ? "Introduction" : d.kind === "special" ? "Movie day" : "Closing") + (isMain(i) ? " · Main discussion" : "")));
       r.appendChild(t);
       r.appendChild(el("span", "tick" + (store.done[i] ? " on" : ""), "✓"));
       r.addEventListener("click", function () { sel = i; setView("day"); window.scrollTo(0, 0); });

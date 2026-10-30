@@ -22,7 +22,7 @@ var DAYS = [
     qs: ["What do you hope to get from this month of reading?", "What is one habit you would like to improve by the end of Kartik?"],
     tryThis: "Tomorrow's topic is why saying sorry is not enough. Read it tomorrow morning, even just the first few lines." },
 
-  /* ---------------- Text 1: days 2 to 5 ---------------- */
+  /* ---------------- Text 1: days 2 to 4 (day 5 became movie day, Fri 30 Oct) ---------------- */
   { kind: "topic", title: "Why saying sorry is not enough",
     hook: "Have you ever promised to stop a bad habit and done it again the same day?",
     read: R(1, [["placed a number of intelligent questions", "easy process is being recommended"]]),
@@ -60,21 +60,21 @@ var DAYS = [
     qs: ["What helps you stop at 'enough'?", "What would eating only prasada look like for you?", "Which of the three is hardest for you? (No need to answer aloud.)"],
     tryThis: "Eat one meal today at a fixed time and stop before you feel stuffed." },
 
-  { kind: "topic", title: "Text 1: the whole picture",
-    hook: "If you could control only one urge, which would make life easiest?",
-    read: R(1, [["placed a number of intelligent questions", "chewing the chewed"]]),
+  { kind: "special", title: "Movie day: Lord Narasimha and little Prahlada",
+    hook: "How do you stay true to what you believe when everyone around you, even your own family, is against it?",
     points: [
-      "The verse: a sober person who can tolerate the urge to speak, the mind's demands, anger, and the urges of the tongue, stomach and sexual urge is qualified to make disciples all over the world.",
-      "Atonement: saying sorry without changing is like the elephant's bath. Real atonement is awakening our dormant God consciousness, through a regulated life.",
-      "Speech, mind, anger: use our words to talk about God (silence is not the answer), fix the mind on God the way sunlight removes darkness, and use anger rightly, as Hanuman and Arjuna did.",
-      "The commentary of Srila Bhaktisiddhanta groups the urges into three: the urge to speak, the mind's demands and the body's demands. Practising resistance to them is called austerity.",
-      "Useless talk is the urge to speak at work. The mind is shaken by attachment to material plans, and by anger when those plans are frustrated.",
-      "The tongue, stomach and sexual urge sit in a line. Control the tongue by eating only prasada, and the other two follow. Even prasada should not be eaten just for taste or in excess. Fasting days help.",
-      "The sexual urge: proper use is within marriage, for children. Illicit use includes thinking, planning and talking about it, and the advice applies also to those in the renounced order.",
-      "The conclusion: one who controls these six is a svami or gosvami, a master of the senses. Others are go-dasa, servants of the senses, who keep 'chewing the chewed'."
+      "Today we watch Mahavatar Narsimha together. Films add scenes and drama, so remember the real source of this story is the Srimad-Bhagavatam, Seventh Canto. Here is the story in short.",
+      "The story: a king named Hiranyakashipu was very powerful and very proud. His brother had been killed, and he was angry at God. He did hard penance and asked for a gift that would make him unbeatable: he could not be killed by man or animal, indoors or outdoors, by day or night, on land or in the sky, or by any weapon. Feeling safe, he began to rule cruelly and told everyone to worship him instead of God.",
+      "His own little son Prahlada, only five years old, loved God with his whole heart. He had learned about God even before he was born. He told his friends at school: be happy now, chant, love God. Do not wait until you are old.",
+      "Hiranyakashipu tried everything to change his son: threats, then punishments, then trying to have him killed (by elephants, snakes, poison and fire). Prahlada stayed calm and kept remembering God, and nothing harmed him.",
+      "One day Hiranyakashipu asked, 'Where is this God of yours?' Prahlada answered, 'He is everywhere.' 'Even in this pillar?' Hiranyakashipu laughed and smashed the pillar. Out came Lord Narasimha, half lion and half man, who is neither a man nor an animal. It was twilight, which is neither day nor night. He placed the king on his lap at the doorway, which is neither inside nor outside, and ended him with his claws, which are not a weapon. Every condition of the gift was kept and still the king could not escape.",
+      "Even then Narasimha's anger was so great that nobody dared come near, not even the goddess Lakshmi. Then little Prahlada walked up fearlessly and offered a prayer. The Lord became gentle like a mother cow licking her newborn calf, and told Prahlada to ask for anything.",
+      "Prahlada did not ask for anything for himself. He said that asking God for things is like doing business. He only prayed that his father be forgiven, and that he could keep serving God.",
+      "Main points: (1) God is everywhere, and He keeps His promise to protect His devotees. (2) Power, wealth and cleverness cannot beat God. (3) Faith does not depend on age, education or what others say. (4) Real love for God asks for nothing in return. (5) God is fierce to those who torment the innocent, and tender to those who love Him.",
+      "Link to Text 1 (where we have been the last few days): Hiranyakashipu never had enough. His desires and anger ruled him. Prahlada was calm, because his mind was fixed on God. That is exactly what Text 1 says: the one who masters the urges is the master, and the one ruled by them is their servant."
     ],
-    qs: ["Which urge will you work on this week?", "How can this group help each other with it?"],
-    tryThis: "Choose one urge and one small action. Tell someone you trust, and report back on Tuesday." },
+    qs: ["What did Prahlada do to stay strong when his father was against him?", "Why do you think Hiranyakashipu's clever plan failed?", "Where in your life do you need a little of Prahlada's courage?", "What would you ask God for, and what does Prahlada's answer teach you?"],
+    tryThis: "Tell one person the story of Prahlada in your own words. Then choose one small way to stay steady this week, like starting your chanting at the same time every day." },
 
   /* ---------------- Text 2: days 6 to 9 ---------------- */
   { kind: "topic", title: "Taking more than we need",

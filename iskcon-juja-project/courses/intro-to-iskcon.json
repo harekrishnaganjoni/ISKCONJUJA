@@ -1,0 +1,1379 @@
+{
+ "course": {
+  "title": "Introduction to ISKCON",
+  "subtitle": "A gentle, self-paced start: who we are, who Prabhupāda was, what we value and what we believe",
+  "description": "Four short modules for anyone curious about ISKCON. Each lesson takes about four minutes. Go at your own pace; there are no deadlines and no exams you can fail.",
+  "category": "Basics",
+  "level": "beginner",
+  "visibility": "public",
+  "estimated_minutes": 120,
+  "sequential_unlock": false,
+  "certificate_enabled": false,
+  "discussion_mode": "ask_question",
+  "lesson_feedback_enabled": true,
+  "reviews_enabled": true
+ },
+ "modules": [
+  {
+   "title": "What is ISKCON?",
+   "intro_text": null,
+   "lessons": [
+    {
+     "title": "The name, and why it was founded",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- ISKCON stands for **International Society for Krishna Consciousness**.\n- It was founded in New York City in July 1966 by His Divine Grace A.C. Bhaktivedanta Swami Prabhupāda.\n- *Why?* To give people of every background a practical way to awaken their natural spiritual awareness. The aim is real inner peace and unity in a society that has lost its balance."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "to check the imbalance of values in life.",
+        "source_reference": "a",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "ISKCON was founded as an educational society with a practical aim, to restore balance in how people live."
+       }
+      }
+     ]
+    },
+    {
+     "title": "What is consciousness?",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "Consciousness is awareness: the sense of \"I am here, I see, I feel.\" Prabhupāda teaches that consciousness is the sign of the soul inside the body. A lit room proves a lamp is on, and awareness proves the person within is present. Brain science can describe activity in the brain, but it still cannot say what awareness itself is.\n\n**Example:** a loved one who has just died has the same body as an hour earlier. What has gone is awareness."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "consciousness is the proof of the presence of the soul.",
+        "source_reference": "Bhagavad-gītā 13.34, purport",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Consciousness is the sign of the living person within the body."
+       }
+      }
+     ]
+    },
+    {
+     "title": "How consciousness gets covered",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "analogy",
+       "content": {
+        "title": "Clear and muddy water",
+        "explanation": "Rainwater is clear until it touches the ground. Then it is muddy. It is still water, but its clarity is covered.",
+        "in_reality": "clear water = pure consciousness · mud = temporary labels and material conditioning · filtering = spiritual practice."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "as soon as it comes down on the ground, it becomes muddy.",
+        "source_reference": "Lecture on SB 3.26.22, Bombay, December 31, 1974",
+        "verified": true,
+        "speaker": "Śrīla Prabhupāda"
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "Shaded glasses",
+        "explanation": "Put on dark red glasses and the whole world looks red. The world has not changed; the lens has. Our mind acts like a lens, and we see ourselves and others through labels such as race, wealth, size and nationality.",
+        "in_reality": "the glasses = material conditioning · the colour = the distorted view · the world = reality · clear glasses = clear consciousness."
+       }
+      },
+      {
+       "type": "text",
+       "content": {
+        "text": "**Practical examples:**\n\n- **Self-image.** Someone who sees themselves only as \"the overweight one\" looks at every situation through that lens. Confidence drops and they avoid people.\n- **Prejudice.** Seeing others only as \"that tribe\" or \"that class\" splits people into \"us\" and \"them,\" and conflict follows."
+       }
+      },
+      {
+       "type": "reflection",
+       "content": {
+        "prompt": "Which label do you wear most? How does it colour your day?",
+        "allow_private_note": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "The world and the person stay the same. Only the lens changes what we see."
+       }
+      }
+     ]
+    },
+    {
+     "title": "The clear consciousness, and why it matters",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- **The ideal state** is clear awareness, in which I know myself as an eternal soul and not as a label, and as part of something greater.\n- **Why it matters in daily life:** less anxiety over status or loss, because your worth is no longer tied to your job, size or bank balance; and genuine respect for others, because you see the same person inside everyone.\n- Prabhupāda's own formulation is that this is our *original* state, not something artificially imposed."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "you feel that 'We are one. The center is Kṛṣṇa.'",
+        "source_reference": "Lecture, Bombay, February 23, 1971",
+        "verified": true,
+        "speaker": "Śrīla Prabhupāda"
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Clear consciousness leads to calmer minds and fairer treatment of other people."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Who is Krishna?",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- ISKCON teaches that **Krishna is God**, the Supreme Personality of Godhead.\n- **God has many names across cultures**, and none is wrong. Examples: *Mungu* (Swahili), *Ngai* (Kikuyu), *Nyasaye* (Luo), *Allah*, *Yahweh*, *God*. ISKCON teaches that all of these point to the one Supreme Being.\n- Each name highlights a quality. \"Allah\" means \"the great.\" \"God\" suggests controller. **Krishna** means *all-attractive*, because God must be attractive to everyone.\n- Krishna is also the **source of everything**. Scripture describes Him as the supreme controller, with an eternal, blissful, spiritual form, the origin of all with no origin Himself, and the cause of all causes (*Brahma-saṁhitā* 5.1).\n\n**Block: Why only one?**\n\n- \"God\" is defined as the supreme, absolute controller, above whom there is none.\n- If there were two equally supreme gods, neither would be supreme, since each would be limited by the other. If one had authority over the other, the lesser one would not be God.\n- So by definition God can only be one. Different names and traditions describe the same Supreme, not rival gods. If there is a choice between \"gods,\" then none of them is God."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "A country and its head of state",
+        "explanation": "A country can have many ministers, but only one head of state with final authority. Two presidents with equal, final authority would give conflicting orders and the system would collapse.",
+        "in_reality": "ministers = created beings with limited power · head of state = God · two equal presidents = two \"supreme\" gods, which cannot be."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "Krsna means all-attractive.",
+        "source_reference": "Lecture on SB 1.1.1, London, August 7, 1971",
+        "verified": true,
+        "speaker": "Śrīla Prabhupāda"
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "I am the source of all spiritual and material worlds.",
+        "source_reference": "Bhagavad-gītā 10.8",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Krishna is the name for God as the all-attractive source of everything, and God is one."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Why \"Krishna consciousness\" and not just \"God consciousness\"?",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- \"God\" tells us that a creator exists, but it can stay distant and abstract.\n- \"Krishna\" is a *specific* name. It lets us build a personal relationship, the way we know a friend by name and don't call them \"the manager.\"\n- Prabhupāda teaches that God's name, form and qualities are non-different from Him. Calling His name is therefore direct association."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "God is the general name of the Supreme Personality of Godhead…",
+        "source_reference": "Science of Self-Realization, ch. 4",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "\"God\" names the title. \"Krishna\" names the person."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Roots and the chain of teachers (paramparā)",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- ISKCON is not a new religion or an invented movement. It belongs to the **Gauḍīya Vaiṣṇava** tradition, taught through the *Bhagavad-gītā* and *Śrīmad-Bhāgavatam*.\n- **Paramparā (disciplic succession):** knowledge is passed from teacher to student without change. It is not invented anew each generation.\n- Prabhupāda is the **32nd** teacher in the chain from Krishna.\n- Prabhupāda says this is why his *Gītā* is presented \"as it is\" and not as personal opinion."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "A ripe fruit passed down a tree",
+        "explanation": "A ripe fruit passed carefully from branch to branch arrives whole and unbruised.",
+        "in_reality": "the fruit = the original teaching · each branch or hand = a teacher in the chain · the ground = students today · bruising = distortion."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "This supreme science was thus received through the chain of disciplic succession.",
+        "source_reference": "Bhagavad-gītā 4.2, translation",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "The teaching is not invented. It is received from an unbroken line of teachers."
+       }
+      }
+     ]
+    }
+   ],
+   "quiz": {
+    "kind": "review",
+    "graded": false,
+    "questions": [
+     {
+      "type": "multiple_choice",
+      "prompt": "In the analogies used, what covers or distorts our original, clear consciousness?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "Material conditioning and temporary labels",
+        "correct": true
+       },
+       {
+        "text": "Tiredness"
+       },
+       {
+        "text": "Lack of education"
+       }
+      ]
+     },
+     {
+      "type": "multiple_choice",
+      "prompt": "What does \"Krishna\" mean?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "The all-attractive one",
+        "correct": true
+       },
+       {
+        "text": "A distant judge"
+       },
+       {
+        "text": "A local ruler"
+       }
+      ]
+     },
+     {
+      "type": "multiple_choice",
+      "prompt": "How is spiritual knowledge kept pure through paramparā?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "By an unbroken chain of teachers passing it on faithfully",
+        "correct": true
+       },
+       {
+        "text": "By new theories each century"
+       },
+       {
+        "text": "By teachers adding their own opinions in each generation"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "title": "Śrīla Prabhupāda, the Founder-Ācārya",
+   "intro_text": null,
+   "lessons": [
+    {
+     "title": "His life at a glance",
+     "est_minutes": 2,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "A quick map of Prabhupāda's life before we look at each stage."
+       }
+      },
+      {
+       "type": "timeline",
+       "content": {
+        "items": [
+         {
+          "label": "1896",
+          "title": "Born in Calcutta"
+         },
+         {
+          "label": "1920s",
+          "title": "Gandhi's movement, and meeting his guru (1922)"
+         },
+         {
+          "label": "1933",
+          "title": "Formal initiation"
+         },
+         {
+          "label": "1936",
+          "title": "The final letter from his guru"
+         },
+         {
+          "label": "1944",
+          "title": "Starts Back to Godhead magazine"
+         },
+         {
+          "label": "1947",
+          "title": "Receives the title Bhaktivedanta"
+         },
+         {
+          "label": "1950",
+          "title": "Retires from business and family life"
+         },
+         {
+          "label": "1959",
+          "title": "Takes the renounced order"
+         },
+         {
+          "label": "1965",
+          "title": "Sails to America"
+         },
+         {
+          "label": "1966",
+          "title": "Founds ISKCON in New York"
+         },
+         {
+          "label": "1977",
+          "title": "Passes away in Vrindavan"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "title": "His full title, word by word, and what \"Founder-Ācārya\" means",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- **His Divine Grace:** an honorific his disciples use for a revered spiritual teacher, one regarded as passing knowledge on without changing it.\n- **A.C. (Abhay Charan):** his birth name, meaning \"one who is fearless, having taken shelter at Krishna's lotus feet.\"\n- **Bhaktivedanta:** a title given in 1947 by the Gauḍīya Vaiṣṇava Society. *Bhakti* is devotion and *Vedānta* is the conclusion of knowledge, so it signifies one who has realised that devotional service is the goal of all knowledge.\n- **Swami:** taken in 1959 when he entered the renounced order of life, a word for a master of his mind and senses.\n- **Prabhupāda:** *prabhu* (master) + *pāda* (feet), \"one at whose feet many masters sit.\"\n- **Founder-Ācārya:** an *ācārya* is a teacher who teaches by personal example. In *Bhagavad-gītā* 3.21 (purport) Prabhupāda writes, \"One who teaches in that way is called acarya, or the ideal teacher.\"He took the title himself and had it placed on all ISKCON temples and publications.\n\n**Keeping Prabhupāda at the centre:** ISKCON's governing body (the GBC) has stated that its leaders serve together to fulfil his instructions as given in his books, lectures and letters. His books are the standard for all future generations. So questions about philosophy, practice or temple standards are answered by asking what he taught."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "The bedrock",
+        "explanation": "Many people work in a skyscraper over the years, but the whole building rests on the foundation beneath it. Change the foundation and the building fails.",
+        "in_reality": "the skyscraper = ISKCON · the workers and managers = leaders and teachers who come and go · the bedrock = Prabhupāda's teachings."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Prabhupāda is not a past president of ISKCON. He is its permanent foundation."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Youth, Gandhi and the meeting with his guru",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- Born Abhay Charan De on 1 September 1896 in Calcutta, to devout Vaiṣṇava parents. He studied at Scottish Church College and married in 1918.\n- **Gandhi's movement:** when Mahatma Gandhi called for non-cooperation with British institutions, Abhay took part. He passed his final exams but refused the diploma in protest, and he wore homespun cloth. Looking back, Prabhupāda said, \"And I was fond of in those days of Gandhi's movement\" (Lecture, Hyderabad, December 10, 1976).\n- **1922, the turning point:** a friend took him to meet Śrīla Bhaktisiddhānta Sarasvatī, who asked why an educated young man did not carry Lord Caitanya's message to the world. Abhay objected that India must first be free. The reply, in short, was that the message of Krishna could not wait for a change in politics. Real freedom, he said, begins with a person's spiritual identity, and no political system alone can supply that.\n- **Why he shifted:** Prabhupāda later said he was convinced \"when I was convinced about his argument and mode of presentation\" (Lecture, Los Angeles, February 7, 1969).Over time his energy moved from politics to this mission."
+       }
+      },
+      {
+       "type": "callout",
+       "content": {
+        "style": "note",
+        "text": "**Link to the mission:** the 1922 instruction to preach in English is the thread every later phase follows."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "He cared about India's freedom, and his guru showed him a deeper kind of freedom."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Householder, businessman, and the first preaching",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- A **householder** is a married person who works and raises a family. Abhay lived this life for nearly three decades, running a pharmaceutical business, first in Calcutta and, from 1923, in Allahabad.\n- He and Radharani Devi had **five children**, three sons and two daughters.\n- He supported the Gauḍīya Math's work and contributed funds, and in **1933** he was formally initiated by Bhaktisiddhānta in Allahabad.\n- **December 1936:** he wrote to his guru asking how he could serve more directly. Prabhupāda recalled that his guru told him to preach in English. His guru passed away within weeks.\n- **1944, *Back to Godhead*:** he launched an English fortnightly magazine in Calcutta and produced most issues almost single-handedly until 1960. Wartime paper rationing blocked him at first. He persisted until he was given permission for his first 44-page issue. (It was relaunched in New York in 1966.)\n- He also wrote a commentary on the *Bhagavad-gītā*, and in **1947** his godbrothers (fellow disciples of his guru) honoured him with the title Bhaktivedanta."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "You try to preach in English language",
+        "source_reference": "Lecture, February 15, 1971 (confirm the place)",
+        "speaker": "Śrīla Prabhupāda",
+        "verified": false
+       }
+      },
+      {
+       "type": "callout",
+       "content": {
+        "style": "note",
+        "text": "**Link to the mission:** the magazine is the earliest working form of what became his global publishing."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "He started carrying out the order thirty years before he left India."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Retirement, renunciation and Vṛndāvana",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- **1950:** at age 54 he retired from family and business life and adopted retired life (*vānaprastha*), set aside for study and writing.\n- **1954:** he founded the League of Devotees in Jhansi.\n- **1959:** he took **sannyāsa** (the renounced order, a full-time vow of service), receiving it from his godbrother Keshava Maharaja, and became Bhaktivedanta Swami.\n- In Vrindavan he lived and worked at the Rādhā-Dāmodara temple, translating and commenting on the *Śrīmad-Bhāgavatam*. By 1965 he had published three volumes of the first canto. This answered a wish his guru had expressed years earlier, to print books."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "I had a desire to print some books",
+        "source_reference": "as recorded in Prabhupāda-līlāmṛta",
+        "verified": false
+       }
+      },
+      {
+       "type": "callout",
+       "content": {
+        "style": "note",
+        "text": "**Link to the mission:** the guru's wish to print books is the origin of Prabhupāda's translation work."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Each stage of life removed obligations so he could give his full time to the mission."
+       }
+      }
+     ]
+    },
+    {
+     "title": "The voyage and the founding of ISKCON",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- With a complimentary passage arranged through Sumati Morarji of the Scindia Steam Navigation Company, he left Calcutta on 13 August 1965 aboard the cargo ship *Jaladuta*, aged 69.\n- He carried about 40 rupees (around seven dollars) and trunks of his *Bhāgavatam* volumes. Within two days at sea he suffered two heart attacks.\n- He reached Boston on 17 September and New York on 19 September 1965.\n- In his diary he wrote that he had left India \"just to execute the order of Sri Bhaktisiddhanta Saraswati\" (*Jaladuta Diary*, September 10, 1965).\n- With almost no support, he began chanting in public, and in 1966 he incorporated the **International Society for Krishna Consciousness** in New York."
+       }
+      },
+      {
+       "type": "callout",
+       "content": {
+        "style": "note",
+        "text": "**Link to the mission:** the order of 1922 and 1936 is why he made the voyage."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "The voyage was the same instruction from 1922, finally carried out."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Twelve years of expansion, and his passing",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- In twelve years he circled the globe fourteen times, visiting six continents. By the end, the society included more than a hundred centres: temples, schools, institutes and farm communities. Examples: New Vrindavan (1968) and the Dallas gurukula (1972).\n- **14 November 1977:** he passed away in Vrindavan, aged 81."
+       }
+      },
+      {
+       "type": "callout",
+       "content": {
+        "style": "note",
+        "text": "**Link to the mission:** the society he left behind carries on the work of the order he received."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "The movement he founded outlived him, and it still follows his instructions."
+       }
+      }
+     ]
+    },
+    {
+     "title": "His books, and how he translated",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- He has provided each verse in five parts: the original Sanskrit or Bengali text, a Roman-letter transliteration so anyone can pronounce it, word-for-word meanings, a translation, and a purport (commentary). Prabhupāda described this format to his editors as \"original verse, transliteration, synonyms, and translation, and purport\" (Discussion with BTG staff, Boston, December 24, 1969).Every Sanskrit word has been translated individually, so a reader can check each meaning.\n- His purports have drawn on the earlier Sanskrit commentaries and have applied them to modern life.\n- *Bhagavad-gītā As It Is* was completed in 1967. Macmillan published an abridged edition in 1968 and the first full edition in 1972.\n- The Bhaktivedanta Book Trust, established in 1972, has been publishing his books ever since. They have been translated into dozens of languages.\n- His books continue to speak for him today. They are the standard ISKCON returns to."
+       }
+      },
+      {
+       "type": "callout",
+       "content": {
+        "style": "note",
+        "text": "**Link to the mission:** the books are the lasting form of the order he received."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "The books are his most lasting contribution, and every point in ISKCON teaching is traceable to them."
+       }
+      }
+     ]
+    }
+   ],
+   "quiz": {
+    "kind": "review",
+    "graded": false,
+    "questions": [
+     {
+      "type": "multiple_choice",
+      "prompt": "Why is Prabhupāda called \"Founder-Ācārya\" and not just \"founder\"?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "Because his teachings, books and example remain ISKCON's permanent standard",
+        "correct": true
+       },
+       {
+        "text": "That he retired from teaching"
+       },
+       {
+        "text": "Because he was only the first president of the society"
+       }
+      ]
+     },
+     {
+      "type": "multiple_choice",
+      "prompt": "What did his guru say when Abhay answered that India must be free first?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "That the message of Krishna could not wait for political change",
+        "correct": true
+       },
+       {
+        "text": "Wait until independence"
+       },
+       {
+        "text": "Join the independence movement full time"
+       }
+      ]
+     },
+     {
+      "type": "multiple_choice",
+      "prompt": "How is each verse presented in his books?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "Original text, transliteration, word-for-word meanings, translation and purport",
+        "correct": true
+       },
+       {
+        "text": "Summaries only"
+       },
+       {
+        "text": "Translation only, without any commentary"
+       },
+       {
+        "text": "Pictures and stories only"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "title": "Mission, Vision and Values",
+   "intro_text": null,
+   "lessons": [
+    {
+     "title": "The seven purposes of ISKCON (the mission)",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "When Srila Prabhupada incorporated ISKCON in New York in 1966, he outlined seven explicit purposes that define the movement's mission:\n\n- **Systematic Education:** To systematically propagate spiritual knowledge to society at large and to educate all people in the techniques of spiritual life in order to check the imbalance of values in life.\n- **Awakening Krishna Consciousness:** To propagate a consciousness of Krishna (God) as revealed in the Bhagavad-gītā and Śrīmad-Bhāgavatam.\n- **Spiritual Fellowship:** To bring the members of the Society together with one another and nearer to Krishna, the Supreme Being, thus developing the idea within the members, and humanity at large, that each soul is part and parcel of the Godhead.\n- **Congregational Chanting (Sankīrtana):** To teach and encourage the Sankīrtana movement—congregational chanting of the holy name of God—as revealed in the teachings of Lord Śrī Caitanya Mahāprabhu.\n- **Sacred Spaces:** To erect for the members and for society at large a holy place of transcendental pastimes dedicated to the personality of Krishna.\n- **Simple Living:** To bring the members closer together for the purpose of teaching a simpler, more natural way of life.\n- **Publishing & Distribution:** With a view towards achieving the aforementioned purposes, to publish and distribute periodicals, magazines, books, and other writings."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Seven purposes, one aim: to educate people spiritually and practically."
+       }
+      }
+     ]
+    },
+    {
+     "title": "The vision, an international family",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "**Real Unity in Diversity:** The vision of ISKCON is to establish true global brotherhood. Political treaties and social movements attempt to unite humanity externally, but they often fail because people still identify with national, racial, or economic divisions.\n\nISKCON's vision addresses the root cause of division by connecting everyone to the same Supreme Father, treating all living entities as spiritual equals."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "The tree and the leaves",
+        "explanation": "Imagine a massive tree with thousands of leaves. If you try to water each leaf individually, you will tire out, and most leaves will still wither. But if you pour water directly onto the root of the tree, the water automatically reaches every branch, leaf, and flower effortlessly. Similarly, trying to unite humanity through superficial physical labels is like watering individual leaves. Connecting people to God, the ultimate root of existence, automatically satisfies and unites everyone.",
+        "in_reality": "the leaves = individuals divided by labels · watering each leaf = trying to unite people one label at a time · the root = God · the water = connection to God."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "pouring water on the root of a tree energizes the trunk, branches, twigs.",
+        "source_reference": "Śrīmad-Bhāgavatam 4.31.14",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Unity that lasts has to start from the root, not from the surface."
+       }
+      }
+     ]
+    },
+    {
+     "title": "The four pillars and the four principles",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "Before exploring each value in detail, here is a summary connecting each pillar of moral and spiritual foundation to its regulative principle (a rule that protects it) and core purpose.\n\nPrabhupāda identifies four qualities as the foundation of religious life: \"the four principles of austerity, cleanliness, mercy and truthfulness\" (*Śrīmad-Bhāgavatam* 1.17.24).They belong to no single group, and he says they \"may be followed by the follower of any faith\" (*Śrīmad-Bhāgavatam* 1.17.32, purport)."
+       }
+      },
+      {
+       "type": "table",
+       "content": {
+        "headers": [
+         "Core Value / Pillar",
+         "Regulative Principle",
+         "Broad Principle & Scope",
+         "Key Spiritual & Practical Impact"
+        ],
+        "rows": [
+         [
+          "Compassion",
+          "No Meat, Fish, or Eggs",
+          "Alleviating suffering, non-violence, spiritual welfare",
+          "Softens the heart, eliminates karmic debt, and restores our natural capacity for unconditional love."
+         ],
+         [
+          "Self-Discipline",
+          "No Intoxication",
+          "Regulated lifestyle, mastery of senses, early rising, habits",
+          "Clears the intellect, builds willpower, and enables deep spiritual focus."
+         ],
+         [
+          "Truthfulness",
+          "No Gambling",
+          "Honesty, straightforwardness, avoiding predatory greed",
+          "Builds personal integrity, preserves trust, and grounds one in reality."
+         ],
+         [
+          "Cleanliness",
+          "No Illicit Sex",
+          "External hygiene, internal mental purity, fidelity",
+          "Purifies mind and environment, protects relationships, and elevates consciousness."
+         ]
+        ]
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "The four legs of a table",
+        "explanation": "Prabhupāda compared these four areas to the legs of a table. Weaken one and the whole table wobbles.",
+        "in_reality": "the table = a balanced, healthy life · each leg = one of the four pillars · a weak leg = a weak habit."
+       }
+      },
+      {
+       "type": "text",
+       "content": {
+        "text": "**Is this for everyone?** Everyone is welcome to learn, chant and share the meals without following any of these rules. They are recommended for a better life and for spiritual advancement, and each person takes them up at their own pace. Prabhupāda put it this way: \"we invite everyone to come and sit down with us\" (Interview, Los Angeles, February 1, 1968)."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "The four principles are recommended for everyone, and no one is required to follow them to be welcome."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Core Value 1: Compassion",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "**The Broad Category: What is Compassion?**\n\nCompassion is the active desire and effort to alleviate the suffering of others, recognizing that every living entity is a soul and a child of God.\n\n- **Active Alleviation of Suffering:** true compassion is not passive sympathy; it means taking action when others are in distress. Prabhupāda describes this ideal as being \"unhappy by seeing others suffering\" (Departure talk, Honolulu, June 20, 1975).\n- **Practical example, material and physical relief:** initiatives like Food for Life distribute sanctified meals globally to ensure no one suffers from hunger.\n- **Spiritual Welfare:** giving people spiritual education to solve the ultimate cause of all suffering, forgetfulness of their eternal identity. Prabhupāda goes as far as saying that \"unless one elevates people to spiritual knowledge, one is practicing violence\" (*Bhagavad-gītā* 13.8–12, purport).\n- **Non-Violence:** refraining from causing intentional pain, fear, or harm to any living creature, whether human or animal.\n\n**The Regulative Principle: No Meat, Fish, or Eggs**\n\nA primary obstacle to cultivating genuine compassion is participating in unnecessary slaughter for the pleasure of the tongue. Eggs are included because they too contain life, like the life in the womb.\n\n**Practical & Real-World Considerations:**\n\n- **Nutritional sufficiency without slaughter:** humans do not need meat to survive or thrive. Every necessary nutrient (protein, vitamins, minerals, and healthy fats) is abundantly available through plants, grains, legumes, nuts, seeds, and cruelty-free dairy products. Dairy such as yoghurt also provides vitamin B12.\n- **How eating meat hardens consciousness:**\n- Food is not just calories; it carries subtle energies that affect the mind. When an animal is slaughtered, it experiences extreme terror, anger, and pain. Consuming the flesh of a slain animal forces you to absorb those subtle qualities.\n- Consistently killing animals or paying others to slaughter them deadens human sensitivity. It hardens the heart, diminishes natural empathy, and subtly makes people more merciless, aggressive, and prone to violence in human society as well.\n- Prabhupāda's own practical argument: when plentiful nutritious food is available, \"why should you indulge in this unnecessary killing of animals?\" (Lecture, Boston, April 26, 1969).\n- **Addressing \"Don't plants feel pain too?\"**\n- Plants lack a centralized nervous system, brain, or complex pain receptors like animals. Harvesting vegetables, fruits, or grains does not require killing the organism in the way slaughtering a mammal or bird does.\n- Feeding livestock consumes vast amounts of plant material, since it takes several kilograms of grain to produce 1 kg of meat. Eating plants directly actually saves far more plant lives overall.\n\n**The Spiritual Mechanism & Benefit (understanding why it works):**\n\n- **Unlocking the Law of Karma:** every action produces an equal reaction. When we participate in causing pain to an innocent animal, we incur subtle karmic debts (karma) that eventually return to us as personal suffering, anxiety, and disease. Stopping meat-eating immediately stops the accumulation of this heavy karmic debt.\n- **Re-sensitizing the heart for spiritual experience:** spiritual realization requires a heart that is soft, receptive, and pure. By ceasing participation in violence, the heart becomes sensitive again. This allows a person to feel genuine love for God, experience deep peace in meditation, and naturally see every living entity as a spiritual brother or sister."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Compassion is active relief of suffering, including the suffering of ignorance, and avoiding meat is its most everyday form."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Core Value 2: Self-Discipline",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "**The Broad Category: What is Self-Discipline?**\n\nSelf-discipline (tapas) means voluntary austerity: choosing short-term restraint to achieve long-term physical, mental, and spiritual mastery. It manifests as a regulated lifestyle:\n\n- **Daily Routine:** rising early before sunrise, maintaining fixed times for sleep, work, and worship.\n- **Sense Mastery:** controlling speech, anger, and tongue desires rather than acting on every impulse.\n\n**The Regulative Principle: No Intoxication** (alcohol, drugs, tobacco, stimulants)\n\nIntoxication provides an artificial shortcut to escape reality, directly undermining self-discipline by surrendering control of the mind. Prabhupāda explains that such rules exist to keep us in the mode of goodness.\n\n**Practical & Real-World Considerations:**\n\n- **Emotional Resilience & Mental Health:** facing stress head-on builds genuine problem-solving skills rather than numbing emotions through substances.\n- **Family & Financial Stability:** prevents domestic conflict, financial waste, and addiction-driven crises, creating safe environments for families.\n\n**The Spiritual Mechanism & Benefit:**\n\n**Preserving Spiritual Intelligence:** spiritual growth requires a clear, sharp intellect capable of distinguishing between temporary physical matter and the eternal spirit. Intoxication clouds intelligence and immerses the mind in passion and ignorance. Maintaining sobriety keeps the mind steady and receptive, enabling deep focus during mantra meditation and study of sacred texts."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "Just to keep you in goodness",
+        "source_reference": "Lecture on Śrīmad-Bhāgavatam 7.9.8, Seattle, October 21, 1968",
+        "speaker": "Śrīla Prabhupāda",
+        "verified": false
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Self-discipline is the habit of giving up small, immediate pleasures for something larger."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Core Value 3: Truthfulness",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "**The Broad Category: What is Truthfulness?**\n\nTruthfulness means speaking and acting with total honesty, integrity, and straightforwardness. It involves presenting facts accurately for the welfare of others without deception, secretiveness, or manipulation in personal and professional dealings.\n\n**The Regulative Principle: No Gambling or Speculative Greed**\n\nGambling relies on taking wealth from others through chance without performing honest work or delivering true value, fostering dishonesty and predatory greed.\n\n**Practical & Real-World Considerations:**\n\n- **Financial Security:** protects household savings and prevents life-altering debts caused by sports betting, high-risk speculation, or lottery addictions.\n- **Professional Respect:** honest labor builds a reputation for trustworthiness, reliability, and sound character in careers and business.\n\n**The Spiritual Mechanism & Benefit:**\n\n**Aligning with Ultimate Reality:** truthfulness is the foundational pillar of spiritual life in the current age. Prabhupāda describes religion in this age as \"standing on one leg only, which is your truthfulness\" (*Śrīmad-Bhāgavatam* 1.17.25).God is described in the scriptures as the Absolute Truth. When a person lives untruthfully, their mind remains fractured and deceptive, making it impossible to realize God. Living truthfully aligns our individual consciousness directly with divine reality, making spiritual awakening natural and direct."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Truthfulness is the last pillar standing, and honest work and honest speech keep it that way."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Core Value 4: Cleanliness",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "**The Broad Category: What is Cleanliness?**\n\nCleanliness encompasses both external hygiene and internal mental purity:\n\n- **External Cleanliness:** regular bathing, wearing fresh clothes, eating clean/hygienic food, and maintaining an organized, clutter-free home and workspace.\n- **Internal Cleanliness:** keeping the mind clear of toxic influences by avoiding explicit, violent, or degrading content (in media, music, or conversation).\n- **Sexual Responsibility:** reserving sexual intimacy exclusively within a committed, spiritual marriage, avoiding casual exploitation.\n\n**The Regulative Principle: No Illicit Sex**\n\nCasual or non-marital sex reduces human beings to physical objects, cluttering the mind with lust, attachment, and emotional trauma.\n\n**Practical & Real-World Considerations:**\n\n- **Mental Health & Focus:** guarding the mind against degrading content reduces anxiety, brain fog, and obsessive desires, resulting in sharp focus and peace of mind.\n- **Strong Relationships:** restricting intimacy to marriage builds deep emotional trust, protects against betrayal, and provides stable homes for raising children.\n\n**The Spiritual Mechanism & Benefit:**\n\n**Purifying the Mirror of the Mind:** the mind is like a mirror. When covered by dust (degrading images, explicit content, and selfish lust), it cannot reflect our true spiritual nature. Internal and external cleanliness acts as a thorough cleansing process. When paired with mantra meditation (chanting Hare Krishna), it clears away subconscious conditioning (past impressions), unlocking inner peace, deep self-awareness, and spiritual joy. Lord Caitanya, in the first verse of his *Śikṣāṣṭaka*, describes the chanting as that \"which can cleanse the mirror of the heart\" (*Caitanya-caritāmṛta*, Antya 20.12).\n\n*Analogy mapping:* the mirror = the mind · the dust = degrading impressions and selfish desires · wiping = daily cleanliness · the deep clean = chanting."
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "A clean life outside and a clean mind inside prepare the ground for meditation."
+       }
+      }
+     ]
+    }
+   ],
+   "quiz": {
+    "kind": "review",
+    "graded": false,
+    "questions": [
+     {
+      "type": "multiple_choice",
+      "prompt": "Why is not sharing spiritual knowledge considered a form of violence?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "Because people suffer through ignorance of their true identity, and withholding knowledge that could relieve it leaves them in distress",
+        "correct": true
+       },
+       {
+        "text": "Because it is illegal"
+       },
+       {
+        "text": "Because it makes the person physically ill"
+       }
+      ]
+     },
+     {
+      "type": "multiple_choice",
+      "prompt": "How does consistently eating meat affect a person over time?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "It deadens empathy, hardens the heart, and can make people more prone to anger and violence",
+        "correct": true
+       },
+       {
+        "text": "No effect"
+       },
+       {
+        "text": "It makes the mind sharper"
+       }
+      ]
+     },
+     {
+      "type": "multiple_choice",
+      "prompt": "What is the main spiritual benefit of compassion, including avoiding meat and violence?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "It stops the build-up of karmic debt and softens the heart so it can experience divine love and peace",
+        "correct": true
+       },
+       {
+        "text": "Social prestige"
+       },
+       {
+        "text": "Better physical strength"
+       },
+       {
+        "text": "A higher income"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "title": "Core Philosophy Made Simple",
+   "intro_text": "Three parts: Sambandha (who God is, who we are, our relationship), Prayojana (the diagnosis and the goal), Abhideya (the process). Part 1: Sambandha, who God is, who we are, and our relationship with God and the universe Part 2: Prayojana, the diagnosis and the goal Part 3: Abhideya, the process",
+   "lessons": [
+    {
+     "title": "Who is God?",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "God, known as Krishna, is the origin of everything (the cause of all causes) and the supreme controller. He is the original Supreme Person, with infinite knowledge, power, beauty, wealth, fame and renunciation. All energies, spiritual and material, come from Him, and not a single atom vibrates without His sanction."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "A smart home",
+        "explanation": "Lights, doors and heating seem to run by themselves.",
+        "in_reality": "devices = everything in creation · central system = God · power and instructions = His energies and sanction · \"running by themselves\" = nature appearing to work on its own."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "the prime cause of all causes",
+        "source_reference": "Brahma-saṁhitā 5.1, quoted in Caitanya-caritāmṛta, Ādi 2.107",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "God is the source and the controller of everything."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Who are we?",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- You are not your body, brain or mind. You are a spirit soul, a minute conscious spark of God's energy.\n- **A living body and a dead one** have the same organs and chemicals. What is missing is consciousness, the presence of the soul.\n- **The \"I\" stays the same.** Look at photos of yourself at five, fifteen and today. Everything changed, yet the \"I\" that remembers is one. Someone who loses a limb, or receives a donor organ, still says \"I\" exactly as before.\n- **Who is the \"my\"?** We say *my* hand, *my* body, *my* mind, *my* intelligence. Ownership implies an owner distinct from what is owned. That owner is the soul.\n- **Same quality, different quantity.** We share God's spiritual quality (eternal, full of knowledge, full of bliss), but in a minute quantity."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "Car and driver",
+        "explanation": "",
+        "in_reality": "car = body · driver = soul · breakdown = death · a new car = a new body."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "As the embodied soul continuously passes, in this body, from boyhood to youth",
+        "source_reference": "BG 2.13",
+        "verified": true
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "eternal fragmental parts",
+        "source_reference": "BG 15.7",
+        "verified": false
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "The body changes, and the one who says \"I\" does not."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Matter, time and karma",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "- **Material nature** is real but temporary: earth, water, fire, air, ether, mind, intelligence and false ego. **Māyā** is the illusion that covers the soul's awareness, so we think we are in control of a world that is in fact controlling us. We cannot control ageing, disease or death.\n- **Time** is God's eternal force that drives creation and dissolution.\n- **Karma** is the activity of living beings in the material world. Of the five factors (God, living beings, material nature, time, karma), only karma is not eternal, and it can be stopped."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "A prisoner",
+        "explanation": "An inmate can rearrange the furniture in a cell, but the schedule, the security and the freedom to leave are decided by the prison authorities.",
+        "in_reality": "inmate = the living being · furniture = the small things we can arrange (home, job) · prison rules = laws of nature · the authorities = God."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "working under My direction, O son of Kuntī",
+        "source_reference": "BG 9.10",
+        "verified": true
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "these eight constitute My separated material energies",
+        "source_reference": "BG 7.4",
+        "verified": true
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "Time I am, the great destroyer of the worlds",
+        "source_reference": "BG 11.32",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Matter and time serve God's order, and karma, our activity, is the part that can end."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Our relationship with God",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "Every living being seeks happiness, which is part of the soul's nature. We try to get it from wealth, status and pleasures that are temporary, so the happiness is short-lived and brings frustration and anxiety. The deeper cause is mistaken identity. We are eternal parts of God, so our natural position is as His eternal servants, and lasting satisfaction comes only through loving service."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "Hand and stomach",
+        "explanation": "",
+        "in_reality": "hand = the living being · stomach = God · food = loving service · nourishment of the whole body = lasting satisfaction."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "constitutional position to be an eternal servant of Kṛṣṇa",
+        "source_reference": "Caitanya-caritāmṛta, Madhya 20.108–109",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "We find lasting happiness by reconnecting with God."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Karma, action and reaction",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "Our goal is to return to our original relationship with God. First, the diagnosis: karma and rebirth.\n\nWe freely choose our desires, but the freedom reaches only ourselves, and we cannot directly control others or the environment. God, the supreme controller, can. His laws protect us from harming ourselves and others, and are not for His benefit, since He lacks nothing.\n\nLike Newton's law of action and reaction, but applied to intentional actions, every action produces a matching reaction that returns to us. A person who exploits others may escape human law but not natural law. A person who feeds the poor earns comfort. Both kinds of karma keep us bound to the material world."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "An echo",
+        "explanation": "",
+        "in_reality": "shout = our action · echo = its reaction · valley = nature, which returns it with equal force."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "The intricacies of action are very hard to understand",
+        "source_reference": "BG 4.17",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Actions return to us, in this life or the next."
+       }
+      }
+     ]
+    },
+    {
+     "title": "Rebirth",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "Why is one child born rich and another poor? Why is one born deaf, or ill? Why do children who have done nothing wrong suffer? Reward and punishment without cause would make God arbitrary. Rebirth supplies the cause: the soul carries on from past lives.\n\n**Two things set the next body:**\n\n- **Desire.** God gives a body suited to our desire. A person dominated by the desire to hunt and eat flesh gets a lion's body. Some desires are so subtle that even we don't know them, but God knows everything.\n- **Karma.** Past actions set our circumstances: for example, the wealth and health of a person who gave generously, or the cut-short life of one who ended another's.\n\n*These are general principles. They say nothing about the reasons behind any one person's life, and should never be used to blame a sufferer.*\n\n**Why it continues.** Almost everyone wants to be on top, and rising means putting others below. Those others want retribution. God fulfils both desires, so we keep going round in a cycle of desire, action and reaction until we see the futility and return to serving God."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "A correctional facility",
+        "explanation": "",
+        "in_reality": "the facility = the material world · inmates = living beings · reform = learning from reactions · release = returning to God. It is built so that its inmates may be reformed, and it is not eternal damnation."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "so that they may be rectified",
+        "source_reference": "Lecture, San Diego, June 29, 1972",
+        "speaker": "Śrīla Prabhupāda",
+        "verified": false
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "Whatever state of being one remembers when he quits his body",
+        "source_reference": "BG 8.6",
+        "verified": true
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Desire chooses the kind of body and karma sets the circumstances, and the system exists to reform us."
+       }
+      }
+     ]
+    },
+    {
+     "title": "The goal",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "The goal is complete liberation from the cycle of birth, death, old age and disease, and a return to our eternal, loving relationship with God in the spiritual world."
+       }
+      },
+      {
+       "type": "table",
+       "content": {
+        "headers": [
+         "Material world",
+         "Spiritual world"
+        ],
+        "rows": [
+         [
+          "Temporary",
+          "Eternal"
+         ],
+         [
+          "Full of miseries",
+          "Full of knowledge"
+         ],
+         [
+          "Covered consciousness",
+          "Unlimited bliss"
+         ]
+        ]
+       }
+      },
+      {
+       "type": "text",
+       "content": {
+        "text": "Along the way, people describe three changes (these are not guaranteed): work done as service to God leaves no binding reaction, because God absorbs it; loss and illness are faced with a wider view, without removing the pain; and possessions are valued for use and not mistaken for self-worth."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "this temporary world, which is full of miseries",
+        "source_reference": "BG 8.15",
+        "verified": false
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "The goal is to return home, and the philosophy changes how we live on the way."
+       }
+      }
+     ]
+    },
+    {
+     "title": "What is yoga? The four paths",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "Yoga means \"to connect\": \"Yoga means how to connect with the Supreme\" (Lecture on SB 6.2.7, Vrindavan, September 10, 1975).The four main paths each make the connection differently:"
+       }
+      },
+      {
+       "type": "table",
+       "content": {
+        "headers": [
+         "Path",
+         "How it connects",
+         "Example",
+         "Limitation"
+        ],
+        "rows": [
+         [
+          "Work (Karma-yoga)",
+          "Daily work offered as service, or its fruits given to God's cause",
+          "Raising God-conscious children; donating earnings to godly causes",
+          "Slow; risks returning to selfish attachment"
+         ],
+         [
+          "Knowledge (Jñāna-yoga)",
+          "Study and renouncing matter",
+          "Withdrawing from family and society to study philosophy",
+          "Impractical; attachment to detachment; no guarantee"
+         ],
+         [
+          "Eight steps (Aṣṭāṅga-yoga)",
+          "Postures, breath control, silent meditation on God in the heart",
+          "A yogi in seclusion",
+          "Almost impossible for most people today"
+         ],
+         [
+          "Devotion (Bhakti-yoga)",
+          "Loving service using all senses and work",
+          "A working person's daily routine (Screen 9)",
+          "Needs sincerity"
+         ]
+        ]
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "otherwise work causes bondage in this material world",
+        "source_reference": "BG 3.9",
+        "verified": true
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "advancement is very troublesome",
+        "source_reference": "BG 12.5",
+        "verified": false
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "appears impractical and unendurable to me",
+        "source_reference": "BG 6.33",
+        "verified": true
+       }
+      }
+     ]
+    },
+    {
+     "title": "The path of devotion",
+     "est_minutes": 4,
+     "blocks": [
+      {
+       "type": "text",
+       "content": {
+        "text": "Bhakti-yoga connects directly with God through loving service, using all the senses, mind and daily work. Instead of forcing the mind into silence or abandoning work, it uses the senses in divine activities: hearing the holy names, studying scripture, eating sanctified food, serving God and humanity. You need only love God in whatever position you are in, and the rules are tools for one aim: remembering God and never forgetting Him.\n\n**Example, a working person.** An engineer wakes early, chants the Hare Krishna mantra on beads, offers breakfast to God, works honestly as a duty to God, donates part of their income to spiritual work, and reads the *Bhagavad-gītā* with their family in the evening."
+       }
+      },
+      {
+       "type": "analogy",
+       "content": {
+        "title": "Staircase and elevator",
+        "explanation": "",
+        "in_reality": "staircase = the harder paths · elevator = devotion · effort and practice = the steps · top floor = reconnecting with God."
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "it is joyfully performed",
+        "source_reference": "BG 9.2",
+        "verified": true
+       }
+      },
+      {
+       "type": "quote",
+       "content": {
+        "quote_text": "the most direct method of God realization",
+        "source_reference": "BG 6.37, purport",
+        "verified": false
+       }
+      },
+      {
+       "type": "key_point",
+       "content": {
+        "text": "Bhakti-yoga asks only that you love God in whatever position you are in."
+       }
+      }
+     ]
+    }
+   ],
+   "quiz": {
+    "kind": "review",
+    "graded": false,
+    "questions": [
+     {
+      "type": "multiple_choice",
+      "prompt": "Why does God provide rules in the material world?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "To protect living beings from harming themselves and others",
+        "correct": true
+       },
+       {
+        "text": "For His enjoyment"
+       },
+       {
+        "text": "To punish living beings"
+       },
+       {
+        "text": "To keep living beings busy"
+       }
+      ]
+     },
+     {
+      "type": "multiple_choice",
+      "prompt": "Which of the five factors is not eternal?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "Karma",
+        "correct": true
+       },
+       {
+        "text": "God"
+       },
+       {
+        "text": "Time"
+       },
+       {
+        "text": "Material nature"
+       }
+      ]
+     },
+     {
+      "type": "multiple_choice",
+      "prompt": "What decides the next body?",
+      "explanation": null,
+      "options": [
+       {
+        "text": "Desire at death and accumulated karma, as balanced by God",
+        "correct": true
+       },
+       {
+        "text": "Chance"
+       },
+       {
+        "text": "The place where the person dies"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

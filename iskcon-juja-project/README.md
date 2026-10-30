@@ -19,12 +19,12 @@
 ## 0. Start here
 You do **not** need to understand code. Your jobs are always one of: (1) test something and send a screenshot, (2) copy a file / click a button where only you can, (3) decide something. An AI agent does the rest. Everything below tells you exactly what to click.
 
-**Status in one sentence:** the public website is live at **https://iskconjuja.netlify.app**; the database (Supabase) is connected and your login works; the newest round of fixes (mobile header, sidebar, security, duplicate-script bug) is **in this package but not yet on the live site** — see §2.2 and §11.
+**Status in one sentence:** the public website is live at **https://iskconjuja.co.ke** (Cloudflare; the old iskconjuja.netlify.app is retired); the database (Supabase) is connected and your login works; the newest round of fixes (mobile header, sidebar, security, duplicate-script bug) is **in this package but not yet on the live site** — see §2.2 and §11.
 
 ## 1. What you have
 | Thing | Where | Notes |
 |---|---|---|
-| Live website | https://iskconjuja.netlify.app | Free Netlify hosting, updated by drag-and-drop |
+| Live website | https://iskconjuja.co.ke | Free Cloudflare hosting, updates itself from GitHub `main` (see §12B) |
 | Database + logins + photos | Supabase project **ISKCONJUJA** (free plan) | https://zwvgfhgxegxchwlpelbk.supabase.co |
 | Admin panel | the site → login icon → sign in → lock icon (top right) | Only admins see the lock icon |
 | This package | `iskcon-juja-PROJECT.zip` | Everything, including this README |
@@ -155,7 +155,7 @@ The free Supabase plan does **not** back up for you. Monthly: Supabase → **Tab
 - **Programs (static text today, to become editable §12 task 6):** **Tuesdays & Fridays 5:30–7:00 PM** at the centre: music, then Tuesday a talk/discussion (often a guest speaker from the Nairobi temple) or Friday group book reading & discussion, then a free vegetarian feast. **Sundays:** no local program; group trips to the main temple, **Ngara, Nairobi** (Sri Sri Radha Bankebhari Ji Temple) — leave Saturday evening or ~6:30 AM Sunday, return afternoon/evening. Nairobi Sunday schedule: 7:45 AM class · 9:00 breakfast · 11:00 music · 12:30 worship ceremony · 1:00 class · 2:00 lunch. Visitors are welcome **any time** to relax and learn; the schedule is only for structured programs.
 - **Juja is an apartment-based congregation, not a temple with deities** — never claim daily darshan/altar services.
 - **Money:** M-Pesa Till needs the main temple's permission → **for now shop orders and donations go to WhatsApp**; Till and Pesapal appear automatically when their settings are filled in. Book proceeds fund running the centre and printing more books; all books are also free to read at the centre.
-- **Domain:** none yet (live on `iskconjuja.netlify.app`). Plan: new `.co.ke`; Zoho free mail.
+- **Domain:** `iskconjuja.co.ke` (bought at Truehost, DNS on Cloudflare, live since 29 Oct 2026). Email sending: Brevo (see §12B).
 - **Owner's setup:** Windows + Chrome (from screenshots); tests locally at `localhost:3000` with clean URLs (e.g. `/about`).
 - **Roles:** `pending` → `member` → `admin` → `super_admin`. Dan = super admin; Tim = admin (to add). Members are added **only by an admin** (no public self-signup; the owner scrapped a "registered public" pool). A *membership application form* (public → admin approval, with an admin-editable explanation of what membership means) is wanted later (§12).
 - **Hero heights (owner-tuned):** home hero `min-height:70vh`, other page heroes `50vh`.
@@ -270,6 +270,24 @@ Each phase fits in 3 sessions or fewer.
 - **Phase 4 (3 sessions): registration + reminders**: calendar (.ics) and Telegram first (free); SMS only if wanted (paid).
 - **Phase 5 (later, 3 sessions each, owner picks order):** Vaishnava calendar (verify first), Verse of the Day engine, cohorts/monitored courses, forum, skill courses, PWA.
 - **ON HOLD:** payments/Pesapal/Till/donations until the temple gives permission. Hide anything related; do not build.
+
+## 12B. HOSTING, SIGN-IN AND EMAIL (done 28-30 Oct 2026)
+
+**Hosting moved from Netlify to Cloudflare (29 Oct 2026).** Cloudflare Workers (static assets), project `iskconjuja`, deploys automatically from GitHub `harekrishnaganjoni/iskconjuja` branch `main` (build command empty; deploy command `npx wrangler deploy`; root `/`). Domains `iskconjuja.co.ke` and `www.iskconjuja.co.ke`; fallback address `iskconjuja.harekrishnaganjoni.workers.dev`. Static requests are free, there is no deploy-credit limit like Netlify's. Netlify auto-builds were **stopped by the owner** (Site configuration > Build & deploy > Stop builds); never re-enable them.
+- `wrangler.jsonc` = worker name `iskconjuja`, assets directory `.`, `not_found_handling: "404-page"` (serves `404.html`).
+- `.assetsignore` keeps internal files off the public site: `iskcon-juja-project/`, `supabase/`, `netlify/`, `docs/`, `.github/`, `*.sql`, `*.md`, `schema.sql`, `index.ts`. If a new internal folder is added, add it there.
+- `_headers` is honoured by Cloudflare. Publishing rule now: the credit limit no longer exists, so when the owner asks for a change, finish, test, merge `staging` into `main` and push without asking again ("stop asking at every step"). Never push untested work.
+- Keep-alive: `.github/workflows/keepalive.yml` (GitHub Actions, daily 05:17 UTC, reads one row of `events` with the public key). It replaces `netlify/functions/keepalive.mjs` (leave that file; it is harmless). The owner's external pinger of the old Netlify `/keepalive` address can be deleted.
+
+**Nectar address move.** `nectar/app.js` shows, on `*.netlify.app` only, a banner "Continue at iskconjuja.co.ke"; its button carries every `nectar-*` localStorage key in `#move=<json>` to `https://iskconjuja.co.ke/nectar/`, where it is imported (keys not already set only), then the hash is cleared. `nectar/sw.js` VERSION v11. New Nectar link for the group: https://iskconjuja.co.ke/nectar/.
+
+**Sign-in upgrades (code live, switched on by the owner in Admin > Settings).** Settings keys `google_signin_enabled` and `forgot_password_enabled` (text 'true'/'false'; the buttons carry `data-show-if` and stay hidden until on). `data.js` helpers: `signInWithGoogle`, `requestPasswordReset`, `setNewPassword`, `onPasswordRecovery`. `devotees.html` has Show/Hide password, "Continue with Google", "Forgot password?" (always the same neutral confirmation, so it cannot be used to discover who has an account), and a new-password form shown on the PASSWORD_RECOVERY event. Privacy page updated.
+- **Supabase Auth set-up (done by owner 30 Oct):** URL Configuration (Site URL `https://iskconjuja.co.ke`; Redirect URLs for `iskconjuja.co.ke`, `www`, and the old Netlify address); custom SMTP via **Brevo** free plan (300 emails/day; domain `iskconjuja.co.ke` authenticated with DNS records in Cloudflare; sender `noreply@iskconjuja.co.ke`; host `smtp-relay.brevo.com`, port 587); Google provider enabled with an OAuth client from Google Cloud (authorised origin `https://iskconjuja.co.ke`, redirect URI `https://zwvgfhgxegxchwlpelbk.supabase.co/auth/v1/callback`); "Allow manual linking" on (for the later "Save my progress" via Google for course guests, `linkIdentity`). **Not yet confirmed working live by the owner:** send a reset to an admin address and a Google sign-in, then record the result here.
+- Receiving mail on the domain (e.g. info@) is separate: Cloudflare Email Routing (free forwarding) is the plan; not set up yet.
+
+**Layout batch (29-30 Oct).** Home hero height `max(340px, 59vh)`, ending where the quote section begins; the sidebar is on every page, lighter (`--side-bg`), full height from just below the hero to just above the footer, collapsible; Learn books are a sidebar subsection; merch search, event pictures (`events.image_url`, needs `events_image.sql`), Nectar has the standard site header (`.sh` in `nectar/index.html` + `nectar/style.css`), Admin "Manage the Site" is the admin sidebar, business card front/back and A4 duplex sheet. Tested with Playwright against a fake Supabase client.
+
+**Owner to-do still open:** run `events_image.sql` (one line: `alter table public.events add column if not exists image_url text;`); test forgot-password and Google sign-in live; announce the new Nectar link.
 
 ## 13. OPEN DECISIONS / DECISIONS MADE
 **Decided 27 Oct 2026:** source of truth = this folder; keep Nectar as is (no reading-plan template idea); **message board redesign** = collapsible in-page chat popup, Public/Private toggle, **default public, guests may post publicly**, private = addressed to a selected person, visible only to the sender and that person (no one else, admins included unless they are the recipient: confirm before building the admin view); no WhatsApp button there; donations/payments on hold (no Till, no temple permission yet); no other course design docs, owner will share course content later; social: Instagram and TikTok `iskconjuja.ke`, YouTube `iskconjuja` (enter via admin settings; confirm exact URLs); admin emails to create: `iskconjuja@yahoo.com` and `harekrishnaganjoni@gmail.com`.

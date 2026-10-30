@@ -161,6 +161,25 @@
     if (!READY) return Promise.reject(new Error("Backend not configured yet."));
     return client.auth.signInWithPassword({ email: email, password: password });
   }
+  // Continue with Google (no password, no email sent). New people arrive as "pending" until an admin approves them.
+  function signInWithGoogle(next) {
+    if (!READY) return Promise.reject(new Error("Backend not configured yet."));
+    return client.auth.signInWithOAuth({ provider: "google", options: { redirectTo: window.location.origin + "/" + (next || "dashboard.html") } });
+  }
+  // Forgot password: sends a link by email. Works only once custom email (SMTP) is set up in Supabase.
+  function requestPasswordReset(email) {
+    if (!READY) return Promise.reject(new Error("Backend not configured yet."));
+    return client.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + "/devotees.html" });
+  }
+  function setNewPassword(password) {
+    if (!READY) return Promise.reject(new Error("Backend not configured yet."));
+    return client.auth.updateUser({ password: password });
+  }
+  // Calls back when the person arrives from a reset-password email link.
+  function onPasswordRecovery(cb) {
+    if (!READY) return;
+    client.auth.onAuthStateChange(function (event) { if (event === "PASSWORD_RECOVERY") cb(); });
+  }
   function signOut() {
     if (!READY) return Promise.resolve();
     return client.auth.signOut();
@@ -439,8 +458,20 @@
     getSessionAndRole().then(function (r) {
       var isMember = !!r.session && (r.role === "member" || r.role === "admin" || r.role === "super_admin");
       var isAdmin = !!r.session && (r.role === "admin" || r.role === "super_admin");
-      document.querySelectorAll("[data-public-nav]").forEach(function (el) { el.hidden = isMember; });
+      // Members keep the full site menu (Home, About, Events...). Only the "Member Login" icon/link is swapped for their own links.
+      document.querySelectorAll("[data-public-nav]").forEach(function (el) {
+        if (el.matches(".profile-icon")) el.hidden = isMember;
+        el.querySelectorAll('a[href="devotees.html"]').forEach(function (a) { a.hidden = isMember; });
+      });
       document.querySelectorAll("[data-member-nav]").forEach(function (el) { el.hidden = !isMember; });
+      // In the top bar, Dashboard and My Courses join the normal menu in one row (no second row).
+      var mq = document.querySelector(".header-nav[data-member-nav]"), pn = document.querySelector(".header-nav[data-public-nav]");
+      if (mq && pn) {
+        mq.hidden = true;
+        if (isMember && !pn.querySelector(".member-link")) {
+          mq.querySelectorAll("a").forEach(function (a) { var c = a.cloneNode(true); c.className = "member-link"; pn.appendChild(c); });
+        }
+      }
       document.querySelectorAll("[data-admin-nav]").forEach(function (el) { el.hidden = !isAdmin; });
     });
   }
@@ -474,6 +505,7 @@
 
   window.ISKCON_DATA = {
     READY: READY, client: client,
-    signIn: signIn, signOut: signOut, getSessionAndRole: getSessionAndRole
+    signIn: signIn, signOut: signOut, getSessionAndRole: getSessionAndRole,
+    signInWithGoogle: signInWithGoogle, requestPasswordReset: requestPasswordReset, setNewPassword: setNewPassword, onPasswordRecovery: onPasswordRecovery
   };
 })();

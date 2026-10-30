@@ -1985,3 +1985,13 @@ body.dark-mode {
   .toc-toggle { color: var(--side-text); background: var(--side-bg); border-color: var(--side-line); }
   .toc-links, .toc-collapsed .toc-links { position: static; background: var(--side-bg); max-height: 60vh; }
 }
+
+/* Google sign-in button, following Google's branding rules: white, thin grey border, the four-colour G, "Continue with Google". */
+.gsi-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; height: 42px; padding: 0 12px; background: #fff; color: #1f1f1f; border: 1px solid #747775; border-radius: 4px; font: 500 14px/20px Roboto, "Helvetica Neue", Arial, sans-serif; cursor: pointer; }
+.gsi-btn:hover { background: #f6f8fa; box-shadow: 0 1px 2px rgba(60, 64, 67, .3); }
+.gsi-btn:focus-visible { outline: 3px solid #4285F4; outline-offset: 2px; }
+body.dark-mode .gsi-btn { background: #131314; color: #e3e3e3; border-color: #8e918f; }
+body.dark-mode .gsi-btn:hover { background: #1f1f20; }
+
+/* Signed-in people keep the normal site menu; Dashboard and My Courses are added after it. */
+.header-nav.member-quicknav { flex-grow: 0; }

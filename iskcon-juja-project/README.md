@@ -303,6 +303,12 @@ Four devotional doodle patterns (made in NightCafe, Holy Names added on top by s
 
 Welcome intro moved from Home to the top of About Us (`.intro-block`); Home keeps only the "No pressure, no pitch" statement. Section spacing cut (`.section` padding 12px, about 1 line between sections).
 
+### Workflow decision (1 Nov 2026)
+Website structure first, filling it with content second. Shelved until the structure is finished: Module 5 import (file saved as `courses/module-5-lessons.md`) and the big Prabhupada quotes repository (plan: about 100 public weekly quotes that are relatable and everyday, about 400 more practical ones for the portal; each copied word for word with exact reference; vedabase pages can only be read as summaries by my tools, so books as files are the better source).
+
+### Admin panel reorganised (1 Nov 2026)
+Menu grouped: Every day (Message Board, Testimonials, People), Content (Events, Courses), Site (Settings), and a collapsible "More tools" (Articles, Merchandise, Business Card). Opens on Message Board. All "add" forms are closed drawers (`details.admin-drawer`) above the lists. Settings split into drawers: Contact and social links, Homepage, Menu and sign-in options, Payments (not in use yet). No field names or IDs changed.
+
 **Owner to-do still open:** run `events_image.sql` (one line: `alter table public.events add column if not exists image_url text;`); test forgot-password and Google sign-in live; announce the new Nectar link.
 
 ## 13. OPEN DECISIONS / DECISIONS MADE

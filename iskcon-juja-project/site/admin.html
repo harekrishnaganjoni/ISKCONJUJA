@@ -92,37 +92,39 @@
      <div class="admin-layout" id="admin-layout">
       <nav class="admin-tabs" aria-label="Manage the site">
        <button type="button" class="admin-collapse" id="admin-collapse" aria-label="Collapse menu" title="Collapse menu">&#8249;</button>
-       <button type="button" class="admin-tab-btn active" data-tab="settings">Settings</button>
-       <button type="button" class="admin-tab-btn" data-tab="people">People</button>
+       <div class="admin-group-label">Every day</div>
+       <button type="button" class="admin-tab-btn active" data-tab="board">Message Board</button>
        <button type="button" class="admin-tab-btn" data-tab="testimonials">Testimonials</button>
-       <button type="button" class="admin-tab-btn" data-tab="board">Message Board</button>
-       <button type="button" class="admin-tab-btn" data-tab="articles">Articles</button>
+       <button type="button" class="admin-tab-btn" data-tab="people">People</button>
+       <div class="admin-group-label">Content</div>
        <button type="button" class="admin-tab-btn" data-tab="events">Events</button>
-       <button type="button" class="admin-tab-btn" data-tab="products">Merchandise</button>
        <button type="button" class="admin-tab-btn" data-tab="courses">Courses</button>
-       <button type="button" class="admin-tab-btn" data-tab="card">Business Card</button>
+       <div class="admin-group-label">Site</div>
+       <button type="button" class="admin-tab-btn" data-tab="settings">Settings</button>
+       <details class="admin-more">
+        <summary>More tools</summary>
+        <button type="button" class="admin-tab-btn" data-tab="articles">Articles</button>
+        <button type="button" class="admin-tab-btn" data-tab="products">Merchandise</button>
+        <button type="button" class="admin-tab-btn" data-tab="card">Business Card</button>
+       </details>
       </nav>
       <div class="admin-content">
 
 
      <!-- SETTINGS TAB -->
-     <section class="admin-tab-panel" data-tab-panel="settings">
+     <section class="admin-tab-panel" data-tab-panel="settings" hidden>
       <div class="card highlight" style="padding:24px;max-width:600px;">
        <h3 style="margin-bottom:6px;">Site Settings</h3>
-       <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Anything left blank stays hidden on the public site. Fill it in and it appears automatically &mdash; no code changes needed.</p>
+       <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Anything left blank stays hidden on the public site. Open a group, change what you need, then press Save.</p>
        <form id="settings-form" style="display:flex;flex-direction:column;gap:12px;">
-        <label style="font-size:13px;font-weight:700;">M-Pesa Till Number
-         <input name="mpesa_till" type="text" placeholder="e.g. 123456" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-        <label style="font-size:13px;font-weight:700;">Pesapal Donation Link
-         <input name="pesapal_donate_url" type="text" inputmode="url" placeholder="https://..." style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
+        <details class="admin-drawer" open>
+         <summary>Contact &amp; social links<small>Address, WhatsApp group, social pages</small></summary>
+         <div class="admin-drawer-body">
+        <label style="font-size:13px;font-weight:700;">Address shown in the footer (short)
+         <input name="address_short" type="text" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
         </label>
         <label style="font-size:13px;font-weight:700;">WhatsApp Group Invite Link
          <input name="whatsapp_group_invite" type="text" inputmode="url" placeholder="https://chat.whatsapp.com/..." style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-        <label style="font-size:13px;font-weight:700;">Homepage Hero Photo
-         <input type="file" id="hero-photo-input" accept="image/*" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-         <span id="hero-photo-current" style="font-size:12px;color:var(--muted);display:block;margin-top:4px;">No custom photo set — using the default.</span>
         </label>
         <label style="font-size:13px;font-weight:700;">Facebook URL
          <input name="facebook_url" type="text" inputmode="url" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
@@ -136,14 +138,38 @@
         <label style="font-size:13px;font-weight:700;">TikTok URL
          <input name="tiktok_url" type="text" inputmode="url" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
         </label>
-        <label style="font-size:13px;font-weight:700;">Address shown in the footer (short)
-         <input name="address_short" type="text" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
+         </div>
+        </details>
+        <details class="admin-drawer">
+         <summary>Homepage<small>Hero photo and which sections show</small></summary>
+         <div class="admin-drawer-body">
+        <label style="font-size:13px;font-weight:700;">Homepage Hero Photo
+         <input type="file" id="hero-photo-input" accept="image/*" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
+         <span id="hero-photo-current" style="font-size:12px;color:var(--muted);display:block;margin-top:4px;">No custom photo set — using the default.</span>
         </label>
-        <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="store_enabled" type="checkbox" style="width:auto;"> Show Merchandise in the menu</label>
         <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="articles_enabled" type="checkbox" style="width:auto;"> Show homepage articles section</label>
         <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="special_events_enabled" type="checkbox" style="width:auto;"> Show special events section</label>
+         </div>
+        </details>
+        <details class="admin-drawer">
+         <summary>Menu &amp; sign-in options<small>Merchandise in the menu, Google sign-in, forgot password</small></summary>
+         <div class="admin-drawer-body">
+        <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="store_enabled" type="checkbox" style="width:auto;"> Show Merchandise in the menu</label>
         <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="google_signin_enabled" type="checkbox" style="width:auto;"> Show "Continue with Google" on the login page (switch on only after Google is set up)</label>
         <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="forgot_password_enabled" type="checkbox" style="width:auto;"> Show "Forgot your password?" on the login page (switch on only after email sending is set up)</label>
+         </div>
+        </details>
+        <details class="admin-drawer">
+         <summary>Payments (not in use yet)<small>Till number and donation link, on hold</small></summary>
+         <div class="admin-drawer-body">
+        <label style="font-size:13px;font-weight:700;">M-Pesa Till Number
+         <input name="mpesa_till" type="text" placeholder="e.g. 123456" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
+        </label>
+        <label style="font-size:13px;font-weight:700;">Pesapal Donation Link
+         <input name="pesapal_donate_url" type="text" inputmode="url" placeholder="https://..." style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
+        </label>
+         </div>
+        </details>
         <button class="button" type="submit" style="width:100%;">Save Settings</button>
         <p id="settings-status" style="font-size:13px;"></p>
        </form>
@@ -152,8 +178,9 @@
 
      <!-- PEOPLE TAB -->
      <section class="admin-tab-panel" data-tab-panel="people" hidden>
-      <div class="card highlight" style="padding:24px;margin-bottom:24px;max-width:560px;">
-       <h3 style="margin-bottom:6px;">Add a Member</h3>
+      <details class="admin-drawer card">
+      <summary>+ Add a member<small>Create a login for someone who asked to join</small></summary>
+      <div class="admin-drawer-body">
        <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Creates a real login for someone who has asked to join. Send them their email and temporary password yourself (for example on WhatsApp). They can change the password from their dashboard after signing in.</p>
        <form id="add-member-form" style="display:flex;flex-direction:column;gap:12px;">
         <input name="email" type="email" placeholder="Their email address" required style="padding:8px;border:1px solid var(--line);border-radius:4px;">
@@ -164,7 +191,9 @@
         <button class="button" type="submit" style="width:100%;">Create Member Account</button>
         <p id="add-member-status" style="font-size:13px;"></p>
        </form>
+      
       </div>
+     </details>
       <div class="card" style="padding:24px;">
        <h3 style="margin-bottom:12px;">Pending Approval</h3>
        <div id="pending-list" style="display:flex;flex-direction:column;gap:10px;"></div>
@@ -180,15 +209,16 @@
      </section>
 
      <!-- MESSAGE BOARD TAB -->
-     <section class="admin-tab-panel" data-tab-panel="board" hidden>
+     <section class="admin-tab-panel" data-tab-panel="board">
       <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">Everything posted on the public message board, newest first. <strong>Hide</strong> removes a message from the public board without deleting it. Replies you post here appear publicly marked as Admin. Deleting a message also deletes the replies under it.</p>
       <div id="board-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
 
      <!-- ARTICLES TAB -->
      <section class="admin-tab-panel" data-tab-panel="articles" hidden>
-      <div class="card highlight" style="padding:24px;margin-bottom:24px;max-width:600px;">
-       <h3 style="margin-bottom:12px;">Publish New Article</h3>
+      <details class="admin-drawer card">
+      <summary>+ Publish an article<small></small></summary>
+      <div class="admin-drawer-body">
        <form id="article-form" style="display:flex;flex-direction:column;gap:12px;">
         <input name="title" placeholder="Title" required style="padding:8px;border:1px solid var(--line);border-radius:4px;">
         <input name="author" placeholder="Author" required style="padding:8px;border:1px solid var(--line);border-radius:4px;">
@@ -199,14 +229,17 @@
         <button class="button" type="submit" style="width:100%;">Add Article</button>
         <p id="article-status" style="font-size:13px;"></p>
        </form>
+      
       </div>
+     </details>
       <div id="articles-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
 
      <!-- EVENTS TAB -->
      <section class="admin-tab-panel" data-tab-panel="events" hidden>
-      <div class="card highlight" style="padding:24px;margin-bottom:24px;max-width:600px;">
-       <h3 style="margin-bottom:12px;">Add Special Event</h3>
+      <details class="admin-drawer card">
+      <summary>+ Add an event<small>Special programs and festivals</small></summary>
+      <div class="admin-drawer-body">
        <form id="event-form" style="display:flex;flex-direction:column;gap:12px;">
         <input name="title" placeholder="Event title" required style="padding:8px;border:1px solid var(--line);border-radius:4px;">
         <label style="font-size:12px;font-weight:700;">Start date
@@ -225,14 +258,17 @@
         <button class="button" type="submit" style="width:100%;">Add Event</button>
         <p id="event-status" style="font-size:13px;"></p>
        </form>
+      
       </div>
+     </details>
       <div id="events-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
 
      <!-- PRODUCTS TAB -->
      <section class="admin-tab-panel" data-tab-panel="products" hidden>
-      <div class="card highlight" style="padding:24px;margin-bottom:24px;max-width:600px;">
-       <h3 style="margin-bottom:12px;">Add Merchandise Item</h3>
+      <details class="admin-drawer card">
+      <summary>+ Add a product<small></small></summary>
+      <div class="admin-drawer-body">
        <form id="product-form" style="display:flex;flex-direction:column;gap:12px;">
         <input name="name" placeholder="Product name" required style="padding:8px;border:1px solid var(--line);border-radius:4px;">
         <select name="category" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
@@ -256,15 +292,18 @@
         <button class="button" type="submit" style="width:100%;">Add Product</button>
         <p id="product-status" style="font-size:13px;"></p>
        </form>
+      
       </div>
+     </details>
       <div id="products-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
 
      <!-- COURSES TAB -->
      <section class="admin-tab-panel" data-tab-panel="courses" hidden>
-      <div class="card highlight" style="padding:20px;margin-bottom:24px;max-width:600px;"><h3 style="margin-bottom:6px;">Course Editor</h3><p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Build full courses with modules, lessons, quizzes and a learner-questions inbox, or import a whole course from a file.</p><div style="display:flex;gap:10px;flex-wrap:wrap;"><a class="button" href="course-editor.html#/import">Import a course from a file</a><a class="button secondary" href="course-editor.html">Open the Course Editor</a></div></div>
-      <div class="card highlight" style="padding:24px;margin-bottom:24px;max-width:600px;">
-       <h3 style="margin-bottom:12px;">Add Course</h3>
+      <div class="card highlight" style="padding:20px;margin-bottom:16px;max-width:600px;"><h3 style="margin-bottom:6px;">Course Editor</h3><p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Build full courses with modules, lessons, quizzes and a learner-questions inbox, or import a whole course from a file.</p><div style="display:flex;gap:10px;flex-wrap:wrap;"><a class="button" href="course-editor.html#/import">Import a course from a file</a><a class="button secondary" href="course-editor.html">Open the Course Editor</a></div></div>
+      <details class="admin-drawer card">
+      <summary>+ Quick-add a course<small>Basic details only; use the Course Editor for full courses</small></summary>
+      <div class="admin-drawer-body">
        <form id="course-form" style="display:flex;flex-direction:column;gap:12px;">
         <input name="title" placeholder="Course title" required style="padding:8px;border:1px solid var(--line);border-radius:4px;">
         <textarea name="description" placeholder="Description" style="padding:8px;border:1px solid var(--line);border-radius:4px;min-height:80px;"></textarea>
@@ -280,7 +319,9 @@
         <button class="button" type="submit" style="width:100%;">Add Course</button>
         <p id="course-status" style="font-size:13px;"></p>
        </form>
+      
       </div>
+     </details>
       <div id="courses-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
 
@@ -314,7 +355,7 @@
       </div>
       <p id="card-status" style="font-size:13px;margin-top:8px;"></p>
 
-      <details class="card" style="padding:14px 16px;max-width:640px;margin-top:16px;" open>
+      <details class="card" style="padding:14px 16px;max-width:640px;margin-top:16px;">
        <summary style="font-weight:700;cursor:pointer;">How to print it (double-sided)</summary>
        <ol style="margin:10px 0 0 18px;font-size:14px;line-height:1.6;">
         <li>Click <strong>Print A4 sheet</strong>. Two pages open in the print window: page 1 is the fronts, page 2 is the backs. Each page holds 10 cards (2 across, 5 down) with a 2 mm gap.</li>

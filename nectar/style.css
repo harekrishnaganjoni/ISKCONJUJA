@@ -158,3 +158,7 @@ body { padding-bottom: max(88px, env(safe-area-inset-bottom, 0px)); }
 .sh-nav a { text-decoration: none; color: #2c3e50; font-weight: 600; font-size: 14px; padding: 6px 2px; border-bottom: 2px solid transparent; }
 .sh-nav a.on { color: #800020; border-bottom-color: #d4ac0d; }
 .sh-nav a.sh-cta { background: #800020; color: #fff; padding: 6px 14px; border-radius: 8px; border-bottom: 0; }
+
+/* Background pattern (shared with the main site) */
+body[data-pat]::before { content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; background:url("../images/pattern-2.webp") repeat; background-size:640px 640px; opacity:.5; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body[data-pat]::before { filter:invert(1) hue-rotate(180deg); opacity:.07; } }

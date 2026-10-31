@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nectar of Instruction</title>
+<meta name="theme-color" content="#800020">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-pat="2">
+<header class="sh">
+  <div class="sh-top">
+    <a class="sh-brand" href="/index.html" aria-label="ISKCON JUJA home">
+      <img src="/images/juja-logo.svg" alt="ISKCON Juja">
+      <span>ISKCON JUJA</span>
+    </a>
+    <div class="sh-mantra" aria-label="Maha Mantra">
+      <p>Hare Krishna Hare Krishna Krishna Krishna Hare Hare</p>
+      <p>Hare Rama Hare Rama Rama Rama Hare Hare</p>
+    </div>
+    <div class="sh-founder">
+      <p>ISKCON Founder Acharya HDG Srila A.C Bhaktivedanta Swami Prabhupada</p>
+      <img src="/images/prabhupada-sitting.webp" alt="Srila Prabhupada" width="52" height="52">
+    </div>
+  </div>
+  <nav class="sh-nav" aria-label="Main navigation">
+    <a href="/index.html">Home</a>
+    <a href="/about.html">About Us</a>
+    <a href="/events.html">Events</a>
+    <a class="sh-cta" href="/participate.html">Get Involved</a>
+    <a href="/learn.html" class="on">Learn</a>
+  </nav>
+</header>
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Kartik 2026 · ISKCON Juja</p>
+    <h1>Nectar of Instruction</h1>
+    <p class="sub">Reading together, 26 Oct to 24 Nov</p>
+  </div>
+</header>
+<div class="wrap">
+  <div class="bar">
+    <button id="b-day" aria-pressed="true">Today</button>
+    <button id="b-all" aria-pressed="false">All days</button>
+    <button id="b-remind" aria-pressed="false">Reminders</button>
+    <button id="b-quiz" aria-pressed="false">Quiz</button>
+    <button id="b-admin" aria-pressed="false" hidden>Leader view</button>
+  </div>
+  <main id="app"></main>
+</div>
+<script src="/supabase-config.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

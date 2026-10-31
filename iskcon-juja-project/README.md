@@ -301,7 +301,7 @@ Each phase fits in 3 sessions or fewer.
 ### Page background patterns (31 Oct 2026)
 Four devotional doodle patterns (made in NightCafe, Holy Names added on top by script so the spelling is exact) are used as the page background: ONE image per page that covers the whole screen (`background: center / cover`, fixed, no tiling). Files `images/pattern-1..4.webp` (2048px); set per page with `data-pat="N"` on `<body>`; CSS at the end of `styles.css` (fixed `body::before`, opacity .3, inverted and very faint in dark mode). The ivory/white section, header and footer backgrounds are see-through so the pattern shows like a colour; text sits in veiled boxes (`--veil`). Mapping: 1 = Home, Events; 2 = About, Participate, Nectar; 3 = Learn, courses, dashboard, admin, editor; 4 = Sign in, Message Board, Merch, Privacy, 404. Header content (logo, Maha Mantra, Prabhupada) is untouched. Quote of the week made compact (about 28% of the screen).
 
-Welcome intro moved from Home to the top of About Us (`.intro-block`); Home keeps only the "No pressure, no pitch" statement. Section spacing cut (`.section` padding 26px, so about 2 lines between sections).
+Welcome intro moved from Home to the top of About Us (`.intro-block`); Home keeps only the "No pressure, no pitch" statement. Section spacing cut (`.section` padding 12px, about 1 line between sections).
 
 **Owner to-do still open:** run `events_image.sql` (one line: `alter table public.events add column if not exists image_url text;`); test forgot-password and Google sign-in live; announce the new Nectar link.
 

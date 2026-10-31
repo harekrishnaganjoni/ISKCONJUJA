@@ -2107,3 +2107,8 @@ body[data-pat] main > .section-inner { background: var(--veil); border-radius: 1
 .intro-body { font-size: 17px; line-height: 1.7; margin: 0; }
 .section { padding: 26px 0; }
 .page-hero { padding-bottom: 40px; }
+/* spacing between sections: about one line (31 Oct 2026, second pass) */
+.section { padding: 12px 0; }
+.quote-fun { padding: 12px 16px; }
+.page-hero { padding-bottom: 28px; }
+@media (max-width: 600px) { .quote-fun { padding: 10px 12px; } }

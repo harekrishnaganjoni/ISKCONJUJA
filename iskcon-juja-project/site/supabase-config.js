@@ -28,7 +28,7 @@ window.SUPABASE_ANON_KEY = "sb_publishable_jJ8mJ4E57_d7OO7DYdlbkw_7fjEzgrl";
 // working on the one address, so nothing breaks during the switch.
 // ============================================================
 window.ISKCON_HOSTS = {
-  portalLive: false,
+  portalLive: true,
   publicHosts: ["iskconjuja.co.ke", "www.iskconjuja.co.ke"],
   publicOrigin: "https://iskconjuja.co.ke",
   portalHost: "portal.iskconjuja.co.ke",

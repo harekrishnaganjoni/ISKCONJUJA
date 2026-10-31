@@ -2034,3 +2034,28 @@ body.dark-mode .ph { background: #241a1f; border-bottom-color: rgba(243, 156, 18
 @media (prefers-reduced-motion: reduce) { .sign-quote blockquote { animation: none; } }
 @media (max-width: 900px) { .sign-split { grid-template-columns: minmax(0, 1fr); } .sign-quote { padding: 40px 24px; } }
 .in-portal .float-stack { display: none !important; }
+
+/* Sign-in page: everything fits one screen, no scrolling on desktop. */
+.sign-split { height: calc(100vh - 62px); height: calc(100dvh - 62px); min-height: 0; overflow: auto; }
+#sign-split ~ .ph-foot { display: none; }
+.sign-form-side { padding: 12px 20px; }
+.sign-quote { padding: 24px clamp(20px, 4vw, 56px); }
+.sign-quote::before { inset: 10px; border-radius: 14px; }
+.sq-lotus { width: clamp(70px, 9vw, 110px); margin-bottom: 8px; }
+.sq-kicker { margin-bottom: 6px; font-size: 11px; }
+.sign-quote blockquote::before { font-size: 60px; margin-bottom: 0; }
+.sign-quote blockquote p { font-size: clamp(16px, 1.6vw, 21px); line-height: 1.45; }
+.sign-quote footer { margin-top: 10px; font-size: 11px; }
+.sq-orn { margin-top: 14px; }
+@media (max-width: 900px) {
+  .sign-split { height: auto; min-height: calc(100dvh - 62px); overflow: visible; }
+  .sign-quote { padding: 12px 18px; }
+  .sign-quote::before { inset: 6px; }
+  .sq-lotus, .sq-orn { display: none; }
+  .sign-quote blockquote::before { display: none; }
+  .sign-quote blockquote p { font-size: 15px; line-height: 1.4; }
+  .sign-quote footer { margin-top: 6px; }
+  .sign-form-side { padding: 8px 12px 8px; }
+  #signin-panel { padding: 10px 16px !important; }
+  #signin-panel h2 { font-size: 20px !important; margin-bottom: 6px !important; }
+}

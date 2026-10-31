@@ -22,7 +22,7 @@ var DAYS = [
     qs: ["What do you hope to get from this month of reading?", "What is one habit you would like to improve by the end of Kartik?"],
     tryThis: "Tomorrow's topic is why saying sorry is not enough. Read it tomorrow morning, even just the first few lines." },
 
-  /* ---------------- Text 1: days 2 to 4 (day 5 became movie day, Fri 30 Oct) ---------------- */
+  /* ---------------- Text 1: days 2 to 4 (day 5 became movie day, Fri 30 Oct; day 8 is the Text 1 wrap-up) ---------------- */
   { kind: "topic", title: "Why saying sorry is not enough",
     hook: "Have you ever promised to stop a bad habit and done it again the same day?",
     read: R(1, [["placed a number of intelligent questions", "easy process is being recommended"]]),
@@ -76,7 +76,7 @@ var DAYS = [
     qs: ["What did Prahlada do to stay strong when his father was against him?", "Why do you think Hiranyakashipu's clever plan failed?", "Where in your life do you need a little of Prahlada's courage?", "What would you ask God for, and what does Prahlada's answer teach you?"],
     tryThis: "Tell one person the story of Prahlada in your own words. Then choose one small way to stay steady this week, like starting your chanting at the same time every day." },
 
-  /* ---------------- Text 2: days 6 to 9 ---------------- */
+  /* ---------------- Text 2: days 6, 7 and 9 ---------------- */
   { kind: "topic", title: "Taking more than we need",
     hook: "Birds take a few grains and fly away. People take the whole bag. Why?",
     read: R(2, [["the main problem confronting the conditioned souls", "that is their unfortunate position"]]),
@@ -101,29 +101,35 @@ var DAYS = [
     qs: ["How much time do you spend on chats and social media?", "Whose company helps you grow? How can we spend more time with them?"],
     tryThis: "Take 15 minutes you would spend chatting about nothing and spend it with a friend on something uplifting." },
 
-  { kind: "topic", title: "Rules and greed",
-    hook: "Do rules help us, or hold us back?",
-    read: R(2, [["karmis labor to accumulate", "impediments on the path"]]),
+  /* ---------------- Text 1 wrap-up: day 8 (Mon 2 Nov) ---------------- */
+  { kind: "topic", title: "Text 1 wrap-up: why self-control comes before advice",
+    hook: "Would you take diet advice from a doctor who eats junk food all day?",
+    read: R(1, [["as for the urges of the tongue", "bona fide spiritual master"]]),
+    points: [
+      "This is the last lesson on Text 1. The verse says that a sober person who can tolerate the six urges is qualified to make disciples all over the world. Today's reading finishes the explanation.",
+      "The tongue: we should not let the tongue eat just as it likes. The devotee's attitude is to eat only when Krishna gives him prasada, at scheduled times, and not to eat in restaurants or sweet shops just to satisfy the whims of the tongue or belly.",
+      "The sexual urge: it is kept for marriage and for raising children who love God. Marriage is encouraged for that purpose, and not only for enjoyment.",
+      "The conclusion: when a person is fully practised in controlling these urges, he can become qualified to be a genuine teacher. A good teacher is not someone who knows many words. It is someone whose life matches what he says.",
+      "This does not mean everyone must become a teacher. For us it means that advice from a person who has mastered himself carries weight, and the best way to help others is to work on ourselves first. We start with one urge at a time, and we do not have to be perfect to begin.",
+      "Text 1 in a line each: speech, mind and anger (days 2 and 3); tongue, stomach and the sexual urge (day 4); and today, why this self-control is what makes a person fit to guide others."
+    ],
+    qs: ["Whose advice do you trust most? Does their own life match what they say?", "Which one of the six urges would you like to work on first?"],
+    tryThis: "Choose one of the six urges and set one small rule for this week, like no snacking between meals or no arguing online. Tell a friend so they can ask you how it went." },
+
+  /* ---------------- Text 2: day 9 (Tue 3 Nov, rules, greed and the summary in one day) ---------------- */
+  { kind: "topic", title: "Rules, greed and everything belongs to God (Text 2 in one picture)",
+    hook: "You find a hundred shillings on the road. What do you do?",
+    read: R(2, [["karmis labor to accumulate", "impediments on the path"], ["if a hundred-dollar bill", "knowing well to whom they belong"]]),
     points: [
       "Story: a man worked all his life to build a fortune for his sons and grandsons. In his next life he was born in a cobbler's family near the house he built, and his own sons beat him with shoes. We work hard for our children without knowing our own future.",
       "Rules: follow spiritual rules for spiritual progress, not for material gain. Ignoring them is also a mistake. The four basic rules are to avoid illicit sex, meat-eating, gambling and intoxication.",
-      "Staying close to people who blaspheme the Vaishnavas (the God-loving people) is not helpful.",
-      "Greed: wanting mystic powers, merging into the formless, or material prosperity gets in the way."
-    ],
-    qs: ["Are there rules in your life you follow without knowing why?", "What do you work hardest for? Will it matter in the end?"],
-    tryThis: "Write down one rule you keep, and why you keep it." },
-
-  { kind: "topic", title: "Everything belongs to God (Text 2 in one picture)",
-    hook: "You find a hundred shillings on the road. What do you do?",
-    read: R(2, [["if a hundred-dollar bill", "knowing well to whom they belong"]]),
-    points: [
+      "Greed: wanting mystic powers, merging into the formless, or material prosperity gets in the way. Staying close to people who blaspheme the Vaishnavas (the God-loving people) is not helpful either.",
       "Three people find money on the street. One pockets it (dishonest). One leaves it (honest, but does not know its use). The third finds the owner and returns it (honest and wise).",
-      "Everything belongs to God. We take what we need and do not take what belongs to others.",
-      "Taking more than we need is a kind of theft. The world has enough for everyone to live well.",
+      "Everything belongs to God. We take what we need and do not take what belongs to others. Taking more than we need is a kind of theft. The world has enough for everyone to live well.",
       "The six hindrances: taking too much, over-working, idle talk, rule extremes, bad company, and greed."
     ],
-    qs: ["Why is returning the money 'wise' and not just 'honest'?", "Which of the six hindrances will you watch this week?"],
-    tryThis: "Before you buy something this week, ask: do I need this?" },
+    qs: ["Are there rules in your life you follow without knowing why?", "Why is returning the money 'wise' and not just 'honest'?", "Which of the six hindrances will you watch this week?"],
+    tryThis: "Before you buy something this week, ask: do I need this? Then write down one rule you keep, and why you keep it." },
 
   /* ---------------- Text 3: days 10 to 13 ---------------- */
   { kind: "topic", title: "Devotion is action",
@@ -458,14 +464,15 @@ var EXTRA = [
     "Talking about a movie with friends is fine. A little relaxation is normal, and only excess is the problem. The trouble starts when it fills every evening. The cure is not to ban it, but to make room for better talk too: one evening a week sharing something we learned.",
     "Farmers join a cooperative to learn from other farmers, and traders join the chamber of commerce. In the same way we sit with people who are serious about spiritual life, because progress is normal there."] },
   /* 8 */ { ex: [
-    "Rules for progress: A runner follows his training plan because it makes him faster, not to impress anyone, and he does not skip it when nobody is watching.",
-    "Preparing for what is next: Before travelling abroad you learn the language. You prepare for where you are going, not only where you are now. The man who built a fortune for his sons did not prepare for his own next step.",
-    "Company: A student serious about exams sits with people who study, not with those who laugh at studying.",
-    "Greed: Someone who is content with enough spends his savings on school fees and has peace. The one chasing more has none."] },
+    "A swimming coach who cannot swim is not believed. A coach who trains every morning is followed without being asked.",
+    "A driving instructor must drive safely himself. His calm hands on the wheel teach as much as his words.",
+    "A mother who wants her child to eat vegetables eats them herself at the table.",
+    "Being able to leave the last biscuit on the plate is a kind of freedom that someone who cannot stop does not have."] },
   /* 9 */ { ex: [
+    "Rules for progress: A runner follows his training plan because it makes him faster, not to impress anyone, and he does not skip it when nobody is watching.",
+    "Preparing for what is next: Before travelling abroad you learn the language. The man who built a fortune for his sons did not prepare for his own next step.",
     "You find KSh 1,000 outside a shop. The third person asks the shopkeeper whose it is and returns it. He is both honest and wise.",
-    "A tenant looks after a rented house as the landlord's property: uses it, keeps it clean, does not sell the doors.",
-    "At a wedding feast every guest gets a plate. You eat what you need, trusting the hosts prepared enough for all."] },
+    "A tenant looks after a rented house as the landlord's property: uses it, keeps it clean, does not sell the doors."] },
   /* 10 */ { ex: [
     "Someone who wants to learn the guitar does not only admire guitars. He picks one up and practises daily.",
     "Quiet sitting can clear the weeds, but then you must plant. Meditation stops the nonsense, and devotion adds meaningful activity.",

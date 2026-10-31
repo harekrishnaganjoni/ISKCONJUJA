@@ -162,3 +162,11 @@ body { padding-bottom: max(88px, env(safe-area-inset-bottom, 0px)); }
 /* Background pattern (shared with the main site) */
 body[data-pat]::before { content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; background:url("../images/pattern-2.webp") center / cover no-repeat; opacity:.3; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body[data-pat]::before { filter:invert(1) hue-rotate(180deg); opacity:.07; } }
+
+/* Header: full width like the main site (it was sitting inside the page padding), same nav bar look */
+.sh { margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))); border-bottom: 0; background: rgba(251,241,214,.9); }
+.sh-nav { min-height: 54px; align-items: center; padding: 0 12px; background: rgba(251,241,214,.97); border-top: 1px solid rgba(128,0,32,.14); border-bottom: 1px solid rgba(128,0,32,.14); box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+.sh-nav a { padding: 8px 14px; border-radius: 4px; border-bottom: 0; position: relative; }
+.sh-nav a.on::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 2px; height: 2px; background: #d4ac0d; }
+.sh-nav a.sh-cta { padding: 8px 16px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .sh { background: rgba(36,26,31,.9); } :root:not([data-theme="light"]) .sh-nav { background: rgba(36,26,31,.97); border-color: rgba(243,156,18,.2); } :root:not([data-theme="light"]) .sh-nav a:not(.sh-cta) { color: #f0eae1; } :root:not([data-theme="light"]) .sh-brand, :root:not([data-theme="light"]) .sh-nav a.on { color: #f5b041; } }

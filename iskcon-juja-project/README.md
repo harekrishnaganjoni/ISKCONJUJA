@@ -309,6 +309,9 @@ Website structure first, filling it with content second. Shelved until the struc
 ### Admin panel reorganised (1 Nov 2026)
 Menu grouped: Every day (Message Board, Testimonials, People), Content (Events, Courses), Site (Settings), and a collapsible "More tools" (Articles, Merchandise, Business Card). Opens on Message Board. All "add" forms are closed drawers (`details.admin-drawer`) above the lists. Settings split into drawers: Contact and social links, Homepage, Menu and sign-in options, Payments (not in use yet). No field names or IDs changed.
 
+### Nectar plan changed (1 Nov 2026)
+Added a Text 1 wrap-up lesson on Mon 2 Nov (Day 8): "why self-control comes before advice" (reads the tongue/prasada, sexual-urge and "bona fide spiritual master" paragraphs that Days 2 to 4 had skipped). To keep the end date at 24 Nov, Text 2's "Rules and greed" and "Everything belongs to God" are now one day (Tue 3 Nov, Day 9, two reading parts). Day 10 onward and the quiz day are unchanged. `nectar/sw.js` v15. Nectar page header is now full width and its nav bar matches the main site.
+
 **Owner to-do still open:** run `events_image.sql` (one line: `alter table public.events add column if not exists image_url text;`); test forgot-password and Google sign-in live; announce the new Nectar link.
 
 ## 13. OPEN DECISIONS / DECISIONS MADE

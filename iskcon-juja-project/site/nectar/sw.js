@@ -1,5 +1,5 @@
 /* Offline support. Online, the newest files are always used. Offline, the saved copies are used. */
-var VERSION = "v13";
+var VERSION = "v14";
 var CACHE = "nectar-" + VERSION;
 var FILES = [
   "./", "index.html", "style.css", "data.js", "app.js", "manifest.webmanifest", "icon-192.png", "icon-512.png",

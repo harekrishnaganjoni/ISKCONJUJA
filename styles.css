@@ -2060,14 +2060,42 @@ body.dark-mode .ph { background: #241a1f; border-bottom-color: rgba(243, 156, 18
   #signin-panel h2 { font-size: 20px !important; margin-bottom: 6px !important; }
 }
 
-/* ---- Page background patterns (one per page; set with data-pat on <body>) ---- */
+/* ---- Page background pattern: ONE image that covers the whole screen (31 Oct 2026) ----
+   Set per page with data-pat on <body>. It sits behind everything and is used like a colour:
+   sections, header and footer are see-through, text sits in veiled boxes so it stays readable. */
+:root { --veil: rgba(255, 253, 246, 0.84); --veil-strong: rgba(255, 253, 246, 0.9); --band-veil: rgba(251, 241, 214, 0.86); }
+body.dark-mode { --veil: rgba(26, 18, 21, 0.86); --veil-strong: rgba(26, 18, 21, 0.92); --band-veil: rgba(36, 26, 31, 0.88); }
 body[data-pat]:not(.auth-checking)::before {
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background-repeat: repeat; background-size: 900px 900px; opacity: .28;
+  background: center / cover no-repeat; opacity: .3;
 }
 body[data-pat="1"]:not(.auth-checking)::before { background-image: url("images/pattern-1.webp"); }
 body[data-pat="2"]:not(.auth-checking)::before { background-image: url("images/pattern-2.webp"); }
 body[data-pat="3"]:not(.auth-checking)::before { background-image: url("images/pattern-3.webp"); }
 body[data-pat="4"]:not(.auth-checking)::before { background-image: url("images/pattern-4.webp"); }
-body.dark-mode[data-pat]:not(.auth-checking)::before { filter: invert(1) hue-rotate(180deg); opacity: .05; }
-@media (max-width: 700px) { body[data-pat]:not(.auth-checking)::before { background-size: 640px 640px; } }
+body.dark-mode[data-pat]:not(.auth-checking)::before { filter: invert(1) hue-rotate(180deg); opacity: .07; }
+
+/* the ivory/white areas become see-through so the pattern shows */
+body[data-pat] .section-alt { background: transparent; }
+body[data-pat] .section-alt, body[data-pat] .section { background-color: transparent; }
+body[data-pat] .header-top, body[data-pat] .nav-container, body[data-pat] .ph, body[data-pat] .footer { background: var(--band-veil); }
+body[data-pat] .sign-split { background: transparent; }
+
+/* words live in their own veiled box (not on photo heroes) */
+body[data-pat] main .section:not(.quote-fun) > .section-inner {
+  background: var(--veil); border-radius: 18px; padding: 28px clamp(16px, 3vw, 36px);
+}
+body[data-pat] .section-alt > .section-inner[style*="text-align"] { background: var(--veil); }
+
+/* quote of the week: compact (max ~60% of the screen) */
+.quote-fun { padding: 22px 16px; background: transparent; }
+.quote-fun-card { max-width: 620px; padding: 26px 22px 18px; border-width: 2px; border-radius: 20px; box-shadow: 5px 6px 0 rgba(128, 0, 32, 0.12); background: var(--veil-strong); }
+.quote-fun-card::before { font-size: 64px; top: -4px; left: 12px; }
+.quote-fun-sticker { top: -14px; padding: 5px 12px; font-size: 12px; }
+.quote-fun-text { font-size: clamp(16px, 2.2vw, 21px); line-height: 1.45; }
+.quote-fun-source { margin-top: 10px; font-size: 14px; }
+.quote-fun-source::after { font-size: 11px; }
+@media (max-width: 600px) { .quote-fun { padding: 18px 12px; } .quote-fun-card { padding: 24px 16px 14px; } }
+body[data-pat] .nav-container { background: rgba(251, 241, 214, 0.97); }
+body.dark-mode[data-pat] .nav-container { background: rgba(36, 26, 31, 0.97); }
+body[data-pat] main > .section-inner { background: var(--veil); border-radius: 18px; margin-top: 16px; }

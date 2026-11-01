@@ -11,7 +11,7 @@ js = "global.window=global;var s=require('fs').readFileSync('%s/nectar/data.js',
 data = json.loads(subprocess.check_output(["node", "-e", js]))
 y, m, d0 = data["s"]; start = datetime.date(y, m + 1, d0)
 
-def esc(t): return t.replace("\\", "\\\\").replace(";", "\;").replace(",", "\\,").replace("\n", "\\n")
+def esc(t): return t.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\n", "\\n")
 def fold(line):
     out, b = [], line.encode("utf8")
     while len(b) > 75:

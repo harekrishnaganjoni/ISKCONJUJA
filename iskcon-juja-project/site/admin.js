@@ -49,7 +49,7 @@
     // ============================================================
     var settingsForm = document.getElementById("settings-form");
     var settingsStatus = document.getElementById("settings-status");
-    var TEXT_KEYS = ["mpesa_till", "pesapal_donate_url", "whatsapp_group_invite", "facebook_url", "instagram_url", "youtube_url", "tiktok_url", "address_short"];
+    var TEXT_KEYS = ["mpesa_till", "pesapal_donate_url", "whatsapp_group_invite", "facebook_url", "instagram_url", "youtube_url", "tiktok_url", "address_short", "whatsapp_primary", "whatsapp_secondary"];
     var BOOL_KEYS = ["store_enabled", "articles_enabled", "special_events_enabled", "google_signin_enabled", "forgot_password_enabled"];
 
     client.from("site_settings").select("key,value").then(function (r) {
@@ -94,6 +94,7 @@
       TEXT_KEYS.forEach(function (k) {
         var v = (settingsForm.elements[k].value || "").trim();
         if (URL_KEYS.indexOf(k) >= 0 && v && !/^https?:\/\//i.test(v)) v = "https://" + v;   // forgive a missing https://
+        if (k === "whatsapp_primary" || k === "whatsapp_secondary") { v = v.replace(/\D/g, ""); if (/^0\d{9}$/.test(v)) v = "254" + v.slice(1); else if (/^[71]\d{8}$/.test(v)) v = "254" + v; }   // digits only; 0700... or 700... becomes 254700...
         settingsForm.elements[k].value = v;
         updates.push({ key: k, value: v });
       });

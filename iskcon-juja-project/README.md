@@ -328,6 +328,10 @@ Krishna-with-flute silhouette on the portal sign-in quote panel, Gaura-Nitai sil
 ### Phase 3: Quotes tab in admin (2 Nov 2026)
 - Admin **Quotes** tab (Content group): add, edit, delete, search quotes (text + exact source). The home page's weekly quote rotation (`get_weekly_quote`) already reads this table, so no SQL was needed. Until quotes are added, the built-in starter quotes show. Browser test: 6 PASS.
 
+### Phase 3: contact numbers editable from admin (2 Nov 2026)
+- Admin > Settings > Contact has **Program contact** and **Backup contact** WhatsApp numbers (`whatsapp_primary`, `whatsapp_secondary` in `site_settings`; stored as digits with country code, `0700...` becomes `254700...`). `data.js` passes them to `window.ISKCON.setWhatsApp()` in `site.js`, which re-wires every WhatsApp button. The numbers hard-coded in `site.js` are only a fallback. The address was already editable. No SQL needed. Browser test: 7 PASS.
+- Still open in Phase 3: editable weekly program days/times (now fixed text in `events.html`), membership application.
+
 **Owner to-do still open:** run `events_image.sql` (one line: `alter table public.events add column if not exists image_url text;`); test forgot-password and Google sign-in live; announce the new Nectar link.
 
 ## 13. OPEN DECISIONS / DECISIONS MADE

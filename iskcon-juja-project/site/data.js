@@ -45,6 +45,7 @@
       var v = settings[el.getAttribute("data-setting-text")];
       if (v) el.textContent = v;
     });
+    if (window.ISKCON.setWhatsApp) window.ISKCON.setWhatsApp(String(settings.whatsapp_primary || "").replace(/\D/g, ""), String(settings.whatsapp_secondary || "").replace(/\D/g, ""));
     document.dispatchEvent(new CustomEvent("iskcon:settings"));
   }
 

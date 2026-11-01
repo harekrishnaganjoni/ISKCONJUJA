@@ -7,10 +7,11 @@
   // on the site reads from here automatically.
   // Format: country code + number, no +, no spaces, no leading 0.
   // ============================================================
-  const WHATSAPP_PRIMARY = "254714211692";   // Program contact (currently Tim)
-  const WHATSAPP_SECONDARY = "254743184998"; // Backup contact (Dan)
-  const WHATSAPP_NUMBER = WHATSAPP_PRIMARY;
-  const WHATSAPP_BASE = "https://wa.me/" + WHATSAPP_NUMBER;
+  // These are only the fallback. The admin panel (Settings > Contact) overrides them live.
+  let WHATSAPP_PRIMARY = "254714211692";   // Program contact (currently Tim)
+  let WHATSAPP_SECONDARY = "254743184998"; // Backup contact (Dan)
+  let WHATSAPP_NUMBER = WHATSAPP_PRIMARY;
+  let WHATSAPP_BASE = "https://wa.me/" + WHATSAPP_NUMBER;
   
   function whatsAppLink(message) {
   return WHATSAPP_BASE + "?text=" + encodeURIComponent(message);
@@ -78,6 +79,14 @@
   applySettings();
 
   window.ISKCON = { whatsAppLink, WHATSAPP_NUMBER, WHATSAPP_PRIMARY, WHATSAPP_SECONDARY, SITE_SETTINGS, wireWhatsAppLinks };
+  // Called when the live settings arrive: use the numbers the admin saved (digits only, country code first).
+  window.ISKCON.setWhatsApp = function (primary, secondary) {
+    const ok = function (n) { return /^\d{9,15}$/.test(n || ""); };
+    if (ok(primary)) { WHATSAPP_PRIMARY = primary; WHATSAPP_NUMBER = primary; WHATSAPP_BASE = "https://wa.me/" + primary; }
+    if (ok(secondary)) WHATSAPP_SECONDARY = secondary;
+    window.ISKCON.WHATSAPP_NUMBER = WHATSAPP_NUMBER; window.ISKCON.WHATSAPP_PRIMARY = WHATSAPP_PRIMARY; window.ISKCON.WHATSAPP_SECONDARY = WHATSAPP_SECONDARY;
+    wireWhatsAppLinks();
+  };
   
   // CONTACT PHONE SHOWN ON PAGES (always read from the config above)
   document.querySelectorAll("[data-contact-phone]").forEach(function (el) {

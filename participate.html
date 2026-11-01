@@ -154,6 +154,26 @@
    </div>
   </section>
 
+  <!-- MEMBERSHIP APPLICATION -->
+  <section class="section" id="membership" data-toc="Become a member">
+   <div class="section-inner" style="max-width:640px;">
+    <div class="card highlight" style="padding:24px;">
+     <div class="eyebrow">&#128273; Member Portal</div>
+     <h2>Apply to become a member</h2>
+     <p style="margin-bottom:12px;">Members get a login to the portal: courses, private messages with the admins and more. Anyone can apply; the admins look at each application and get in touch.</p>
+     <form data-membership-form style="display:flex;flex-direction:column;gap:10px;">
+      <input name="name" placeholder="Your name" required maxlength="80" autocomplete="name" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
+      <input name="phone" placeholder="Phone number" maxlength="40" autocomplete="tel" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
+      <input name="email" type="email" placeholder="Email (your login will use it)" maxlength="120" autocomplete="email" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
+      <textarea name="note" placeholder="Anything you would like us to know (optional)" maxlength="600" style="padding:8px;border:1px solid var(--line);border-radius:4px;min-height:70px;"></textarea>
+      <label style="font-size:13px;display:flex;gap:8px;align-items:flex-start;"><input name="consent" type="checkbox" required style="width:auto;margin-top:3px;"><span>You may contact me about this application. I know it is seen only by the ISKCON Juja admins (<a href="privacy.html" style="text-decoration:underline;">privacy</a>).</span></label>
+      <button class="button" type="submit">Send my application</button>
+      <p class="signup-msg" style="font-size:13px;margin:0;" aria-live="polite"></p>
+     </form>
+    </div>
+   </div>
+  </section>
+
   <!-- VISIT + CONTACT -->
   <section class="section">
    <div class="section-inner" style="display: grid; grid-template-columns: 1fr; gap: 32px; align-items: start;">
@@ -219,6 +239,7 @@
   <script src="supabase-config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="data.js"></script>
+  <script src="signup.js"></script>
   <script src="site.js"></script>
   <div class="float-stack">
    <div class="float-menu" id="float-menu" hidden>

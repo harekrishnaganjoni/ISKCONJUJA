@@ -49,7 +49,7 @@
     // ============================================================
     var settingsForm = document.getElementById("settings-form");
     var settingsStatus = document.getElementById("settings-status");
-    var TEXT_KEYS = ["mpesa_till", "pesapal_donate_url", "whatsapp_group_invite", "facebook_url", "instagram_url", "youtube_url", "tiktok_url", "address_short", "whatsapp_primary", "whatsapp_secondary"];
+    var TEXT_KEYS = ["mpesa_till", "pesapal_donate_url", "whatsapp_group_invite", "facebook_url", "instagram_url", "youtube_url", "tiktok_url", "address_short", "whatsapp_primary", "whatsapp_secondary", "sunday_title", "sunday_text", "sunday_schedule"];
     var BOOL_KEYS = ["store_enabled", "articles_enabled", "special_events_enabled", "google_signin_enabled", "forgot_password_enabled"];
 
     client.from("site_settings").select("key,value").then(function (r) {
@@ -281,6 +281,40 @@
     wireTable("events", "event-form", "events-admin-list", "event-status", function (ev) {
       return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.start_time ? " " + String(ev.start_time).slice(0, 5) : "") + (ev.image_url ? " \u00b7 has picture" : ""));
     });
+
+    // Membership applications
+    (function () {
+      var list = document.getElementById("apps-list");
+      if (!list) return;
+      function e(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+      var rows = {};
+      function load() {
+        client.from("membership_applications").select("*").order("created_at", { ascending: false }).then(function (r) {
+          if (r.error) { list.innerHTML = '<p style="font-size:13px;color:var(--muted);">Applications are not switched on yet (the owner runs the membership SQL file once).</p>'; return; }
+          rows = {}; (r.data || []).forEach(function (x) { rows[x.id] = x; });
+          list.innerHTML = (r.data || []).map(function (x) {
+            var badge = x.status === "new" ? "NEW" : x.status.toUpperCase();
+            return '<div class="card" style="padding:10px 14px;"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;"><div><strong>' + e(x.name) + '</strong> <span style="font-size:11px;font-weight:700;color:var(--muted);">' + badge + '</span><br><span style="font-size:13px;">' + e([x.phone, x.email].filter(Boolean).join(" \u00b7 ")) + '</span><br><span style="font-size:12px;color:var(--muted);">' + e(String(x.created_at).slice(0, 10)) + (x.note ? " \u00b7 " + e(x.note) : "") + '</span></div>' +
+              '<div style="display:flex;gap:6px;flex-wrap:wrap;">' + (x.status !== "approved" ? '<button type="button" class="button" data-app="approved" data-id="' + e(x.id) + '" style="font-size:11px;padding:4px 10px;min-height:auto;">Approve</button>' : '') + (x.status !== "declined" ? '<button type="button" class="button secondary" data-app="declined" data-id="' + e(x.id) + '" style="font-size:11px;padding:4px 10px;min-height:auto;">Decline</button>' : '') + '<button type="button" class="button secondary" data-app="delete" data-id="' + e(x.id) + '" style="font-size:11px;padding:4px 10px;min-height:auto;">Delete</button></div></div></div>';
+          }).join("") || '<p style="font-size:13px;color:var(--muted);">No applications yet.</p>';
+          list.querySelectorAll("[data-app]").forEach(function (b) {
+            b.addEventListener("click", function () {
+              var id = b.getAttribute("data-id"), act = b.getAttribute("data-app");
+              if (act === "delete") { if (!confirm("Delete this application for good?")) return; client.from("membership_applications").delete().eq("id", id).then(load); return; }
+              client.from("membership_applications").update({ status: act }).eq("id", id).then(function () {
+                if (act === "approved" && rows[id] && rows[id].email) {
+                  var f = document.getElementById("add-member-form");
+                  if (f && f.elements.email) { f.elements.email.value = rows[id].email; f.closest("details").open = true; }
+                }
+                load();
+              });
+            });
+          });
+        });
+      }
+      document.querySelector('[data-tab="people"]').addEventListener("click", load);
+      load();
+    })();
 
     // Sign-ups list
     (function () {

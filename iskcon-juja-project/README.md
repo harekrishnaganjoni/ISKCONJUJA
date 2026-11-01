@@ -334,7 +334,11 @@ Krishna-with-flute silhouette on the portal sign-in quote panel, Gaura-Nitai sil
 ### Phase 3: weekly programs editable from admin (2 Nov 2026)
 - New table `programs` (weekday, title, description, start/end time, place, published); SQL `supabase/programs.sql` (+ test; owner files `11-programs-run-eleventh.sql`, `12-programs-test-run-twelfth.sql`), seeds the current Tuesday and Friday 5:30-7:00 PM rows once. Local DB test: 9 PASS.
 - Admin **Events & Programs** tab has a "Weekly programs" drawer (add, edit, hide, delete). `signup.js` shows these on `events.html` (heading, list, place) and builds the weekly calendar file from them. If the table is empty or not yet created, the built-in Tuesday/Friday text and calendar stay (nothing breaks). Browser tests: 11 PASS.
-- Still open in Phase 3: membership application. (The Sunday Nairobi-trip card is still fixed text.)
+
+### Phase 3: membership applications + editable Sunday card (2 Nov 2026) — Phase 3 complete
+- **Membership application:** form "Apply to become a member" on `participate.html#membership` (name, phone and/or email, optional note, consent); link under the sign-in box on `devotees.html`. Table `membership_applications` (status new/approved/declined); SQL `supabase/membership.sql` (+ test; owner files `13-membership-run-thirteenth.sql`, `14-membership-test-run-fourteenth.sql`). Visitors can only add (always as "new"); only admins read/approve/decline/delete. Local DB test: 10 PASS.
+- Admin **People** tab: "Membership applications" drawer. Approve marks approved and copies the email into "Add a member" (the admin then creates the login there); no login is created automatically.
+- **Sunday trip card** editable: Admin > Settings > "Sunday trip card" (`sunday_title`, `sunday_text`, `sunday_schedule`: one "time | what" per line). Empty = built-in wording stays. No SQL. Browser tests: 14 PASS.
 
 **Owner to-do still open:** run `events_image.sql` (one line: `alter table public.events add column if not exists image_url text;`); test forgot-password and Google sign-in live; announce the new Nectar link.
 

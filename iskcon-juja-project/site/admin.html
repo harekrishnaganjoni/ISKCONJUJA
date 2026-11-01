@@ -149,6 +149,18 @@
          </div>
         </details>
         <details class="admin-drawer">
+         <summary>Sunday trip card<small>Text of the Nairobi temple trip on the Events page</small></summary>
+         <div class="admin-drawer-body">
+          <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">Leave a box empty to keep the built-in wording.</p>
+          <label style="font-size:13px;font-weight:700;">Heading
+           <input name="sunday_title" type="text" maxlength="120" placeholder="Visit the Main Temple — Nairobi (Ngara)" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
+          <label style="font-size:13px;font-weight:700;">Paragraph
+           <textarea name="sunday_text" maxlength="800" placeholder="We don't run a local Sunday program ..." style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;min-height:90px;"></textarea></label>
+          <label style="font-size:13px;font-weight:700;">Schedule (one line each: time | what happens)
+           <textarea name="sunday_schedule" maxlength="800" placeholder="7:45 AM | Class&#10;9:00 AM | Breakfast" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;min-height:110px;"></textarea></label>
+         </div>
+        </details>
+        <details class="admin-drawer">
          <summary>Homepage<small>Hero photo and which sections show</small></summary>
          <div class="admin-drawer-body">
         <label style="font-size:13px;font-weight:700;">Homepage Hero Photo
@@ -186,6 +198,13 @@
 
      <!-- PEOPLE TAB -->
      <section class="admin-tab-panel" data-tab-panel="people" hidden>
+      <details class="admin-drawer card" id="apps-drawer" open>
+      <summary>Membership applications<small>People who asked to become members</small></summary>
+      <div class="admin-drawer-body">
+       <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Applications from the <strong>Apply to become a member</strong> form on the Get Involved page. <strong>Approve</strong> marks it approved and, if they gave an email, copies it into <em>Add a member</em> below so you can create their login. <strong>Decline</strong> keeps a record. Delete removes it for good.</p>
+       <div id="apps-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+      </details>
       <details class="admin-drawer card">
       <summary>+ Add a member<small>Create a login for someone who asked to join</small></summary>
       <div class="admin-drawer-body">

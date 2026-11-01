@@ -130,7 +130,45 @@
     });
   }
 
+  // Sunday trip card: text from the admin Settings (the built-in text stays when nothing is saved).
+  function applySunday() {
+    var st = (window.ISKCON && window.ISKCON.SITE_SETTINGS) || {};
+    var t = document.querySelector("[data-sun-title]"), x = document.querySelector("[data-sun-text]"), l = document.querySelector("[data-sun-list]");
+    if (t && st.sunday_title) t.textContent = st.sunday_title;
+    if (x && st.sunday_text) x.textContent = st.sunday_text;
+    if (l && st.sunday_schedule) {
+      var rows = String(st.sunday_schedule).split(/\r?\n/).map(function (ln) { return ln.trim(); }).filter(Boolean);
+      l.innerHTML = rows.map(function (ln) {
+        var i = ln.indexOf("|"), when = i > -1 ? ln.slice(0, i).trim() : "", what = i > -1 ? ln.slice(i + 1).trim() : ln;
+        return '<li><span>&#128214;</span><span>' + (when ? '<strong>' + esc(when) + '</strong> &mdash; ' : '') + esc(what) + '</span></li>';
+      }).join("");
+    }
+  }
+  document.addEventListener("iskcon:settings", applySunday);
+
+  // Membership application form (participate.html)
+  function initMembership() {
+    var f = document.querySelector("[data-membership-form]");
+    if (!f) return;
+    var msg = f.querySelector(".signup-msg");
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!READY) { msg.textContent = "Applications are not available right now. Please use the WhatsApp button."; return; }
+      var phone = f.phone.value.trim(), email = f.email.value.trim();
+      if (!phone && !email) { msg.style.color = "#a33"; msg.textContent = "Please give a phone number or an email so we can reach you."; return; }
+      var btn = f.querySelector("button[type=submit]"); btn.disabled = true; msg.style.color = "var(--muted)"; msg.textContent = "Sending...";
+      client.from("membership_applications").insert({ name: f.name.value.trim(), phone: phone || null, email: email || null, note: f.note.value.trim() || null }).then(function (r) {
+        btn.disabled = false;
+        if (r.error) { msg.style.color = "#a33"; msg.textContent = "Sorry, that did not send. Please try again in a minute, or use the WhatsApp button."; return; }
+        f.reset(); msg.style.color = "var(--text, #222)";
+        msg.innerHTML = "&#10003; Thank you! Your application is with the admins. If approved, we will contact you with your member login. Hare Krishna!";
+      });
+    });
+  }
+
   function init() {
+    applySunday();
+    initMembership();
     var w = document.querySelector("[data-signup-weekly]");
     if (w) mount(w, WEEKLY, null, null);
     loadPrograms();

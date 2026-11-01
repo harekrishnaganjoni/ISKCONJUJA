@@ -2168,3 +2168,20 @@ body[data-pat] main > .section-inner { background: var(--veil); border-radius: 1
 .pb-wrap select { padding: 10px; border: 1px solid var(--line); border-radius: 6px; font: inherit; background: var(--canvas); color: var(--body-text); }
 .board-audience input[type=radio] { width: auto; margin: 0; flex: none; }
 .board-audience label { justify-content: flex-start; text-align: left; }
+
+/* ===== textured look, step 1 (1 Nov 2026): silhouettes, arched photo frames, stitched card borders ===== */
+.sil { display: block; background: currentColor; -webkit-mask: var(--sil) center / contain no-repeat; mask: var(--sil) center / contain no-repeat; pointer-events: none; }
+.sil-krishna { --sil: url("images/sil-krishna.png"); aspect-ratio: 247 / 640; }
+.sil-gn { --sil: url("images/sil-gaura-nitai.png"); aspect-ratio: 541 / 640; }
+.sign-sil { position: absolute; right: 4%; bottom: 6%; height: 44%; color: #e8c85a; opacity: .14; }
+.sign-quote > *:not(.sign-sil) { position: relative; z-index: 1; }
+.hero-sil { position: absolute; right: 5%; bottom: 0; height: 74%; color: #e8c85a; opacity: .17; z-index: 0; }
+.page-hero .section-inner { position: relative; z-index: 1; }
+@media (max-width: 900px) { .sign-sil { display: none; } }
+@media (max-width: 760px) { .hero-sil { display: none; } }
+/* arched photo frames */
+.portrait-frame img { border-radius: 999px 999px 14px 14px; }
+.arch-img { border-radius: 999px 999px 14px 14px; object-fit: cover; }
+/* stitched cloth-style card borders */
+.card, .quote-fun-card { outline: 1px dashed rgba(212, 172, 13, .75); outline-offset: -7px; }
+body.dark-mode .card { outline-color: rgba(243, 156, 18, .5); }

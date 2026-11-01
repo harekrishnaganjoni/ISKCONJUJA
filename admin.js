@@ -192,7 +192,7 @@
       }
 
       function load() {
-        client.from(table).select("*").order("created_at", { ascending: false }).then(function (r) {
+        client.from(table).select("*").order(table === "vaishnava_days" ? "day" : "created_at", { ascending: table === "vaishnava_days" }).then(function (r) {
           if (r.error || !r.data) return;
           rowsById = {};
           r.data.forEach(function (row) { rowsById[row.id] = row; });
@@ -274,6 +274,9 @@
       });
     })();
 
+    wireTable("vaishnava_days", "vday-form", "vdays-admin-list", "vday-status", function (v) {
+      return rowShell("vaishnava_days", v.id, v.published, v.title, v.day + (v.to_confirm ? " \u00b7 TO BE CONFIRMED" : ""));
+    });
     var DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     wireTable("programs", "program-form", "programs-admin-list", "program-status", function (g) {
       return rowShell("programs", g.id, g.published, g.title, DAY_NAMES[g.weekday] + " " + String(g.start_time).slice(0, 5) + "\u2013" + String(g.end_time).slice(0, 5));

@@ -325,6 +325,9 @@ Krishna-with-flute silhouette on the portal sign-in quote panel, Gaura-Nitai sil
 - Database: `supabase/registrations.sql` (+ `registrations_test.sql`; owner file `9-registrations-run-ninth.sql`, test `10-registrations-test-run-tenth.sql`). Visitors can only add; admins read/delete; 20-per-minute brake. Local tests: 8 PASS (database), 11 PASS (browser).
 - Telegram reminders: DROPPED by the owner (not wanted). SMS (paid): only if the owner asks. Nectar reminder calendars are produced by `iskcon-juja-project/tools/build_nectar_ics.py` (run from the repo root after any Nectar plan change).
 
+### Phase 3: Quotes tab in admin (2 Nov 2026)
+- Admin **Quotes** tab (Content group): add, edit, delete, search quotes (text + exact source). The home page's weekly quote rotation (`get_weekly_quote`) already reads this table, so no SQL was needed. Until quotes are added, the built-in starter quotes show. Browser test: 6 PASS.
+
 **Owner to-do still open:** run `events_image.sql` (one line: `alter table public.events add column if not exists image_url text;`); test forgot-password and Google sign-in live; announce the new Nectar link.
 
 ## 13. OPEN DECISIONS / DECISIONS MADE

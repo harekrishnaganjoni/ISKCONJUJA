@@ -99,6 +99,7 @@
        <div class="admin-group-label">Content</div>
        <button type="button" class="admin-tab-btn" data-tab="events">Events</button>
        <button type="button" class="admin-tab-btn" data-tab="registrations">Sign-ups</button>
+       <button type="button" class="admin-tab-btn" data-tab="quotes">Quotes</button>
        <button type="button" class="admin-tab-btn" data-tab="courses">Courses</button>
        <div class="admin-group-label">Site</div>
        <button type="button" class="admin-tab-btn" data-tab="settings">Settings</button>
@@ -237,6 +238,22 @@
      </section>
 
      <!-- EVENTS TAB -->
+     <section class="admin-tab-panel" data-tab-panel="quotes" hidden>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">The <strong>Quote of the Week</strong> on the home page is picked from this list, a different one each week, avoiding repeats. Add a quote word for word, with its exact source (book, chapter/verse or lecture, place and date). Until you add some here, the site uses its built-in starter quotes.</p>
+      <details class="admin-drawer card">
+       <summary>+ Add a quote<small>Word for word, with the source</small></summary>
+       <div class="admin-drawer-body">
+        <form id="quote-form" style="display:flex;flex-direction:column;gap:12px;">
+         <textarea name="quote_text" placeholder="The quote, exactly as written" required maxlength="600" style="padding:8px;border:1px solid var(--line);border-radius:4px;min-height:80px;"></textarea>
+         <input name="source" placeholder="Source, e.g. Srila Prabhupada, Bhagavad-gita As It Is 2.14, purport" required maxlength="200" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
+         <button class="button" type="submit" style="width:100%;">Add Quote</button>
+         <p id="quote-status" style="font-size:13px;"></p>
+        </form>
+       </div>
+      </details>
+      <input id="quote-search" type="search" placeholder="Search quotes..." style="padding:8px;border:1px solid var(--line);border-radius:4px;margin:12px 0;width:100%;max-width:420px;">
+      <div id="quotes-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+     </section>
      <section class="admin-tab-panel" data-tab-panel="registrations" hidden>
       <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">People who pressed <strong>Save my spot</strong> on the Events page. Only admins can see this list. Delete a person when they ask, or when the event is over.</p>
       <p style="margin-bottom:12px;"><button type="button" class="button secondary" id="reg-csv">Download list (CSV)</button></p>

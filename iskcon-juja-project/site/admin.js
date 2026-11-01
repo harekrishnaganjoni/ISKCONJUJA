@@ -257,6 +257,22 @@
       return rowShell("articles", a.id, a.published, a.title, a.author + " · " + a.article_date);
     });
 
+    wireTable("quotes", "quote-form", "quotes-admin-list", "quote-status", function (q) {
+      var short = String(q.quote_text).length > 140 ? String(q.quote_text).slice(0, 140) + "\u2026" : q.quote_text;
+      return '<div class="quote-row" data-q="' + esc((q.quote_text + " " + q.source).toLowerCase()) + '" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;background:var(--row-tint);border-radius:6px;">' +
+        '<div><strong style="font-size:13px;">\u201c' + esc(short) + '\u201d</strong><br><span style="font-size:12px;color:var(--muted);">' + esc(q.source) + '</span></div>' +
+        '<div style="display:flex;gap:8px;"><button type="button" data-edit="quotes" data-id="' + q.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Edit</button>' +
+        '<button type="button" data-del="quotes" data-id="' + q.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Delete</button></div></div>';
+    });
+    (function () {
+      var box = document.getElementById("quote-search");
+      if (!box) return;
+      box.addEventListener("input", function () {
+        var t = box.value.trim().toLowerCase();
+        document.querySelectorAll("#quotes-admin-list .quote-row").forEach(function (r) { r.style.display = !t || r.getAttribute("data-q").indexOf(t) > -1 ? "" : "none"; });
+      });
+    })();
+
     wireTable("events", "event-form", "events-admin-list", "event-status", function (ev) {
       return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.start_time ? " " + String(ev.start_time).slice(0, 5) : "") + (ev.image_url ? " \u00b7 has picture" : ""));
     });

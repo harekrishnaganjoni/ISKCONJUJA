@@ -318,6 +318,12 @@ Two separate message boxes. **Public website** (`message-board.html`): everythin
 ### Textured look, step 1 (1 Nov 2026)
 Krishna-with-flute silhouette on the portal sign-in quote panel, Gaura-Nitai silhouette on the Events hero (both cut from the NightCafe pattern art, `images/sil-*.png`, recoloured with CSS `.sil`; hidden on small screens), arched frame on the Prabhupada portrait (About) and the Events photo (`.arch-img`), and stitched dashed gold inner border on cards (`.card`). Still open in this phase: more arched frames and stitched borders on other pages if wanted.
 
+### Phase 4, slice 1: sign-ups and calendar reminders (1 Nov 2026)
+- Events page: **Add to my calendar** (a `.ics` file built in the visitor's browser: Tue + Fri 5:30-7:00 PM weekly, or a special event; reminders the day before and 3 hours before; events without a start time are all-day with reminders at 9 AM the day before and 8 AM that day) and **Save my spot** (name + phone/email + consent tick). After saving, the WhatsApp group invite (site setting `whatsapp_group_invite`) is shown if the admin has set one.
+- Code: `signup.js` (new, loaded on `events.html`), `data.js` (event cards get the buttons), admin **Sign-ups** tab (list, delete, CSV download) and an optional **Start time** field on events. Privacy page lists the new data.
+- Database: `supabase/registrations.sql` (+ `registrations_test.sql`; owner file `9-registrations-run-ninth.sql`, test `10-registrations-test-run-tenth.sql`). Visitors can only add; admins read/delete; 20-per-minute brake. Local tests: 8 PASS (database), 11 PASS (browser).
+- Not done yet: Telegram reminders (free, next), SMS (paid, only if wanted). Nectar reminder calendars are produced by `iskcon-juja-project/tools/build_nectar_ics.py` (run from the repo root after any Nectar plan change).
+
 **Owner to-do still open:** run `events_image.sql` (one line: `alter table public.events add column if not exists image_url text;`); test forgot-password and Google sign-in live; announce the new Nectar link.
 
 ## 13. OPEN DECISIONS / DECISIONS MADE

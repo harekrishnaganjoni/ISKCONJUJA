@@ -98,6 +98,7 @@
        <button type="button" class="admin-tab-btn" data-tab="people">People</button>
        <div class="admin-group-label">Content</div>
        <button type="button" class="admin-tab-btn" data-tab="events">Events</button>
+       <button type="button" class="admin-tab-btn" data-tab="registrations">Sign-ups</button>
        <button type="button" class="admin-tab-btn" data-tab="courses">Courses</button>
        <div class="admin-group-label">Site</div>
        <button type="button" class="admin-tab-btn" data-tab="settings">Settings</button>
@@ -236,6 +237,11 @@
      </section>
 
      <!-- EVENTS TAB -->
+     <section class="admin-tab-panel" data-tab-panel="registrations" hidden>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">People who pressed <strong>Save my spot</strong> on the Events page. Only admins can see this list. Delete a person when they ask, or when the event is over.</p>
+      <p style="margin-bottom:12px;"><button type="button" class="button secondary" id="reg-csv">Download list (CSV)</button></p>
+      <div id="reg-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+     </section>
      <section class="admin-tab-panel" data-tab-panel="events" hidden>
       <details class="admin-drawer card">
       <summary>+ Add an event<small>Special programs and festivals</small></summary>
@@ -246,6 +252,8 @@
          <input name="start_date" type="date" required style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
         <label style="font-size:12px;font-weight:700;">End date (optional)
          <input name="end_date" type="date" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
+        <label style="font-size:12px;font-weight:700;">Start time (optional, Nairobi time; used for the "3 hours before" reminder)
+         <input name="start_time" type="time" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
         <input name="speakers" placeholder="Guests / speakers (optional)" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
         <input name="schedule" placeholder="Program schedule (optional)" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
         <textarea name="description" placeholder="Description" style="padding:8px;border:1px solid var(--line);border-radius:4px;min-height:80px;"></textarea>

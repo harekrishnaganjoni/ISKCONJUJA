@@ -84,8 +84,17 @@
             (e.speakers ? '<p><strong>With:</strong> ' + escapeHtml(e.speakers) + '</p>' : '') +
             (e.schedule ? '<p><strong>Schedule:</strong> ' + escapeHtml(e.schedule) + '</p>' : '') +
             (e.description ? '<p>' + escapeHtml(e.description) + '</p>' : '') +
+            (e.start_time ? '<p><strong>Time:</strong> ' + escapeHtml(String(e.start_time).slice(0, 5)) + '</p>' : '') +
+            '<div data-signup-event="' + escapeHtml(e.id) + '"></div>' +
             '</article>';
         }).join("") + '</div>';
+        if (window.ISKCON_SIGNUP) {
+          var byId = {}; r.data.forEach(function (e) { byId[e.id] = e; });
+          box.querySelectorAll("[data-signup-event]").forEach(function (m) {
+            var e = byId[m.getAttribute("data-signup-event")];
+            window.ISKCON_SIGNUP.mount(m, e.title, e.id, e);
+          });
+        }
       });
   }
 

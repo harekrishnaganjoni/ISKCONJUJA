@@ -258,8 +258,36 @@
     });
 
     wireTable("events", "event-form", "events-admin-list", "event-status", function (ev) {
-      return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.image_url ? " \u00b7 has picture" : ""));
+      return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.start_time ? " " + String(ev.start_time).slice(0, 5) : "") + (ev.image_url ? " \u00b7 has picture" : ""));
     });
+
+    // Sign-ups list
+    (function () {
+      var list = document.getElementById("reg-list"), csvBtn = document.getElementById("reg-csv"), rows = [];
+      if (!list) return;
+      function e(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+      function load() {
+        client.from("registrations").select("*").order("created_at", { ascending: false }).then(function (r) {
+          if (r.error) { list.innerHTML = '<p style="font-size:13px;color:var(--muted);">The sign-ups list is not switched on yet (the owner runs file 9 once).</p>'; return; }
+          rows = r.data || [];
+          list.innerHTML = rows.map(function (x) {
+            return '<div class="card" style="padding:10px 14px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;"><div><strong>' + e(x.name) + '</strong> &middot; ' + e(x.contact) + '<br><span style="font-size:12px;color:var(--muted);">' + e(x.program) + ' &middot; ' + e(String(x.created_at).slice(0, 10)) + '</span></div><button type="button" class="button secondary" data-reg-del="' + e(x.id) + '">Delete</button></div>';
+          }).join("") || '<p style="font-size:13px;color:var(--muted);">No sign-ups yet.</p>';
+          list.querySelectorAll("[data-reg-del]").forEach(function (b) {
+            b.addEventListener("click", function () {
+              if (!confirm("Delete this sign-up?")) return;
+              client.from("registrations").delete().eq("id", b.getAttribute("data-reg-del")).then(load);
+            });
+          });
+        });
+      }
+      csvBtn.addEventListener("click", function () {
+        var q = function (v) { return '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"'; };
+        var csv = "Name,Contact,Program,Date\r\n" + rows.map(function (x) { return [x.name, x.contact, x.program, String(x.created_at).slice(0, 10)].map(q).join(","); }).join("\r\n");
+        var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = "iskcon-juja-signups.csv"; a.click();
+      });
+      document.querySelector('[data-tab="registrations"]').addEventListener("click", load);
+    })();
 
     // Photo upload helper: file input -> storage bucket "site-images" -> hidden field with the public link.
     function wirePhoto(inputId, hiddenId, statusId, prefix) {

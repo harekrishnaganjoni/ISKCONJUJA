@@ -129,6 +129,7 @@ The free Supabase plan does **not** back up for you. Monthly: Supabase → **Tab
 # PART B — FOR THE AI AGENT
 
 ## 5. GROUND RULES (the owner's standing rules — obey all)
+0. **SQL files go straight to the owner in the chat (SendUserFile), every time, numbered and ready to paste. Never just say where they are in the repo; the owner will not go looking.** Say in one line which to run first and what a pass looks like.
 1. **Assume the owner has zero technical knowledge.** Any step only they can do must be written click-by-click. Never say "just run X" without saying where.
 2. **Full files, never snippets.** Do not tell the owner to edit lines. Give complete replacement files. For small edits send only the changed files (complete); use the zips (§19) for large handoffs.
 3. **Decide, don't ask.** The owner said: until the site is live, you decide what to do; ask only for *details you cannot know* (credentials, real content, preferences). Prefer the shortest path to a finished, live site. Don't end turns with "what next?".

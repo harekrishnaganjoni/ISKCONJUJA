@@ -274,6 +274,10 @@
       });
     })();
 
+    var DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    wireTable("programs", "program-form", "programs-admin-list", "program-status", function (g) {
+      return rowShell("programs", g.id, g.published, g.title, DAY_NAMES[g.weekday] + " " + String(g.start_time).slice(0, 5) + "\u2013" + String(g.end_time).slice(0, 5));
+    });
     wireTable("events", "event-form", "events-admin-list", "event-status", function (ev) {
       return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.start_time ? " " + String(ev.start_time).slice(0, 5) : "") + (ev.image_url ? " \u00b7 has picture" : ""));
     });

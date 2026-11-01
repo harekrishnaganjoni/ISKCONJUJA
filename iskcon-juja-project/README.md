@@ -330,7 +330,11 @@ Krishna-with-flute silhouette on the portal sign-in quote panel, Gaura-Nitai sil
 
 ### Phase 3: contact numbers editable from admin (2 Nov 2026)
 - Admin > Settings > Contact has **Program contact** and **Backup contact** WhatsApp numbers (`whatsapp_primary`, `whatsapp_secondary` in `site_settings`; stored as digits with country code, `0700...` becomes `254700...`). `data.js` passes them to `window.ISKCON.setWhatsApp()` in `site.js`, which re-wires every WhatsApp button. The numbers hard-coded in `site.js` are only a fallback. The address was already editable. No SQL needed. Browser test: 7 PASS.
-- Still open in Phase 3: editable weekly program days/times (now fixed text in `events.html`), membership application.
+
+### Phase 3: weekly programs editable from admin (2 Nov 2026)
+- New table `programs` (weekday, title, description, start/end time, place, published); SQL `supabase/programs.sql` (+ test; owner files `11-programs-run-eleventh.sql`, `12-programs-test-run-twelfth.sql`), seeds the current Tuesday and Friday 5:30-7:00 PM rows once. Local DB test: 9 PASS.
+- Admin **Events & Programs** tab has a "Weekly programs" drawer (add, edit, hide, delete). `signup.js` shows these on `events.html` (heading, list, place) and builds the weekly calendar file from them. If the table is empty or not yet created, the built-in Tuesday/Friday text and calendar stay (nothing breaks). Browser tests: 11 PASS.
+- Still open in Phase 3: membership application. (The Sunday Nairobi-trip card is still fixed text.)
 
 **Owner to-do still open:** run `events_image.sql` (one line: `alter table public.events add column if not exists image_url text;`); test forgot-password and Google sign-in live; announce the new Nectar link.
 

@@ -97,7 +97,7 @@
        <button type="button" class="admin-tab-btn" data-tab="testimonials">Testimonials</button>
        <button type="button" class="admin-tab-btn" data-tab="people">People</button>
        <div class="admin-group-label">Content</div>
-       <button type="button" class="admin-tab-btn" data-tab="events">Events</button>
+       <button type="button" class="admin-tab-btn" data-tab="events">Events &amp; Programs</button>
        <button type="button" class="admin-tab-btn" data-tab="registrations">Sign-ups</button>
        <button type="button" class="admin-tab-btn" data-tab="quotes">Quotes</button>
        <button type="button" class="admin-tab-btn" data-tab="courses">Courses</button>
@@ -266,6 +266,25 @@
       <div id="reg-list" style="display:flex;flex-direction:column;gap:8px;"></div>
      </section>
      <section class="admin-tab-panel" data-tab-panel="events" hidden>
+      <details class="admin-drawer card">
+      <summary>Weekly programs<small>The regular days and times shown on the Events page</small></summary>
+      <div class="admin-drawer-body">
+       <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">These are the weekly programs on the Events page (and in the visitor's calendar file). Times are Nairobi time. Un-tick <strong>Published</strong> to hide one.</p>
+       <form id="program-form" style="display:flex;flex-direction:column;gap:12px;">
+        <label style="font-size:12px;font-weight:700;">Day
+         <select name="weekday" required style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option></select></label>
+        <input name="title" placeholder="Name, e.g. Tuesday" required maxlength="100" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
+        <label style="font-size:12px;font-weight:700;">Starts <input name="start_time" type="time" required value="17:30" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
+        <label style="font-size:12px;font-weight:700;">Ends <input name="end_time" type="time" required value="19:00" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
+        <input name="place" placeholder="Place" value="Anthusia Apartments, Muraya Access Road, Juja" maxlength="200" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
+        <textarea name="description" placeholder="What happens (music, talk, feast...)" maxlength="600" style="padding:8px;border:1px solid var(--line);border-radius:4px;min-height:70px;"></textarea>
+        <label style="font-size:13px;display:flex;align-items:center;gap:8px;"><input name="published" type="checkbox" checked style="width:auto;"> Published</label>
+        <button class="button" type="submit" style="width:100%;">Add Program</button>
+        <p id="program-status" style="font-size:13px;"></p>
+       </form>
+       <div id="programs-admin-list" style="display:flex;flex-direction:column;gap:10px;margin-top:10px;"></div>
+      </div>
+     </details>
       <details class="admin-drawer card">
       <summary>+ Add an event<small>Special programs and festivals</small></summary>
       <div class="admin-drawer-body">

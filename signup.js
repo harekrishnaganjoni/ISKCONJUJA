@@ -24,21 +24,56 @@
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
   }
 
-  // Weekly program: every Tuesday and Friday 5:30-7:00 PM (Nairobi = UTC+3, no daylight saving).
+  // Weekly programs: the rows from the admin panel (or the built-in Tue + Fri 5:30-7:00 PM if none).
+  // Times are Nairobi (UTC+3, no daylight saving), written into the file as UTC.
+  var DEFAULT_PROGRAMS = [
+    { weekday: 2, title: "Tuesday", description: "Music, a talk or discussion and a free vegetarian feast.", start_time: "17:30", end_time: "19:00", place: PLACE },
+    { weekday: 5, title: "Friday", description: "Music, group book reading and a free vegetarian feast.", start_time: "17:30", end_time: "19:00", place: PLACE }
+  ];
+  var programs = DEFAULT_PROGRAMS;
+  var CODES = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
+  function utcParts(day, hhmm) {            // day = a Date at UTC midnight (Nairobi date); returns [YYYYMMDD, HHMMSS] in UTC
+    var h = parseInt(hhmm.slice(0, 2), 10) - 3, m = hhmm.slice(3, 5), d = new Date(day);
+    if (h < 0) { h += 24; d.setUTCDate(d.getUTCDate() - 1); }
+    return [ymd(d), pad(h) + m + "00"];
+  }
   function weeklyIcs() {
-    var d = new Date(); d.setUTCHours(0, 0, 0, 0);
-    while (true) { var wd = d.getUTCDay(); if (wd === 2 || wd === 5) break; d.setUTCDate(d.getUTCDate() + 1); }
     var lines = [];
-    ["TU", "FR"].forEach(function (code) {
-      var s = new Date(d), target = code === "TU" ? 2 : 5;
-      while (s.getUTCDay() !== target) s.setUTCDate(s.getUTCDate() + 1);
-      lines = lines.concat(["BEGIN:VEVENT", "UID:weekly-" + code.toLowerCase() + "@iskconjuja.co.ke", "DTSTAMP:" + stamp(),
-        "DTSTART:" + ymd(s) + "T143000Z", "DTEND:" + ymd(s) + "T160000Z", "RRULE:FREQ=WEEKLY;BYDAY=" + code,
-        "SUMMARY:" + icsText("ISKCON Juja " + (code === "TU" ? "Tuesday" : "Friday") + " program"),
-        "LOCATION:" + icsText(PLACE), "DESCRIPTION:" + icsText("Music, " + (code === "TU" ? "a talk or discussion" : "group book reading") + " and a free vegetarian feast. https://iskconjuja.co.ke/events.html"),
-        "URL:https://iskconjuja.co.ke/events.html"].concat(alarm("-P1D", "Tomorrow: ISKCON Juja program, 5:30 PM"), alarm("-PT3H", "ISKCON Juja program today at 5:30 PM")).concat(["END:VEVENT"]));
+    programs.forEach(function (pr, i) {
+      var s = new Date(); s.setUTCHours(0, 0, 0, 0);
+      while (s.getUTCDay() !== pr.weekday) s.setUTCDate(s.getUTCDate() + 1);
+      var a = utcParts(s, String(pr.start_time)), b = utcParts(s, String(pr.end_time));
+      var time12 = fmtTime(pr.start_time);
+      lines = lines.concat(["BEGIN:VEVENT", "UID:weekly-" + CODES[pr.weekday].toLowerCase() + "-" + i + "@iskconjuja.co.ke", "DTSTAMP:" + stamp(),
+        "DTSTART:" + a[0] + "T" + a[1] + "Z", "DTEND:" + b[0] + "T" + b[1] + "Z", "RRULE:FREQ=WEEKLY;BYDAY=" + CODES[pr.weekday],
+        "SUMMARY:" + icsText("ISKCON Juja " + pr.title + " program"),
+        "LOCATION:" + icsText(pr.place || PLACE), "DESCRIPTION:" + icsText((pr.description || "") + " https://iskconjuja.co.ke/events.html"),
+        "URL:https://iskconjuja.co.ke/events.html"].concat(alarm("-P1D", "Tomorrow: ISKCON Juja " + pr.title + " program, " + time12), alarm("-PT3H", "ISKCON Juja " + pr.title + " program today at " + time12)).concat(["END:VEVENT"]));
     });
     download("iskcon-juja-weekly-program.ics", lines);
+  }
+  function fmtTime(t) { t = String(t).slice(0, 5); var h = parseInt(t.slice(0, 2), 10), m = t.slice(3, 5); return ((h + 11) % 12 + 1) + ":" + m + " " + (h >= 12 ? "PM" : "AM"); }
+  var DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  // Show the programs from the admin panel on the page (the built-in text stays if there are none).
+  function showPrograms(rows) {
+    var list = document.querySelector("[data-wk-list]"), eb = document.querySelector("[data-wk-eyebrow]"), pl = document.querySelector("[data-wk-place]");
+    if (list) list.innerHTML = rows.map(function (r) {
+      return '<li><span>&#127928;</span><span><strong>' + esc(r.title) + '</strong> (' + DAYS[r.weekday] + ', ' + fmtTime(r.start_time) + ' &ndash; ' + fmtTime(r.end_time) + ')' + (r.description ? ' &mdash; ' + esc(r.description) : '') + '</span></li>';
+    }).join("");
+    var sameTime = rows.every(function (r) { return r.start_time === rows[0].start_time && r.end_time === rows[0].end_time; });
+    if (eb) eb.textContent = sameTime
+      ? rows.map(function (r) { return DAYS[r.weekday] + "s"; }).join(" & ") + ", " + fmtTime(rows[0].start_time).replace(":00", "") + " \u2013 " + fmtTime(rows[0].end_time).replace(":00", "")
+      : rows.map(function (r) { return DAYS[r.weekday] + "s " + fmtTime(r.start_time).replace(":00", ""); }).join(" \u00b7 ");
+    if (pl && rows[0].place) pl.textContent = "Held at " + rows[0].place + ".";
+  }
+  function loadPrograms() {
+    if (!READY || !document.querySelector("[data-wk-list]")) return;
+    client.from("programs").select("*").eq("published", true).order("weekday", { ascending: true }).then(function (r) {
+      if (r.error || !r.data || !r.data.length) return;
+      r.data.forEach(function (x) { x.start_time = String(x.start_time).slice(0, 5); x.end_time = String(x.end_time).slice(0, 5); });
+      programs = r.data; showPrograms(programs);
+    });
   }
 
   function eventIcs(e) {
@@ -98,6 +133,7 @@
   function init() {
     var w = document.querySelector("[data-signup-weekly]");
     if (w) mount(w, WEEKLY, null, null);
+    loadPrograms();
   }
   window.ISKCON_SIGNUP = { mount: mount, init: init };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();

@@ -80,23 +80,29 @@
    <div class="section-inner">
     <div class="eyebrow">Community</div>
     <h1>Message Board</h1>
-    <p>Say hello, ask a question, or share a thought. Anyone can post — registering with your name is optional, otherwise you'll appear as Anonymous.</p>
+    <p>Say hello, ask a question, or share a thought. Anyone can post. No sign-in is needed, and a name is optional. Prefer to write privately? Choose &ldquo;Only the admins&rdquo;.</p>
    </div>
   </section>
 
   <section class="section">
    <div class="section-inner" style="max-width:720px;margin:0 auto;">
 
-    <div class="card highlight" style="padding:24px;margin-bottom:28px;">
+    <div class="card highlight board-compose">
      <h3 style="margin-bottom:12px;">Post a Message</h3>
-     <form data-board-form style="display:flex;flex-direction:column;gap:12px;">
-      <label style="font-size:14px;display:flex;align-items:center;gap:8px;">
-       <input type="checkbox" data-board-register-check style="width:auto;"> Show my name (otherwise you'll post as Anonymous)
-      </label>
-      <input type="text" name="author_name" autocomplete="nickname" maxlength="80" placeholder="Your name" data-board-name-field hidden style="padding:10px;border:1px solid var(--line);border-radius:4px;">
-      <textarea name="body" maxlength="2000" placeholder="Write your message..." required style="padding:10px;border:1px solid var(--line);border-radius:4px;min-height:90px;"></textarea>
-      <p style="font-size:12px;color:var(--muted);">Messages posted here are public and visible to everyone, including admins who may reply. See our <a href="privacy.html" target="_blank" style="text-decoration:underline;">Privacy Policy</a>.</p>
+     <form data-board-form class="board-form">
+      <input type="text" name="author_name" maxlength="40" autocomplete="nickname" placeholder="Your name (optional)">
+      <textarea name="body" maxlength="2000" placeholder="Write your message..." required></textarea>
+      <fieldset class="board-audience">
+       <legend>Who can read it?</legend>
+       <label><input type="radio" name="audience" value="public" checked> Everyone (shown on this board)</label>
+       <label><input type="radio" name="audience" value="admin"> Only the admins (not shown on the board)</label>
+      </fieldset>
+      <div data-board-contact-box hidden>
+       <input type="text" name="contact" maxlength="120" placeholder="Your phone number or email, so we can reply to you">
+      </div>
+      <p class="board-note">No sign-in needed. Some names are reserved for the admins. Messages on the board are public and visible to everyone. See our <a href="privacy.html" target="_blank">Privacy Policy</a>.</p>
       <button class="button" type="submit">Post Message</button>
+      <p class="board-status" data-board-status></p>
      </form>
     </div>
 

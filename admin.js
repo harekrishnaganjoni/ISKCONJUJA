@@ -402,13 +402,14 @@
           var parent = m.parent_id ? byId[m.parent_id] : null;
           return '<div style="padding:12px;background:var(--row-tint);border-radius:6px;' + (m.hidden ? 'opacity:0.65;' : '') + '">' +
             '<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">' +
-            '<strong style="font-size:13px;">' + esc(m.author_name) + (m.is_admin_reply ? ' <span style="color:var(--maroon);font-size:11px;">(Admin)</span>' : '') + (m.hidden ? ' <span style="color:#b33a2e;font-size:11px;">HIDDEN</span>' : '') + '</strong>' +
+            '<strong style="font-size:13px;">' + esc(m.author_name) + (m.is_admin_reply ? ' <span style="color:var(--maroon);font-size:11px;">(Admin)</span>' : '') + (m.hidden ? ' <span style="color:#b33a2e;font-size:11px;">HIDDEN</span>' : '') + (m.visibility === 'admin' ? ' <span style="background:#fbe7c4;color:#7a4b00;font-size:11px;font-weight:700;padding:1px 8px;border-radius:99px;">ADMINS ONLY</span>' : '') + (m.author_kind === 'guest' ? '' : (m.author_kind === 'member' ? ' <span style="font-size:11px;color:var(--muted);">(member)</span>' : '')) + '</strong>' +
             '<span style="font-size:11px;color:var(--muted);">' + new Date(m.created_at).toLocaleString() + '</span></div>' +
             (parent ? '<div style="font-size:12px;color:var(--muted);margin-top:4px;">&hookrightarrow; reply to ' + esc(parent.author_name) + ': &ldquo;' + esc(parent.body.slice(0, 60)) + (parent.body.length > 60 ? "&hellip;" : "") + '&rdquo;</div>' : '') +
             '<p style="margin:8px 0;font-size:14px;">' + esc(m.body) + '</p>' +
+            (m.contact ? '<div style="font-size:13px;margin:0 0 8px;"><strong>Reply to them on:</strong> ' + esc(m.contact) + '</div>' : '') +
             '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">' +
-            '<label style="font-size:12px;display:flex;align-items:center;gap:4px;"><input type="checkbox" data-b-hide="' + m.id + '" ' + (m.hidden ? "checked" : "") + '> Hide from public</label>' +
-            '<button type="button" data-b-reply="' + m.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Reply as Admin</button>' +
+            '<label style="font-size:12px;display:flex;align-items:center;gap:4px;"><input type="checkbox" data-b-hide="' + m.id + '" ' + (m.hidden ? "checked" : "") + '> ' + (m.visibility === 'admin' ? 'Mark as handled' : 'Hide from public') + '</label>' +
+            ((m.visibility === 'admin' && !m.author_id && !m.is_admin_reply) ? '<span style="font-size:12px;color:var(--muted);">This visitor has no login, so reply on the contact above.</span>' : '<button type="button" data-b-reply="' + m.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">' + (m.visibility === 'admin' ? 'Reply privately' : 'Reply as Admin') + '</button>') +
             '<button type="button" data-b-del="' + m.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Delete</button>' +
             '</div>' +
             '<div data-b-slot="' + m.id + '" hidden style="margin-top:10px;"></div>' +

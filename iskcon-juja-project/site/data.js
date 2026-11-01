@@ -382,39 +382,53 @@
     });
   }
 
-  // ---------- MESSAGE BOARD ----------
+  // ---------- MESSAGE BOARD (public site) ----------
+  // Everything posted here is public, unless the visitor chooses "Only the admins".
+  // Private one-to-one messages exist only in the member portal (portal-board.html).
+  function boardNameOk(n) {
+    return !/(admin|moderator|iskcon|official)/.test(String(n || "").toLowerCase().replace(/[^a-z0-9]/g, ""));
+  }
+  function boardBadge(m) {
+    if (m.author_kind === "admin" || m.is_admin_reply) return ' <span class="board-badge board-badge-admin">Admin</span>';
+    if (m.author_kind === "member") return ' <span class="board-badge">Member</span>';
+    return ' <span class="board-badge board-badge-guest">Guest</span>';
+  }
   function renderBoard() {
     var box = document.querySelector("[data-board-list]");
     if (!box || !READY) return;
-    client.from("board_messages").select("*").eq("hidden", false).order("created_at", { ascending: true })
+    client.from("board_messages").select("*").eq("visibility", "public").eq("hidden", false).order("created_at", { ascending: true })
       .then(function (r) {
+        // before the Message Board v2 SQL has been run, the column does not exist yet: use the old query
+        if (r.error) return client.from("board_messages").select("*").eq("hidden", false).order("created_at", { ascending: true });
+        return r;
+      }).then(function (r) {
         if (r.error || !r.data) return;
         var byParent = {};
         r.data.forEach(function (m) { (byParent[m.parent_id || "root"] = byParent[m.parent_id || "root"] || []).push(m); });
         function renderThread(list) {
           return (list || []).map(function (m) {
             var replies = byParent[m.id] || [];
-            return '<div class="board-msg" data-msg-id="' + m.id + '" style="padding:12px;background:var(--row-tint);border-radius:6px;margin-bottom:10px;">' +
-              '<strong style="font-size:13px;">' + escapeHtml(m.author_name) + (m.is_admin_reply ? ' <span style="color:var(--maroon);font-size:11px;">(Admin)</span>' : '') + '</strong>' +
-              '<p style="margin:4px 0;">' + escapeHtml(m.body) + '</p>' +
-              '<span style="font-size:11px;color:var(--muted);">' + new Date(m.created_at).toLocaleDateString() + '</span> ' +
-              '<button type="button" class="board-reply-toggle" data-reply-to="' + m.id + '" style="background:none;border:none;color:var(--maroon);font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline;margin-left:8px;">Reply</button>' +
-              '<div class="board-reply-form-slot" data-reply-slot="' + m.id + '" hidden style="margin-top:8px;"></div>' +
-              (replies.length ? '<div style="margin-left:20px;margin-top:8px;border-left:2px solid var(--line);padding-left:12px;">' + renderThread(replies) + '</div>' : '') +
+            return '<div class="board-msg" data-msg-id="' + m.id + '">' +
+              '<strong class="board-author">' + escapeHtml(m.author_name) + boardBadge(m) + '</strong>' +
+              '<p class="board-body">' + escapeHtml(m.body) + '</p>' +
+              '<span class="board-date">' + new Date(m.created_at).toLocaleDateString() + '</span> ' +
+              '<button type="button" class="board-reply-toggle" data-reply-to="' + m.id + '">Reply</button>' +
+              '<div class="board-reply-form-slot" data-reply-slot="' + m.id + '" hidden></div>' +
+              (replies.length ? '<div class="board-replies">' + renderThread(replies) + '</div>' : '') +
               '</div>';
           }).join("");
         }
-        box.innerHTML = renderThread(byParent.root) || '<p style="font-size:14px;color:var(--muted);">No messages yet — be the first to say hello.</p>';
+        box.innerHTML = renderThread(byParent.root) || '<p class="board-empty">No messages yet. Be the first to say hello.</p>';
         wireReplyButtons(box);
       });
   }
 
   function replyFormHtml(parentId) {
-    return '<form class="board-reply-form" data-reply-form data-parent-id="' + parentId + '" style="display:flex;flex-direction:column;gap:8px;">' +
-      '<label style="font-size:12px;display:flex;align-items:center;gap:6px;"><input type="checkbox" data-board-register-check style="width:auto;"> Show my name</label>' +
-      '<input type="text" name="author_name" placeholder="Your name" data-board-name-field hidden style="padding:8px;border:1px solid var(--line);border-radius:4px;font-size:13px;">' +
-      '<textarea name="body" placeholder="Write a reply..." required style="padding:8px;border:1px solid var(--line);border-radius:4px;font-size:13px;min-height:60px;"></textarea>' +
-      '<button class="button secondary" type="submit" style="font-size:12px;padding:6px 12px;min-height:auto;width:fit-content;">Post Reply</button>' +
+    return '<form class="board-reply-form" data-reply-form data-parent-id="' + parentId + '">' +
+      '<input type="text" name="author_name" maxlength="40" autocomplete="nickname" placeholder="Your name (optional)">' +
+      '<textarea name="body" maxlength="2000" placeholder="Write a reply..." required></textarea>' +
+      '<button class="button secondary" type="submit">Post Reply</button>' +
+      '<p class="board-status" data-board-status></p>' +
       '</form>';
   }
 
@@ -431,20 +445,45 @@
 
   function wireSingleBoardForm(form) {
     if (!form) return;
-    var wantsName = form.querySelector("[data-board-register-check]");
-    var nameField = form.querySelector("[data-board-name-field]");
-    if (wantsName && nameField) wantsName.addEventListener("change", function () { nameField.hidden = !wantsName.checked; });
+    var status = form.querySelector("[data-board-status]");
+    function say(t, bad) { if (status) { status.textContent = t; status.style.color = bad ? "#b33a2e" : "var(--muted)"; } }
+    var toAdmins = form.querySelectorAll('input[name="audience"]');
+    var contactBox = form.querySelector("[data-board-contact-box]");
+    function audience() { var c = form.querySelector('input[name="audience"]:checked'); return c ? c.value : "public"; }
+    toAdmins.forEach(function (r) { r.addEventListener("change", function () { if (contactBox) contactBox.hidden = audience() !== "admin"; }); });
     addHoneypot(form);
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!READY) return;
       if (trapped(form)) { form.reset(); return; }
       var f = new FormData(form);
-      var registering = wantsName && wantsName.checked;
-      var name = registering ? (f.get("author_name") || "Anonymous") : "Anonymous";
-      client.from("board_messages").insert({
-        author_name: name, is_anonymous: !registering, body: f.get("body"), parent_id: form.getAttribute("data-parent-id") || null
-      }).then(function (r) { if (!r.error) renderBoard(); });
+      var name = String(f.get("author_name") || "").trim();
+      var vis = audience();
+      var contact = String(f.get("contact") || "").trim();
+      if (name && !boardNameOk(name)) { say("That name is reserved. Please choose another name.", true); return; }
+      if (vis === "admin" && !contact) { say("Please leave a phone number or email so the admins can reply to you.", true); return; }
+      var row = {
+        author_name: name || "Anonymous", is_anonymous: !name, body: f.get("body"),
+        parent_id: form.getAttribute("data-parent-id") || null, visibility: vis
+      };
+      if (vis === "admin") row.contact = contact;
+      var btn = form.querySelector('button[type="submit"]'); if (btn) btn.disabled = true;
+      client.from("board_messages").insert(row).then(function (r) {
+        if (r.error && /visibility|contact|column/i.test(r.error.message || "")) {
+          // Message Board v2 SQL not run yet: public posts still work in the old way
+          if (vis === "admin") return { error: { message: "Writing to the admins only is not switched on yet. Please try again soon, or use the WhatsApp button." } };
+          var old = { author_name: row.author_name, is_anonymous: row.is_anonymous, body: row.body, parent_id: row.parent_id };
+          return client.from("board_messages").insert(old);
+        }
+        return r;
+      }).then(function (r) {
+        if (btn) btn.disabled = false;
+        if (r.error) { say(r.error.message, true); return; }
+        form.reset();
+        if (contactBox) contactBox.hidden = true;
+        if (vis === "admin") say("Sent to the admins only. They will reply on the contact you left.");
+        else { say(""); renderBoard(); }
+      });
     });
   }
 

@@ -34,6 +34,7 @@
       (page === "devotees.html" ? "" : '<nav class="ph-nav" aria-label="Portal">' +
         '<a href="dashboard.html"' + on("dashboard.html") + '>Home</a>' +
         '<a href="my-courses.html"' + on("my-courses.html") + '>My Courses</a>' +
+        '<a href="portal-board.html"' + on("portal-board.html") + '>Messages</a>' +
         '<a href="admin.html" data-admin-nav hidden' + on("admin.html") + '>Manage the Site</a>' +
       '</nav>') +
       '<div class="ph-act">' +

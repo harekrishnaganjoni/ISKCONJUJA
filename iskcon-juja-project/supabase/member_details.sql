@@ -6,6 +6,12 @@
 -- rows. Not even the site admins can open them.
 -- (Honest limit: whoever owns the Supabase project can technically see all database data.)
 -- ============================================================
+-- helper (also created by the message board file; safe to repeat)
+create or replace function public.is_member()
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (select 1 from public.profiles where id = auth.uid() and role in ('member','admin','super_admin'));
+$$;
+
 create table if not exists public.member_details (
   user_id uuid primary key references auth.users(id) on delete cascade,
   full_name text,

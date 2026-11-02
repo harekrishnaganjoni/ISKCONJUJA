@@ -286,24 +286,6 @@
      </section>
      <section class="admin-tab-panel" data-tab-panel="events" hidden>
       <details class="admin-drawer card">
-      <summary>Ekadashi &amp; festival days<small>The Vaishnava calendar shown on the Events page</small></summary>
-      <div class="admin-drawer-body">
-       <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Ekadashi days for 2026&ndash;2027 are already here, worked out for Nairobi. Six of them fall very close to the sunrise cut-off and are marked <strong>to be confirmed</strong>: check those with the Nairobi temple's calendar, correct the date if needed and un-tick the box. Festival and acharya days are not calculated: add them here from the temple's calendar.</p>
-       <form id="vday-form" style="display:flex;flex-direction:column;gap:12px;">
-        <label style="font-size:12px;font-weight:700;">Date <input name="day" type="date" required style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
-        <input name="title" placeholder="Name, e.g. Utthana Ekadashi or Srila Prabhupada Disappearance" required maxlength="120" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
-        <label style="font-size:12px;font-weight:700;">Kind
-         <select name="kind" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option value="festival">Festival / appearance / disappearance</option><option value="ekadashi">Ekadashi</option><option value="other">Other</option></select></label>
-        <textarea name="note" placeholder="Note, e.g. fasting and feast details (optional)" maxlength="400" style="padding:8px;border:1px solid var(--line);border-radius:4px;min-height:60px;"></textarea>
-        <label style="font-size:13px;display:flex;align-items:center;gap:8px;"><input name="to_confirm" type="checkbox" style="width:auto;"> Date to be confirmed with the temple</label>
-        <label style="font-size:13px;display:flex;align-items:center;gap:8px;"><input name="published" type="checkbox" checked style="width:auto;"> Published</label>
-        <button class="button" type="submit" style="width:100%;">Add Day</button>
-        <p id="vday-status" style="font-size:13px;"></p>
-       </form>
-       <div id="vdays-admin-list" style="display:flex;flex-direction:column;gap:10px;margin-top:10px;"></div>
-      </div>
-     </details>
-      <details class="admin-drawer card">
       <summary>Weekly programs<small>The regular days and times shown on the Events page</small></summary>
       <div class="admin-drawer-body">
        <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">These are the weekly programs on the Events page (and in the visitor's calendar file). Times are Nairobi time. Un-tick <strong>Published</strong> to hide one.</p>

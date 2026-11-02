@@ -2185,3 +2185,46 @@ body[data-pat] main > .section-inner { background: var(--veil); border-radius: 1
 /* stitched cloth-style card borders */
 .card, .quote-fun-card { outline: 1px dashed rgba(212, 172, 13, .75); outline-offset: -7px; }
 body.dark-mode .card { outline-color: rgba(243, 156, 18, .5); }
+
+/* ---------- Vaishnava calendar + milestones (member app) ---------- */
+.gc-top{position:relative;z-index:5}
+.gc-strip{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;justify-content:center;padding:7px 14px;background:var(--maroon,#800020);color:#fff3d6;font-size:13px;text-decoration:none;text-align:center}
+.gc-strip b{color:#fff}
+.gc-strip-fast{background:rgba(255,243,214,.18);border-radius:10px;padding:1px 9px;font-weight:700}
+.gc-banner{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:center;padding:10px 16px;background:#fff3d6;color:#4a1a22;border-bottom:2px solid #d4ac0d;font-size:14px;text-align:center}
+.gc-banner .button{min-height:auto;padding:5px 14px;font-size:13px}
+.gc-banner button:not(.button){background:transparent;border:0;font-size:18px;line-height:1;cursor:pointer;color:inherit;text-decoration:underline;font-size:13px}
+.gc-bday{background:#fdecc8;font-size:15px}
+.gc-card{background:var(--veil,rgba(255,250,235,.94));border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.gc-when{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.gc-tithi{margin:4px 0 2px;font-size:26px}
+.gc-tithi small{font-size:14px;font-weight:600;color:var(--muted)}
+.gc-line{margin:3px 0;font-size:14px}
+.gc-small{font-size:12px;color:var(--muted);margin:6px 0}
+.gc-fast{margin:8px 0 2px;padding:6px 10px;border-radius:8px;background:#e5f3e0;color:#1d4d12;font-size:14px}
+.gc-parana{margin:4px 0;font-size:14px}
+.gc-events{margin:8px 0;padding-left:0;list-style:none;font-size:14px}
+.gc-events li{margin:3px 0}
+.gc-muh summary{cursor:pointer;font-weight:700;font-size:13px;margin-top:8px}
+.gc-muh ul{list-style:none;padding:0;margin:6px 0;font-size:13px}
+.gc-muh li{margin:5px 0}
+.gc-avoid{color:#8a2d1d}
+.gc-problem{padding:10px 12px;border-radius:8px;background:#fde3de;color:#7a1f10;font-size:13px}
+.gc-nav{display:flex;align-items:center;justify-content:space-between;margin:10px 0}
+.gc-nav h3{margin:0}
+.gc-nav button{font-size:24px;width:42px;height:38px;border:1px solid var(--line);border-radius:8px;background:var(--veil,#fff);cursor:pointer}
+.gc-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.gc-dow{font-size:11px;font-weight:700;text-align:center;color:var(--muted);padding:2px 0}
+.gc-cell{min-height:58px;padding:3px 2px;border:1px solid var(--line);border-radius:8px;background:var(--veil,#fff);display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;font:inherit;color:inherit}
+.gc-cell b{font-size:14px}
+.gc-cell span{font-size:9px;color:var(--muted);line-height:1.1;text-align:center}
+.gc-cell em{font-style:normal;font-size:11px;line-height:1}
+.gc-cell i{font-style:normal}
+.gc-empty{border:0;background:transparent;cursor:default}
+.gc-ek{background:#e5f3e0}
+.gc-today{outline:2px solid #800020}
+.gc-sel{box-shadow:0 0 0 2px #d4ac0d inset}
+.gc-legend{font-size:12px;color:var(--muted);margin:8px 0}
+.gc-up{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.gc-up button{width:100%;text-align:left;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--veil,#fff);cursor:pointer;font:inherit;color:inherit}
+@media (max-width:420px){.gc-cell{min-height:52px}.gc-cell span{display:none}}

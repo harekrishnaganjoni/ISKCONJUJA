@@ -34,7 +34,9 @@
       (page === "devotees.html" ? "" : '<nav class="ph-nav" aria-label="Portal">' +
         '<a href="dashboard.html"' + on("dashboard.html") + '>Home</a>' +
         '<a href="my-courses.html"' + on("my-courses.html") + '>My Courses</a>' +
+        '<a href="calendar.html"' + on("calendar.html") + '>Calendar</a>' +
         '<a href="portal-board.html"' + on("portal-board.html") + '>Messages</a>' +
+        '<a href="profile.html"' + on("profile.html") + '>My Dates</a>' +
         '<a href="admin.html" data-admin-nav hidden' + on("admin.html") + '>Manage the Site</a>' +
       '</nav>') +
       '<div class="ph-act">' +
@@ -54,6 +56,14 @@
   }
   document.querySelectorAll("a[data-public-link]").forEach(function (a) { a.setAttribute("href", publicUrl(a.getAttribute("href"))); });
   var fl = document.querySelector(".float-stack"); if (fl) fl.parentNode.removeChild(fl);
+
+  // Vaishnava calendar helpers (today's date strip, milestone greetings) on every portal page except the sign-in page.
+  if (page !== "devotees.html") {
+    window.addEventListener("load", function () {
+      function add(src) { return new Promise(function (ok) { var x = document.createElement("script"); x.src = src; x.onload = x.onerror = ok; document.body.appendChild(x); }); }
+      (window.ISKCON_GCAL ? Promise.resolve() : add("gcal.js")).then(function () { return add("birthday.js"); });
+    });
+  }
 
   // Installable app: only on the portal's own address, so the public site never becomes part of it.
   if (onPortalHost) {

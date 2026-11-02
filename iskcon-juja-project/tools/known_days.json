@@ -1,0 +1,21 @@
+{
+  "_about": "Reference days taken from the owner's Nairobi temple wall calendar (photos of Oct and Dec 2026). The data must always agree with these. Add more months here when the owner sends more photos.",
+  "days": [
+    {"date": "2026-10-03", "events": ["Srila Prabhupada's arrival in the USA"]},
+    {"date": "2026-10-06", "ekadasi": "Indira Ekadasi", "fast": 1},
+    {"date": "2026-10-10", "tithi": 14, "tithiName": "Amavasya"},
+    {"date": "2026-10-21", "events": ["Ramacandra Vijayotsava", "Sri Madhvacarya -- Appearance"]},
+    {"date": "2026-10-22", "ekadasi": "Pasankusa Ekadasi", "fast": 1},
+    {"date": "2026-10-23", "parana": [372, 615], "events": ["Srila Raghunatha Dasa Gosvami -- Disappearance", "Srila Raghunatha Bhatta Gosvami -- Disappearance", "Srila Krsnadasa Kaviraja Gosvami -- Disappearance"]},
+    {"date": "2026-10-26", "tithi": 29, "tithiName": "Purnima", "events": ["Sri Murari Gupta -- Disappearance"]},
+    {"date": "2026-10-30", "events": ["Srila Narottama Dasa Thakura -- Disappearance"]},
+    {"date": "2026-12-04", "ekadasi": "Utpanna Ekadasi", "fast": 1, "events": ["Sri Narahari Sarakara Thakura -- Disappearance"]},
+    {"date": "2026-12-05", "events": ["Sri Kaliya Krsnadasa -- Disappearance"]},
+    {"date": "2026-12-06", "events": ["Sri Saranga Thakura -- Disappearance"]},
+    {"date": "2026-12-08", "tithi": 14, "tithiName": "Amavasya"},
+    {"date": "2026-12-15", "events": ["Odana sasthi"]},
+    {"date": "2026-12-20", "ekadasi": "Moksada Ekadasi", "fast": 1, "events": ["Advent of Srimad Bhagavad-gita"]},
+    {"date": "2026-12-21", "parana": [384, 628]},
+    {"date": "2026-12-27", "events": ["Srila Bhaktisiddhanta Sarasvati Thakura -- Disappearance"]}
+  ]
+}

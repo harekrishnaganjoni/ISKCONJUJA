@@ -3,7 +3,7 @@
 <head>
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
- <title>ISKCON JUJA | My Dates and Details</title>
+ <title>ISKCON JUJA | Profile settings</title>
  <link rel="icon" href="images/favicon.png" type="image/png">
  <link rel="stylesheet" href="styles.css">
 </head>
@@ -78,15 +78,9 @@
   <label class="menu-scrim" for="menu-toggle" aria-label="Close menu"></label>
  </header>
  <main>
-  <section class="page-hero has-bg-courses">
-   <div class="section-inner">
-    <div class="eyebrow">Member Area</div>
-    <h1>My Dates &amp; Details</h1>
-    <p>Your name, phone and birth date. Your birth date, initiation and other special dates, shown as Vaishnava (Gaurabda) dates and tracked every year. Only you can see these: not even the admins.</p>
-   </div>
-  </section>
   <section class="section">
    <div class="section-inner" style="max-width:820px;margin:0 auto;">
+    <h1 style="font-size:26px;margin:0 0 14px;">Profile settings</h1>
     <div id="pf">
      <form id="pf-form" class="gc-card" style="display:flex;flex-direction:column;gap:10px;">
       <label style="font-size:13px;font-weight:700;">Full name <input name="full_name" maxlength="100" autocomplete="name" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
@@ -118,6 +112,15 @@
      <div id="pf-list" style="margin-top:14px;display:flex;flex-direction:column;gap:12px;"></div>
      <p style="margin-top:12px;"><button type="button" class="button secondary" id="ms-ics">&#128197; Add all my dates to my phone calendar</button></p>
      <p class="gc-small">The calendar file holds the next 15 years of every date with a reminder switched on: a reminder the morning before and one on the day.</p>
+     <h2 style="margin:24px 0 6px;font-size:20px;">Password</h2>
+     <div class="gc-card">
+      <form data-change-password-form style="display:flex;flex-direction:column;gap:10px;">
+       <input type="password" name="password" placeholder="New password (at least 8 characters)" minlength="8" required autocomplete="new-password">
+       <input type="password" name="confirm" placeholder="Repeat the new password" minlength="8" required autocomplete="new-password">
+       <button class="button" type="submit">Update password</button>
+       <p data-change-password-status style="font-size:13px;margin:0;" aria-live="polite"></p>
+      </form>
+     </div>
      <p style="margin-top:18px;"><button type="button" id="pf-delete" class="button secondary" style="font-size:12px;">Delete all my details and dates</button></p>
     </div>
    </div>

@@ -192,6 +192,7 @@
   }
   function signOut() {
     if (!READY) return Promise.resolve();
+    try { Object.keys(localStorage).forEach(function (k) { if (k.indexOf("iskcon_role_") === 0) localStorage.removeItem(k); }); } catch (e) {}
     return client.auth.signOut();
   }
   function getSessionAndRole() {

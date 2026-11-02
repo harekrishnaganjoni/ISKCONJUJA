@@ -36,7 +36,7 @@
         '<a href="my-courses.html"' + on("my-courses.html") + '>My Courses</a>' +
         '<a href="calendar.html"' + on("calendar.html") + '>Calendar</a>' +
         '<a href="portal-board.html"' + on("portal-board.html") + '>Messages</a>' +
-        '<a href="profile.html"' + on("profile.html") + '>My Dates</a>' +
+        '<a href="profile.html"' + on("profile.html") + '>Profile</a>' +
         '<a href="admin.html" data-admin-nav hidden' + on("admin.html") + '>Manage the Site</a>' +
       '</nav>') +
       '<div class="ph-act">' +
@@ -51,7 +51,11 @@
   if (foot) {
     var pf = document.createElement("footer");
     pf.className = "ph-foot";
-    pf.innerHTML = '<p>&copy; ' + new Date().getFullYear() + ' ISKCON JUJA &middot; <a href="' + publicUrl("privacy.html") + '">Privacy</a> &middot; <a href="' + publicUrl("index.html") + '">Public website</a></p>';
+    pf.innerHTML =
+      '<p class="pf-row"><span data-setting-text="address_short">Anthusia Apartments, Muraya Access road, Juja</span> &middot; <a data-contact-phone href="#">Call or WhatsApp</a> &middot; <a data-map-link href="https://www.google.com/maps/search/?api=1&amp;query=Anthusia+Apartments+Muraya+Access+Road+Gachororo+Juja+Kenya" target="_blank" rel="noopener">Map</a></p>' +
+      '<p class="pf-row"><a href="https://bbt.org/" target="_blank" rel="noopener">BBT</a> &middot; <a href="https://www.prabhupada.net/" target="_blank" rel="noopener">Srila Prabhupada</a> &middot; <a href="https://iskcon.org/" target="_blank" rel="noopener">ISKCON</a> &middot; <a href="https://vedabase.io/en/" target="_blank" rel="noopener">Vedabase</a>' +
+      ' &middot; <a href="#" data-setting-link="facebook_url" hidden>Facebook</a><a href="#" data-setting-link="instagram_url" hidden>Instagram</a><a href="#" data-setting-link="tiktok_url" hidden>TikTok</a><a href="#" data-setting-link="youtube_url" hidden>YouTube</a></p>' +
+      '<p class="pf-row">&copy; ' + new Date().getFullYear() + ' ISKCON JUJA &middot; <a href="' + publicUrl("privacy.html") + '">Privacy</a> &middot; <a href="' + publicUrl("index.html") + '">Public website</a></p>';
     foot.parentNode.replaceChild(pf, foot);
   }
   document.querySelectorAll("a[data-public-link]").forEach(function (a) { a.setAttribute("href", publicUrl(a.getAttribute("href"))); });

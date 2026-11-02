@@ -2228,3 +2228,31 @@ body.dark-mode .card { outline-color: rgba(243, 156, 18, .5); }
 .gc-up{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
 .gc-up button{width:100%;text-align:left;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--veil,#fff);cursor:pointer;font:inherit;color:inherit}
 @media (max-width:420px){.gc-cell{min-height:52px}.gc-cell span{display:none}}
+
+/* ===== MEMBER PORTAL polish (3 Nov 2026) ===== */
+.in-portal .page-hero { min-height: 0; padding: 32px 0 26px; }
+/* quote of the day: compact, looks like a quote */
+.in-portal .quote-card {
+  background: linear-gradient(135deg, #fffaf0 0%, #fbeed2 100%);
+  border: 0; border-left: 5px solid var(--gold); border-radius: 10px;
+  padding: 18px 22px 16px 58px; margin-bottom: 20px !important;
+  box-shadow: 0 6px 18px rgba(128, 0, 32, .12);
+}
+.in-portal .quote-card::after { display: none; }
+.in-portal .quote-card::before {
+  content: "\201C"; font-family: Georgia, "Times New Roman", serif; font-size: 96px; line-height: 1;
+  color: var(--maroon); opacity: .9; position: absolute; top: -2px; left: 12px;
+}
+.in-portal .quote-card .eyebrow { color: var(--maroon); font-size: 11px; letter-spacing: .14em; margin: 0 0 4px; }
+.in-portal .quote-card .quote-text {
+  font-family: Georgia, "Times New Roman", serif; font-size: clamp(17px, 2.2vw, 21px); line-height: 1.45; font-style: italic; font-weight: 500;
+  color: #3b1020; margin: 0 0 8px;
+}
+.in-portal .quote-card .quote-source { text-align: left; color: var(--maroon); font-size: 13px; font-style: normal; font-weight: 700; letter-spacing: .04em; margin: 0; }
+.in-portal body.dark-mode .quote-card { background: linear-gradient(135deg, #2b1a22, #3a2230); }
+.in-portal body.dark-mode .quote-card .quote-text { color: #f6e9d0; }
+.in-portal body.dark-mode .quote-card::before, .in-portal body.dark-mode .quote-card .eyebrow, .in-portal body.dark-mode .quote-card .quote-source { color: var(--gold); }
+/* compact portal footer */
+.ph-foot { padding: 14px 12px 22px; font-size: 12.5px; line-height: 1.5; }
+.ph-foot .pf-row { margin: 2px 0; }
+.ph-foot [data-setting-link]:not([hidden]) { margin-right: 8px; }

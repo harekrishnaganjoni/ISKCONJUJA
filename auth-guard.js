@@ -25,7 +25,17 @@
       return;
     }
 
+    // Speed: the sign-in token is kept in this browser, and the role is remembered per person, so a returning member sees the page at once.
+    // The role is then re-checked in the background (and the page is closed off if it no longer applies).
+    var RK = "iskcon_role_", cached = null, uid0 = null;
+    function allowed(role) { return require === "admin" ? (role === "admin" || role === "super_admin") : (role === "member" || role === "admin" || role === "super_admin"); }
+    try { window.ISKCON_DATA.client.auth.getSession().then(function (s) {
+      uid0 = s && s.data && s.data.session && s.data.session.user.id;
+      try { cached = uid0 && localStorage.getItem(RK + uid0); } catch (e) {}
+      if (cached && allowed(cached)) { window.ISKCON_CURRENT_ROLE = cached; document.body.classList.remove("auth-checking"); }
+    }); } catch (e) {}
     window.ISKCON_DATA.getSessionAndRole().then(function (r) {
+      try { if (r.session) localStorage.setItem(RK + r.session.user.id, r.role || "pending"); } catch (e) {}
       var role = r.role;
       var loggedIn = !!r.session;
       var isMember = loggedIn && (role === "member" || role === "admin" || role === "super_admin");

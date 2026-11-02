@@ -1,6 +1,6 @@
 /* Member portal offline helper. Online, the newest files are always used. Offline, saved copies of the pages are shown.
    Only this site's own files are saved; sign-in tokens and database answers are never cached here. */
-var VERSION = "p2";
+var VERSION = "p3";
 var CACHE = "portal-" + VERSION;
 // Save the calendar ahead of time so it works offline: this year, next year and the helper files (a failure here never blocks the install).
 var Y = new Date().getFullYear();
@@ -14,7 +14,19 @@ self.addEventListener("activate", function (e) {
 });
 self.addEventListener("fetch", function (e) {
   var r = e.request, u = new URL(r.url);
-  if (r.method !== "GET" || u.origin !== location.origin) return;
+  if (r.method !== "GET") return;
+  var cdn = u.hostname === "cdn.jsdelivr.net" && /supabase-js/.test(u.pathname);
+  if (u.origin !== location.origin && !cdn) return;
+  var isPage = r.mode === "navigate" || /\.html?$/.test(u.pathname) || u.pathname === "/";
+  var big = cdn || (!isPage && /\.(js|css|svg|png|jpe?g|webp|woff2?)$/.test(u.pathname));
+  if (big) {
+    // scripts, styles, images and the sign-in library: shown from the saved copy at once (fast), refreshed in the background for next time
+    e.respondWith(caches.open(CACHE).then(function (ca) { return ca.match(r).then(function (m) {
+      var net = fetch(r).then(function (res) { if (res && (res.ok || res.type === "opaque")) ca.put(r, res.clone()); return res; }).catch(function () { return m; });
+      return m || net;
+    }); }));
+    return;
+  }
   e.respondWith(fetch(r).then(function (res) {
     if (res && res.ok) { var c = res.clone(); caches.open(CACHE).then(function (ca) { ca.put(r, c); }); }
     return res;

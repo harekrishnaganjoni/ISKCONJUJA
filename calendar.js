@@ -80,8 +80,7 @@
   });
   showDetail(sel); showMonth(); showUpcoming();
   G.checkForUpdates().then(function (changed) {
-    var v = ""; try { v = localStorage.getItem("gcal_version") || ""; } catch (e) {}
-    noteBox.innerHTML = '<p class="gc-small">' + (changed ? "&#10003; The calendar was updated just now. " : "") + 'Calendar data' + (v ? ' version ' + esc(v) : '') + ', made with the open-source GCAL engine for Nairobi (the same system as the temple wall calendar). It checks for updates once a week and checks its own data every time it is opened.</p>';
+    if (changed) noteBox.innerHTML = '<p class="gc-small">&#10003; Calendar updated.</p>';
     if (changed) { showDetail(sel); showMonth(); showUpcoming(); }
   });
 })();

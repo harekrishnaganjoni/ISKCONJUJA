@@ -29,7 +29,7 @@
         var live = !q[0].error && !q[1].error, mine = live ? { name: (q[0].data && q[0].data.full_name) || "", items: q[1].data || [], dw: !!(q[0].data && q[0].data.digest_weekly), dm: !!(q[0].data && q[0].data.digest_monthly) } : cached;
         if (live) set(key, JSON.stringify(mine));
         if (!mine) return;
-        if (live && !mine.items.some(function (m) { return m.kind === "birthday"; })) nudge();
+        if (live && !mine.items.some(function (m) { return m.kind === "birthday"; })) nudge(uid);
         greet(G, D, mine, now); digest(G, mine, now);
       }, function () { if (cached) { greet(G, D, cached, now); digest(G, cached, now); } });
     });
@@ -49,11 +49,12 @@
       mount(a);
     }).catch(function () {});
   }
-  function nudge() {
-    if (Date.now() < (+get("gc_nudge_until") || 0)) return;
+  function nudge(uid) {
+    if (get("gc_asked_" + uid)) return;          // asked once on this device, never again: the Profile page is where dates live
+    set("gc_asked_" + uid, "1");
     var b = document.createElement("div"); b.className = "gc-banner";
-    b.innerHTML = '<span>&#127874; Please add your birth date (and any other milestone, such as your initiation). The app shows each one as a Vaishnava (Gaurabda) date, reminds you the day before and wishes you on the day.</span><a class="button" href="profile.html">Add my dates</a><button type="button" aria-label="Not now">Not now</button>';
-    b.querySelector("button").addEventListener("click", function () { set("gc_nudge_until", String(Date.now() + 3 * 86400000)); b.remove(); });
+    b.innerHTML = '<span>&#127802; Welcome! If you would like Vaishnava birthday greetings, you can add your dates any time in <a href="profile.html">Profile</a>.</span><button type="button" aria-label="Close">&times;</button>';
+    b.querySelector("button").addEventListener("click", function () { b.remove(); });
     mount(b);
   }
   // Optional weekly / monthly summary of major events, shown the first time the app is opened in a new week (Monday) or month.

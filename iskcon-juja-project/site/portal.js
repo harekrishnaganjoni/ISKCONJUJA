@@ -22,16 +22,33 @@
   window.ISKCON_IN_PORTAL = true;
   document.documentElement.classList.add("in-portal");
 
-  var page = location.pathname.split("/").pop() || "dashboard.html";
+  // Page name, also when the host serves addresses without ".html" (e.g. /calendar or /calendar/).
+  var page = location.pathname.replace(/\/+$/, "").split("/").pop() || "dashboard.html";
+  if (!/\.html?$/.test(page)) page += ".html";
+  window.ISKCON_PAGE = page;
   function on(p) { return page === p ? ' class="on" aria-current="page"' : ""; }
 
-  var head = document.createElement("header");
+  // HEADER: the official ISKCON JUJA header (logo + title, Hare Krishna maha-mantra, Srila Prabhupada's photo and caption) is NEVER removed.
+  // It is kept exactly as on the public site; only the menu bar under it is the portal's own.
+  var old = document.querySelector("header.site-header");
+  var top = old && old.querySelector(".header-top");
+  var topHtml = top ? top.outerHTML :
+    '<div class="header-top"><div class="header-top__inner">' +
+      '<a class="brand" href="index.html" aria-label="ISKCON JUJA home"><img class="brand-logo" src="images/juja-logo.svg" alt="ISKCON Juja"><span class="brand-text"><span class="brand-name">ISKCON JUJA</span></span></a>' +
+      '<div class="header-mantra" aria-label="Maha Mantra"><p>Hare Krishna Hare Krishna Krishna Krishna Hare Hare</p><p>Hare Rama Hare Rama Rama Rama Hare Hare</p></div>' +
+      '<div class="prabhupada-block"><p class="prabhupada-caption">ISKCON Founder Acharya HDG Srila A.C Bhaktivedanta Swami Prabhupada</p><img class="prabhupada-portrait" src="images/prabhupada-sitting.webp" alt="Srila Prabhupada" width="55" height="55"></div>' +
+    '</div></div>';
+  var brandBar = document.createElement("header");
+  brandBar.className = "ph-top";
+  brandBar.innerHTML = topHtml;
+  var bl = brandBar.querySelector("a.brand"); if (bl) { bl.setAttribute("href", publicUrl("index.html")); bl.setAttribute("title", "Go to the public website"); }
+
+  var head = document.createElement("div");
   head.className = "ph";
   head.innerHTML =
     '<div class="ph-in">' +
-      '<a class="ph-brand" href="' + publicUrl("index.html") + '" title="Go to the public website" aria-label="ISKCON JUJA public website">' +
-        '<img src="images/juja-logo.svg" alt="ISKCON Juja" width="44" height="44"><span><b>ISKCON JUJA</b><small>Member Portal</small></span></a>' +
-      (page === "devotees.html" ? "" : '<nav class="ph-nav" aria-label="Portal">' +
+      '<span class="ph-tag">Member Portal</span>' +
+      (page === "devotees.html" || page === "register.html" ? "" : '<nav class="ph-nav" aria-label="Portal">' +
         '<a href="dashboard.html"' + on("dashboard.html") + '>Home</a>' +
         '<a href="my-courses.html"' + on("my-courses.html") + '>My Courses</a>' +
         '<a href="calendar.html"' + on("calendar.html") + '>Calendar</a>' +
@@ -44,8 +61,8 @@
         '<a href="#" class="sign-out-trigger ph-out" data-member-nav hidden>Sign Out</a>' +
       '</div>' +
     '</div>';
-  var old = document.querySelector("header.site-header");
-  if (old) old.parentNode.replaceChild(head, old); else document.body.insertBefore(head, document.body.firstChild);
+  if (old) { old.parentNode.insertBefore(brandBar, old); old.parentNode.insertBefore(head, old); old.parentNode.removeChild(old); }
+  else { document.body.insertBefore(head, document.body.firstChild); document.body.insertBefore(brandBar, head); }
 
   var foot = document.querySelector("footer.footer");
   if (foot) {
@@ -62,7 +79,7 @@
   var fl = document.querySelector(".float-stack"); if (fl) fl.parentNode.removeChild(fl);
 
   // Vaishnava calendar helpers (today's date strip, milestone greetings) on every portal page except the sign-in page.
-  if (page !== "devotees.html") {
+  if (page !== "devotees.html" && page !== "register.html") {
     window.addEventListener("load", function () {
       function add(src) { return new Promise(function (ok) { var x = document.createElement("script"); x.src = src; x.onload = x.onerror = ok; document.body.appendChild(x); }); }
       (window.ISKCON_GCAL ? Promise.resolve() : add("gcal.js")).then(function () { return add("birthday.js"); });

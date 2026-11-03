@@ -418,3 +418,6 @@ What I want you to work on now: <WRITE YOUR REQUEST HERE>
 ### Shelved: Prabhupada quote archive (3 Nov 2026) - REMIND OWNER LATER
 Owner has an offline archive + semantic search tool (manual received) on his computer. Plan agreed in chat but shelved: (1) BBT permission first (draft a letter on request); (2) verified, linked quotes (log per manual section 7; I verify every quote against its vedabase page; add `source_url` + `topic` to quotes; quote of the day shows citation + link); (3) learning section links to Vedabase rather than hosting text; (4) no in-app searchable library until permission. Needs from owner: whether to draft the BBT letter, 5-10 starter topics, and saved search-result files.
 
+
+### Portal header fix (3 Nov 2026) - NON-NEGOTIABLE, now enforced in `portal.js`
+Every portal page shows the full official header: logo + "ISKCON JUJA" title, the Hare Krishna maha-mantra, Srila Prabhupada's photo and caption (the public header's `.header-top` is kept as is; only the menu bar under it is the portal's own, with the active tab highlighted). An earlier slim portal header (added 29 Oct) wrongly dropped them. Page names are now read also without ".html" (the host serves /calendar), which fixes the active tab. Admin "Edit" buttons now open their closed drawer (Kartik event edit looked dead because the form was hidden in a closed drawer).

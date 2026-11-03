@@ -2256,3 +2256,10 @@ body.dark-mode .card { outline-color: rgba(243, 156, 18, .5); }
 .ph-foot { padding: 14px 12px 22px; font-size: 12.5px; line-height: 1.5; }
 .ph-foot .pf-row { margin: 2px 0; }
 .ph-foot [data-setting-link]:not([hidden]) { margin-right: 8px; }
+
+/* portal header: the official brand header (logo, maha-mantra, Prabhupada) stays; the menu bar sits under it and stays on screen */
+.ph-top { position: relative; }
+.ph { position: sticky; top: 0; }
+.ph-tag { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #a47d00; font-weight: 700; }
+.ph-nav a.on { background: var(--gold-soft); color: var(--maroon); box-shadow: inset 0 -3px 0 var(--maroon); font-weight: 800; }
+@media (max-width: 640px) { .ph-tag { display: none; } .ph-nav a { padding: 8px 10px; } }

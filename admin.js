@@ -188,6 +188,7 @@
         }
         status.style.color = "var(--muted)";
         status.textContent = "Editing \u2014 change the fields above, then Save Changes.";
+        var drawer = form.closest("details"); if (drawer) drawer.open = true;   // the form sits in a drawer that is closed by default: open it so the edit is visible
         form.scrollIntoView({ behavior: "smooth", block: "start" });
       }
 

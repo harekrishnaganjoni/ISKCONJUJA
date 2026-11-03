@@ -2,8 +2,8 @@
 // Uses gcal.js (calendar) and the member's own private rows in member_details / member_milestones. Works offline from a saved copy.
 (function () {
   "use strict";
-  var page = location.pathname.split("/").pop() || "dashboard.html";
-  if (page === "devotees.html") return;
+  var page = window.ISKCON_PAGE || "dashboard.html";
+  if (page === "devotees.html" || page === "register.html") return;
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
@@ -36,7 +36,7 @@
   }
 
   function mount(el) {
-    var ph = document.querySelector("header.ph"), host = document.getElementById("gc-top");
+    var ph = document.querySelector(".ph"), host = document.getElementById("gc-top");
     if (!host) { host = document.createElement("div"); host.id = "gc-top"; host.className = "gc-top"; if (ph && ph.parentNode) ph.parentNode.insertBefore(host, ph.nextSibling); else document.body.insertBefore(host, document.body.firstChild); }
     host.appendChild(el);
   }

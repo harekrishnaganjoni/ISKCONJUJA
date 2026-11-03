@@ -11,6 +11,8 @@
   function tag(n) { document.querySelectorAll("[data-step-tag]").forEach(function (t) { t.classList.toggle("on", t.getAttribute("data-step-tag") === String(n)); }); }
   function go(n) { s1.hidden = n !== 1; s2.hidden = n !== 2; tag(n); window.scrollTo({ top: 0, behavior: "smooth" }); }
   if (!D || !D.READY) { st1.textContent = "Registration is not connected yet. Please check back soon."; document.getElementById("reg-next").disabled = true; return; }
+  var gb = document.getElementById("google-reg-btn");
+  if (gb) gb.addEventListener("click", function () { st1.style.color = "var(--muted)"; st1.textContent = "Opening Google..."; D.signInWithGoogle().then(function (r) { if (r && r.error) { st1.style.color = "#b33a2e"; st1.textContent = "Google sign-in is not available right now."; } }); });
   document.getElementById("reg-back").addEventListener("click", function () { go(1); });
   document.getElementById("reg-next").addEventListener("click", function () {
     var name = f.full_name.value.trim(), email = f.email.value.trim(), pw = f.password.value;

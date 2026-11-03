@@ -413,7 +413,7 @@ What I want you to work on now: <WRITE YOUR REQUEST HERE>
 - **Profile settings** (`profile.html`, nav "Profile"): details, "My dates" (a section, not a separate page), optional weekly/monthly summary, change password (moved from the dashboard), delete my data. Dates are no longer pushed: one gentle welcome note per device on first visit (`gc_asked_<uid>`), then only on the Profile page.
 - Compact portal footer (address, call/WhatsApp, map, BBT/Prabhupada/ISKCON/Vedabase, socials, privacy) in `portal.js`.
 - **Speed ("Checking your login..."):** the role is remembered per person in the browser (`iskcon_role_<uid>`, cleared on sign out) so returning members see pages at once; the check still runs in the background and closes the page if the role no longer applies. `portal-sw.js` (p3) now serves scripts/styles/images and the sign-in library from the saved copy first and refreshes in the background (so a new release shows on the SECOND visit).
-- **REMIND OWNER LATER:** the owner has more details to add to the registration form and the profile (asked 3 Nov 2026 "remind me later"); the date fields (birthday etc.) may also be asked once at registration, not aggressively.
+- (Resolved 3 Nov 2026: the registration form is as built; see "Registration, onboarding and approval". No more fields for now.)
 
 ### Shelved: Prabhupada quote archive (3 Nov 2026) - REMIND OWNER LATER
 Owner has an offline archive + semantic search tool (manual received) on his computer. Plan agreed in chat but shelved: (1) BBT permission first (draft a letter on request); (2) verified, linked quotes (log per manual section 7; I verify every quote against its vedabase page; add `source_url` + `topic` to quotes; quote of the day shows citation + link); (3) learning section links to Vedabase rather than hosting text; (4) no in-app searchable library until permission. Needs from owner: whether to draft the BBT letter, 5-10 starter topics, and saved search-result files.
@@ -433,3 +433,7 @@ Admin pages (`admin.html`, `course-editor.html`) now have their own space: same 
 
 ### Calendar check against more wall-calendar photos (3 Nov 2026)
 Owner sent Jan, Feb, Apr and Nov 2026 photos. Our Nairobi data agrees on every legible entry: all Ekadasi days and names, Purnima/Amavasya, parana windows (e.g. 15 Jan 06:36-10:40, 14 Feb 06:42-10:45, 14 Apr 06:30-10:32, 28 Apr 06:28-10:29, 6 Nov 06:11-08:02 which ends early with Dvadasi) and the festival/acharya days. 43 reference days now in `tools/known_days.json`. Last digits too blurry to read were not used (30 Jan, 28 Feb, 22 Nov end times). Still welcome: Mar, May-Sep photos.
+
+### REMIND OWNER LATER: Devotee registry (owner, 3 Nov 2026)
+After the site is complete, the owner wants a devotee registry: the registration form would then collect the extra data the registry needs. Not before the site is finished. Remind him then (also then decide who may see registry data, consent wording and the Data Protection angle).
+

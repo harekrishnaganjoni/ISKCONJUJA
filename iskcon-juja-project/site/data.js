@@ -195,13 +195,19 @@
     try { Object.keys(localStorage).forEach(function (k) { if (k.indexOf("iskcon_role_") === 0) localStorage.removeItem(k); }); } catch (e) {}
     return client.auth.signOut();
   }
+  // Register: the details and answers travel with the sign-up (the database saves them safely; see supabase/member_onboarding.sql).
+  function signUp(email, password, reg) {
+    if (!READY) return Promise.resolve({ error: { message: "Registration is not connected yet." } });
+    return client.auth.signUp({ email: email, password: password, options: { data: { reg: reg }, emailRedirectTo: location.origin + "/devotees.html" } });
+  }
+  function finishRejection() { return client.rpc("finish_rejection"); }
   function getSessionAndRole() {
     if (!READY) return Promise.resolve({ session: null, role: null });
     return client.auth.getSession().then(function (r) {
       var session = r.data && r.data.session;
       if (!session) return { session: null, role: null };
-      return client.from("profiles").select("role").eq("id", session.user.id).single().then(function (p) {
-        return { session: session, role: p.data ? p.data.role : "pending" };
+      return client.from("profiles").select("role,approval,reject_reason").eq("id", session.user.id).single().then(function (p) {
+        return { session: session, role: p.data ? p.data.role : "pending", approval: p.data ? (p.data.approval || "approved") : "approved", reject_reason: p.data ? p.data.reject_reason : null };
       });
     });
   }
@@ -548,7 +554,7 @@
 
   window.ISKCON_DATA = {
     READY: READY, client: client,
-    signIn: signIn, signOut: signOut, getSessionAndRole: getSessionAndRole,
+    signIn: signIn, signUp: signUp, finishRejection: finishRejection, signOut: signOut, getSessionAndRole: getSessionAndRole,
     signInWithGoogle: signInWithGoogle, requestPasswordReset: requestPasswordReset, setNewPassword: setNewPassword, onPasswordRecovery: onPasswordRecovery
   };
 })();

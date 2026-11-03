@@ -108,16 +108,30 @@
     // ============================================================
     // PEOPLE
     // ============================================================
+    var OBL = { rounds: { not_yet: "Not chanting daily yet", "1_3": "1 to 3 rounds", "4_8": "4 to 8 rounds", "9_15": "9 to 15 rounds", "16": "16 rounds", more: "More than 16 rounds" },
+      principles: { no_meat: "No meat, fish or eggs", no_intoxication: "No intoxication", no_illicit_sex: "No illicit sex", no_gambling: "No gambling", still_learning: "Still learning about them", prefer_not: "Would rather not say" },
+      why: { knowledge: "Knowledge", peace: "Peace", association: "Friends and association", festivals: "Festivals", prasadam: "Prasadam", kirtan: "Kirtan and music", service: "Service", family: "Family or upbringing", curiosity: "Curiosity" },
+      hope: { courses: "Courses", calendar: "Calendar and reminders", community: "Community and messages", chanting: "Learning to chant", service: "Service opportunities", inspiration: "Daily inspiration", news: "News of programs" },
+      contact: { whatsapp: "WhatsApp", call: "Phone call", email: "Email", any: "Any" } };
+    function list(map, arr, other) { var a = (arr || []).map(function (k) { return map[k] || k; }); if (other) a.push("Other: " + other); return a.join(", ") || "-"; }
+    function answersHtml(o) {
+      if (!o) return "";
+      return '<details style="margin-top:6px;font-size:12px;"><summary style="cursor:pointer;font-weight:700;">Details and answers (confidential)</summary><div style="margin-top:6px;line-height:1.6;">' +
+        'Legal name: ' + esc(o.full_name || "-") + '<br>Initiated name: ' + esc(o.initiated_name || "-") + '<br>Phone: ' + esc(o.phone || "-") + ' &middot; Prefers: ' + esc(OBL.contact[o.contact_pref] || "-") + '<br>' +
+        'Rounds daily: ' + esc(OBL.rounds[o.rounds] || "-") + '<br>Principles: ' + esc(list(OBL.principles, o.principles)) + '<br>Why they joined: ' + esc(list(OBL.why, o.why, o.why_other)) +
+        '<br>Hopes: ' + esc(list(OBL.hope, o.hope, o.hope_other)) + '<br>Heard about us: ' + esc(o.how_heard || "-") + ' &middot; Area: ' + esc(o.area || "-") + '</div></details>';
+    }
+    var onbById = {};
     function loadPeople() {
-      client.from("profiles").select("*").order("created_at", { ascending: false }).then(function (r) {
-        if (r.error || !r.data) return;
-        var pending = r.data.filter(function (p) { return p.role === "pending"; });
-        var others = r.data.filter(function (p) { return p.role !== "pending"; });
-
+      Promise.all([client.from("profiles").select("*").order("created_at", { ascending: false }), client.from("member_onboarding").select("*")]).then(function (q) {
+        var r = q[0]; if (r.error || !r.data) return;
+        onbById = {}; ((q[1] && q[1].data) || []).forEach(function (o) { onbById[o.user_id] = o; });
+        var waiting = function (p) { return p.approval === "rejected" ? false : (p.approval === "pending" || p.role === "pending"); };
+        var pending = r.data.filter(waiting);
+        var others = r.data.filter(function (p) { return !waiting(p); });
         document.getElementById("pending-list").innerHTML = pending.length
           ? pending.map(personRow).join("")
           : '<p style="font-size:13px;color:var(--muted);">No one is waiting for approval.</p>';
-
         document.getElementById("people-list").innerHTML = others.map(personRow).join("");
         wirePersonButtons();
       });
@@ -127,16 +141,31 @@
       var roleOptions = ["pending", "member", "admin", "super_admin"].map(function (r) {
         return '<option value="' + r + '"' + (r === p.role ? " selected" : "") + '>' + r + '</option>';
       }).join("");
-      var canEdit = myRole === "super_admin";
-      return '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;background:var(--row-tint);border-radius:6px;">' +
-        '<span style="font-size:13px;">' + p.email + '</span>' +
+      var canEdit = myRole === "super_admin", isStaff = p.role === "admin" || p.role === "super_admin";
+      var name = p.full_name || (onbById[p.id] && onbById[p.id].full_name) || "";
+      var waiting = p.approval === "pending" || (p.role === "pending" && p.approval !== "rejected");
+      var acts = (!isStaff ? ((waiting ? '<button type="button" class="button" data-approve="' + p.id + '" style="font-size:11px;padding:4px 10px;min-height:auto;">Approve</button>' : '') +
+        (p.approval !== "rejected" ? '<button type="button" class="button secondary" data-reject="' + p.id + '" style="font-size:11px;padding:4px 10px;min-height:auto;">Reject</button>' : '<span style="font-size:11px;color:#b33a2e;font-weight:700;">REJECTED</span>') +
+        '<button type="button" class="button secondary" data-delmember="' + p.id + '" style="font-size:11px;padding:4px 10px;min-height:auto;">Delete</button>') : '');
+      return '<div style="padding:10px;background:var(--row-tint);border-radius:6px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">' +
+        '<span style="font-size:13px;">' + (name ? '<b>' + esc(name) + '</b><br>' : '') + esc(p.email) + (waiting ? ' <span style="color:#a47d00;font-weight:700;font-size:11px;">PENDING</span>' : '') + '</span>' +
+        '<span style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">' + acts +
         (canEdit
           ? '<select data-person-role="' + p.id + '" style="padding:6px;border:1px solid var(--line);border-radius:4px;font-size:12px;">' + roleOptions + '</select>'
-          : '<span style="font-size:12px;font-weight:700;">' + p.role + '</span>') +
-        '</div>';
+          : '<span style="font-size:12px;font-weight:700;">' + esc(p.role) + '</span>') + '</span></div>' + answersHtml(onbById[p.id]) + '</div>';
     }
 
     function wirePersonButtons() {
+      document.querySelectorAll("[data-approve]").forEach(function (b) { b.addEventListener("click", function () {
+        client.rpc("review_member", { target: b.getAttribute("data-approve"), approve: true }).then(function (r) { if (r.error) alert(r.error.message); loadPeople(); }); }); });
+      document.querySelectorAll("[data-reject]").forEach(function (b) { b.addEventListener("click", function () {
+        var why = prompt("Why is this registration rejected? The person will read this message the next time they sign in, and then their account is deleted.");
+        if (why === null) return; if (!why.trim()) { alert("Please write a reason."); return; }
+        client.rpc("review_member", { target: b.getAttribute("data-reject"), approve: false, reason: why.trim() }).then(function (r) { if (r.error) alert(r.error.message); loadPeople(); }); }); });
+      document.querySelectorAll("[data-delmember]").forEach(function (b) { b.addEventListener("click", function () {
+        if (!confirm("Delete this account and everything saved under it? This cannot be undone.")) return;
+        client.rpc("admin_delete_member", { target: b.getAttribute("data-delmember") }).then(function (r) { if (r.error) alert(r.error.message); loadPeople(); }); }); });
       document.querySelectorAll("[data-person-role]").forEach(function (sel) {
         sel.addEventListener("change", function () {
           client.from("profiles").update({ role: sel.value }).eq("id", sel.getAttribute("data-person-role")).then(loadPeople);

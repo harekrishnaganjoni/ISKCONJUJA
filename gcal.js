@@ -61,10 +61,11 @@
     if (yearCache[y]) return yearCache[y];
     yearCache[y] = getJson("y" + y + ".json").then(function (Y) {
       var errs = validate(Y, y);
-      if (!errs.length) return Y;
+      if (!errs.length) { loadedYear[y] = Y; return Y; }
       return getJson("y" + y + ".json", true).then(function (Y2) {            // saved copy looks wrong: fetch a fresh one
         var e2 = validate(Y2, y);
         if (e2.length) { G.problem = "The calendar data for " + y + " failed its self-check: " + e2[0]; throw new Error(G.problem); }
+        loadedYear[y] = Y2;
         return Y2;
       });
     });
@@ -72,19 +73,41 @@
     return yearCache[y];
   }
 
+  // ---------- month changes (Vaishnava months begin and end on Krsna pratipat / Purnima) ----------
+  var loadedYear = {};
+  function ensureEdges(dts) {      // neighbouring year files are needed only for 1 January and 31 December
+    var need = {};
+    dts.forEach(function (dt) { if (dt.m === 1 && dt.d === 1) need[dt.y - 1] = 1; if (dt.m === 12 && dt.d === 31) need[dt.y + 1] = 1; });
+    return Promise.all(Object.keys(need).map(function (y) { y = +y; return y < FIRST || y > LAST ? null : loadYear(y).catch(function () {}); }));
+  }
+  function nbOf(dt) {
+    var nb = {};
+    if (dt.m === 1 && dt.d === 1 && loadedYear[dt.y - 1]) { var P = loadedYear[dt.y - 1]; nb.prev = P.days[P.days.length - 1][1]; }
+    if (dt.m === 12 && dt.d === 31 && loadedYear[dt.y + 1]) nb.next = loadedYear[dt.y + 1].days[0][1];
+    return nb;
+  }
+  function masaEvents(name, masaNo, start, end) {
+    var out = [];
+    if (start) out.push(masaNo === 12 ? "Purusottama (extra) month begins" : name === "Damodara" ? "Damodara masa (Kartika) begins" : name + " masa begins");
+    if (end) out.push(masaNo === 12 ? "Last day of Purusottama (extra) month" : name === "Damodara" ? "Last day of Damodara masa (Kartika ends)" : "Last day of " + name + " masa");
+    return out;
+  }
+
   // ---------- one day ----------
   function build(Y, M, dt) {
-    var i = doy(dt.y, dt.m, dt.d), d = Y.days[i], N = M.names, T = M.texts;
+    var i = doy(dt.y, dt.m, dt.d), d = Y.days[i], N = M.names, T = M.texts, nb = nbOf(dt);
+    var pm = i > 0 ? Y.days[i - 1][1] : nb.prev, nm = i < Y.days.length - 1 ? Y.days[i + 1][1] : nb.next;
+    var mStart = pm != null && pm !== d[1], mEnd = nm != null && nm !== d[1];
     var gy = Y.gy[0][1]; Y.gy.forEach(function (p) { if (p[0] <= i) gy = p[1]; });
     var wd = weekday(dt), rise = d[4], set = d[5], len = set - rise;
     function kala(a) { var s = rise + a[wd] * len / 8; return [Math.round(s), Math.round(s + len / 8)]; }
-    var ev = d[13].map(function (k) { return T[k]; }).filter(function (t) { return !/^Fasting for /.test(t) && !/^Break fast/.test(t); });
+    var ev = masaEvents(N.masa[d[1]], d[1], mStart, mEnd).concat(d[13].map(function (k) { return T[k]; }).filter(function (t) { return !/^Fasting for /.test(t) && !/^Break fast/.test(t); }));
     return {
       date: dt, weekday: wd, tithi: d[0], tithiName: N.tithi[d[0]], paksa: d[0] >= 15 ? "Gaura" : "Krsna",
       masa: d[1], masaName: N.masa[d[1]], gaurabdaYear: gy, naksatra: N.naksatra[d[2]], yoga: N.yoga[d[3]],
       sunrise: rise, sunset: set, arunodaya: d[6], moonrise: d[7], moonset: d[8],
       fast: d[9], ekadasi: d[10] >= 0 ? T[d[10]].trim() : "", parana: d[11] ? { from: d[11][0], to: d[11][1] } : null,
-      feast: d[12], events: ev,
+      feast: d[12], events: ev, masaStart: mStart, masaEnd: mEnd,
       muhurtas: [
         { name: "Brahma-muhurta", note: "best time for japa and study", from: rise - 96, to: rise - 48 },
         { name: "Arunodaya", note: "dawn; Ekadasi is decided here", from: rise - 96, to: rise },
@@ -95,9 +118,9 @@
       ].filter(Boolean)
     };
   }
-  function day(dt) { return Promise.all([loadYear(dt.y), loadMeta()]).then(function (r) { return build(r[0], r[1], dt); }); }
+  function day(dt) { return Promise.all([loadYear(dt.y), loadMeta(), ensureEdges([dt])]).then(function (r) { return build(r[0], r[1], dt); }); }
   function month(y, m) {
-    return Promise.all([loadYear(y), loadMeta()]).then(function (r) {
+    return Promise.all([loadYear(y), loadMeta(), ensureEdges([{ y: y, m: m, d: 1 }, { y: y, m: m, d: 31 }])]).then(function (r) {
       var out = [], n = new Date(Date.UTC(y, m, 0)).getUTCDate();
       for (var d = 1; d <= n; d++) out.push(build(r[0], r[1], { y: y, m: m, d: d }));
       return out;
@@ -105,8 +128,8 @@
   }
   function range(from, count) {      // list of consecutive days starting at "from" (may cross years)
     var ys = {}, a = [], i, dt; for (i = 0; i < count; i++) { dt = addDays(from, i); ys[dt.y] = 1; a.push(dt); }
-    return Promise.all(Object.keys(ys).map(function (y) { return loadYear(+y); }).concat([loadMeta()])).then(function (r) {
-      var M = r[r.length - 1], by = {}; Object.keys(ys).forEach(function (y, k) { by[y] = r[k]; });
+    return Promise.all(Object.keys(ys).map(function (y) { return loadYear(+y); }).concat([loadMeta(), ensureEdges(a)])).then(function (r) {
+      var M = r[r.length - 2], by = {}; Object.keys(ys).forEach(function (y, k) { by[y] = r[k]; });
       return a.map(function (dt) { return build(by[dt.y], M, dt); });
     });
   }
@@ -183,7 +206,7 @@
       var known = null; try { known = localStorage.getItem("gcal_version"); localStorage.setItem("gcal_checked", String(Date.now())); } catch (e) {}
       G.version = m.version;
       if (known && known !== m.version) {                      // newer data was published: forget the saved copies
-        yearCache = {}; meta = null; G.updated = true;
+        yearCache = {}; loadedYear = {}; meta = null; G.updated = true;
         var drop = (window.caches && caches.keys) ? caches.keys().then(function (ks) {
           return Promise.all(ks.map(function (k) { return caches.open(k).then(function (c) { return c.keys().then(function (rs) { return Promise.all(rs.filter(function (q) { return q.url.indexOf("/calendar-data/") > -1; }).map(function (q) { return c.delete(q); })); }); }); }));
         }) : Promise.resolve();

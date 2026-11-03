@@ -98,7 +98,7 @@
          
          <!-- CONTAINER 1: SIGN-IN (real Supabase auth) -->
          <div id="signin-panel" class="card highlight" style="padding: 16px 22px; border-radius: 8px; border-top: 4px solid var(--maroon, #800020);">
-          <h2 style="margin: 0 0 10px; font-size: 22px;">Member sign in</h2>
+          <div class="reg-tabs"><a href="devotees.html" class="on" aria-current="page">Sign in</a><a href="register.html">Register</a></div>
           
           <form class="form" id="signin-form" style="display: flex; flex-direction: column; gap: 6px;">
            <div>
@@ -111,7 +111,7 @@
            </div>
            <button class="button" type="submit" style="width: 100%; margin-top: 6px; font-weight: bold;">Sign In</button>
            <p id="signin-status" role="status" style="font-size: 13px; margin: 0; min-height: 0;"></p>
-           <p style="font-size:13px;margin:6px 0 0;text-align:center;">Not a member yet? <a href="https://iskconjuja.co.ke/participate.html#membership" style="text-decoration:underline;">Apply for membership</a></p>
+           <p style="font-size:13px;margin:6px 0 0;text-align:center;">New here? <a href="register.html" style="text-decoration:underline;">Create an account</a></p>
           </form>
 
           <div data-show-if="google_signin_enabled" hidden style="margin-top:10px;">
@@ -133,9 +133,7 @@
            <p id="newpass-status" role="status" style="font-size:13px;margin:0;"></p>
           </form>
       
-          <div style="text-align: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line);">
-           <p style="font-size: 12px; color: var(--muted); margin: 0;">Accounts are created by an admin. No login yet? <a href="#" data-whatsapp="Hi ISKCON JUJA! I would like to ask about getting member access." style="font-weight:bold;color: var(--maroon, #800020);text-decoration: underline;">Ask about member access</a></p>
-          </div>
+          
          </div>
       
         </section>

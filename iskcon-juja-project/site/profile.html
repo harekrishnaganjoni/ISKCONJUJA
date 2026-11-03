@@ -89,6 +89,15 @@
       <p id="pf-status" style="font-size:13px;margin:0;" aria-live="polite"></p>
      </form>
 
+     <h2 style="margin:24px 0 6px;font-size:20px;">About me</h2>
+     <form id="ob-form" class="gc-card">
+      <p class="gc-small" style="margin:0 0 12px;">Confidential: only you and the temple admins can read this, never other members. It helps us look after you better. Change or clear anything any time.</p>
+      <label class="ob-q">Initiated name <small>(if initiated)</small><input name="initiated_name" maxlength="100" style="width:100%;padding:9px;margin-top:4px;border:1px solid var(--line);border-radius:6px;"></label>
+      <div id="ob-fields"></div>
+      <button class="button" type="submit">Save my answers</button>
+      <p id="ob-status" style="font-size:13px;margin:8px 0 0;" aria-live="polite"></p>
+     </form>
+
      <h2 style="margin:24px 0 6px;font-size:20px;">Plan ahead (optional)</h2>
      <div class="gc-card" style="display:flex;flex-direction:column;gap:10px;">
       <label style="font-size:14px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="dg-week" style="width:auto;"> Each week, show me the major events coming that week</label>
@@ -165,6 +174,7 @@
   <script src="site.js"></script>
   <script src="auth-guard.js" data-require="member"></script>
   <script src="gcal.js"></script>
+  <script src="onboard-fields.js"></script>
   <script src="profile.js"></script>
   <div class="float-stack">
    <div class="float-menu" id="float-menu" hidden>

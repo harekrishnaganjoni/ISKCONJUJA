@@ -9,7 +9,8 @@ begin
    (g,'zz-g@test.local', jsonb_build_object('reg', 'not an object')),
    (ad,'zz-ad@test.local', '{}'::jsonb);
   insert into public.profiles (id, email, role) values (ad,'zz-ad@test.local','admin') on conflict (id) do update set role = 'admin';
-  update public.profiles set role = 'member' where id in (a, b);
+  select role || '/' || approval into x from public.profiles where id = a;
+  rep := rep || case when x = 'member/pending' then 'PASS' else 'FAIL' end || ' a new sign-up can use the member area at once, marked pending approval (' || x || ')' || E'\n';
   select full_name into x from public.profiles where id = a;
   rep := rep || case when x = 'ZZ Alpha' then 'PASS' else 'FAIL' end || ' the name is kept on the profile' || E'\n';
   select count(*) into n from public.member_onboarding where user_id = a;
@@ -55,10 +56,50 @@ begin
   rep := rep || case when n = 0 then 'PASS' else 'FAIL' end || ' an admin cannot change them' || E'\n';
   reset role;
 
+  perform set_config('request.jwt.claims', '{"role":"anon"}', true);
   set local role anon;
   select count(*) into n from public.member_onboarding;
   rep := rep || case when n = 0 then 'PASS' else 'FAIL' end || ' a visitor sees nothing' || E'\n';
   reset role;
 
+  -- approval
+  perform set_config('request.jwt.claims', json_build_object('sub', b::text, 'role', 'authenticated')::text, true);
+  set local role authenticated;
+  ok := false; begin perform public.review_member(a, true); ok := true; exception when others then ok := false; end;
+  rep := rep || case when not ok then 'PASS' else 'FAIL' end || ' a member cannot approve anyone' || E'\n';
+  ok := false; begin update public.profiles set approval = 'approved' where id = b; get diagnostics n = row_count; ok := n > 0; exception when others then ok := false; end;
+  rep := rep || case when not ok then 'PASS' else 'FAIL' end || ' a member cannot approve themselves' || E'\n';
+  reset role;
+  perform set_config('request.jwt.claims', json_build_object('sub', ad::text, 'role', 'authenticated')::text, true);
+  set local role authenticated;
+  perform public.review_member(a, true);
+  select approval into x from public.profiles where id = a;
+  rep := rep || case when x = 'approved' then 'PASS' else 'FAIL' end || ' an admin can approve' || E'\n';
+  perform public.review_member(b, false, 'We could not confirm you are a devotee of our temple.');
+  select role || '/' || approval || '/' || reject_reason into x from public.profiles where id = b;
+  rep := rep || case when x like 'pending/rejected/We could%' then 'PASS' else 'FAIL' end || ' an admin can reject with a reason, and access is removed' || E'\n';
+  ok := false; begin perform public.review_member(ad, false, 'x'); ok := true; exception when others then ok := false; end;
+  rep := rep || case when not ok then 'PASS' else 'FAIL' end || ' admins cannot be rejected here' || E'\n';
+  reset role;
+  perform set_config('request.jwt.claims', json_build_object('sub', b::text, 'role', 'authenticated')::text, true);
+  set local role authenticated;
+  select reject_reason into x from public.profiles where id = b;
+  rep := rep || case when x like 'We could%' then 'PASS' else 'FAIL' end || ' the rejected person can read the reason' || E'\n';
+  perform public.finish_rejection();
+  reset role;
+  select count(*) into n from auth.users where id = b;
+  rep := rep || case when n = 0 then 'PASS' else 'FAIL' end || ' after reading it, the rejected account is deleted' || E'\n';
+  perform set_config('request.jwt.claims', json_build_object('sub', a::text, 'role', 'authenticated')::text, true);
+  set local role authenticated;
+  perform public.finish_rejection();
+  reset role;
+  select count(*) into n from auth.users where id = a;
+  rep := rep || case when n = 1 then 'PASS' else 'FAIL' end || ' finish_rejection never deletes an approved account' || E'\n';
+  perform set_config('request.jwt.claims', json_build_object('sub', ad::text, 'role', 'authenticated')::text, true);
+  set local role authenticated;
+  perform public.admin_delete_member(g);
+  reset role;
+  select count(*) into n from auth.users where id = g;
+  rep := rep || case when n = 0 then 'PASS' else 'FAIL' end || ' an admin can delete an ordinary member' || E'\n';
   raise exception 'TEST REPORT%', E'\n' || rep;
 end $$;

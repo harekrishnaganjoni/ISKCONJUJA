@@ -6,6 +6,9 @@
 -- WHO CAN READ THE ANSWERS: the person themselves and the site admins. No other member can.
 -- (Their birth date is NOT stored here: it goes to their own private dates, which not even admins can read.)
 -- A badly formed form can never block a sign-up: the answers part is skipped if anything is wrong.
+-- APPROVAL: new people can use the member area straight away, with a "pending admin approval" banner.
+-- An admin then approves (banner disappears) or rejects with a reason (the person sees the reason the
+-- next time they sign in, and the account is then deleted).
 -- ============================================================
 create or replace function public.is_member()
 returns boolean language sql security definer stable set search_path = public as $$
@@ -13,6 +16,11 @@ returns boolean language sql security definer stable set search_path = public as
 $$;
 
 alter table public.profiles add column if not exists full_name text;
+alter table public.profiles add column if not exists approval text not null default 'approved';
+alter table public.profiles add column if not exists reject_reason text;
+do $$ begin
+  alter table public.profiles add constraint profiles_approval_check check (approval in ('pending','approved','rejected'));
+exception when duplicate_object then null; end $$;
 
 create table if not exists public.member_onboarding (
   user_id uuid primary key references auth.users(id) on delete cascade,
@@ -55,8 +63,8 @@ returns trigger language plpgsql security definer set search_path = public as $$
 declare r jsonb;
 begin
   r := case when jsonb_typeof(new.raw_user_meta_data->'reg') = 'object' then new.raw_user_meta_data->'reg' else '{}'::jsonb end;
-  insert into public.profiles (id, email, full_name)
-  values (new.id, new.email, left(coalesce(nullif(btrim(r->>'full_name'), ''), nullif(btrim(new.raw_user_meta_data->>'full_name'), '')), 100));
+  insert into public.profiles (id, email, role, approval, full_name)
+  values (new.id, new.email, 'member', 'pending', left(coalesce(nullif(btrim(r->>'full_name'), ''), nullif(btrim(new.raw_user_meta_data->>'full_name'), '')), 100));
   begin
     if r <> '{}'::jsonb then
       insert into public.member_onboarding (user_id, full_name, initiated_name, phone, rounds, principles, why, why_other, hope, hope_other, how_heard, area, contact_pref, consent_at)
@@ -95,3 +103,48 @@ create or replace function public.member_onboarding_touch() returns trigger lang
 begin new.updated_at := now(); return new; end $$;
 drop trigger if exists member_onboarding_touch on public.member_onboarding;
 create trigger member_onboarding_touch before update on public.member_onboarding for each row execute function public.member_onboarding_touch();
+
+
+-- ---------- approval actions ----------
+-- An admin approves, or rejects with a reason (rejected people lose access at once and see the reason on their next sign-in).
+create or replace function public.review_member(target uuid, approve boolean, reason text default null)
+returns void language plpgsql security definer set search_path = public as $$
+declare t text;
+begin
+  if not public.is_admin() then raise exception 'Only admins can do this.'; end if;
+  select role into t from public.profiles where id = target;
+  if t is null then raise exception 'Person not found.'; end if;
+  if t in ('admin','super_admin') then raise exception 'Admins cannot be approved or rejected here.'; end if;
+  if approve then
+    update public.profiles set approval = 'approved', role = 'member', reject_reason = null where id = target;
+  else
+    update public.profiles set approval = 'rejected', role = 'pending', reject_reason = left(nullif(btrim(coalesce(reason,'')), ''), 500) where id = target;
+  end if;
+end $$;
+revoke all on function public.review_member(uuid, boolean, text) from public, anon;
+grant execute on function public.review_member(uuid, boolean, text) to authenticated;
+
+-- A rejected person, after reading the reason, closes the message: their account is deleted.
+create or replace function public.finish_rejection()
+returns void language plpgsql security definer set search_path = public, auth as $$
+begin
+  if auth.uid() is null then return; end if;
+  if exists (select 1 from public.profiles where id = auth.uid() and approval = 'rejected') then
+    delete from auth.users where id = auth.uid();
+  end if;
+end $$;
+revoke all on function public.finish_rejection() from public, anon;
+grant execute on function public.finish_rejection() to authenticated;
+
+-- An admin deletes an ordinary member's account (never another admin).
+create or replace function public.admin_delete_member(target uuid)
+returns void language plpgsql security definer set search_path = public, auth as $$
+declare t text;
+begin
+  if not public.is_admin() then raise exception 'Only admins can do this.'; end if;
+  select role into t from public.profiles where id = target;
+  if t in ('admin','super_admin') then raise exception 'Admins cannot be deleted here.'; end if;
+  delete from auth.users where id = target;
+end $$;
+revoke all on function public.admin_delete_member(uuid) from public, anon;
+grant execute on function public.admin_delete_member(uuid) to authenticated;

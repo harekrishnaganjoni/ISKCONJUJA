@@ -2263,3 +2263,19 @@ body.dark-mode .card { outline-color: rgba(243, 156, 18, .5); }
 .ph-tag { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #a47d00; font-weight: 700; }
 .ph-nav a.on { background: var(--gold-soft); color: var(--maroon); box-shadow: inset 0 -3px 0 var(--maroon); font-weight: 800; }
 @media (max-width: 640px) { .ph-tag { display: none; } .ph-nav a { padding: 8px 10px; } }
+
+/* registration + "about you" questions */
+.ob-q { display: block; margin: 0 0 16px; padding: 0; border: 0; font-size: 14px; font-weight: 700; }
+.ob-q legend { padding: 0; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.ob-q small { font-weight: 400; color: var(--muted); }
+.ob-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 6px 14px; margin-bottom: 8px; }
+.ob-check { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; font-weight: 400; }
+.ob-check input { width: auto; margin-top: 3px; }
+.reg-steps { display: flex; gap: 8px; margin: 0 0 14px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.reg-steps span { padding: 4px 10px; border-radius: 999px; background: rgba(0,0,0,.06); }
+.reg-steps span.on { background: var(--maroon); color: #fff; }
+.reg-note { background: var(--gold-soft, #fbf1d6); border-left: 4px solid var(--gold); border-radius: 6px; padding: 10px 14px; font-size: 14px; margin: 0 0 16px; }
+.reg-tabs { display: flex; gap: 6px; margin: 0 0 12px; }
+.reg-tabs a { flex: 1; text-align: center; padding: 9px 10px; border-radius: 6px; font-weight: 700; font-size: 14px; text-decoration: none; color: var(--maroon); border: 1px solid var(--line); }
+.reg-tabs a.on { background: var(--maroon); color: #fff; border-color: var(--maroon); }
+.appr-banner { text-align: center; }

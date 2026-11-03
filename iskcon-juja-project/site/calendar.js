@@ -78,6 +78,26 @@
     if (view.y < G.FIRST || view.y > G.LAST) { view = { y: now.y, m: now.m }; }
     showMonth();
   });
+  // Phone-calendar file: next 12 months of fasts (with an evening-before alarm), festivals, Purnima, Amavasya and month changes. Made in the browser; nothing is sent anywhere.
+  document.getElementById("gc-sync").addEventListener("click", function () {
+    var st = document.getElementById("gc-sync-status"); st.textContent = "Preparing...";
+    G.majorEvents(now, 366).then(function (ev) {
+      function ymd(x) { return x.y + ("0" + x.m).slice(-2) + ("0" + x.d).slice(-2); }
+      function t(s) { return String(s).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n"); }
+      var stamp = ymd(now) + "T000000Z", out = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//ISKCON JUJA//Vaishnava calendar//EN", "CALSCALE:GREGORIAN", "X-WR-CALNAME:Vaishnava calendar (Nairobi)"];
+      ev.forEach(function (e) {
+        var alarm = e.fast || e.items.some(function (x) { return /masa begins|month begins|Kartika ends/.test(x); });
+        var title = e.items.slice(0, 2).join(" / "), desc = e.items.join("\n") + (e.parana ? "\nBreak the fast: " + G.hm(e.parana.from) + (e.parana.to >= 0 ? " - " + G.hm(e.parana.to) : " onwards") : "");
+        out.push("BEGIN:VEVENT", "UID:gcal-" + ymd(e.date) + "@iskconjuja.co.ke", "DTSTAMP:" + stamp, "DTSTART;VALUE=DATE:" + ymd(e.date), "DTEND;VALUE=DATE:" + ymd(G.addDays(e.date, 1)), "SUMMARY:" + t(title), "DESCRIPTION:" + t(desc), "TRANSP:TRANSPARENT");
+        if (alarm) out.push("BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + t("Tomorrow: " + title), "TRIGGER:-PT3H", "END:VALARM");
+        out.push("END:VEVENT");
+      });
+      out.push("END:VCALENDAR");
+      var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([out.join("\r\n") + "\r\n"], { type: "text/calendar;charset=utf-8" })); a.download = "vaishnava-calendar.ics";
+      document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+      st.textContent = "Downloaded (" + ev.length + " days, next 12 months). Open the file to add it to your phone calendar.";
+    }).catch(function () { st.textContent = "The calendar could not be prepared right now."; });
+  });
   showDetail(sel); showMonth(); showUpcoming();
   G.checkForUpdates().then(function (changed) {
     if (changed) noteBox.innerHTML = '<p class="gc-small">&#10003; Calendar updated.</p>';

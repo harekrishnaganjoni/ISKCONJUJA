@@ -37,6 +37,21 @@
       }).join("");
     });
   }
+  var obf = document.getElementById("ob-form"), obs = document.getElementById("ob-status");
+  function loadOnb() {
+    return c.from("member_onboarding").select("*").eq("user_id", uid).maybeSingle().then(function (q) {
+      var v = (q && q.data) || {};
+      window.ISKCON_ONB.render(document.getElementById("ob-fields"), v);
+      obf.initiated_name.value = v.initiated_name || "";
+    });
+  }
+  obf.addEventListener("submit", function (e) {
+    e.preventDefault(); obs.style.color = "var(--muted)"; obs.textContent = "Saving...";
+    var row = window.ISKCON_ONB.read(obf); row.user_id = uid; row.initiated_name = obf.initiated_name.value.trim() || null;
+    ["rounds", "why_other", "hope_other", "how_heard", "area", "contact_pref"].forEach(function (k) { row[k] = row[k] || null; });
+    row.full_name = f.full_name.value.trim() || null; row.phone = f.phone.value.trim() || null;
+    c.from("member_onboarding").upsert(row).then(function (r) { obs.style.color = r.error ? "#b33a2e" : "#2E7D32"; obs.textContent = r.error ? "That did not save: " + r.error.message : "Saved."; });
+  });
   function load() {
     return Promise.all([c.from("member_details").select("*").eq("user_id", uid).maybeSingle(), c.from("member_milestones").select("*").eq("user_id", uid).order("created_at", { ascending: true })]).then(function (q) {
       if (q[0].error || q[1].error) { st.textContent = "Your details cannot be loaded yet (the admins still have to switch this on)."; return; }
@@ -98,13 +113,13 @@
   }
   dw.addEventListener("change", saveDigest); dm.addEventListener("change", saveDigest);
   document.getElementById("dg-ics").addEventListener("click", icsDigest);
-  D.getSessionAndRole().then(function (s) { if (!s.session) return; uid = s.session.user.id; load(); });
+  D.getSessionAndRole().then(function (s) { if (!s.session) return; uid = s.session.user.id; load(); loadOnb(); });
   mf.kind.addEventListener("change", function () { if (!mf.title.value || Object.keys(TITLE).some(function (k) { return TITLE[k] === mf.title.value; })) mf.title.value = TITLE[mf.kind.value] || ""; });
   mf.title.value = TITLE.birthday;
   f.addEventListener("submit", function (e) {
     e.preventDefault(); st.style.color = "var(--muted)"; st.textContent = "Saving...";
     c.from("member_details").upsert({ user_id: uid, full_name: f.full_name.value.trim() || null, phone: f.phone.value.trim() || null }).then(function (r) {
-      st.style.color = r.error ? "#b33a2e" : "#2E7D32"; st.textContent = r.error ? "That did not save: " + r.error.message : "Saved."; if (!r.error) load();
+      st.style.color = r.error ? "#b33a2e" : "#2E7D32"; st.textContent = r.error ? "That did not save: " + r.error.message : "Saved."; if (!r.error) { load(); c.from("member_onboarding").upsert({ user_id: uid, full_name: f.full_name.value.trim() || null, phone: f.phone.value.trim() || null }); }
     });
   });
   mf.addEventListener("submit", function (e) {
@@ -127,7 +142,7 @@
   document.getElementById("ms-ics").addEventListener("click", icsAll);
   document.getElementById("pf-delete").addEventListener("click", function () {
     if (!confirm("Delete ALL your saved details and dates?")) return;
-    Promise.all([c.from("member_milestones").delete().eq("user_id", uid), c.from("member_details").delete().eq("user_id", uid)]).then(function () {
+    Promise.all([c.from("member_milestones").delete().eq("user_id", uid), c.from("member_details").delete().eq("user_id", uid), c.from("member_onboarding").delete().eq("user_id", uid)]).then(function () {
       try { localStorage.removeItem("gc_mine_" + uid); } catch (e) {}
       st.style.color = "#2E7D32"; st.textContent = "Everything was deleted."; f.reset(); items = []; renderList();
     });

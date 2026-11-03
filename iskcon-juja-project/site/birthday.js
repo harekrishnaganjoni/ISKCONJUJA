@@ -22,7 +22,7 @@
       var uid = r.session.user.id, key = "gc_mine_" + uid, cached = null;
       try { cached = JSON.parse(get(key) || "null"); } catch (e) {}
       strip(G, now);
-      Promise.all([
+      importRegistration(D, r.session).then(function () { return Promise.all([
         D.client.from("member_details").select("full_name,digest_weekly,digest_monthly").eq("user_id", uid).maybeSingle(),
         D.client.from("member_milestones").select("id,kind,title,event_date,remind").eq("user_id", uid)
       ]).then(function (q) {
@@ -31,8 +31,22 @@
         if (!mine) return;
         if (live && !mine.items.some(function (m) { return m.kind === "birthday"; })) nudge(uid);
         greet(G, D, mine, now); digest(G, mine, now);
-      }, function () { if (cached) { greet(G, D, cached, now); digest(G, cached, now); } });
+      }, function () { if (cached) { greet(G, D, cached, now); digest(G, cached, now); } }); });
     });
+  }
+  // First sign-in after registering: the birth date typed on the register page becomes the person's own private birthday date.
+  function importRegistration(D, session) {
+    var reg = session.user && session.user.user_metadata && session.user.user_metadata.reg, uid = session.user.id;
+    if (!reg || typeof reg !== "object") return Promise.resolve();
+    var c = D.client;
+    return c.from("member_details").upsert({ user_id: uid, full_name: reg.full_name || null, phone: reg.phone || null }).then(function (a) {
+      if (a && a.error) return;
+      return c.from("member_milestones").select("id").eq("user_id", uid).eq("kind", "birthday").limit(1).then(function (q) {
+        if (q.error) return;
+        var add = (reg.birth_date && !(q.data && q.data.length)) ? c.from("member_milestones").insert({ user_id: uid, kind: "birthday", title: "My birthday", event_date: reg.birth_date }) : Promise.resolve({});
+        return add.then(function (x) { if (x && x.error) return; set("gc_asked_" + uid, "1"); return c.auth.updateUser({ data: { reg: null } }); });
+      });
+    }).catch(function () {});
   }
 
   function mount(el) {

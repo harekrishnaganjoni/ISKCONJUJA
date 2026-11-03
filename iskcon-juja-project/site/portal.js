@@ -43,23 +43,28 @@
   brandBar.innerHTML = topHtml;
   var bl = brandBar.querySelector("a.brand"); if (bl) { bl.setAttribute("href", publicUrl("index.html")); bl.setAttribute("title", "Go to the public website"); }
 
+  var isAdminPage = page === "admin.html" || page === "course-editor.html";
   var head = document.createElement("div");
-  head.className = "ph";
+  head.className = "ph" + (isAdminPage ? " ph-admin" : "");
   head.innerHTML =
     '<div class="ph-in">' +
-      '<span class="ph-tag">Member Portal</span>' +
+      (isAdminPage ? '<span class="ph-tag ph-tag-admin">&#128274; Admin Portal</span>' +
+        '<nav class="ph-nav" aria-label="Admin portal"><a href="admin.html"' + on("admin.html") + '>Manage the site</a><a href="course-editor.html"' + on("course-editor.html") + '>Course editor</a></nav>' +
+        '<div class="ph-act"><a class="ph-link" href="dashboard.html">&larr; Member portal</a><a class="ph-link" href="' + publicUrl("index.html") + '">Public site</a>' +
+        '<button class="theme-switch-nav" type="button" data-theme-toggle aria-label="Toggle theme"></button><a href="#" class="sign-out-trigger ph-out" data-member-nav hidden>Sign Out</a></div>'
+      : '<span class="ph-tag">Member Portal</span>' +
       (page === "devotees.html" || page === "register.html" ? "" : '<nav class="ph-nav" aria-label="Portal">' +
         '<a href="dashboard.html"' + on("dashboard.html") + '>Home</a>' +
         '<a href="my-courses.html"' + on("my-courses.html") + '>My Courses</a>' +
         '<a href="calendar.html"' + on("calendar.html") + '>Calendar</a>' +
         '<a href="portal-board.html"' + on("portal-board.html") + '>Messages</a>' +
         '<a href="profile.html"' + on("profile.html") + '>Profile</a>' +
-        '<a href="admin.html" data-admin-nav hidden' + on("admin.html") + '>Manage the Site</a>' +
+        '<a href="admin.html" data-admin-nav hidden>Admin portal</a>' +
       '</nav>') +
       '<div class="ph-act">' +
         '<button class="theme-switch-nav" type="button" data-theme-toggle aria-label="Toggle theme"></button>' +
         '<a href="#" class="sign-out-trigger ph-out" data-member-nav hidden>Sign Out</a>' +
-      '</div>' +
+      '</div>') +
     '</div>';
   if (old) { old.parentNode.insertBefore(brandBar, old); old.parentNode.insertBefore(head, old); old.parentNode.removeChild(old); }
   else { document.body.insertBefore(head, document.body.firstChild); document.body.insertBefore(brandBar, head); }
@@ -79,7 +84,7 @@
   var fl = document.querySelector(".float-stack"); if (fl) fl.parentNode.removeChild(fl);
 
   // Vaishnava calendar helpers (today's date strip, milestone greetings) on every portal page except the sign-in page.
-  if (page !== "devotees.html" && page !== "register.html") {
+  if (page !== "devotees.html" && page !== "register.html" && !isAdminPage) {
     window.addEventListener("load", function () {
       function add(src) { return new Promise(function (ok) { var x = document.createElement("script"); x.src = src; x.onload = x.onerror = ok; document.body.appendChild(x); }); }
       (window.ISKCON_GCAL ? Promise.resolve() : add("gcal.js")).then(function () { return add("birthday.js"); });

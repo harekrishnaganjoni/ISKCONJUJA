@@ -37,6 +37,25 @@
       });
     });
 
+    // ---------- Overview: counts, quick links, badges ----------
+    function goTab(tab) { var b = document.querySelector('.admin-tab-btn[data-tab="' + tab + '"]'); if (b) b.click(); window.scrollTo({ top: 0 }); }
+    document.addEventListener("click", function (e) { var g = e.target.closest("[data-goto]"); if (g) goTab(g.getAttribute("data-goto")); });
+    function setBadge(id, n) { var el = document.getElementById(id); if (!el) return; el.hidden = !n; el.textContent = n || ""; }
+    function loadOverview() {
+      var today = new Date().toISOString().slice(0, 10);
+      function cnt(q) { return q.then(function (r) { return r && !r.error ? (r.count != null ? r.count : (r.data || []).length) : null; }, function () { return null; }); }
+      Promise.all([
+        cnt(client.from("profiles").select("id", { count: "exact", head: true }).eq("approval", "pending")),
+        cnt(client.from("testimonials").select("id", { count: "exact", head: true }).eq("published", false)),
+        cnt(client.from("membership_applications").select("id", { count: "exact", head: true }).eq("status", "new")),
+        cnt(client.from("events").select("id", { count: "exact", head: true }).gte("start_date", today))
+      ]).then(function (n) {
+        ["st-pending", "st-testi", "st-apps", "st-events"].forEach(function (id, i) { var el = document.getElementById(id); if (el) el.textContent = n[i] == null ? "-" : n[i]; });
+        setBadge("badge-people", (n[0] || 0) + (n[2] || 0)); setBadge("badge-testimonials", n[1] || 0);
+      });
+    }
+    loadOverview();
+
     // ---------- Know our own role, to gate People actions ----------
     var myRole = null;
     window.ISKCON_DATA.getSessionAndRole().then(function (r) {

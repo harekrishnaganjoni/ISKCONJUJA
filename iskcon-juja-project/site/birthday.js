@@ -3,7 +3,7 @@
 (function () {
   "use strict";
   var page = window.ISKCON_PAGE || "dashboard.html";
-  if (page === "devotees.html" || page === "register.html") return;
+  if (page === "devotees.html" || page === "register.html" || page === "admin.html" || page === "course-editor.html") return;
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }

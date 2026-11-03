@@ -74,32 +74,24 @@
   </aside>
   <label class="menu-scrim" for="menu-toggle" aria-label="Close menu"></label>
  </header>
- <main style="background: var(--canvas); padding: 40px 20px; min-height: 80vh;">
-    <div style="max-width: 1100px; margin: 0 auto;">
-
-     <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
-      <div>
-       <div class="eyebrow">&#128274; Admin Panel</div>
-       <h2 id="admin-role-heading">Manage the Site</h2>
-      </div>
-      <a href="dashboard.html" class="button secondary" style="font-size: 13px; padding: 8px 14px;">&larr; Return to Dashboard</a>
-     </div>
-
+ <main class="adm-main">
+    <div class="adm-wrap">
      <div id="admin-not-super" class="empty-state" style="margin-bottom:24px;" hidden>
       <p>You are signed in as an admin. Only the super admin can add or remove other admins.</p>
      </div>
 
      <div class="admin-layout" id="admin-layout">
-      <nav class="admin-tabs" aria-label="Manage the site">
+      <nav class="admin-tabs" aria-label="Admin sections">
        <button type="button" class="admin-collapse" id="admin-collapse" aria-label="Collapse menu" title="Collapse menu">&#8249;</button>
+       <button type="button" class="admin-tab-btn active" data-tab="overview">&#127968; Overview</button>
        <div class="admin-group-label">Every day</div>
-       <button type="button" class="admin-tab-btn active" data-tab="board">Message Board</button>
-       <button type="button" class="admin-tab-btn" data-tab="testimonials">Testimonials</button>
-       <button type="button" class="admin-tab-btn" data-tab="people">People</button>
+       <button type="button" class="admin-tab-btn" data-tab="people">People <i class="adm-badge" id="badge-people" hidden></i></button>
+       <button type="button" class="admin-tab-btn" data-tab="board">Message Board</button>
+       <button type="button" class="admin-tab-btn" data-tab="testimonials">Testimonials <i class="adm-badge" id="badge-testimonials" hidden></i></button>
        <div class="admin-group-label">Content</div>
        <button type="button" class="admin-tab-btn" data-tab="events">Events &amp; Programs</button>
-       <button type="button" class="admin-tab-btn" data-tab="registrations">Sign-ups</button>
        <button type="button" class="admin-tab-btn" data-tab="quotes">Quotes</button>
+       <button type="button" class="admin-tab-btn" data-tab="registrations">Sign-ups</button>
        <button type="button" class="admin-tab-btn" data-tab="courses">Courses</button>
        <div class="admin-group-label">Site</div>
        <button type="button" class="admin-tab-btn" data-tab="settings">Settings</button>
@@ -113,91 +105,42 @@
       <div class="admin-content">
 
 
+     <!-- OVERVIEW TAB -->
+     <section class="admin-tab-panel" data-tab-panel="overview">
+      <h2 class="adm-title">Overview</h2>
+      <div class="adm-stats">
+       <button type="button" class="adm-stat" data-goto="people"><b id="st-pending">-</b><span>Members waiting for approval</span></button>
+       <button type="button" class="adm-stat" data-goto="testimonials"><b id="st-testi">-</b><span>Testimonials to review</span></button>
+       <button type="button" class="adm-stat" data-goto="people"><b id="st-apps">-</b><span>New membership applications</span></button>
+       <button type="button" class="adm-stat" data-goto="events"><b id="st-events">-</b><span>Upcoming events</span></button>
+      </div>
+      <h3 class="adm-sub">Quick actions</h3>
+      <div class="adm-quick">
+       <button type="button" class="button secondary" data-goto="events">+ Add an event</button>
+       <button type="button" class="button secondary" data-goto="quotes">+ Add a quote</button>
+       <button type="button" class="button secondary" data-goto="people">Review new members</button>
+       <button type="button" class="button secondary" data-goto="settings">Site settings</button>
+      </div>
+     </section>
+
      <!-- SETTINGS TAB -->
      <section class="admin-tab-panel" data-tab-panel="settings" hidden>
-      <div class="card highlight" style="padding:24px;max-width:600px;">
-       <h3 style="margin-bottom:6px;">Site Settings</h3>
-       <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Anything left blank stays hidden on the public site. Open a group, change what you need, then press Save.</p>
-       <form id="settings-form" style="display:flex;flex-direction:column;gap:12px;">
-        <details class="admin-drawer" open>
-         <summary>Contact &amp; social links<small>Address, WhatsApp group, social pages</small></summary>
-         <div class="admin-drawer-body">
-        <label style="font-size:13px;font-weight:700;">Address shown in the footer (short)
-         <input name="address_short" type="text" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-        <label style="font-size:13px;font-weight:700;">Program contact WhatsApp number (every "WhatsApp us" button uses it)
-         <input name="whatsapp_primary" type="text" inputmode="tel" placeholder="254714211692 (country code first, no + or spaces)" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-        <label style="font-size:13px;font-weight:700;">Backup contact WhatsApp number
-         <input name="whatsapp_secondary" type="text" inputmode="tel" placeholder="254743184998" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-        <label style="font-size:13px;font-weight:700;">WhatsApp Group Invite Link
-         <input name="whatsapp_group_invite" type="text" inputmode="url" placeholder="https://chat.whatsapp.com/..." style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-        <label style="font-size:13px;font-weight:700;">Facebook URL
-         <input name="facebook_url" type="text" inputmode="url" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-        <label style="font-size:13px;font-weight:700;">Instagram URL
-         <input name="instagram_url" type="text" inputmode="url" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-        <label style="font-size:13px;font-weight:700;">YouTube URL
-         <input name="youtube_url" type="text" inputmode="url" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-        <label style="font-size:13px;font-weight:700;">TikTok URL
-         <input name="tiktok_url" type="text" inputmode="url" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-         </div>
-        </details>
-        <details class="admin-drawer">
-         <summary>Sunday trip card<small>Text of the Nairobi temple trip on the Events page</small></summary>
-         <div class="admin-drawer-body">
-          <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">Leave a box empty to keep the built-in wording.</p>
-          <label style="font-size:13px;font-weight:700;">Heading
-           <input name="sunday_title" type="text" maxlength="120" placeholder="Visit the Main Temple — Nairobi (Ngara)" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
-          <label style="font-size:13px;font-weight:700;">Paragraph
-           <textarea name="sunday_text" maxlength="800" placeholder="We don't run a local Sunday program ..." style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;min-height:90px;"></textarea></label>
-          <label style="font-size:13px;font-weight:700;">Schedule (one line each: time | what happens)
-           <textarea name="sunday_schedule" maxlength="800" placeholder="7:45 AM | Class&#10;9:00 AM | Breakfast" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;min-height:110px;"></textarea></label>
-         </div>
-        </details>
-        <details class="admin-drawer">
-         <summary>Homepage<small>Hero photo and which sections show</small></summary>
-         <div class="admin-drawer-body">
-        <label style="font-size:13px;font-weight:700;">Homepage Hero Photo
-         <input type="file" id="hero-photo-input" accept="image/*" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-         <span id="hero-photo-current" style="font-size:12px;color:var(--muted);display:block;margin-top:4px;">No custom photo set — using the default.</span>
-        </label>
-        <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="articles_enabled" type="checkbox" style="width:auto;"> Show homepage articles section</label>
-        <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="special_events_enabled" type="checkbox" style="width:auto;"> Show special events section</label>
-         </div>
-        </details>
-        <details class="admin-drawer">
-         <summary>Menu &amp; sign-in options<small>Merchandise in the menu, Google sign-in, forgot password</small></summary>
-         <div class="admin-drawer-body">
-        <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="store_enabled" type="checkbox" style="width:auto;"> Show Merchandise in the menu</label>
-        <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="google_signin_enabled" type="checkbox" style="width:auto;"> Show "Continue with Google" on the login page (switch on only after Google is set up)</label>
-        <label style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;"><input name="forgot_password_enabled" type="checkbox" style="width:auto;"> Show "Forgot your password?" on the login page (switch on only after email sending is set up)</label>
-         </div>
-        </details>
-        <details class="admin-drawer">
-         <summary>Payments (not in use yet)<small>Till number and donation link, on hold</small></summary>
-         <div class="admin-drawer-body">
-        <label style="font-size:13px;font-weight:700;">M-Pesa Till Number
-         <input name="mpesa_till" type="text" placeholder="e.g. 123456" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-        <label style="font-size:13px;font-weight:700;">Pesapal Donation Link
-         <input name="pesapal_donate_url" type="text" inputmode="url" placeholder="https://..." style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;">
-        </label>
-         </div>
-        </details>
-        <button class="button" type="submit" style="width:100%;">Save Settings</button>
-        <p id="settings-status" style="font-size:13px;"></p>
-       </form>
-      </div>
+      <h2 class="adm-title">Site settings</h2>
+      <p class="adm-lead">Anything left blank stays hidden on the public site. Open a group, change what you need, then press <b>Save settings</b> at the bottom.</p>
+      <form id="settings-form" class="adm-form">
+<details class="adm-drawer" open><summary><span class="dt">Contact &amp; WhatsApp</span><small>Address and the numbers every &ldquo;WhatsApp us&rdquo; button uses</small></summary><div class="adm-drawer-body"><label class="fld"><span class="l">Address shown in the footer</span><input name="address_short" type="text"><small>Short, one line.</small></label><div class="fld-grid"><label class="fld"><span class="l">Program contact (WhatsApp)</span><input name="whatsapp_primary" type="text" inputmode="tel" placeholder="254714211692"><small>Country code first, no + or spaces.</small></label><label class="fld"><span class="l">Backup contact (WhatsApp)</span><input name="whatsapp_secondary" type="text" inputmode="tel" placeholder="254743184998"><small>Used when the first one is not set.</small></label></div><label class="fld"><span class="l">WhatsApp group invite link</span><input name="whatsapp_group_invite" type="text" inputmode="url" placeholder="https://chat.whatsapp.com/..."><small>Shown to people who want to join the group.</small></label></div></details>
+<details class="adm-drawer"><summary><span class="dt">Social media</span><small>Links shown in the footer; empty ones stay hidden</small></summary><div class="adm-drawer-body"><div class="fld-grid"><label class="fld"><span class="l">Facebook</span><input name="facebook_url" type="text" inputmode="url"></label><label class="fld"><span class="l">Instagram</span><input name="instagram_url" type="text" inputmode="url"></label><label class="fld"><span class="l">YouTube</span><input name="youtube_url" type="text" inputmode="url"></label><label class="fld"><span class="l">TikTok</span><input name="tiktok_url" type="text" inputmode="url"></label></div></div></details>
+<details class="adm-drawer"><summary><span class="dt">Sunday trip card</span><small>The Nairobi temple trip on the Events page</small></summary><div class="adm-drawer-body"><p class="adm-help">Leave a box empty to keep the built-in wording.</p><label class="fld"><span class="l">Heading</span><input name="sunday_title" type="text" maxlength="120" placeholder="Visit the Main Temple &mdash; Nairobi (Ngara)"></label><label class="fld"><span class="l">Paragraph</span><textarea name="sunday_text" maxlength="800" rows="3" placeholder="We don&#39;t run a local Sunday program ..."></textarea></label><label class="fld"><span class="l">Schedule</span><textarea name="sunday_schedule" maxlength="800" rows="4" placeholder="7:45 AM | Class&#10;9:00 AM | Breakfast"></textarea><small>One line each: time | what happens.</small></label></div></details>
+<details class="adm-drawer"><summary><span class="dt">Homepage</span><small>Hero photo and which sections show</small></summary><div class="adm-drawer-body"><label class="fld"><span class="l">Homepage hero photo</span><input type="file" id="hero-photo-input" accept="image/*"><small id="hero-photo-current">No custom photo set &mdash; using the default.</small></label><label class="tgl"><input name="articles_enabled" type="checkbox"><span class="tgl-track" aria-hidden="true"></span><span class="tgl-text"><b>Articles section</b><small>Show the articles section on the homepage.</small></span></label><label class="tgl"><input name="special_events_enabled" type="checkbox"><span class="tgl-track" aria-hidden="true"></span><span class="tgl-text"><b>Special events section</b><small>Show the special events section on the homepage.</small></span></label></div></details>
+<details class="adm-drawer"><summary><span class="dt">Sign-in &amp; menu</span><small>What visitors see in the menu and on the login pages</small></summary><div class="adm-drawer-body"><label class="tgl"><input name="google_signin_enabled" type="checkbox"><span class="tgl-track" aria-hidden="true"></span><span class="tgl-text"><b>&ldquo;Continue with Google&rdquo;</b><small>Switch on only after Google sign-in is set up.</small></span></label><label class="tgl"><input name="forgot_password_enabled" type="checkbox"><span class="tgl-track" aria-hidden="true"></span><span class="tgl-text"><b>&ldquo;Forgot your password?&rdquo;</b><small>Switch on only after email sending is set up.</small></span></label><label class="tgl"><input name="store_enabled" type="checkbox"><span class="tgl-track" aria-hidden="true"></span><span class="tgl-text"><b>Merchandise in the menu</b><small>Show the Merchandise page in the menu.</small></span></label></div></details>
+<details class="adm-drawer"><summary><span class="dt">Payments (on hold)</span><small>Till number and donation link; not in use yet</small></summary><div class="adm-drawer-body"><div class="fld-grid"><label class="fld"><span class="l">M-Pesa till number</span><input name="mpesa_till" type="text" placeholder="e.g. 123456"></label><label class="fld"><span class="l">Pesapal donation link</span><input name="pesapal_donate_url" type="text" inputmode="url" placeholder="https://..."></label></div></div></details>
+       <div class="adm-savebar"><button class="button" type="submit">Save settings</button><p id="settings-status" role="status" aria-live="polite"></p></div>
+      </form>
      </section>
 
      <!-- PEOPLE TAB -->
      <section class="admin-tab-panel" data-tab-panel="people" hidden>
+      <h2 class="adm-title">People</h2>
       <details class="admin-drawer card" id="apps-drawer" open>
       <summary>Membership applications<small>People who asked to become members</small></summary>
       <div class="admin-drawer-body">
@@ -231,18 +174,21 @@
 
      <!-- TESTIMONIALS TAB -->
      <section class="admin-tab-panel" data-tab-panel="testimonials" hidden>
+      <h2 class="adm-title">Testimonials</h2>
       <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">Visitors submit these from the homepage. Nothing appears publicly until you tick <strong>Approved</strong>. Deleting is permanent.</p>
       <div id="testimonials-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
 
      <!-- MESSAGE BOARD TAB -->
-     <section class="admin-tab-panel" data-tab-panel="board">
+     <section class="admin-tab-panel" data-tab-panel="board" hidden>
+      <h2 class="adm-title">Message board</h2>
       <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">Everything from the public message board, newest first, plus messages people wrote to the admins only. <strong>Hide</strong> removes a public message from the board without deleting it. Replies you post here appear publicly marked as Admin. Deleting a message also deletes the replies under it.</p>
       <div id="board-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
 
      <!-- ARTICLES TAB -->
      <section class="admin-tab-panel" data-tab-panel="articles" hidden>
+      <h2 class="adm-title">Articles</h2>
       <details class="admin-drawer card">
       <summary>+ Publish an article<small></small></summary>
       <div class="admin-drawer-body">
@@ -264,6 +210,7 @@
 
      <!-- EVENTS TAB -->
      <section class="admin-tab-panel" data-tab-panel="quotes" hidden>
+      <h2 class="adm-title">Quotes</h2>
       <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">The <strong>Quote of the Week</strong> on the home page is picked from this list, a different one each week, avoiding repeats. Add a quote word for word, with its exact source (book, chapter/verse or lecture, place and date). Until you add some here, the site uses its built-in starter quotes.</p>
       <details class="admin-drawer card">
        <summary>+ Add a quote<small>Word for word, with the source</small></summary>
@@ -280,11 +227,13 @@
       <div id="quotes-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
      <section class="admin-tab-panel" data-tab-panel="registrations" hidden>
+      <h2 class="adm-title">Sign-ups</h2>
       <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">People who pressed <strong>Save my spot</strong> on the Events page. Only admins can see this list. Delete a person when they ask, or when the event is over.</p>
       <p style="margin-bottom:12px;"><button type="button" class="button secondary" id="reg-csv">Download list (CSV)</button></p>
       <div id="reg-list" style="display:flex;flex-direction:column;gap:8px;"></div>
      </section>
      <section class="admin-tab-panel" data-tab-panel="events" hidden>
+      <h2 class="adm-title">Events &amp; programs</h2>
       <details class="admin-drawer card">
       <summary>Weekly programs<small>The regular days and times shown on the Events page</small></summary>
       <div class="admin-drawer-body">
@@ -335,6 +284,7 @@
 
      <!-- PRODUCTS TAB -->
      <section class="admin-tab-panel" data-tab-panel="products" hidden>
+      <h2 class="adm-title">Merchandise</h2>
       <details class="admin-drawer card">
       <summary>+ Add a product<small></small></summary>
       <div class="admin-drawer-body">
@@ -369,6 +319,7 @@
 
      <!-- COURSES TAB -->
      <section class="admin-tab-panel" data-tab-panel="courses" hidden>
+      <h2 class="adm-title">Courses</h2>
       <div class="card highlight" style="padding:20px;margin-bottom:16px;max-width:600px;"><h3 style="margin-bottom:6px;">Course Editor</h3><p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Build full courses with modules, lessons, quizzes and a learner-questions inbox, or import a whole course from a file.</p><div style="display:flex;gap:10px;flex-wrap:wrap;"><a class="button" href="course-editor.html#/import">Import a course from a file</a><a class="button secondary" href="course-editor.html">Open the Course Editor</a></div></div>
       <details class="admin-drawer card">
       <summary>+ Quick-add a course<small>Basic details only; use the Course Editor for full courses</small></summary>
@@ -396,6 +347,7 @@
 
      <!-- BUSINESS CARD TAB -->
      <section class="admin-tab-panel" data-tab-panel="card" hidden>
+      <h2 class="adm-title">Business card</h2>
       <p style="font-size:14px;color:var(--muted);max-width:640px;margin-bottom:16px;">Business card, 85 &times; 55 mm. Everything fills in from details already on the site (phone, address, social links, logo). The front carries all the contact details. The back carries a quote and decoration. Pick the quote below or write your own.</p>
 
       <div class="bc-controls card" style="padding:16px;max-width:640px;margin-bottom:20px;display:grid;gap:12px;">

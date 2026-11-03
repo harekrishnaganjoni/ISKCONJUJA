@@ -1,21 +1,268 @@
 {
-  "_about": "Reference days taken from the owner's Nairobi temple wall calendar (photos of Oct and Dec 2026). The data must always agree with these. Add more months here when the owner sends more photos.",
-  "days": [
-    {"date": "2026-10-03", "events": ["Srila Prabhupada's arrival in the USA"]},
-    {"date": "2026-10-06", "ekadasi": "Indira Ekadasi", "fast": 1},
-    {"date": "2026-10-10", "tithi": 14, "tithiName": "Amavasya"},
-    {"date": "2026-10-21", "events": ["Ramacandra Vijayotsava", "Sri Madhvacarya -- Appearance"]},
-    {"date": "2026-10-22", "ekadasi": "Pasankusa Ekadasi", "fast": 1},
-    {"date": "2026-10-23", "parana": [372, 615], "events": ["Srila Raghunatha Dasa Gosvami -- Disappearance", "Srila Raghunatha Bhatta Gosvami -- Disappearance", "Srila Krsnadasa Kaviraja Gosvami -- Disappearance"]},
-    {"date": "2026-10-26", "tithi": 29, "tithiName": "Purnima", "events": ["Sri Murari Gupta -- Disappearance"]},
-    {"date": "2026-10-30", "events": ["Srila Narottama Dasa Thakura -- Disappearance"]},
-    {"date": "2026-12-04", "ekadasi": "Utpanna Ekadasi", "fast": 1, "events": ["Sri Narahari Sarakara Thakura -- Disappearance"]},
-    {"date": "2026-12-05", "events": ["Sri Kaliya Krsnadasa -- Disappearance"]},
-    {"date": "2026-12-06", "events": ["Sri Saranga Thakura -- Disappearance"]},
-    {"date": "2026-12-08", "tithi": 14, "tithiName": "Amavasya"},
-    {"date": "2026-12-15", "events": ["Odana sasthi"]},
-    {"date": "2026-12-20", "ekadasi": "Moksada Ekadasi", "fast": 1, "events": ["Advent of Srimad Bhagavad-gita"]},
-    {"date": "2026-12-21", "parana": [384, 628]},
-    {"date": "2026-12-27", "events": ["Srila Bhaktisiddhanta Sarasvati Thakura -- Disappearance"]}
-  ]
+ "_about": "Reference days taken from the owner's Nairobi temple wall calendar (photos of Jan, Feb, Apr, Oct, Nov and Dec 2026). The data must always agree with these. Add more months here when the owner sends more photos. Only entries that were clearly legible in the photos are used.",
+ "days": [
+  {
+   "date": "2026-01-03",
+   "tithi": 29,
+   "tithiName": "Purnima"
+  },
+  {
+   "date": "2026-01-14",
+   "ekadasi": "Sat-tila Ekadasi",
+   "fast": 1
+  },
+  {
+   "date": "2026-01-15",
+   "parana": [
+    396,
+    640
+   ]
+  },
+  {
+   "date": "2026-01-18",
+   "tithi": 14,
+   "tithiName": "Amavasya"
+  },
+  {
+   "date": "2026-01-23",
+   "events": [
+    "Vasanta Pancami"
+   ]
+  },
+  {
+   "date": "2026-01-29",
+   "ekadasi": "Bhaimi Ekadasi",
+   "fast": 1
+  },
+  {
+   "date": "2026-02-01",
+   "tithi": 29,
+   "tithiName": "Purnima"
+  },
+  {
+   "date": "2026-02-13",
+   "ekadasi": "Vijaya Ekadasi",
+   "fast": 1
+  },
+  {
+   "date": "2026-02-14",
+   "parana": [
+    402,
+    645
+   ]
+  },
+  {
+   "date": "2026-02-17",
+   "tithi": 14,
+   "tithiName": "Amavasya"
+  },
+  {
+   "date": "2026-02-27",
+   "ekadasi": "Amalaki vrata Ekadasi",
+   "fast": 1
+  },
+  {
+   "date": "2026-04-01",
+   "tithi": 29,
+   "tithiName": "Purnima"
+  },
+  {
+   "date": "2026-04-13",
+   "ekadasi": "Varuthini Ekadasi",
+   "fast": 1
+  },
+  {
+   "date": "2026-04-14",
+   "parana": [
+    390,
+    632
+   ]
+  },
+  {
+   "date": "2026-04-17",
+   "tithi": 14,
+   "tithiName": "Amavasya",
+   "events": [
+    "Sri Gadadhara Pandita -- Appearance"
+   ]
+  },
+  {
+   "date": "2026-04-27",
+   "ekadasi": "Mohini Ekadasi",
+   "fast": 1
+  },
+  {
+   "date": "2026-04-28",
+   "parana": [
+    388,
+    629
+   ]
+  },
+  {
+   "date": "2026-04-30",
+   "events": [
+    "Nrsimha Caturdasi: Appearance of Lord Nrsimhadeva"
+   ]
+  },
+  {
+   "date": "2026-10-03",
+   "events": [
+    "Srila Prabhupada's arrival in the USA"
+   ]
+  },
+  {
+   "date": "2026-10-06",
+   "ekadasi": "Indira Ekadasi",
+   "fast": 1
+  },
+  {
+   "date": "2026-10-10",
+   "tithi": 14,
+   "tithiName": "Amavasya"
+  },
+  {
+   "date": "2026-10-21",
+   "events": [
+    "Ramacandra Vijayotsava",
+    "Sri Madhvacarya -- Appearance"
+   ]
+  },
+  {
+   "date": "2026-10-22",
+   "ekadasi": "Pasankusa Ekadasi",
+   "fast": 1
+  },
+  {
+   "date": "2026-10-23",
+   "parana": [
+    372,
+    615
+   ],
+   "events": [
+    "Srila Raghunatha Dasa Gosvami -- Disappearance",
+    "Srila Raghunatha Bhatta Gosvami -- Disappearance",
+    "Srila Krsnadasa Kaviraja Gosvami -- Disappearance"
+   ]
+  },
+  {
+   "date": "2026-10-26",
+   "tithi": 29,
+   "tithiName": "Purnima",
+   "events": [
+    "Sri Murari Gupta -- Disappearance"
+   ]
+  },
+  {
+   "date": "2026-10-30",
+   "events": [
+    "Srila Narottama Dasa Thakura -- Disappearance"
+   ]
+  },
+  {
+   "date": "2026-11-02",
+   "events": [
+    "Bahulastami"
+   ]
+  },
+  {
+   "date": "2026-11-03",
+   "events": [
+    "Sri Virabhadra -- Appearance"
+   ]
+  },
+  {
+   "date": "2026-11-05",
+   "ekadasi": "Rama Ekadasi",
+   "fast": 1
+  },
+  {
+   "date": "2026-11-06",
+   "parana": [
+    371,
+    482
+   ]
+  },
+  {
+   "date": "2026-11-09",
+   "tithi": 14,
+   "tithiName": "Amavasya"
+  },
+  {
+   "date": "2026-11-13",
+   "events": [
+    "Srila Prabhupada -- Disappearance"
+   ]
+  },
+  {
+   "date": "2026-11-17",
+   "events": [
+    "Gopastami, Gosthastami"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "ekadasi": "Utthana Ekadasi",
+   "fast": 1
+  },
+  {
+   "date": "2026-11-24",
+   "tithi": 29,
+   "tithiName": "Purnima",
+   "events": [
+    "Sri Krsna Rasayatra"
+   ]
+  },
+  {
+   "date": "2026-12-04",
+   "ekadasi": "Utpanna Ekadasi",
+   "fast": 1,
+   "events": [
+    "Sri Narahari Sarakara Thakura -- Disappearance"
+   ]
+  },
+  {
+   "date": "2026-12-05",
+   "events": [
+    "Sri Kaliya Krsnadasa -- Disappearance"
+   ]
+  },
+  {
+   "date": "2026-12-06",
+   "events": [
+    "Sri Saranga Thakura -- Disappearance"
+   ]
+  },
+  {
+   "date": "2026-12-08",
+   "tithi": 14,
+   "tithiName": "Amavasya"
+  },
+  {
+   "date": "2026-12-15",
+   "events": [
+    "Odana sasthi"
+   ]
+  },
+  {
+   "date": "2026-12-20",
+   "ekadasi": "Moksada Ekadasi",
+   "fast": 1,
+   "events": [
+    "Advent of Srimad Bhagavad-gita"
+   ]
+  },
+  {
+   "date": "2026-12-21",
+   "parana": [
+    384,
+    628
+   ]
+  },
+  {
+   "date": "2026-12-27",
+   "events": [
+    "Srila Bhaktisiddhanta Sarasvati Thakura -- Disappearance"
+   ]
+  }
+ ]
 }

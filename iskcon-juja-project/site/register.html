@@ -80,7 +80,7 @@
       <div class="section-inner" style="max-width:660px;margin:0 auto;">
        <div class="card" style="padding:20px 22px;border-top:4px solid var(--maroon,#800020);">
         <div class="reg-tabs"><a href="devotees.html">Sign in</a><a href="register.html" class="on" aria-current="page">Register</a></div>
-        <div class="reg-steps" aria-label="Steps"><span class="on" data-step-tag="1">1 Your details</span><span data-step-tag="2">2 About you</span></div>
+        <div class="reg-steps" aria-label="Steps"><span class="on" data-step-tag="1">1 Your details</span><span data-step-tag="2">2 Survey</span></div>
         <div data-show-if="google_signin_enabled" hidden style="margin:0 0 14px;">
          <button class="gsi-btn" type="button" id="google-reg-btn"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>Continue with Google</span></button>
          <p style="text-align:center;font-size:12px;color:var(--muted);margin:8px 0 0;">Google fills in your name and email for you. You can add the rest later in Profile. Or fill in the form below.</p>
@@ -98,11 +98,25 @@
           <button class="button" type="button" id="reg-next" style="width:100%;">Next</button>
          </div>
          <div data-step="2" hidden>
-          <p class="reg-note">A few questions, only so we can help you better. Your answers are <b>confidential</b>: only the temple admins can read them, never other members. There are no right or wrong answers and nobody is judged. Skip anything you like. You can see, change or delete your answers any time in Profile.</p>
-          <div id="ob-fields"></div>
-          <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;margin:6px 0 12px;"><input type="checkbox" name="consent" style="width:auto;margin-top:3px;"> <span>I agree that ISKCON JUJA keeps these details and answers to look after my membership, as described in the <a href="privacy.html" target="_blank" rel="noopener" style="text-decoration:underline;">privacy policy</a>.</span></label>
-          <p id="reg-status2" role="status" style="font-size:13px;min-height:18px;margin:0 0 8px;"></p>
-          <div style="display:flex;gap:8px;"><button class="button secondary" type="button" id="reg-back" style="flex:0 0 auto;">Back</button><button class="button" type="submit" id="reg-go" style="flex:1;">Create my account</button></div>
+          <div id="sv-intro">
+           <p class="reg-note">A short survey, only so we can help you better: <b>7 quick questions</b>. Your answers are <b>confidential</b>: only the temple admins can read them, never other members. There are no right or wrong answers and nobody is judged. Skip any question you like. You can see, change or delete your answers any time in Profile.</p>
+           <div style="display:flex;gap:8px;"><button class="button secondary" type="button" id="reg-back">Back</button><button class="button" type="button" id="sv-start" style="flex:1;">Start the survey</button></div>
+           <p style="text-align:center;margin:12px 0 0;"><a href="#" id="sv-skipall" style="font-size:13px;text-decoration:underline;">Skip the survey</a></p>
+          </div>
+          <div id="sv-q" hidden>
+           <div class="sv-bar" aria-hidden="true"><i id="sv-fill"></i></div>
+           <p class="sv-count" id="sv-count"></p>
+           <h2 class="sv-title" id="sv-title"></h2>
+           <p class="sv-hint" id="sv-hint"></p>
+           <div id="sv-opts"></div>
+           <div style="display:flex;gap:8px;margin-top:16px;"><button class="button secondary" type="button" id="sv-prev">Back</button><button class="button secondary" type="button" id="sv-skip">Skip</button><button class="button" type="button" id="sv-next" style="flex:1;">Next</button></div>
+          </div>
+          <div id="sv-final" hidden>
+           <h2 class="sv-title">Almost done</h2>
+           <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;margin:10px 0 12px;"><input type="checkbox" name="consent" style="width:auto;margin-top:3px;"> <span>I agree that ISKCON JUJA keeps these details and answers to look after my membership, as described in the <a href="privacy.html" target="_blank" rel="noopener" style="text-decoration:underline;">privacy policy</a>.</span></label>
+           <p id="reg-status2" role="status" style="font-size:13px;min-height:18px;margin:0 0 8px;"></p>
+           <div style="display:flex;gap:8px;"><button class="button secondary" type="button" id="sv-fback">Back</button><button class="button" type="submit" id="reg-go" style="flex:1;">Create my account</button></div>
+          </div>
          </div>
         </form>
         <div id="reg-done" hidden style="text-align:center;padding:10px 0;"></div>

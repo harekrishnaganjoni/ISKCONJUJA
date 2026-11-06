@@ -395,5 +395,6 @@
   });
   });
   }
- })();
+   if (!window.__installLoaded) { window.__installLoaded = 1; var ins = document.createElement("script"); ins.src = "install.js"; ins.defer = true; document.head.appendChild(ins); }
+})();
  

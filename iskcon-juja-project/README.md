@@ -437,3 +437,8 @@ Owner sent Jan, Feb, Apr and Nov 2026 photos. Our Nairobi data agrees on every l
 ### REMIND OWNER LATER: Devotee registry (owner, 3 Nov 2026)
 After the site is complete, the owner wants a devotee registry: the registration form would then collect the extra data the registry needs. Not before the site is finished. Remind him then (also then decide who may see registry data, consent wording and the Data Protection angle).
 
+
+## Headquarters photo and Install-the-app button (6 Nov 2026)
+- About page, "ISKCON International" section: photo of Sri Mayapur Dham captioned "The Headquarters". Source: `iskcon-images/public/temples/mayapur-aerial-cropped.jpg`, cropped to the domes (720x530) and saved as `mayapur-headquarters.webp` (~85 KB) in the site root.
+- `install.js` (loaded by `site.js`): "Install the app" button at the bottom of the phone menu on the public site (opens the portal) and as the last item in the portal menu bar. Android/Chrome uses the real install prompt; iPhone shows Share > Add to Home Screen steps. Hidden once installed.
+- Image hosting decision: keep the few images the pages need inside this repo (same address, cached with the page, works offline in the app). Use images.iskconjuja.co.ke as the library/source for large galleries and picking new images; copy the chosen one in, resized.

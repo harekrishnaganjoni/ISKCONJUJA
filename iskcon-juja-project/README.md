@@ -452,3 +452,7 @@ After the site is complete, the owner wants a devotee registry: the registration
 - Poppins (400-800) and Playfair Display (600-700, normal + italic) now live in `fonts/` (WOFF, Latin subset, about 190 KB total, SIL Open Font License files included). `styles.css` no longer imports Google Fonts, so no page waits on or sends visitor data to Google, and the fonts are cached for a year (`_headers`) and work in the installed app.
 - Source: Google Fonts' open-source repo (github.com/google/fonts). Same glyph coverage as before (letters like ṛ and ṇ still fall back to the system font, as they did with Google's files).
 - `_headers` also caches `/images/*` for a week.
+
+## REMINDER: SEO and "Google friendly" (asked 7 Nov 2026)
+- Done now: sign-in/register/profile forms carry the standard autofill hints (email as username, current-password / new-password for the password manager, name, tel, bday, nickname), and Google sign-in is on.
+- TO DO (owner asked to be reminded, and to optimise): SEO pass once the content is settled. Checklist: unique title + meta description per public page; Open Graph / Twitter share image (use the images repo); `sitemap.xml` + `robots.txt` (keep portal pages out); structured data (Organization / LocalBusiness + Event for weekly programs); alt text on every image; page speed check (fonts and images already improved); register iskconjuja.co.ke in Google Search Console and submit the sitemap; a Google Business Profile listing for the Juja centre (free, the biggest local-search win).

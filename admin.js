@@ -354,11 +354,15 @@
         parsed = []; var bad = [], lines = ta.value.split("\n");
         lines.forEach(function (ln, i) {
           if (!ln.trim()) return;
-          var k = ln.lastIndexOf("|"); var q = k > 0 ? ln.slice(0, k).trim() : "", ref = k > 0 ? ln.slice(k + 1).trim() : "";
+          var hasAud = /\|\s*(public|members)\s*$/i.test(ln); var k = hasAud ? ln.lastIndexOf("|", ln.lastIndexOf("|") - 1) : ln.lastIndexOf("|"); var q = k > 0 ? ln.slice(0, k).trim() : "", ref = k > 0 ? ln.slice(k + 1).trim() : "";
           if (q.length < 10 || q.length > 2000 || ref.length < 2 || ref.length > 200) { bad.push("Line " + (i + 1) + ": needs  quote | reference"); return; }
+          var aud = null, am = /\s*\|\s*(public|members)\s*$/i.exec(ref);
+          if (am) { aud = am[1].toLowerCase(); ref = ref.slice(0, am.index).trim(); }
           var inf = info(ref);
+          // "public" = home page Quote of the Week and members' Verse of the Day; "members" = Verse of the Day only.
           parsed.push({ quote_text: q, source: ref, book: inf.book || null, source_url: inf.url || null,
-            use_weekly: document.getElementById("qimp-weekly").checked, use_votd: document.getElementById("qimp-votd").checked });
+            use_weekly: aud ? aud === "public" : document.getElementById("qimp-weekly").checked,
+            use_votd: aud ? true : document.getElementById("qimp-votd").checked });
         });
         st.style.color = bad.length ? "#b33a2e" : "#2E7D32";
         st.textContent = parsed.length + " quote(s) ready." + (bad.length ? "\n" + bad.slice(0, 8).join("\n") : "");

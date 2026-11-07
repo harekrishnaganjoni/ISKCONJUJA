@@ -237,69 +237,13 @@
   });
 
   // ---------- QUOTE OF THE WEEK ----------
-  // 25 starter quotes, embedded here as a zero-backend fallback so
-  // this works even before Supabase is connected. Same 25 rows are
-  // seeded into the "quotes" table (see supabase/schema.sql) — once
-  // the backend is live, get_weekly_quote() takes over and this
-  // local list is only used if that call fails for any reason.
-  var FALLBACK_QUOTES = [
-    { quote_text: "For one who has conquered the mind, the mind is the best of friends; but for one who has failed to do so, his mind will remain the greatest enemy.", source: "Bhagavad-gita 6.6" },
-    { quote_text: "One who is not connected with the Supreme can have neither steady intelligence nor a peaceful mind, without which there is no possibility of happiness.", source: "Bhagavad-gita 2.66" },
-    { quote_text: "A person who is not disturbed by the incessant flow of desires can alone achieve peace, and not the man who strives to satisfy such desires.", source: "Bhagavad-gita 2.70" },
-    { quote_text: "A person who has given up all desires for sense gratification, who lives free from desires and false ego, alone can attain real peace.", source: "Bhagavad-gita 2.71" },
-    { quote_text: "As a lamp in a windless place does not waver, so the transcendentalist, whose mind is controlled, remains always steady in meditation.", source: "Bhagavad-gita 6.19" },
-    { quote_text: "There is no possibility of one becoming a yogi if one eats too much or eats too little, sleeps too much or does not sleep enough.", source: "Bhagavad-gita 6.16" },
-    { quote_text: "He who is regulated in eating, sleeping, recreation and work can mitigate all material pains by practicing the yoga system.", source: "Bhagavad-gita 6.17" },
-    { quote_text: "The nonpermanent appearance of happiness and distress arise from sense perception, and one must learn to tolerate them without being disturbed.", source: "Bhagavad-gita 2.14" },
-    { quote_text: "That which at first tastes like poison but at last tastes like nectar, and which awakens one to self-realization, is happiness in the mode of goodness.", source: "Bhagavad-gita 18.37" },
-    { quote_text: "It is undoubtedly very difficult to curb the restless mind, but it is possible by suitable practice and by detachment.", source: "Bhagavad-gita 6.35" },
-    { quote_text: "For one who has conquered the mind, happiness and distress, heat and cold, honor and dishonor are all the same.", source: "Bhagavad-gita 6.7" },
-    { quote_text: "One who is not disturbed in mind amidst the threefold miseries, or elated by happiness, and is free from attachment, fear and anger, is a sage of steady mind.", source: "Bhagavad-gita 2.56" },
-    { quote_text: "A person free from all attachment and aversion, able to control the senses through regulative principles, can obtain the complete mercy of the Lord.", source: "Bhagavad-gita 2.64" },
-    { quote_text: "For one thus satisfied, the threefold miseries of material existence exist no longer; one's intelligence is soon well established.", source: "Bhagavad-gita 2.65" },
-    { quote_text: "The self-realized person is always in trance, enjoying pleasure within, and in this way enjoys unlimited happiness by concentrating on the Supreme.", source: "Bhagavad-gita 5.21" },
-    { quote_text: "Those who are free from anger and all material desires, self-realized and constantly endeavoring for perfection, are assured of liberation very soon.", source: "Bhagavad-gita 5.26" },
-    { quote_text: "One must deliver himself with the help of his own mind, and not degrade himself. The mind is the friend of the soul, and its enemy as well.", source: "Bhagavad-gita 6.5" },
-    { quote_text: "When one's mental activities are disciplined and situated in transcendence, devoid of all material desires, one is said to be well established in yoga.", source: "Bhagavad-gita 6.18" },
-    { quote_text: "Established thus, one is never shaken, even in the midst of the greatest difficulty.", source: "Bhagavad-gita 6.22" },
-    { quote_text: "From wherever the mind wanders due to its flickering and unsteady nature, one must certainly withdraw it and bring it back under control.", source: "Bhagavad-gita 6.26" },
-    { quote_text: "He by whom no one is put into difficulty, and who is not disturbed by anyone, equal in happiness and distress, is very dear to the Lord.", source: "Bhagavad-gita 12.15" },
-    { quote_text: "You cannot stop thinking, but you can change the quality of your thinking.", source: "Srila Prabhupada, Lecture, Los Angeles, 8 Jan 1974" },
-    { quote_text: "Peace cannot be achieved by mechanical means; peace is a state of consciousness.", source: "Srila Prabhupada, Lecture, New York, 20 Dec 1966" },
-    { quote_text: "Simple living and high thinking is the solution to all problems.", source: "Srila Prabhupada, Letter to Vrindavan, 12 Aug 1971" },
-    { quote_text: "Krishna consciousness is not a sectarian religious cult. It is a science of the soul, a universal cultural movement for the spiritual re-education of all human society.", source: "Srila Prabhupada, Letter to Dr. Bigelow, 26 Mar 1971" }
-  ];
-
-  function isoWeekKey(d) {
-    var date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    var day = date.getUTCDay() || 7;
-    date.setUTCDate(date.getUTCDate() + 4 - day);
-    var yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
-    var weekNo = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
-    return date.getUTCFullYear() + "-W" + String(weekNo).padStart(2, "0");
+  // No built-in quotes: only quotes the owner approved in the Quote Library are ever shown.
+  // When there are none yet (or the database cannot be reached) the quote card is hidden.
+  function hideQuoteBox(box) {
+    var sec = box.closest("section");
+    (sec && sec.hasAttribute("data-toc") ? sec : box).hidden = true;
   }
 
-  function fallbackQuoteOfWeek() {
-    var key = isoWeekKey(new Date());
-    var hash = 0;
-    for (var i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
-    return FALLBACK_QUOTES[hash % FALLBACK_QUOTES.length];
-  }
-
-  // "Verse of the Day" reuses the same curated quote pool as the weekly
-  // quote, but rotates daily instead of weekly, using a different seed,
-  // so the two don't just show the same thing all week. This is a
-  // genuinely working first version (not a placeholder) while a proper
-  // dedicated verse-selection engine is designed — see the README.
-  function dayKey(d) {
-    return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-  }
-  function fallbackVerseOfDay() {
-    var key = "verse-" + dayKey(new Date());
-    var hash = 0;
-    for (var i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
-    return FALLBACK_QUOTES[hash % FALLBACK_QUOTES.length];
-  }
   // Writes "- source" and, when the quote has a Vedabase link, a small "Read on Vedabase" link after it.
   function setSource(el, q) {
     if (!el) return;
@@ -319,11 +263,12 @@
     var textEl = box.querySelector("[data-verse-text]");
     var sourceEl = box.querySelector("[data-verse-source]");
     function paint(q) { if (textEl) textEl.textContent = q.quote_text; setSource(sourceEl, q); }
-    if (!READY) { paint(fallbackVerseOfDay()); return; }
+    box.hidden = true;
+    if (!READY) return;
     client.rpc("get_verse_of_day").then(function (r) {
-      if (r.error || !r.data || !r.data.length) { paint(fallbackVerseOfDay()); return; }
-      paint(r.data[0]);
-    }).catch(function () { paint(fallbackVerseOfDay()); });
+      if (r.error || !r.data || !r.data.length) return;
+      box.hidden = false; paint(r.data[0]);
+    }).catch(function () {});
   }
 
   function renderQuote() {
@@ -335,11 +280,13 @@
       if (textEl) textEl.textContent = q.quote_text;
       setSource(sourceEl, q);
     }
-    if (!READY) { paint(fallbackQuoteOfWeek()); return; }
+    hideQuoteBox(box);
+    if (!READY) return;
     client.rpc("get_weekly_quote").then(function (r) {
-      if (r.error || !r.data || !r.data.length) { paint(fallbackQuoteOfWeek()); return; }
+      if (r.error || !r.data || !r.data.length) return;
+      var sec = box.closest("section"); if (sec) sec.hidden = false; box.hidden = false;
       paint(r.data[0]);
-    }).catch(function () { paint(fallbackQuoteOfWeek()); });
+    }).catch(function () {});
   }
 
   // ---------- TESTIMONIALS (homepage) ----------
@@ -551,7 +498,7 @@
 
   // ---------- Boot ----------
   document.addEventListener("DOMContentLoaded", function () {
-    renderQuote(); // works with or without a backend (has a local fallback)
+    renderQuote(); // hides itself until the library has approved quotes
     renderVerseOfDay(); // same — works today, no backend required
     wireTestimonialForm();
     wireChangePassword();

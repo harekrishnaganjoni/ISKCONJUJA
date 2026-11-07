@@ -366,14 +366,18 @@
         });
         st.style.color = bad.length ? "#b33a2e" : "#2E7D32";
         st.textContent = parsed.length + " quote(s) ready." + (bad.length ? "\n" + bad.slice(0, 8).join("\n") : "");
-        go.disabled = !parsed.length;
       }
-      document.getElementById("qimp-check").addEventListener("click", check);
-      ta.addEventListener("input", function () { go.disabled = true; });
       go.addEventListener("click", function () {
-        check(); if (!parsed.length) return; go.disabled = true; st.style.color = "var(--muted)"; st.textContent = "Adding...";
+        check();
+        if (!parsed.length) { st.style.color = "#b33a2e"; st.textContent = "Nothing to add yet. Paste lines like:  quote | reference | public\n" + st.textContent; return; }
+        if (/Line \d+:/.test(st.textContent)) {
+          // some lines are wrong: add nothing and list them, so the owner can fix them first
+          st.style.color = "#b33a2e"; st.textContent = "Nothing was added. Fix these lines first:\n" + st.textContent.split("\n").slice(1).join("\n"); return;
+        }
+        go.disabled = true; st.style.color = "var(--muted)"; st.textContent = "Adding " + parsed.length + " quotes...";
         client.rpc("admin_import_quotes", { rows: parsed }).then(function (r) {
-          if (r.error) { st.style.color = "#b33a2e"; st.textContent = r.error.message + (/function/i.test(r.error.message) ? "  (Run the Quote Library SQL file in Supabase first.)" : ""); go.disabled = false; return; }
+          go.disabled = false;
+          if (r.error) { st.style.color = "#b33a2e"; st.textContent = r.error.message + (/function|schema cache/i.test(r.error.message) ? "\nRun the Quote Library SQL files (20, 21, 22) in Supabase first." : ""); return; }
           st.style.color = "#2E7D32"; st.textContent = "Added " + r.data.added + ", skipped " + r.data.skipped + " (duplicates or bad lines)."; ta.value = ""; parsed = []; reloadQuotes();
         });
       });

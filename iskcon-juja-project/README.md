@@ -447,3 +447,8 @@ After the site is complete, the owner wants a devotee registry: the registration
 - `courses/intro-to-iskcon.json` now has 5 modules: Module 5 "Common questions about ISKCON" = 7 lessons, 78 blocks, 6-question knowledge check (one correct answer each, checked by the script).
 - All 41 Prabhupada quotes import HIDDEN (verified off). I cannot open Vedabase to check them word for word, so none is shown to learners until the owner has checked it and switched it on in the Course Editor. The list is in `courses/module-5-import-notes.md`, together with the media suggestions per lesson (photos need consent / BBT permission).
 - To load: Admin portal > Course editor > Import > choose `intro-to-iskcon.json`. Importing creates a course; delete the old Introduction to ISKCON course first if it is already there, or import this as the replacement.
+
+## Self-hosted fonts (7 Nov 2026)
+- Poppins (400-800) and Playfair Display (600-700, normal + italic) now live in `fonts/` (WOFF, Latin subset, about 190 KB total, SIL Open Font License files included). `styles.css` no longer imports Google Fonts, so no page waits on or sends visitor data to Google, and the fonts are cached for a year (`_headers`) and work in the installed app.
+- Source: Google Fonts' open-source repo (github.com/google/fonts). Same glyph coverage as before (letters like ṛ and ṇ still fall back to the system font, as they did with Google's files).
+- `_headers` also caches `/images/*` for a week.

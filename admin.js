@@ -286,6 +286,7 @@
       });
 
       load();
+      return load;
     }
 
     function esc(s) {
@@ -307,19 +308,70 @@
       return rowShell("articles", a.id, a.published, a.title, a.author + " · " + a.article_date);
     });
 
-    wireTable("quotes", "quote-form", "quotes-admin-list", "quote-status", function (q) {
-      var short = String(q.quote_text).length > 140 ? String(q.quote_text).slice(0, 140) + "\u2026" : q.quote_text;
-      return '<div class="quote-row" data-q="' + esc((q.quote_text + " " + q.source).toLowerCase()) + '" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;background:var(--row-tint);border-radius:6px;">' +
-        '<div><strong style="font-size:13px;">\u201c' + esc(short) + '\u201d</strong><br><span style="font-size:12px;color:var(--muted);">' + esc(q.source) + '</span></div>' +
+    var reloadQuotes = wireTable("quotes", "quote-form", "quotes-admin-list", "quote-status", function (q) {
+      var short = String(q.quote_text).length > 160 ? String(q.quote_text).slice(0, 160) + "…" : q.quote_text;
+      var tags = (q.use_weekly ? "Week" : "") + (q.use_weekly && q.use_votd ? " + " : "") + (q.use_votd ? "Day" : "") || "not shown";
+      var meta = esc(q.source) + (q.book ? " · " + esc(q.book) : "") + " · " + tags + (q.verse_date ? " · Verse of the Day on " + esc(q.verse_date) : "");
+      return '<div class="quote-row" data-q="' + esc((q.quote_text + " " + q.source).toLowerCase()) + '" data-book="' + esc(q.book || "") + '" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;background:var(--row-tint);border-radius:6px;">' +
+        '<div><strong style="font-size:13px;">“' + esc(short) + '”</strong><br><span style="font-size:12px;color:var(--muted);">' + meta + '</span>' +
+        (q.source_url ? ' <a href="' + esc(q.source_url) + '" target="_blank" rel="noopener" style="font-size:12px;">Vedabase</a>' : "") + '</div>' +
         '<div style="display:flex;gap:8px;"><button type="button" data-edit="quotes" data-id="' + q.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Edit</button>' +
         '<button type="button" data-del="quotes" data-id="' + q.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Delete</button></div></div>';
     });
     (function () {
-      var box = document.getElementById("quote-search");
+      var box = document.getElementById("quote-search"), bk = document.getElementById("quote-book"), cnt = document.getElementById("quote-count");
       if (!box) return;
-      box.addEventListener("input", function () {
-        var t = box.value.trim().toLowerCase();
-        document.querySelectorAll("#quotes-admin-list .quote-row").forEach(function (r) { r.style.display = !t || r.getAttribute("data-q").indexOf(t) > -1 ? "" : "none"; });
+      function apply() {
+        var t = box.value.trim().toLowerCase(), b = bk.value, n = 0, rows = document.querySelectorAll("#quotes-admin-list .quote-row");
+        rows.forEach(function (r) {
+          var show = (!t || r.getAttribute("data-q").indexOf(t) > -1) && (!b || r.getAttribute("data-book") === b);
+          r.style.display = show ? "" : "none"; if (show) n++;
+        });
+        cnt.textContent = rows.length ? n + " of " + rows.length + " quotes" : "";
+      }
+      function books() {
+        var seen = {}, cur = bk.value;
+        document.querySelectorAll("#quotes-admin-list .quote-row").forEach(function (r) { var b = r.getAttribute("data-book"); if (b) seen[b] = 1; });
+        bk.innerHTML = '<option value="">All books</option>' + Object.keys(seen).sort().map(function (b) { return '<option>' + esc(b) + '</option>'; }).join("");
+        bk.value = cur; apply();
+      }
+      box.addEventListener("input", apply); bk.addEventListener("change", apply);
+      new MutationObserver(books).observe(document.getElementById("quotes-admin-list"), { childList: true });
+      window.__quotesRefilter = books;
+    })();
+
+    // Paste many quotes: "quote | reference" per line.
+    (function () {
+      var ta = document.getElementById("qimp-text"); if (!ta) return;
+      var st = document.getElementById("qimp-status"), go = document.getElementById("qimp-go"), parsed = [];
+      var BOOKS = { bg: "Bhagavad-gita", sb: "Srimad-Bhagavatam", noi: "Nectar of Instruction", iso: "Sri Isopanisad" };
+      function info(ref) {
+        var m = /^(Bg|SB|NoI|ISO)\.?\s*([0-9]+(?:\.[0-9]+)*(?:[-–][0-9]+)?)/i.exec(ref); if (!m) return {};
+        var k = m[1].toLowerCase(), nums = m[2].replace("–", "-"), path = nums.split(".").join("/");
+        return { book: BOOKS[k], url: "https://vedabase.io/en/library/" + k + "/" + path + "/" };
+      }
+      function check() {
+        parsed = []; var bad = [], lines = ta.value.split("\n");
+        lines.forEach(function (ln, i) {
+          if (!ln.trim()) return;
+          var k = ln.lastIndexOf("|"); var q = k > 0 ? ln.slice(0, k).trim() : "", ref = k > 0 ? ln.slice(k + 1).trim() : "";
+          if (q.length < 10 || q.length > 2000 || ref.length < 2 || ref.length > 200) { bad.push("Line " + (i + 1) + ": needs  quote | reference"); return; }
+          var inf = info(ref);
+          parsed.push({ quote_text: q, source: ref, book: inf.book || null, source_url: inf.url || null,
+            use_weekly: document.getElementById("qimp-weekly").checked, use_votd: document.getElementById("qimp-votd").checked });
+        });
+        st.style.color = bad.length ? "#b33a2e" : "#2E7D32";
+        st.textContent = parsed.length + " quote(s) ready." + (bad.length ? "\n" + bad.slice(0, 8).join("\n") : "");
+        go.disabled = !parsed.length;
+      }
+      document.getElementById("qimp-check").addEventListener("click", check);
+      ta.addEventListener("input", function () { go.disabled = true; });
+      go.addEventListener("click", function () {
+        check(); if (!parsed.length) return; go.disabled = true; st.style.color = "var(--muted)"; st.textContent = "Adding...";
+        client.rpc("admin_import_quotes", { rows: parsed }).then(function (r) {
+          if (r.error) { st.style.color = "#b33a2e"; st.textContent = r.error.message + (/function/i.test(r.error.message) ? "  (Run the Quote Library SQL file in Supabase first.)" : ""); go.disabled = false; return; }
+          st.style.color = "#2E7D32"; st.textContent = "Added " + r.data.added + ", skipped " + r.data.skipped + " (duplicates or bad lines)."; ta.value = ""; parsed = []; reloadQuotes();
+        });
       });
     })();
 

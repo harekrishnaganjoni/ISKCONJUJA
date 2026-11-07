@@ -210,20 +210,41 @@
 
      <!-- EVENTS TAB -->
      <section class="admin-tab-panel" data-tab-panel="quotes" hidden>
-      <h2 class="adm-title">Quotes</h2>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">The <strong>Quote of the Week</strong> on the home page is picked from this list, a different one each week, avoiding repeats. Add a quote word for word, with its exact source (book, chapter/verse or lecture, place and date). Until you add some here, the site uses its built-in starter quotes.</p>
+      <h2 class="adm-title">Quote Library</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:660px;">Every quote here is word for word with its exact reference. Tick where each may appear: <strong>Quote of the Week</strong> (home page) and/or <strong>Verse of the Day</strong> (member dashboard). Nothing shows where it is not ticked. You can also pick a date for a quote's Verse of the Day (for example a festival day); other days rotate through the rest without repeating.</p>
       <details class="admin-drawer card">
-       <summary>+ Add a quote<small>Word for word, with the source</small></summary>
+       <summary>+ Paste many quotes<small>One per line: quote | reference</small></summary>
+       <div class="admin-drawer-body">
+        <p style="font-size:13px;color:var(--muted);margin:0 0 8px;">Example: <code>A sober person who can tolerate the urge to speak ... | Bg. 2.13</code>. For a purport quote end the reference with <code>, Purport</code>. The book and the Vedabase link are filled in for Bg., SB, NoI and ISO references. Duplicates are skipped.</p>
+        <textarea id="qimp-text" rows="8" placeholder="quote | reference" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:4px;"></textarea>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;margin:8px 0;font-size:13px;">
+         <label><input type="checkbox" id="qimp-weekly" checked> Quote of the Week</label>
+         <label><input type="checkbox" id="qimp-votd" checked> Verse of the Day</label></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;"><button type="button" class="button secondary" id="qimp-check">Check the lines</button><button type="button" class="button" id="qimp-go" disabled>Add these quotes</button></div>
+        <p id="qimp-status" style="font-size:13px;white-space:pre-line;"></p>
+       </div>
+      </details>
+      <details class="admin-drawer card">
+       <summary>+ Add or edit one quote<small>Word for word, with the source</small></summary>
        <div class="admin-drawer-body">
         <form id="quote-form" style="display:flex;flex-direction:column;gap:12px;">
-         <textarea name="quote_text" placeholder="The quote, exactly as written" required maxlength="600" style="padding:8px;border:1px solid var(--line);border-radius:4px;min-height:80px;"></textarea>
-         <input name="source" placeholder="Source, e.g. Srila Prabhupada, Bhagavad-gita As It Is 2.14, purport" required maxlength="200" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
+         <textarea name="quote_text" placeholder="The quote, exactly as written" required maxlength="2000" style="padding:8px;border:1px solid var(--line);border-radius:4px;min-height:80px;"></textarea>
+         <input name="source" placeholder="Reference, e.g. Bg. 2.14, or Bg. 2.14, Purport" required maxlength="200" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
+         <input name="book" placeholder="Book, e.g. Bhagavad-gita" maxlength="100" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
+         <input name="source_url" type="url" placeholder="Vedabase link (optional)" maxlength="300" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
+         <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;align-items:center;">
+          <label><input type="checkbox" name="use_weekly" checked> Quote of the Week</label>
+          <label><input type="checkbox" name="use_votd" checked> Verse of the Day</label>
+          <label>Show as Verse of the Day on <input type="date" name="verse_date" style="padding:6px;border:1px solid var(--line);border-radius:4px;"></label></div>
          <button class="button" type="submit" style="width:100%;">Add Quote</button>
          <p id="quote-status" style="font-size:13px;"></p>
         </form>
        </div>
       </details>
-      <input id="quote-search" type="search" placeholder="Search quotes..." style="padding:8px;border:1px solid var(--line);border-radius:4px;margin:12px 0;width:100%;max-width:420px;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;">
+       <input id="quote-search" type="search" placeholder="Search quotes..." style="padding:8px;border:1px solid var(--line);border-radius:4px;flex:1;min-width:180px;max-width:360px;">
+       <select id="quote-book" style="padding:8px;border:1px solid var(--line);border-radius:4px;"><option value="">All books</option></select>
+       <span id="quote-count" style="font-size:13px;color:var(--muted);align-self:center;"></span></div>
       <div id="quotes-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
      <section class="admin-tab-panel" data-tab-panel="registrations" hidden>

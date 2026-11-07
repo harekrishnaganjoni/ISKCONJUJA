@@ -300,14 +300,30 @@
     for (var i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
     return FALLBACK_QUOTES[hash % FALLBACK_QUOTES.length];
   }
+  // Writes "- source" and, when the quote has a Vedabase link, a small "Read on Vedabase" link after it.
+  function setSource(el, q) {
+    if (!el) return;
+    el.textContent = "\u2014 " + q.source;
+    var old = el.nextElementSibling;
+    if (old && old.hasAttribute("data-src-link")) old.remove();
+    if (q.source_url && /^https:\/\/vedabase\.io\//.test(q.source_url)) {
+      var a = document.createElement("a");
+      a.setAttribute("data-src-link", ""); a.href = q.source_url; a.target = "_blank"; a.rel = "noopener";
+      a.textContent = "Read on Vedabase \u2192"; a.style.cssText = "font-size:13px;display:inline-block;margin-top:4px;";
+      el.insertAdjacentElement("afterend", a);
+    }
+  }
   function renderVerseOfDay() {
     var box = document.querySelector("[data-verse-of-day]");
     if (!box) return;
-    var q = fallbackVerseOfDay();
     var textEl = box.querySelector("[data-verse-text]");
     var sourceEl = box.querySelector("[data-verse-source]");
-    if (textEl) textEl.textContent = q.quote_text;
-    if (sourceEl) sourceEl.textContent = "\u2014 " + q.source;
+    function paint(q) { if (textEl) textEl.textContent = q.quote_text; setSource(sourceEl, q); }
+    if (!READY) { paint(fallbackVerseOfDay()); return; }
+    client.rpc("get_verse_of_day").then(function (r) {
+      if (r.error || !r.data || !r.data.length) { paint(fallbackVerseOfDay()); return; }
+      paint(r.data[0]);
+    }).catch(function () { paint(fallbackVerseOfDay()); });
   }
 
   function renderQuote() {
@@ -317,7 +333,7 @@
       var textEl = box.querySelector("[data-quote-text]");
       var sourceEl = box.querySelector("[data-quote-source]");
       if (textEl) textEl.textContent = q.quote_text;
-      if (sourceEl) sourceEl.textContent = "\u2014 " + q.source;
+      setSource(sourceEl, q);
     }
     if (!READY) { paint(fallbackQuoteOfWeek()); return; }
     client.rpc("get_weekly_quote").then(function (r) {

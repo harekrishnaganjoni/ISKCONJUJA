@@ -213,13 +213,13 @@
       <h2 class="adm-title">Quote Library</h2>
       <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:660px;">Every quote here is word for word with its exact reference. Tick where each may appear: <strong>Quote of the Week</strong> (home page) and/or <strong>Verse of the Day</strong> (member dashboard). Nothing shows where it is not ticked. You can also pick a date for a quote's Verse of the Day (for example a festival day); other days rotate through the rest without repeating.</p>
       <details class="admin-drawer card">
-       <summary>+ Paste many quotes<small>One per line: quote | reference</small></summary>
+       <summary>+ Paste many quotes<small>One per line: quote | reference | public or members</small></summary>
        <div class="admin-drawer-body">
-        <p style="font-size:13px;color:var(--muted);margin:0 0 8px;">Example: <code>A sober person who can tolerate the urge to speak ... | Bg. 2.13</code>. For a purport quote end the reference with <code>, Purport</code>. The book and the Vedabase link are filled in for Bg., SB, NoI and ISO references. Duplicates are skipped.</p>
+        <p style="font-size:13px;color:var(--muted);margin:0 0 8px;">Example: <code>A sober person who can tolerate the urge to speak ... | Bg. 2.13</code>. For a purport quote end the reference with <code>, Purport</code>. Add <code>| public</code> or <code>| members</code> at the end of a line to choose who sees it (lines without it use the two ticks below). The book and the Vedabase link are filled in for Bg., SB, NoI and ISO references. Duplicates are skipped. After pasting, press <b>Check the lines</b>, then <b>Add these quotes</b> (scroll down: the buttons are under the two ticks).</p>
         <textarea id="qimp-text" rows="8" placeholder="quote | reference" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:4px;"></textarea>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin:8px 0;font-size:13px;">
-         <label><input type="checkbox" id="qimp-weekly" checked> Quote of the Week</label>
-         <label><input type="checkbox" id="qimp-votd" checked> Verse of the Day</label></div>
+         <label style="color:var(--body-text);"><input type="checkbox" id="qimp-weekly" checked> Quote of the Week (public)</label>
+         <label style="color:var(--body-text);"><input type="checkbox" id="qimp-votd" checked> Verse of the Day (members)</label></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;"><button type="button" class="button secondary" id="qimp-check">Check the lines</button><button type="button" class="button" id="qimp-go" disabled>Add these quotes</button></div>
         <p id="qimp-status" style="font-size:13px;white-space:pre-line;"></p>
        </div>
@@ -233,9 +233,9 @@
          <input name="book" placeholder="Book, e.g. Bhagavad-gita" maxlength="100" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
          <input name="source_url" type="url" placeholder="Vedabase link (optional)" maxlength="300" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
          <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;align-items:center;">
-          <label><input type="checkbox" name="use_weekly" checked> Quote of the Week</label>
-          <label><input type="checkbox" name="use_votd" checked> Verse of the Day</label>
-          <label>Show as Verse of the Day on <input type="date" name="verse_date" style="padding:6px;border:1px solid var(--line);border-radius:4px;"></label></div>
+          <label style="color:var(--body-text);"><input type="checkbox" name="use_weekly" checked> Quote of the Week (public)</label>
+          <label style="color:var(--body-text);"><input type="checkbox" name="use_votd" checked> Verse of the Day (members)</label>
+          <label style="color:var(--body-text);">Show as Verse of the Day on <input type="date" name="verse_date" style="padding:6px;border:1px solid var(--line);border-radius:4px;"></label></div>
          <button class="button" type="submit" style="width:100%;">Add Quote</button>
          <p id="quote-status" style="font-size:13px;"></p>
         </form>

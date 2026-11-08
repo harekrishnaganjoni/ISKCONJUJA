@@ -310,21 +310,32 @@
 
     var reloadQuotes = wireTable("quotes", "quote-form", "quotes-admin-list", "quote-status", function (q) {
       var short = String(q.quote_text).length > 160 ? String(q.quote_text).slice(0, 160) + "…" : q.quote_text;
-      var tags = (q.use_weekly ? "Week" : "") + (q.use_weekly && q.use_votd ? " + " : "") + (q.use_votd ? "Day" : "") || "not shown";
+      var draft = !!q.suggested_aud && !q.use_weekly && !q.use_votd;
+      var tags = draft ? "DRAFT (hidden) \u00b7 suggested: " + (q.suggested_aud === "public" ? "Public" : "Members only") : (q.use_weekly ? "Week" : "") + (q.use_weekly && q.use_votd ? " + " : "") + (q.use_votd ? "Day" : "") || "not shown";
       var meta = esc(q.source) + (q.book ? " · " + esc(q.book) : "") + " · " + tags + (q.verse_date ? " · Verse of the Day on " + esc(q.verse_date) : "");
-      return '<div class="quote-row" data-q="' + esc((q.quote_text + " " + q.source).toLowerCase()) + '" data-book="' + esc(q.book || "") + '" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;background:var(--row-tint);border-radius:6px;">' +
+      return '<div class="quote-row" data-draft="' + (draft ? "1" : "") + '" data-q="' + esc((q.quote_text + " " + q.source).toLowerCase()) + '" data-book="' + esc(q.book || "") + '" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;background:var(--row-tint);border-radius:6px;">' +
         '<div><strong style="font-size:13px;">“' + esc(short) + '”</strong><br><span style="font-size:12px;color:var(--muted);">' + meta + '</span>' +
         (q.source_url ? ' <a href="' + esc(q.source_url) + '" target="_blank" rel="noopener" style="font-size:12px;">Vedabase</a>' : "") + '</div>' +
-        '<div style="display:flex;gap:8px;"><button type="button" data-edit="quotes" data-id="' + q.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Edit</button>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">' + (draft ? '<button type="button" data-approve="public" data-id="' + q.id + '" class="button" style="font-size:11px;padding:4px 10px;min-height:auto;">Approve: Public</button><button type="button" data-approve="members" data-id="' + q.id + '" class="button" style="font-size:11px;padding:4px 10px;min-height:auto;">Approve: Members</button>' : "") + '<button type="button" data-edit="quotes" data-id="' + q.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Edit</button>' +
         '<button type="button" data-del="quotes" data-id="' + q.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Delete</button></div></div>';
     });
     (function () {
-      var box = document.getElementById("quote-search"), bk = document.getElementById("quote-book"), cnt = document.getElementById("quote-count");
+      var box = document.getElementById("quote-search"), bk = document.getElementById("quote-book"), cnt = document.getElementById("quote-count"), stf = document.getElementById("quote-status-filter");
       if (!box) return;
+      document.getElementById("quotes-admin-list").addEventListener("click", function (e) {
+        var b = e.target.closest("[data-approve]"); if (!b) return;
+        var aud = b.getAttribute("data-approve"); b.disabled = true;
+        // public = home page Quote of the Week + members' Verse of the Day; members = Verse of the Day only
+        client.from("quotes").update({ use_weekly: aud === "public", use_votd: true, suggested_aud: null }).eq("id", b.getAttribute("data-id")).then(function (r) {
+          if (r.error) { b.disabled = false; alert("Could not approve: " + r.error.message); return; }
+          var row = b.closest(".quote-row"); if (row) { row.setAttribute("data-draft", ""); row.style.opacity = ".5"; row.querySelector("span").textContent = "Approved as " + (aud === "public" ? "Public" : "Members only"); row.querySelectorAll("[data-approve]").forEach(function (x) { x.remove(); }); }
+          apply();
+        });
+      });
       function apply() {
         var t = box.value.trim().toLowerCase(), b = bk.value, n = 0, rows = document.querySelectorAll("#quotes-admin-list .quote-row");
         rows.forEach(function (r) {
-          var show = (!t || r.getAttribute("data-q").indexOf(t) > -1) && (!b || r.getAttribute("data-book") === b);
+          var show = (!t || r.getAttribute("data-q").indexOf(t) > -1) && (!b || r.getAttribute("data-book") === b) && (!stf || !stf.value || (stf.value === "draft" ? !!r.getAttribute("data-draft") : !r.getAttribute("data-draft")));
           r.style.display = show ? "" : "none"; if (show) n++;
         });
         cnt.textContent = rows.length ? n + " of " + rows.length + " quotes" : "";
@@ -335,7 +346,7 @@
         bk.innerHTML = '<option value="">All books</option>' + Object.keys(seen).sort().map(function (b) { return '<option>' + esc(b) + '</option>'; }).join("");
         bk.value = cur; apply();
       }
-      box.addEventListener("input", apply); bk.addEventListener("change", apply);
+      box.addEventListener("input", apply); bk.addEventListener("change", apply); if (stf) stf.addEventListener("change", apply);
       new MutationObserver(books).observe(document.getElementById("quotes-admin-list"), { childList: true });
       window.__quotesRefilter = books;
     })();
@@ -354,15 +365,15 @@
         parsed = []; var bad = [], lines = ta.value.split("\n");
         lines.forEach(function (ln, i) {
           if (!ln.trim()) return;
-          var hasAud = /\|\s*(public|members)\s*$/i.test(ln); var k = hasAud ? ln.lastIndexOf("|", ln.lastIndexOf("|") - 1) : ln.lastIndexOf("|"); var q = k > 0 ? ln.slice(0, k).trim() : "", ref = k > 0 ? ln.slice(k + 1).trim() : "";
+          var hasAud = /\|\s*(draft-public|draft-members|public|members)\s*$/i.test(ln); var k = hasAud ? ln.lastIndexOf("|", ln.lastIndexOf("|") - 1) : ln.lastIndexOf("|"); var q = k > 0 ? ln.slice(0, k).trim() : "", ref = k > 0 ? ln.slice(k + 1).trim() : "";
           if (q.length < 10 || q.length > 2000 || ref.length < 2 || ref.length > 200) { bad.push("Line " + (i + 1) + ": needs  quote | reference"); return; }
-          var aud = null, am = /\s*\|\s*(public|members)\s*$/i.exec(ref);
-          if (am) { aud = am[1].toLowerCase(); ref = ref.slice(0, am.index).trim(); }
+          var aud = null, am = /\s*\|\s*(draft-public|draft-members|public|members)\s*$/i.exec(ref), draftAud = null;
+          if (am) { aud = am[1].toLowerCase(); ref = ref.slice(0, am.index).trim(); if (aud.indexOf("draft-") === 0) { draftAud = aud.slice(6); aud = null; } }
           var inf = info(ref);
           // "public" = home page Quote of the Week and members' Verse of the Day; "members" = Verse of the Day only.
           parsed.push({ quote_text: q, source: ref, book: inf.book || null, source_url: inf.url || null,
-            use_weekly: aud ? aud === "public" : document.getElementById("qimp-weekly").checked,
-            use_votd: aud ? true : document.getElementById("qimp-votd").checked });
+            use_weekly: draftAud ? false : aud ? aud === "public" : document.getElementById("qimp-weekly").checked,
+            use_votd: draftAud ? false : aud ? true : document.getElementById("qimp-votd").checked, suggested_aud: draftAud });
         });
         st.style.color = bad.length ? "#b33a2e" : "#2E7D32";
         st.textContent = parsed.length + " quote(s) ready." + (bad.length ? "\n" + bad.slice(0, 8).join("\n") : "");

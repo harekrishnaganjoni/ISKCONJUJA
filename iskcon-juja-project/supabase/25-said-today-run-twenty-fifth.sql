@@ -1,4 +1,4 @@
--- ISKCON JUJA: "What Srila Prabhupada said today". Safe to run more than once. Run AFTER files 20 and 23.
+-- ISKCON JUJA: "What Srila Prabhupada said today" (members' dashboard). Safe to run more than once. Run AFTER files 20 and 23.
 -- Each dated quote remembers the day it was written or spoken (said_on) and where that day fell in the Vaishnava calendar
 -- (vaish_masa 0-12 and vaish_tithi 0-29, same numbers as /calendar-data/). Today's quotes are the ones said on the same
 -- date in any year, or on the same lunar day (month + tithi) of the Vaishnava calendar.
@@ -38,27 +38,40 @@ end;
 $$;
 grant execute on function public.admin_import_quotes(jsonb) to authenticated;
 
--- Today's quotes. p_md = 'MM-DD' (the visitor's date), p_masa / p_tithi = today's Vaishnava month and lunar day.
--- Visitors who are not signed in only get quotes approved as Public; signed-in members get Public and Members quotes.
--- Quotes that match on BOTH calendars come first; the order inside a group is fixed for the day.
+-- Today's quote for MEMBERS ONLY (signed-in). One quote a day, chosen by today's Vaishnava lunar day (p_masa, p_tithi).
+-- When several quotes share that lunar day, the year picks one in turn, so the same quote does not come back until the others
+-- have been used. If no quote exists yet for that lunar day, a quote said on today's normal date (p_md = 'MM-DD') is used.
+-- Returns said_on (the normal calendar date the quote was said) and match ('lunar' or 'date').
 drop function if exists public.get_said_today(text, int, int, int);
-create or replace function public.get_said_today(p_md text, p_masa int, p_tithi int, p_limit int default 6)
+drop function if exists public.get_said_today(int, int, text, int);
+create or replace function public.get_said_today(p_masa int, p_tithi int, p_md text, p_year int)
 returns table(id uuid, quote_text text, source text, source_url text, said_on date, match text)
 language plpgsql stable security definer set search_path = public as $$
-declare member boolean := auth.uid() is not null;
+declare n int; k int;
 begin
-  return query
-  select q.id, q.quote_text, q.source, q.source_url, q.said_on,
-         case when to_char(q.said_on, 'MM-DD') = p_md and q.vaish_masa = p_masa and q.vaish_tithi = p_tithi then 'both'
-              when to_char(q.said_on, 'MM-DD') = p_md then 'date' else 'tithi' end as match
-    from public.quotes q
-   where q.said_on is not null
-     and (case when member then (q.use_votd or q.use_weekly) else q.use_weekly end)
-     and (to_char(q.said_on, 'MM-DD') = p_md or (q.vaish_masa = p_masa and q.vaish_tithi = p_tithi))
-   order by case when to_char(q.said_on, 'MM-DD') = p_md and q.vaish_masa = p_masa and q.vaish_tithi = p_tithi then 0
-                 when to_char(q.said_on, 'MM-DD') = p_md then 1 else 2 end,
-            md5(q.id::text || p_md)
-   limit greatest(1, least(coalesce(p_limit, 6), 12));
+  if auth.uid() is null then return; end if;
+  select count(*) into n from public.quotes q
+   where q.said_on is not null and (q.use_votd or q.use_weekly) and q.vaish_masa = p_masa and q.vaish_tithi = p_tithi;
+  if n > 0 then
+    k := ((p_year % n) + n) % n;
+    return query
+    select q.id, q.quote_text, q.source, q.source_url, q.said_on, 'lunar'::text
+      from public.quotes q
+     where q.said_on is not null and (q.use_votd or q.use_weekly) and q.vaish_masa = p_masa and q.vaish_tithi = p_tithi
+     order by md5(q.id::text) limit 1 offset k;
+    return;
+  end if;
+  select count(*) into n from public.quotes q
+   where q.said_on is not null and (q.use_votd or q.use_weekly) and to_char(q.said_on, 'MM-DD') = p_md;
+  if n > 0 then
+    k := ((p_year % n) + n) % n;
+    return query
+    select q.id, q.quote_text, q.source, q.source_url, q.said_on, 'date'::text
+      from public.quotes q
+     where q.said_on is not null and (q.use_votd or q.use_weekly) and to_char(q.said_on, 'MM-DD') = p_md
+     order by md5(q.id::text) limit 1 offset k;
+  end if;
 end;
 $$;
-grant execute on function public.get_said_today(text, int, int, int) to anon, authenticated;
+revoke execute on function public.get_said_today(int, int, text, int) from public, anon;
+grant execute on function public.get_said_today(int, int, text, int) to authenticated;

@@ -272,9 +272,9 @@
   }
 
 
-  // ---------- "What Srila Prabhupada said today" ----------
-  // Quotes written or spoken on today's date in any year, or on the same lunar day (month + tithi) of the Vaishnava calendar.
-  // The section stays hidden until the library has approved dated quotes for today.
+  // ---------- "What Srila Prabhupada said today" (members' dashboard only) ----------
+  // One quote a day, chosen by today's Vaishnava lunar day (month + tithi from calendar-data/y<year>.json); the year rotates the choice.
+  // The normal calendar date the quote was said is shown for reference. Hidden until the library has dated quotes.
   function renderSaidToday() {
     var box = document.querySelector("[data-said-today]");
     if (!box || !READY) return;
@@ -283,24 +283,26 @@
     var n = new Date(), y = n.getFullYear(), m = n.getMonth() + 1, d = n.getDate();
     var md = (m < 10 ? "0" : "") + m + "-" + (d < 10 ? "0" : "") + d;
     var doy = Math.round((Date.UTC(y, m - 1, d) - Date.UTC(y, 0, 1)) / 86400000);
+    var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     fetch("calendar-data/y" + y + ".json").then(function (r) { return r.ok ? r.json() : null; })
       .catch(function () { return null; })
       .then(function (Y) {
         var day = Y && Y.days && Y.days[doy];
-        return client.rpc("get_said_today", { p_md: md, p_masa: day ? day[1] : -1, p_tithi: day ? day[0] : -1, p_limit: 5 });
+        return client.rpc("get_said_today", { p_masa: day ? day[1] : -1, p_tithi: day ? day[0] : -1, p_md: md, p_year: y });
       }).then(function (r) {
         if (!r || r.error || !r.data || !r.data.length) return;
+        var q = r.data[0];
         list.innerHTML = "";
-        r.data.forEach(function (q) {
-          var item = document.createElement("div"); item.className = "said-item";
-          var p = document.createElement("p"); p.className = "said-text"; p.textContent = "\u201C" + q.quote_text + "\u201D"; item.appendChild(p);
-          var s = document.createElement("p"); s.className = "said-source"; item.appendChild(s);
-          var lab = document.createElement("span"); lab.className = "said-tag";
-          lab.textContent = q.match === "both" ? "Same date and same lunar day" : q.match === "date" ? "Said on this date" : "Said on this lunar day";
-          item.appendChild(lab);
-          setSource(s, q);
-          list.appendChild(item);
-        });
+        var item = document.createElement("div"); item.className = "said-item";
+        var p = document.createElement("p"); p.className = "said-text"; p.textContent = "\u201C" + q.quote_text + "\u201D"; item.appendChild(p);
+        var s = document.createElement("p"); s.className = "said-source"; item.appendChild(s);
+        var lab = document.createElement("span"); lab.className = "said-tag";
+        var dt = q.said_on ? String(q.said_on).split("-") : null;
+        var when = dt ? (+dt[2]) + " " + MONTHS[(+dt[1]) - 1] + " " + dt[0] : "";
+        lab.textContent = (q.match === "lunar" ? "Said on this same Vaishnava lunar day" : "Said on this same date") + (when ? " \u00B7 by the normal calendar: " + when : "");
+        item.appendChild(lab);
+        setSource(s, q);
+        list.appendChild(item);
         sec.hidden = false;
       }).catch(function () {});
   }

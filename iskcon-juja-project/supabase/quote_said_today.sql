@@ -1,7 +1,11 @@
--- ISKCON JUJA: "What Srila Prabhupada said today" (members' dashboard). Safe to run more than once. Run AFTER files 20 and 23.
+-- ISKCON JUJA: "What Srila Prabhupada said today" (members' dashboard). Safe to run more than once. Run AFTER file 20 (it also works if file 23 was never run).
 -- Each dated quote remembers the day it was written or spoken (said_on) and where that day fell in the Vaishnava calendar
 -- (vaish_masa 0-12 and vaish_tithi 0-29, same numbers as /calendar-data/). Today's quotes are the ones said on the same
 -- date in any year, or on the same lunar day (month + tithi) of the Vaishnava calendar.
+-- (same as file 23, repeated here so this file works on its own)
+alter table public.quotes add column if not exists suggested_aud text;
+alter table public.quotes drop constraint if exists quotes_suggested_aud_chk;
+alter table public.quotes add constraint quotes_suggested_aud_chk check (suggested_aud is null or suggested_aud in ('public','members'));
 alter table public.quotes add column if not exists said_on date;
 alter table public.quotes add column if not exists vaish_masa smallint;
 alter table public.quotes add column if not exists vaish_tithi smallint;

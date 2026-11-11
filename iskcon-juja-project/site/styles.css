@@ -2375,3 +2375,12 @@ body[data-pat] .ph.ph-admin { background: #3d000f; }
 .hq-figure { margin: 18px 0; max-width: 560px; }
 .hq-figure img { width: 100%; height: auto; border-radius: 12px; display: block; box-shadow: 0 4px 16px rgba(0,0,0,.15); }
 .hq-figure figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
+
+/* What Srila Prabhupada said today */
+.said-today .said-item { padding: 14px 0; border-top: 1px solid var(--line, rgba(0,0,0,.12)); }
+.said-today .said-item:first-child { border-top: 0; }
+.said-today .said-text { font-size: 1.05rem; line-height: 1.55; margin: 0 0 6px; }
+.said-today .said-source { font-size: 13px; color: var(--muted); margin: 0 0 4px; }
+.said-today .said-tag { display: inline-block; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+section.said-today { padding: 24px 20px; }
+section.said-today .section-inner { max-width: 760px; margin: 0 auto; }

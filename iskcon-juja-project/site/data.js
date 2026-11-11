@@ -271,6 +271,40 @@
     }).catch(function () {});
   }
 
+
+  // ---------- "What Srila Prabhupada said today" ----------
+  // Quotes written or spoken on today's date in any year, or on the same lunar day (month + tithi) of the Vaishnava calendar.
+  // The section stays hidden until the library has approved dated quotes for today.
+  function renderSaidToday() {
+    var box = document.querySelector("[data-said-today]");
+    if (!box || !READY) return;
+    var list = box.querySelector("[data-said-list]"), sec = box.closest("section") || box;
+    sec.hidden = true;
+    var n = new Date(), y = n.getFullYear(), m = n.getMonth() + 1, d = n.getDate();
+    var md = (m < 10 ? "0" : "") + m + "-" + (d < 10 ? "0" : "") + d;
+    var doy = Math.round((Date.UTC(y, m - 1, d) - Date.UTC(y, 0, 1)) / 86400000);
+    fetch("calendar-data/y" + y + ".json").then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; })
+      .then(function (Y) {
+        var day = Y && Y.days && Y.days[doy];
+        return client.rpc("get_said_today", { p_md: md, p_masa: day ? day[1] : -1, p_tithi: day ? day[0] : -1, p_limit: 5 });
+      }).then(function (r) {
+        if (!r || r.error || !r.data || !r.data.length) return;
+        list.innerHTML = "";
+        r.data.forEach(function (q) {
+          var item = document.createElement("div"); item.className = "said-item";
+          var p = document.createElement("p"); p.className = "said-text"; p.textContent = "\u201C" + q.quote_text + "\u201D"; item.appendChild(p);
+          var s = document.createElement("p"); s.className = "said-source"; item.appendChild(s);
+          var lab = document.createElement("span"); lab.className = "said-tag";
+          lab.textContent = q.match === "both" ? "Same date and same lunar day" : q.match === "date" ? "Said on this date" : "Said on this lunar day";
+          item.appendChild(lab);
+          setSource(s, q);
+          list.appendChild(item);
+        });
+        sec.hidden = false;
+      }).catch(function () {});
+  }
+
   function renderQuote() {
     var box = document.querySelector("[data-quote-of-week]");
     if (!box) return;
@@ -499,6 +533,7 @@
   // ---------- Boot ----------
   document.addEventListener("DOMContentLoaded", function () {
     renderQuote(); // hides itself until the library has approved quotes
+    renderSaidToday(); // hidden until there are approved dated quotes for today
     renderVerseOfDay(); // same — works today, no backend required
     wireTestimonialForm();
     wireChangePassword();

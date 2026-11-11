@@ -313,7 +313,7 @@
       var draft = !!q.suggested_aud && !q.use_weekly && !q.use_votd;
       var tags = draft ? "DRAFT (hidden) \u00b7 suggested: " + (q.suggested_aud === "public" ? "Public" : "Members only") : (q.use_weekly ? "Week" : "") + (q.use_weekly && q.use_votd ? " + " : "") + (q.use_votd ? "Day" : "") || "not shown";
       var meta = esc(q.source) + (q.book ? " · " + esc(q.book) : "") + " · " + tags + (q.verse_date ? " · Verse of the Day on " + esc(q.verse_date) : "");
-      return '<div class="quote-row" data-draft="' + (draft ? "1" : "") + '" data-q="' + esc((q.quote_text + " " + q.source).toLowerCase()) + '" data-book="' + esc(q.book || "") + '" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;background:var(--row-tint);border-radius:6px;">' +
+      return '<div class="quote-row" data-id="' + q.id + '" data-sug="' + esc(q.suggested_aud || "") + '" data-draft="' + (draft ? "1" : "") + '" data-q="' + esc((q.quote_text + " " + q.source).toLowerCase()) + '" data-book="' + esc(q.book || "") + '" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;background:var(--row-tint);border-radius:6px;">' +
         '<div><strong style="font-size:13px;">“' + esc(short) + '”</strong><br><span style="font-size:12px;color:var(--muted);">' + meta + '</span>' +
         (q.source_url ? ' <a href="' + esc(q.source_url) + '" target="_blank" rel="noopener" style="font-size:12px;">Vedabase</a>' : "") + '</div>' +
         '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">' + (draft ? '<button type="button" data-approve="public" data-id="' + q.id + '" class="button" style="font-size:11px;padding:4px 10px;min-height:auto;">Approve: Public</button><button type="button" data-approve="members" data-id="' + q.id + '" class="button" style="font-size:11px;padding:4px 10px;min-height:auto;">Approve: Members</button>' : "") + '<button type="button" data-edit="quotes" data-id="' + q.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Edit</button>' +
@@ -322,6 +322,22 @@
     (function () {
       var box = document.getElementById("quote-search"), bk = document.getElementById("quote-book"), cnt = document.getElementById("quote-count"), stf = document.getElementById("quote-status-filter");
       if (!box) return;
+      var bulk = document.getElementById("quote-approve-all");
+      if (bulk) bulk.addEventListener("click", function () {
+        var rows = Array.prototype.filter.call(document.querySelectorAll("#quotes-admin-list .quote-row"), function (r) { return r.style.display !== "none" && r.getAttribute("data-draft"); });
+        if (!rows.length) { alert("No drafts are shown. Choose \"Drafts to review\" first."); return; }
+        if (!confirm("Approve all " + rows.length + " drafts shown, each with the audience Claude suggested (Public or Members)?\n\nTip: use the search box or the book filter first to approve one batch at a time.")) return;
+        var pub = [], mem = [];
+        rows.forEach(function (r) { (r.getAttribute("data-sug") === "public" ? pub : mem).push(r.getAttribute("data-id")); });
+        bulk.disabled = true; bulk.textContent = "Approving...";
+        function run(ids, patch) {
+          var parts = []; for (var i = 0; i < ids.length; i += 100) parts.push(ids.slice(i, i + 100));
+          return parts.reduce(function (p, part) { return p.then(function () { return client.from("quotes").update(patch).in("id", part); }); }, Promise.resolve());
+        }
+        run(pub, { use_weekly: true, use_votd: true, suggested_aud: null }).then(function () { return run(mem, { use_weekly: false, use_votd: true, suggested_aud: null }); }).then(function () {
+          bulk.disabled = false; bulk.textContent = "Approve all shown drafts as suggested"; reloadQuotes();
+        }).catch(function (err) { bulk.disabled = false; bulk.textContent = "Approve all shown drafts as suggested"; alert("Could not approve: " + (err && err.message)); });
+      });
       document.getElementById("quotes-admin-list").addEventListener("click", function (e) {
         var b = e.target.closest("[data-approve]"); if (!b) return;
         var aud = b.getAttribute("data-approve"); b.disabled = true;
@@ -365,13 +381,19 @@
         parsed = []; var bad = [], lines = ta.value.split("\n");
         lines.forEach(function (ln, i) {
           if (!ln.trim()) return;
+          // optional extras at the end of a line:  | date=1974-11-20 | v=6.20 | url=https://vedabase.io/...
+          var ex = {}, mm;
+          while ((mm = /\s\|\s(date|v|url)=(\S+)\s*$/i.exec(ln))) { ex[mm[1].toLowerCase()] = mm[2]; ln = ln.slice(0, mm.index); }
           var hasAud = /\|\s*(draft-public|draft-members|public|members)\s*$/i.test(ln); var k = hasAud ? ln.lastIndexOf("|", ln.lastIndexOf("|") - 1) : ln.lastIndexOf("|"); var q = k > 0 ? ln.slice(0, k).trim() : "", ref = k > 0 ? ln.slice(k + 1).trim() : "";
           if (q.length < 10 || q.length > 2000 || ref.length < 2 || ref.length > 200) { bad.push("Line " + (i + 1) + ": needs  quote | reference"); return; }
           var aud = null, am = /\s*\|\s*(draft-public|draft-members|public|members)\s*$/i.exec(ref), draftAud = null;
           if (am) { aud = am[1].toLowerCase(); ref = ref.slice(0, am.index).trim(); if (aud.indexOf("draft-") === 0) { draftAud = aud.slice(6); aud = null; } }
           var inf = info(ref);
           // "public" = home page Quote of the Week and members' Verse of the Day; "members" = Verse of the Day only.
-          parsed.push({ quote_text: q, source: ref, book: inf.book || null, source_url: inf.url || null,
+          var bk = inf.book || (/^Srila Prabhupada, Letter/i.test(ref) ? "Letters" : /^Srila Prabhupada, (Lecture|Conversation)/i.test(ref) ? "Lectures and conversations" : null);
+          var dt = ex.date && /^\d{4}-\d\d-\d\d$/.test(ex.date) ? ex.date : null, vv = ex.v && /^(\d{1,2})\.(\d{1,2})$/.exec(ex.v);
+          parsed.push({ quote_text: q, source: ref, book: bk, source_url: (ex.url && /^https:\/\/vedabase\.io\//.test(ex.url)) ? ex.url : (inf.url || null),
+            said_on: dt, vaish_masa: vv ? +vv[1] : null, vaish_tithi: vv ? +vv[2] : null,
             use_weekly: draftAud ? false : aud ? aud === "public" : document.getElementById("qimp-weekly").checked,
             use_votd: draftAud ? false : aud ? true : document.getElementById("qimp-votd").checked, suggested_aud: draftAud });
         });

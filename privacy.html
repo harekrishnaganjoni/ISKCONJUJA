@@ -30,11 +30,10 @@
    <label class="menu-button" for="menu-toggle" aria-label="Open menu"><span></span></label>
    <nav class="header-nav" aria-label="Main navigation" data-public-nav>
     <a href="index.html">Home</a>
-    <a href="about.html">About Us</a>
-    <a href="events.html">Events</a>
+    <a href="about.html">About</a>
+    <a href="index.html#events">Events</a>
+    <a href="learn.html">Read</a>
     <a href="merch.html" data-show-if="store_enabled" hidden>Merchandise</a>
-    <a class="nav-cta" href="participate.html">Get Involved</a>
-    <a href="learn.html">Learn</a>
    </nav>
    <nav class="header-nav member-quicknav" aria-label="Member navigation" data-member-nav hidden>
     <a href="dashboard.html">Dashboard</a>
@@ -57,11 +56,10 @@
    </div>
    <nav class="drawer-nav" data-public-nav>
     <a href="index.html">&#127968; Home</a>
-    <a href="about.html">&#128725; About Our Community</a>
-    <a href="events.html">&#128197; Weekly Programs &amp; Events</a>
+    <a href="about.html">&#128725; About</a>
+    <a href="index.html#events">&#128197; Events</a>
+    <a href="learn.html">&#128218; Read</a>
     <a href="merch.html" data-show-if="store_enabled" hidden>&#128085; Merchandise</a>
-    <a href="participate.html">&#129309; Get Involved / Volunteer</a>
-    <a href="learn.html">&#128218; Learn</a>
     <a href="devotees.html">&#128274; Member Login</a>
    </nav>
    <nav class="drawer-nav" data-member-nav hidden>
@@ -180,13 +178,18 @@
   <script src="data.js"></script>
   <script src="site.js"></script>
   <div class="float-stack">
-   <div class="float-menu" id="float-menu" hidden>
-    <a href="message-board.html">&#128172; Community Message Board</a>
-    <a href="#" data-whatsapp="Hi ISKCON JUJA! I would like to get in touch.">&#128241; Chat on WhatsApp</a>
-   </div>
-   <button type="button" class="float-whatsapp" id="float-toggle" aria-label="Contact us" title="Contact us" aria-expanded="false">
+   <button type="button" class="float-whatsapp" id="float-toggle" aria-label="Get involved" title="Get involved" aria-expanded="false" aria-controls="act-panel">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
    </button>
   </div>
+  <div class="act-scrim" id="act-scrim" hidden></div>
+  <aside class="act-panel" id="act-panel" aria-label="Get involved" hidden>
+   <div class="act-head"><strong>Get involved</strong><button type="button" id="act-close" aria-label="Close">&times;</button></div>
+   <a class="act-item" href="register.html"><span aria-hidden="true">&#129309;</span><div><strong>Become a member</strong><small>Create a free account for courses, calendar and the member area.</small></div></a>
+   <a class="act-item" href="#" data-whatsapp="Hi ISKCON JUJA! I would like to donate. Please share how I can give."><span aria-hidden="true">&#128142;</span><div><strong>Donate</strong><small>Money, or ingredients such as rice, oil and vegetables.</small></div></a>
+   <div class="mpesa-box act-mpesa" data-show-if="mpesa_till" hidden><strong>M-PESA Buy Goods Till</strong><span data-setting-text="mpesa_till"></span></div>
+   <a class="act-item" href="#" data-whatsapp="Hi ISKCON JUJA! I would like to volunteer. Please tell me how I can help."><span aria-hidden="true">&#128170;</span><div><strong>Volunteer</strong><small>Cooking, music, setup or a skill you can offer.</small></div></a>
+   <a class="act-item" href="#" data-whatsapp="Hi ISKCON JUJA! I would like to get in touch."><span aria-hidden="true">&#128172;</span><div><strong>Send a message</strong><small>Opens WhatsApp. We reply as soon as we can.</small></div></a>
+  </aside>
 </body>
 </html>

@@ -113,8 +113,9 @@
     <section class="section section-alt" id="events" data-toc="Events">
      <div class="section-inner">
       <h2 class="h-one">Events</h2>
-      <p class="swipe-hint">Swipe to see more &rarr;</p>
-      <div class="event-cards">
+      <div class="ev-carousel">
+       <button type="button" class="ev-arrow ev-prev" aria-label="Previous events" hidden>&#8249;</button>
+       <div class="event-cards">
        <div class="card event-ticket" data-toc="Weekly events">
         <h3>Juja: Tuesdays &amp; Fridays</h3>
         <p class="ev-when" data-wk-eyebrow>5:30 &ndash; 7:00 PM</p>
@@ -142,6 +143,8 @@
         </details>
         <a class="button secondary" href="#" data-whatsapp="Hi ISKCON JUJA! I would like to join the next group trip to the Nairobi temple. Please share the travel plan.">Join the Nairobi trip</a>
        </div>
+      </div>
+       <button type="button" class="ev-arrow ev-next" aria-label="Next events" hidden>&#8250;</button>
       </div>
       <div id="special-events-list" data-events-list data-show-if="special_events_enabled" data-toc="Special events" hidden></div>
      </div>

@@ -2458,3 +2458,20 @@ section.said-today .section-inner { max-width: 760px; margin: 0 auto; }
 .story-text-wrap, .story-text { display: block; }
 .story-text h2 { padding: 0; }
 .story-body { padding-left: 18px; padding-right: 18px; }
+
+/* events carousel v3: arrows, no scrollbar, smaller cards */
+.ev-carousel { position: relative; }
+.event-cards { scrollbar-width: none; -ms-overflow-style: none; padding: 4px 0 8px; gap: 12px; }
+.event-cards::-webkit-scrollbar { display: none; }
+.event-cards > .card { flex: 0 0 min(72%, 280px); padding: 14px 14px 16px; }
+.event-cards .card h3 { font-size: 17px; }
+.event-cards .ev-when, .event-cards .ev-where, .event-cards .timeline-list { font-size: 13px; }
+.event-cards .timeline-list li { padding: 6px 0; gap: 8px; }
+.event-cards .button { font-size: 14px; padding: 9px 14px; }
+.swipe-hint { display: none; }
+.ev-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); color: var(--maroon); font-size: 26px; line-height: 1; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.2); padding: 0 0 3px; }
+.ev-arrow[hidden] { display: none; }
+.ev-prev { left: -6px; } .ev-next { right: -6px; }
+@media (min-width: 760px) { .event-cards > .card { flex-basis: calc(50% - 6px); max-width: 420px; } .ev-prev { left: -16px; } .ev-next { right: -16px; } }
+/* about: alternate photo side on wide screens */
+@media (min-width: 760px) { .story:nth-of-type(even) > summary { grid-template-columns: 1fr 38%; } .story:nth-of-type(even) .story-photo { order: 2; } }

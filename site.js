@@ -397,4 +397,18 @@
   }
    if (!window.__installLoaded) { window.__installLoaded = 1; var ins = document.createElement("script"); ins.src = "install.js"; ins.defer = true; document.head.appendChild(ins); }
 })();
- 
+(function () {
+  var c = document.querySelector(".event-cards"); if (!c) return;
+  var wrap = c.closest(".ev-carousel"), prev = wrap.querySelector(".ev-prev"), next = wrap.querySelector(".ev-next");
+  function step() { var k = c.querySelector(".card"); return k ? k.getBoundingClientRect().width + 12 : 280; }
+  function upd() {
+    var max = c.scrollWidth - c.clientWidth - 2;
+    prev.hidden = !(max > 0 && c.scrollLeft > 2);
+    next.hidden = !(max > 0 && c.scrollLeft < max);
+  }
+  prev.addEventListener("click", function () { c.scrollBy({ left: -step(), behavior: "smooth" }); });
+  next.addEventListener("click", function () { c.scrollBy({ left: step(), behavior: "smooth" }); });
+  c.addEventListener("scroll", upd, { passive: true });
+  window.addEventListener("resize", upd);
+  window.addEventListener("load", upd); upd(); setTimeout(upd, 600);
+})();

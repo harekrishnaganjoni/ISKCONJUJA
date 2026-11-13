@@ -255,6 +255,8 @@ Dashboard password-change card (`wireChangePassword` in `data.js`) exists becaus
 17. **Installable app (PWA):** `manifest.webmanifest`, icons, service worker (cache static files), install prompt; push notifications optional.
 18. **White-label:** see §18. 19. **Polish:** self-host Google Fonts (needs font files; sandbox has no network), accessibility pass, image optimisation, admin how-to sheet for Tim, monthly export routine.
 
+**LIVE QUEUE: see `docs/WORKPLAN.md` (13 Nov 2026). It decides what is worked on, in order.**
+
 ## 12A. IMPLEMENTATION PLAN (agreed 27 Oct 2026; supersedes the order in §12 where they differ)
 **Standing rules added by the owner:** (1) THIS folder (`iskcon-juja-project/`) is the source of truth; the root-level README/SQL are older and must not be used. (2) **Nectar problems/corrections have top priority until the end of Kartik (24 Nov 2026)**; do not change Nectar's data model before then. (3) Update THIS README in detail after every major milestone. (4) Never guess or change the owner's plans without confirming; suggestions are welcome (cheaper/free first). (5) The owner will paste the live database SQL for the agent to confirm; until then assume schemas are NOT applied.
 Each phase fits in 3 sessions or fewer.

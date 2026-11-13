@@ -2509,3 +2509,12 @@ article.story .story-text { padding-bottom: 14px; }
 .book-slot { display: flex; align-items: center; justify-content: center; background: var(--gold-soft); padding: 22px; min-height: 200px; }
 .book-slot img { width: 140px; height: auto; border-radius: 6px; box-shadow: 0 6px 16px rgba(0,0,0,.3); }
 @media (min-width: 760px) { .story-head .story-photo { max-height: 340px; height: 100%; align-self: center; } }
+
+/* v5: centred hero, centred equal-size event cards */
+.home-hero-text { text-align: center; margin-left: auto; margin-right: auto; max-width: 760px; }
+.home-hero-text .no-pitch { display: block; text-align: center; margin-left: auto; margin-right: auto; max-width: 640px; }
+.home-hero .section-inner { justify-items: center; }
+.hero-cta { text-align: center; }
+.event-cards { align-items: stretch; justify-content: safe center; }
+.page-hero.short p a { color: inherit; text-decoration: underline; font-weight: 700; }
+.home-hero-text .welcome-heading, .home-hero-text .catchphrase, .home-hero-text p { text-align: center; }

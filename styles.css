@@ -2475,3 +2475,37 @@ section.said-today .section-inner { max-width: 760px; margin: 0 auto; }
 @media (min-width: 760px) { .event-cards > .card { flex-basis: calc(50% - 6px); max-width: 420px; } .ev-prev { left: -16px; } .ev-next { right: -16px; } }
 /* about: alternate photo side on wide screens */
 @media (min-width: 760px) { .story:nth-of-type(even) > summary { grid-template-columns: 1fr 38%; } .story:nth-of-type(even) .story-photo { order: 2; } }
+
+/* ---- v4: hero button, get-involved, events carousel by card count, stitched look, learn page ---- */
+.home-hero .section-inner { grid-template-columns: 1fr; }
+.home-hero-text { grid-column: 1; }
+.hero-cta { margin: 18px 0 0; }
+.hero-cta .button { font-size: 17px; padding: 13px 28px; }
+@media (max-width: 900px) { .hero-cta { text-align: center; } }
+.gi-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 760px) { .gi-cards { grid-template-columns: repeat(2, 1fr); } }
+.gi-card { display: flex; flex-direction: column; gap: 4px; align-items: center; text-align: center; padding: 18px 12px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; text-decoration: none; color: var(--body-text); box-shadow: var(--shadow); }
+.gi-card:hover { border-color: var(--maroon); }
+.gi-card > span { font-size: 30px; }
+.gi-card strong { font-family: var(--font-serif); font-size: 18px; color: var(--maroon); }
+.gi-card small { font-size: 13px; line-height: 1.4; color: var(--muted); }
+/* needlework look (dashed stitching + gold edge), used on alternating cards */
+.stitched { outline: 1px dashed rgba(212, 172, 13, .85); outline-offset: -7px; border-left: 4px solid var(--gold); }
+body.dark-mode .stitched { outline-color: rgba(243, 156, 18, .5); }
+.mini-card:nth-child(2) { outline: 1px dashed rgba(212, 172, 13, .85); outline-offset: -5px; border-left: 3px solid var(--gold); }
+/* events carousel: N whole cards per view, arrows move one card */
+.event-cards { --n: 1.2; --gap: 12px; gap: var(--gap); padding: 4px 0 8px; scroll-snap-type: x mandatory; }
+.event-cards > .card { flex: 0 0 calc((100% - (var(--n) - 1) * var(--gap)) / var(--n)); max-width: none; scroll-snap-align: start; }
+@media (min-width: 680px) { .event-cards { --n: 2; } }
+@media (min-width: 1000px) { .event-cards { --n: 3; } }
+.event-cards::after { display: none; }
+/* learn page */
+.page-hero.short { min-height: 30vh; padding: 40px 0 32px; }
+.page-hero.short p { max-width: 560px; margin: 8px 0 0; font-size: 17px; }
+article.story { margin-bottom: 18px; }
+.story-head { display: block; }
+@media (min-width: 760px) { .story-head { display: grid; grid-template-columns: 38% 1fr; align-items: stretch; } article.story:nth-of-type(even) .story-head { grid-template-columns: 1fr 38%; } article.story:nth-of-type(even) .story-head > :first-child { order: 2; } }
+article.story .story-text { padding-bottom: 14px; }
+.book-slot { display: flex; align-items: center; justify-content: center; background: var(--gold-soft); padding: 22px; min-height: 200px; }
+.book-slot img { width: 140px; height: auto; border-radius: 6px; box-shadow: 0 6px 16px rgba(0,0,0,.3); }
+@media (min-width: 760px) { .story-head .story-photo { max-height: 340px; height: 100%; align-self: center; } }

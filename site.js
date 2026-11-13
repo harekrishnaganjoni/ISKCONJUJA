@@ -402,9 +402,10 @@
   var wrap = c.closest(".ev-carousel"), prev = wrap.querySelector(".ev-prev"), next = wrap.querySelector(".ev-next");
   function step() { var k = c.querySelector(".card"); return k ? k.getBoundingClientRect().width + 12 : 280; }
   function upd() {
-    var max = c.scrollWidth - c.clientWidth - 2;
-    prev.hidden = !(max > 0 && c.scrollLeft > 2);
-    next.hidden = !(max > 0 && c.scrollLeft < max);
+    var max = c.scrollWidth - c.clientWidth;
+    var overflow = max > 6;
+    prev.hidden = !(overflow && c.scrollLeft > 6);
+    next.hidden = !(overflow && c.scrollLeft < max - 6);
   }
   prev.addEventListener("click", function () { c.scrollBy({ left: -step(), behavior: "smooth" }); });
   next.addEventListener("click", function () { c.scrollBy({ left: step(), behavior: "smooth" }); });

@@ -67,7 +67,7 @@
    <nav class="header-nav" aria-label="Main navigation" data-public-nav>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
-    <a href="learn.html" class="active">Learn</a>
+    <a href="learn.html" class="active">Learn more</a>
     <a href="merch.html" data-show-if="store_enabled" hidden>Merchandise</a>
    </nav>
    <nav class="header-nav member-quicknav" aria-label="Member navigation" data-member-nav hidden>
@@ -92,7 +92,7 @@
    <nav class="drawer-nav" data-public-nav>
     <a href="index.html">&#127968; Home</a>
     <a href="about.html">&#128725; About</a>
-    <a href="learn.html">&#128218; Learn</a>
+    <a href="learn.html">&#128218; Learn more</a>
     <a href="merch.html" data-show-if="store_enabled" hidden>&#128085; Merchandise</a>
     <a href="devotees.html">&#128274; Member Login</a>
    </nav>
@@ -112,7 +112,7 @@
   <section class="page-hero short has-bg-events">
    <div class="section-inner">
     <h1>Learn more</h1>
-    <p>Learn more <a href="about.html">about us</a>, explore the courses, and read Srila Prabhupada's books for free.</p>
+    <p>This is where you can learn everything that makes us who we are: the books, the teachings and the courses.</p>
    </div>
   </section>
 
@@ -129,20 +129,13 @@
        <p><a class="button" href="nectar/">Open the reading plan</a></p>
       </div></div>
      </div>
-     <div class="story-body">
-      <h3 style="margin:0 0 10px;font-size:18px;">Open courses</h3>
-      <div id="public-courses-list" data-public-courses-list style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
-       <div class="empty-state" style="grid-column:1/-1;">
-        <h3>No other public courses are open right now</h3>
-        <p>New courses appear here once they are published.</p>
-       </div>
-      </div>
-     </div>
     </article>
+
+    <div id="public-courses-list" data-public-courses-list></div>
 
     <article class="story" id="read-books" data-toc="Read the books">
      <div class="story-head">
-      <img class="story-photo" src="images/friday-book-discussion-2.jpg" alt="Friends reading together at ISKCON Juja" loading="lazy">
+      <span class="story-pic"><img src="images/friday-book-discussion-2.jpg" alt="Friends reading together at ISKCON Juja" loading="lazy"></span>
       <div class="story-text-wrap"><div class="story-text">
        <h2>Read the books</h2>
        <p>Srila Prabhupada's books are free to read online on Vedabase.</p>
@@ -218,9 +211,9 @@
      if (r.error || !r.data || !r.data.length || !box) return;
      function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
      function draw(withModules) {
-      box.innerHTML = r.data.map(function (c) {
+      box.innerHTML = r.data.map(function (c, ix) {
        var opens = withModules[c.id];
-       return '<article class="card highlight" style="padding:22px;">' +
+       return '<article class="story' + (ix % 2 ? ' stitched' : '') + '"><div class="story-text-wrap"><div class="story-text" style="padding-bottom:18px;">' +
         '<h3>' + esc(c.title) + '</h3>' +
         (c.subtitle ? '<p style="margin-top:4px;color:var(--muted);">' + esc(c.subtitle) + '</p>' : '') +
         (c.description ? '<p style="margin-top:8px;">' + esc(c.description.length > 220 ? c.description.slice(0, 220) + "..." : c.description) + '</p>' : '') +
@@ -228,7 +221,7 @@
         (c.schedule ? '<p style="margin-top:8px;font-size:13px;"><strong>Schedule:</strong> ' + esc(c.schedule) + '</p>' : '') +
         (opens ? '<p style="margin-top:14px;"><a class="button" href="course.html#/c/' + esc(c.id) + '">Open course</a></p>'
          : (c.how_to_join ? '<p style="margin-top:12px;"><a class="button secondary" href="#" data-whatsapp="Hi ISKCON JUJA! I would like to join: ' + esc(c.title) + '">' + esc(c.how_to_join) + '</a></p>' : '')) +
-        '</article>';
+        '</div></div></article>';
       }).join("");
      }
      draw({});

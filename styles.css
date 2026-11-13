@@ -2510,11 +2510,17 @@ article.story .story-text { padding-bottom: 14px; }
 .book-slot img { width: 140px; height: auto; border-radius: 6px; box-shadow: 0 6px 16px rgba(0,0,0,.3); }
 @media (min-width: 760px) { .story-head .story-photo { max-height: 340px; height: 100%; align-self: center; } }
 
-/* v5: centred hero, centred equal-size event cards */
-.home-hero-text { text-align: center; margin-left: auto; margin-right: auto; max-width: 760px; }
-.home-hero-text .no-pitch { display: block; text-align: center; margin-left: auto; margin-right: auto; max-width: 640px; }
-.home-hero .section-inner { justify-items: center; }
-.hero-cta { text-align: center; }
+/* v5: centred equal-size event cards */
 .event-cards { align-items: stretch; justify-content: safe center; }
 .page-hero.short p a { color: inherit; text-decoration: underline; font-weight: 700; }
-.home-hero-text .welcome-heading, .home-hero-text .catchphrase, .home-hero-text p { text-align: center; }
+
+/* v6: photo as tall as the text beside it (cropped), no gaps */
+.story-pic { display: block; position: relative; width: 100%; aspect-ratio: 16 / 10; background: var(--gold-soft); overflow: hidden; }
+.story-pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; max-height: none; }
+@media (min-width: 760px) {
+  .story-pic { aspect-ratio: auto; min-height: 210px; height: 100%; }
+  .story > summary .story-pic, .story-head > .story-pic { align-self: stretch; }
+  .story-head .story-photo, .story > summary .story-photo { max-height: none; }
+}
+.story-pic.b img { object-position: center bottom; }
+.story-pic.c img { object-position: center center; }

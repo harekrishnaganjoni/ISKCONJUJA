@@ -2524,3 +2524,12 @@ article.story .story-text { padding-bottom: 14px; }
 }
 .story-pic.b img { object-position: center bottom; }
 .story-pic.c img { object-position: center center; }
+
+/* v7: whole photo, never cropped (Prabhupada, Juja) */
+.story-pic.full { aspect-ratio: auto; min-height: 0; height: auto; background: var(--gold-soft); display: flex; align-items: center; justify-content: center; }
+.story-pic.full img { position: static; width: 100%; height: auto; max-height: 380px; object-fit: contain; }
+@media (min-width: 760px) {
+  .story > summary:has(.story-pic.full) { grid-template-columns: 34% 1fr; }
+  .story-pic.full { height: 100%; align-self: stretch; }
+  .story-pic.full img { max-height: none; width: 100%; }
+}

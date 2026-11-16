@@ -408,11 +408,24 @@
           st.style.color = "#b33a2e"; st.textContent = "Nothing was added. Fix these lines first:\n" + st.textContent.split("\n").slice(1).join("\n"); return;
         }
         go.disabled = true; st.style.color = "var(--muted)"; st.textContent = "Adding " + parsed.length + " quotes...";
-        client.rpc("admin_import_quotes", { rows: parsed }).then(function (r) {
-          go.disabled = false;
-          if (r.error) { st.style.color = "#b33a2e"; st.textContent = r.error.message + (/function|schema cache/i.test(r.error.message) ? "\nRun the Quote Library SQL files (20, 21, 22) in Supabase first." : ""); return; }
-          st.style.color = "#2E7D32"; st.textContent = "Added " + r.data.added + ", skipped " + r.data.skipped + " (duplicates or bad lines)."; ta.value = ""; parsed = []; reloadQuotes();
-        });
+        var total = parsed.length, pos = 0, addedN = 0, skippedN = 0;
+        function sendNext() {
+          if (pos >= total) {
+            go.disabled = false; st.style.color = "#2E7D32";
+            st.textContent = "Added " + addedN + ", skipped " + skippedN + " (duplicates or bad lines)."; ta.value = ""; parsed = []; reloadQuotes(); return;
+          }
+          var part = parsed.slice(pos, pos + 400); pos += 400;
+          st.textContent = "Adding " + Math.min(pos, total) + " of " + total + " quotes...";
+          client.rpc("admin_import_quotes", { rows: part }).then(function (r) {
+            if (r.error) {
+              go.disabled = false; st.style.color = "#b33a2e";
+              st.textContent = r.error.message + (/function|schema cache/i.test(r.error.message) ? "\nRun the Quote Library SQL files (20, 21, 22) in Supabase first." : "") + (addedN ? "\n" + addedN + " quotes were added before the error. Paste the same lines again: duplicates are skipped." : "");
+              reloadQuotes(); return;
+            }
+            addedN += r.data.added; skippedN += r.data.skipped; sendNext();
+          });
+        }
+        sendNext();
       });
     })();
 

@@ -30,10 +30,17 @@ Any Nectar problem reported by the owner jumps the queue. No open Nectar problem
 | Q4 | Weekday themes: tag each chosen quote with a theme (one theme per weekday) and add the public "Quote of the Day" rotation (needs one new SQL file, tested) | TODO (after Q3) |
 | Q5 | Second-round small-book candidates (about 3,600 held back) | BACKLOG |
 
-## P3: Book site (separate repo)
+## P2b: Streamline the member portal and admin portal (after quotes; owner's order of 16 Nov)
+| # | Item | Status |
+|---|------|--------|
+| M1 | Audit every member page and admin tab: list what is used, what is clutter; owner approves the slimmed list | TODO |
+| M2 | Build the slimmed member portal and admin portal; test; merge | TODO |
+
+## P3: Book site (separate repo; "everything a devotee needs in one place")
 | # | Item | Status |
 |---|------|--------|
 | B0 | Permission: the books are BBT copyright. Get written permission from the BBT before the site is public. Until then it stays private | WAITING-OWNER |
+| B1a | Scope for owner to confirm: books, songs and bhajans (lyrics with transliteration and translation), japa timer and counter, Vaishnava calendar, daily quote, aarti and kirtan schedules, prayers and mantras with meaning, recipes (prasadam), Ekadashi and festival guides, glossary | TODO |
 | B1 | Decide hosting (free options: GitHub Pages / Cloudflare), structure, search | TODO |
 | B2 | Repo skeleton: converter (text files to reader pages), search, reading view; private | TODO |
 | B3 | Load the books; link from the Learn more page (replacing the Vedabase link only after B0) | TODO |

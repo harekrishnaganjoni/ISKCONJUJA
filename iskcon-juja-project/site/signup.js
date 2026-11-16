@@ -47,8 +47,8 @@
       lines = lines.concat(["BEGIN:VEVENT", "UID:weekly-" + CODES[pr.weekday].toLowerCase() + "-" + i + "@iskconjuja.co.ke", "DTSTAMP:" + stamp(),
         "DTSTART:" + a[0] + "T" + a[1] + "Z", "DTEND:" + b[0] + "T" + b[1] + "Z", "RRULE:FREQ=WEEKLY;BYDAY=" + CODES[pr.weekday],
         "SUMMARY:" + icsText("ISKCON Juja " + pr.title + " program"),
-        "LOCATION:" + icsText(pr.place || PLACE), "DESCRIPTION:" + icsText((pr.description || "") + " https://iskconjuja.co.ke/events.html"),
-        "URL:https://iskconjuja.co.ke/events.html"].concat(alarm("-P1D", "Tomorrow: ISKCON Juja " + pr.title + " program, " + time12), alarm("-PT3H", "ISKCON Juja " + pr.title + " program today at " + time12)).concat(["END:VEVENT"]));
+        "LOCATION:" + icsText(pr.place || PLACE), "DESCRIPTION:" + icsText((pr.description || "") + " https://iskconjuja.co.ke/#events"),
+        "URL:https://iskconjuja.co.ke/#events"].concat(alarm("-P1D", "Tomorrow: ISKCON Juja " + pr.title + " program, " + time12), alarm("-PT3H", "ISKCON Juja " + pr.title + " program today at " + time12)).concat(["END:VEVENT"]));
     });
     download("iskcon-juja-weekly-program.ics", lines);
   }
@@ -89,7 +89,7 @@
       var e2 = new Date(end + "T00:00:00Z"); e2.setUTCDate(e2.getUTCDate() + 1);
       lines.push("DTSTART;VALUE=DATE:" + s.replace(/-/g, ""), "DTEND;VALUE=DATE:" + ymd(e2));
     }
-    lines.push("SUMMARY:" + icsText(e.title), "LOCATION:" + icsText(PLACE), "DESCRIPTION:" + icsText((e.description || "") + " https://iskconjuja.co.ke/events.html"));
+    lines.push("SUMMARY:" + icsText(e.title), "LOCATION:" + icsText(PLACE), "DESCRIPTION:" + icsText((e.description || "") + " https://iskconjuja.co.ke/#events"));
     if (t) lines = lines.concat(alarm("-P1D", "Tomorrow: " + e.title), alarm("-PT3H", "In 3 hours: " + e.title));
     else lines = lines.concat(alarm("-PT15H", "Tomorrow: " + e.title), alarm("PT8H", "Today: " + e.title));
     lines.push("END:VEVENT");

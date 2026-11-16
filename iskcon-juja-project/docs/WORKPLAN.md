@@ -16,9 +16,9 @@ Any Nectar problem reported by the owner jumps the queue. No open Nectar problem
 |---|------|--------|
 | R1 | Home, About, Learn more, nav, action panel, events carousel, Get involved, background (see README "Redesign preview") | DONE (13 Nov) |
 | R2 | Photos shown whole (Prabhupada, Juja), Merchandise in menu | DONE (13 Nov) |
-| R3 | Owner reviews the preview and lists changes | WAITING-OWNER |
-| R4 | Retire the old Events, Get Involved and Message Board pages (redirect to home sections); mirror the redesign into `iskcon-juja-project/site/`; update README | TODO (after R3) |
-| R5 | Test, then merge `redesign` into `main` and push | TODO (needs owner "go") |
+| R3 | Owner reviews the preview | DONE (16 Nov, approved) |
+| R4 | Retire the old Events, Get Involved and Message Board pages (small redirect stubs to the home sections); mirror into `iskcon-juja-project/site/`; README | DONE (16 Nov) |
+| R5 | Test, then merge `redesign` into `main` and push | DONE (16 Nov, live) |
 
 ## P2: Quotes
 | # | Item | Status |

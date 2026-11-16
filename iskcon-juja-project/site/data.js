@@ -212,18 +212,21 @@
     });
   }
 
-  // ---------- Floating contact button (message board + WhatsApp) ----------
+  // ---------- Floating action panel (member / donate / volunteer / message), opens on the right ----------
   document.addEventListener("DOMContentLoaded", function () {
     var toggle = document.getElementById("float-toggle");
-    var menu = document.getElementById("float-menu");
-    if (!toggle || !menu) return;
-    toggle.addEventListener("click", function () {
-      menu.hidden = !menu.hidden;
-      toggle.setAttribute("aria-expanded", String(!menu.hidden));
-    });
-    document.addEventListener("click", function (e) {
-      if (!menu.hidden && !menu.contains(e.target) && e.target !== toggle) menu.hidden = true;
-    });
+    var panel = document.getElementById("act-panel"), scrim = document.getElementById("act-scrim");
+    if (!toggle || !panel) return;
+    function setOpen(open) {
+      panel.hidden = !open; if (scrim) scrim.hidden = !open;
+      toggle.setAttribute("aria-expanded", String(open));
+      document.documentElement.classList.toggle("act-open", open);
+    }
+    toggle.addEventListener("click", function () { setOpen(panel.hidden); });
+    var close = document.getElementById("act-close"); if (close) close.addEventListener("click", function () { setOpen(false); });
+    if (scrim) scrim.addEventListener("click", function () { setOpen(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !panel.hidden) setOpen(false); });
+    panel.addEventListener("click", function (e) { if (e.target.closest("a")) setOpen(false); });
   });
 
   // ---------- Sign-out controls (header, mobile drawer, member sub-nav) ----------

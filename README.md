@@ -343,3 +343,13 @@ Paste this file plus the project files (and `Logo.zip` + the logo manual PDF), t
 "# ISKCONJUJA" 
 "# ISKCONJUJA" 
 "# ISKCONJUJA" 
+
+
+## REDESIGN GO-LIVE (16 Nov 2026)
+The redesigned public site is live (merged from branch `redesign`). Summary of what changed for maintainers:
+- Home: hero with one Get involved button; Events as swipeable cards (3 per view, arrows move one card); Quote of the week (stays hidden until a real quote arrives); What to expect (3 cards); Get involved (Join us, Donate, Volunteer, Message); Insights; Testimonials (collapsed).
+- About: story cards (Prabhupada, ISKCON international, Juja) with the original texts; photos shown whole.
+- Learn more (`learn.html`): hero, Nectar of Instruction card, each public course as its own card, Read the books (Vedabase link).
+- Menu: Home, About, Learn more, Merchandise. The floating button opens a right-hand action panel (Become a member, Donate, Volunteer, Send a message).
+- Retired: `events.html`, `participate.html`, `message-board.html` are now tiny redirect pages to the home sections. The membership/volunteer application form that lived on participate.html is gone; people join via the register page or WhatsApp.
+- Admin quote import now sends in chunks of 400, so one paste can hold thousands of lines.

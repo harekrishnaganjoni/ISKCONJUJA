@@ -34,13 +34,13 @@ Any Nectar problem reported by the owner jumps the queue. No open Nectar problem
 | # | Item | Status |
 |---|------|--------|
 | M1 | Audit every member page and admin tab: list what is used, what is clutter; owner approves the slimmed list | TODO |
-| M2 | Build the slimmed member portal and admin portal; test; merge | TODO |
+| M2 | Build the slimmed member portal and admin portal; test; merge. REMIND OWNER: quotes should be uploadable as a text file (no pasting) | TODO |
 
 ## P3: Book site (separate repo; "everything a devotee needs in one place")
 | # | Item | Status |
 |---|------|--------|
 | B0 | Permission: the books are BBT copyright. Get written permission from the BBT before the site is public. Until then it stays private | WAITING-OWNER |
-| B1a | Scope for owner to confirm: books, songs and bhajans (lyrics with transliteration and translation), japa timer and counter, Vaishnava calendar, daily quote, aarti and kirtan schedules, prayers and mantras with meaning, recipes (prasadam), Ekadashi and festival guides, glossary | TODO |
+| B1a | Scope (owner, 16 Nov): books; songs, bhajans, mantras and prayers (one section: lyrics, transliteration, translation); daily quote. NOT now: japa counter (the Vaishnava calendar already exists and will be fine-tuned), Sanskrit glossary. Later, slowly: prasadam recipes | TODO |
 | B1 | Decide hosting (free options: GitHub Pages / Cloudflare), structure, search | TODO |
 | B2 | Repo skeleton: converter (text files to reader pages), search, reading view; private | TODO |
 | B3 | Load the books; link from the Learn more page (replacing the Vedabase link only after B0) | TODO |

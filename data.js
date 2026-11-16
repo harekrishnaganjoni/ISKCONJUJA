@@ -79,7 +79,7 @@
         box.innerHTML = '<div class="card-grid-3">' + r.data.map(function (e) {
           var when = escapeHtml(e.start_date) + (e.end_date ? " &ndash; " + escapeHtml(e.end_date) : "");
           return '<article class="card">' +
-            (e.image_url ? '<img src="' + escapeHtml(e.image_url) + '" alt="' + escapeHtml(e.title) + '" loading="lazy" style="width:100%;max-height:240px;object-fit:cover;border-radius:10px;margin-bottom:12px;display:block;">' : '') +
+            (e.image_url ? '<img src="' + escapeHtml(e.image_url) + '" alt="' + escapeHtml(e.title) + '" loading="lazy" style="width:100%;max-height:150px;object-fit:cover;border-radius:10px;margin-bottom:10px;display:block;">' : '') +
             '<div class="eyebrow">' + when + '</div>' +
             '<h3>' + escapeHtml(e.title) + '</h3>' +
             (e.speakers ? '<p><strong>With:</strong> ' + escapeHtml(e.speakers) + '</p>' : '') +
@@ -89,9 +89,16 @@
             '<div data-signup-event="' + escapeHtml(e.id) + '"></div>' +
             '</article>';
         }).join("") + '</div>';
+        // special events join the swipeable row of event cards (same size as the weekly cards)
+        var track = document.querySelector(".event-cards");
+        if (track) {
+          Array.prototype.slice.call(box.querySelectorAll("article.card")).forEach(function (a) { track.appendChild(a); });
+          box.hidden = true;
+          window.dispatchEvent(new Event("resize"));
+        }
         if (window.ISKCON_SIGNUP) {
           var byId = {}; r.data.forEach(function (e) { byId[e.id] = e; });
-          box.querySelectorAll("[data-signup-event]").forEach(function (m) {
+          (track || box).querySelectorAll("[data-signup-event]").forEach(function (m) {
             var e = byId[m.getAttribute("data-signup-event")];
             window.ISKCON_SIGNUP.mount(m, e.title, e.id, e);
           });

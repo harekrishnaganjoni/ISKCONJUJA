@@ -24,8 +24,8 @@ Any Nectar problem reported by the owner jumps the queue. No open Nectar problem
 | # | Item | Status |
 |---|------|--------|
 | Q1 | Gita ch 1-3 approved (201), Gita ch 4-18 drafts (401), small-book drafts (475), Prabhupada letters/lectures "said today" (live, members). Owner reviews drafts in Admin > Quotes | WAITING-OWNER |
-| Q2 | Big books: all 15 files received (CC Adi, Madhya, Antya; SB cantos 1-12). Extract candidates, vet in rounds, exact-text check, produce draft files in the same paste format | DOING (extraction first) |
-| Q3 | Pool everything (Gita, small books, letters/lectures, SB, CC), pick the cream: about 1,830 public quotes (5 years of daily quotes), repetition allowed | TODO (after Q2) |
+| Q2 | Big books: all 15 files received (CC Adi, Madhya, Antya; SB cantos 1-12). Extract candidates, vet in rounds, exact-text check, produce draft files in the same paste format | DONE round 1 (16 Nov): 75,070 passages found, best 6,282 reviewed, 1,371 kept as drafts (364 public, 1,007 members) in `big-books-draft.txt`. Owner pastes into Admin > Quotes > Import | 
+| Q3 | (NEXT) Pool everything (Gita, small books, letters/lectures, SB, CC), pick the cream: about 1,830 public quotes (5 years of daily quotes), repetition allowed | TODO. Public pool is about 2,200 candidates so far (letters/lectures about 1,170, big books 364, Gita and small books about 560), enough for 5 years once the owner approves |
 | Q4 | Weekday themes: tag each chosen quote with a theme (one theme per weekday) and add the public "Quote of the Day" rotation (needs one new SQL file, tested) | TODO (after Q3) |
 | Q5 | Second-round small-book candidates (about 3,600 held back) | BACKLOG |
 

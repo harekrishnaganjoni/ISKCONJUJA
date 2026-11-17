@@ -2581,3 +2581,30 @@ article.story .story-text { padding-bottom: 14px; }
 .home-hero .quote-fun-text { color: var(--body-text); }
 .home-hero .quote-fun-source { color: var(--maroon); }
 .home-hero .quote-fun-card::after { background: var(--gold); opacity: .35; }
+
+
+/* ---- Quote of the week v2: hand-drawn cloud outline, see-through, handwritten (17 Nov) ---- */
+.home-hero .quote-fun-card { padding: 58px 50px 74px; font-family: "Patrick Hand", "Segoe Print", "Comic Sans MS", cursive; }
+.home-hero .quote-fun-card::before, .home-hero .quote-fun-card::after { content: none; display: none; }
+.qc-shape { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; overflow: visible;
+  fill: rgba(255, 252, 240, .74); stroke: var(--maroon); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round;
+  vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 14px rgba(255, 236, 170, .55)) drop-shadow(0 8px 16px rgba(0, 0, 0, .28)); }
+.qc-shape path { vector-effect: non-scaling-stroke; }
+.qc-mark { position: absolute; font-family: "Patrick Hand", Georgia, serif; font-size: 78px; line-height: .6; font-weight: 700; color: var(--maroon); pointer-events: none; }
+.qc-close { top: 17%; right: 9%; }
+.qc-open { bottom: 25%; left: 6%; }
+.home-hero .quote-fun-sticker { position: static; display: block; background: none; box-shadow: none; padding: 0; transform: rotate(-2deg);
+  color: var(--maroon); font-family: inherit; font-weight: 400; font-size: 16px; letter-spacing: .04em; margin: 0 0 6px; }
+.home-hero .quote-fun-text { font-family: inherit; font-weight: 400; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.35; color: #3a1520; }
+.home-hero .quote-fun-source { font-family: inherit; font-weight: 400; font-size: 17px; color: var(--maroon); margin-top: 8px; }
+@media (max-width: 899px) { .home-hero .quote-fun-card { padding: 54px 44px 70px; } .qc-mark { font-size: 64px; } }
+
+.qc-shape { fill: none; stroke: none; }
+.qc-fill { fill: rgba(255, 252, 240, .86); stroke: none; }
+.qc-line { fill: none; stroke: var(--maroon); stroke-width: 3; }
+.home-hero .quote-fun-sticker { color: #7a1030; font-size: 17px; }
+.home-hero .quote-fun-text { color: #2a0f18; }
+.home-hero .quote-fun-card { padding: 92px 62px 78px 66px; }
+@media (max-width: 899px) { .home-hero .quote-fun-card { padding: 84px 54px 74px 56px; } }
+.home-hero .quote-fun-sticker { margin-left: 22px; }
+.home-hero .quote-fun-text { padding-left: 8px; }

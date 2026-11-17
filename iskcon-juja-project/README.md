@@ -484,3 +484,6 @@ After the site is complete, the owner wants a devotee registry: the registration
 - Database: SQL 25 adds `said_on`, `vaish_masa`, `vaish_tithi` and `get_said_today(masa, tithi, md, year)` (signed-in members only); SQL 26 tests it. 6 lunar days still have no quote and fall back to the same date: (1,11), (5,2), (12,5), (12,14), (12,20), (12,27) as masa.tithi.
 - Paste lines: `quote | reference | public | date=1974-11-20 | v=6.20 | url=https://vedabase.io/...` (extras optional; `draft-public` / `draft-members` still stores a hidden draft). Admin > Quotes also has a book filter and an "Approve all shown drafts as suggested" button.
 - Next: curate general public quotes book by book (Nectar of Instruction, Isopanisad, Bhagavatam, ...); fill the 6 empty lunar days.
+
+- 17 Nov 2026: Quote of the week is now a cloud-shaped overlay on the right of the home hero (a quarter spills below; the hero reserves room so no card is covered). It stays hidden until a real quote arrives.
+- 17 Nov 2026: Home page now loads `signup.js` (it was missing after the redesign, so Sunday-card edits, weekly-card edits and "Save my spot" did not work on the home page). New admin field: Sunday trip card > "When". Every photo upload (hero, events, products) now also accepts a pasted image link.

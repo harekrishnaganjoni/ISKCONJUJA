@@ -133,7 +133,8 @@
   // Sunday trip card: text from the admin Settings (the built-in text stays when nothing is saved).
   function applySunday() {
     var st = (window.ISKCON && window.ISKCON.SITE_SETTINGS) || {};
-    var t = document.querySelector("[data-sun-title]"), x = document.querySelector("[data-sun-text]"), l = document.querySelector("[data-sun-list]");
+    var t = document.querySelector("[data-sun-title]"), x = document.querySelector("[data-sun-text]"), l = document.querySelector("[data-sun-list]"), w = document.querySelector("[data-sun-when]");
+    if (w && st.sunday_when) w.textContent = st.sunday_when;
     if (t && st.sunday_title) t.textContent = st.sunday_title;
     if (x && st.sunday_text) x.textContent = st.sunday_text;
     if (l && st.sunday_schedule) {

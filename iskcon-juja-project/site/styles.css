@@ -2542,3 +2542,42 @@ article.story .story-text { padding-bottom: 14px; }
 }
 .event-cards .card .eyebrow { margin-bottom: 4px; }
 .event-cards .card p { font-size: 14px; }
+
+/* ---- Quote of the week: cloud overlay on the hero, a quarter spilling below ---- */
+.home-hero { overflow: visible; margin-bottom: var(--q-out, 0px); }
+.home-hero .quote-fun-card {
+  position: absolute; z-index: 6; isolation: isolate;
+  left: 50%; bottom: 0; transform: translate(-50%, 25%);
+  width: min(380px, 92%); max-width: none; margin: 0;
+  padding: 46px 44px 50px; background: transparent; border: 0; box-shadow: none;
+}
+.home-hero .quote-fun-card:hover { transform: translate(-50%, 25%); }
+.home-hero .quote-fun-card::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; top: 0; left: 0; opacity: 1;
+  font-size: 0; background: var(--card);
+  border-radius: 58% 42% 55% 45% / 52% 58% 42% 48%;
+  filter: url(#cloud-edge) drop-shadow(0 12px 20px rgba(0, 0, 0, .35));
+}
+.home-hero .quote-fun-card::after {
+  content: ""; position: absolute; inset: 6px -14px -8px 14px; z-index: -2;
+  background: var(--gold-soft); opacity: .8;
+  border-radius: 44% 56% 48% 52% / 56% 46% 54% 44%;
+  filter: url(#cloud-edge);
+}
+.home-hero .quote-fun-sticker { top: 4px; right: 18%; }
+.home-hero .quote-fun-text { font-size: clamp(15px, 1.5vw, 18px); line-height: 1.5; }
+.home-hero .quote-fun-source { margin-top: 12px; font-size: 14px; }
+.home-hero .quote-fun-source::after { content: ""; }
+@media (min-width: 900px) {
+  .home-hero .quote-fun-card { left: auto; right: max(24px, 5%); transform: translateY(25%); width: min(400px, 36vw); }
+  .home-hero .quote-fun-card:hover { transform: translateY(25%); }
+  .home-hero .section-inner { padding-right: min(440px, 38vw); }
+}
+@media (max-width: 899px) {
+  .home-hero { padding-bottom: calc(48px + var(--q-in, 0px)); }
+}
+
+.home-hero .quote-fun-card { outline: 0; color: var(--body-text); }
+.home-hero .quote-fun-text { color: var(--body-text); }
+.home-hero .quote-fun-source { color: var(--maroon); }
+.home-hero .quote-fun-card::after { background: var(--gold); opacity: .35; }

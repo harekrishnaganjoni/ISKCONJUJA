@@ -68,7 +68,7 @@
     // ============================================================
     var settingsForm = document.getElementById("settings-form");
     var settingsStatus = document.getElementById("settings-status");
-    var TEXT_KEYS = ["mpesa_till", "pesapal_donate_url", "whatsapp_group_invite", "facebook_url", "instagram_url", "youtube_url", "tiktok_url", "address_short", "whatsapp_primary", "whatsapp_secondary", "sunday_title", "sunday_text", "sunday_schedule"];
+    var TEXT_KEYS = ["mpesa_till", "pesapal_donate_url", "whatsapp_group_invite", "facebook_url", "instagram_url", "youtube_url", "tiktok_url", "address_short", "whatsapp_primary", "whatsapp_secondary", "sunday_title", "sunday_text", "sunday_schedule", "sunday_when"];
     var BOOL_KEYS = ["store_enabled", "articles_enabled", "special_events_enabled", "google_signin_enabled", "forgot_password_enabled"];
 
     client.from("site_settings").select("key,value").then(function (r) {
@@ -101,6 +101,20 @@
           client.from("site_settings").upsert({ key: "homepage_hero_image_url", value: publicUrl }).then(function (saveRes) {
             if (span) span.textContent = saveRes.error ? saveRes.error.message : "New photo saved — live on the homepage now.";
           });
+        });
+      });
+    }
+
+    var heroLinkBtn = document.getElementById("hero-photo-link-btn");
+    if (heroLinkBtn) {
+      heroLinkBtn.addEventListener("click", function () {
+        var inp = document.getElementById("hero-photo-link"), span = document.getElementById("hero-photo-current");
+        var v = (inp.value || "").trim();
+        if (v && !/^https?:\/\//i.test(v)) v = "https://" + v;
+        if (!/^https:\/\/\S+\.\S+/i.test(v)) { if (span) span.textContent = "Paste a full image link that starts with https://"; return; }
+        if (span) span.textContent = "Saving...";
+        client.from("site_settings").upsert({ key: "homepage_hero_image_url", value: v }).then(function (saveRes) {
+          if (span) span.textContent = saveRes.error ? saveRes.error.message : "Photo link saved \u2014 live on the homepage now.";
         });
       });
     }
@@ -520,6 +534,22 @@
         });
       });
     }
+    // Or paste a link to a picture that lives on another site (your images site).
+    function wireLink(linkId, hiddenId, statusId, inputId) {
+      var link = document.getElementById(linkId), hidden = document.getElementById(hiddenId);
+      if (!link || !hidden) return;
+      var status = document.getElementById(statusId), input = document.getElementById(inputId);
+      link.addEventListener("input", function () {
+        var v = (link.value || "").trim();
+        if (v && !/^https?:\/\//i.test(v)) v = "https://" + v;
+        if (/^https:\/\/\S+\.\S+/i.test(v)) { hidden.value = v; if (input) input.value = ""; if (status) status.textContent = "Picture link attached \u2014 it will save with this item."; }
+        else if (!v) { hidden.value = ""; if (status) status.textContent = ""; }
+        else if (status) status.textContent = "Keep typing: the link must start with https://";
+      });
+      if (link.form) link.form.addEventListener("reset", function () { setTimeout(function () { link.value = ""; }, 0); });
+    }
+    wireLink("product-photo-link", "product-image-url", "product-photo-status", "product-photo-input");
+    wireLink("event-photo-link", "event-image-url", "event-photo-status", "event-photo-input");
     wirePhoto("product-photo-input", "product-image-url", "product-photo-status", "product");
     wirePhoto("event-photo-input", "event-image-url", "event-photo-status", "event");
 

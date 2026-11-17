@@ -317,6 +317,20 @@
       }).catch(function () {});
   }
 
+  // Quote cloud sits on the hero with a quarter spilling below: reserve room for it so no card is covered.
+  function placeQuote(box) {
+    var hero = box.closest(".home-hero");
+    if (!hero) return;
+    function size() {
+      if (box.hidden) { hero.style.removeProperty("--q-out"); hero.style.removeProperty("--q-in"); return; }
+      var h = box.offsetHeight;
+      hero.style.setProperty("--q-out", Math.round(h * 0.25 + 28) + "px");
+      hero.style.setProperty("--q-in", Math.round(h * 0.75) + "px");
+    }
+    size();
+    if (!box._placed) { box._placed = true; window.addEventListener("resize", size); window.addEventListener("load", size); }
+  }
+
   function renderQuote() {
     var box = document.querySelector("[data-quote-of-week]");
     if (!box) return;
@@ -332,6 +346,7 @@
       if (r.error || !r.data || !r.data.length) return;
       var sec = box.closest("section"); if (sec) sec.hidden = false; box.hidden = false;
       paint(r.data[0]);
+      placeQuote(box);
     }).catch(function () {});
   }
 

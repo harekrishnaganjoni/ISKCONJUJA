@@ -2608,3 +2608,22 @@ article.story .story-text { padding-bottom: 14px; }
 @media (max-width: 899px) { .home-hero .quote-fun-card { padding: 84px 54px 74px 56px; } }
 .home-hero .quote-fun-sticker { margin-left: 22px; }
 .home-hero .quote-fun-text { padding-left: 8px; }
+
+/* v3 (17 Nov): wider cloud, text kept inside, citation under the tail, dirty-white in dark mode */
+.home-hero .quote-fun-card { padding: 84px 64px 92px 68px; }
+.home-hero .quote-fun-text { font-size: clamp(16px, 1.4vw, 20px); padding-left: 0; text-wrap: balance; }
+.home-hero .quote-fun-sticker { margin: 0 0 4px 0; text-align: center; }
+.home-hero .quote-fun-source { position: absolute; left: 41%; right: 4%; bottom: 4px; margin: 0; text-align: left; font-size: 15px; line-height: 1.2; }
+.home-hero .quote-fun-source a { font-size: 13px; }
+@media (min-width: 900px) {
+  .home-hero .quote-fun-card { width: min(580px, 46vw); }
+  .home-hero .section-inner { padding-right: min(600px, 48vw); }
+}
+@media (max-width: 899px) { .home-hero .quote-fun-card { width: min(520px, 98%); padding: 78px 52px 90px 54px; } }
+body.dark-mode .qc-fill { fill: rgba(206, 196, 176, .84); }
+body.dark-mode .qc-shape { filter: drop-shadow(0 0 10px rgba(206, 196, 176, .18)) drop-shadow(0 8px 16px rgba(0, 0, 0, .4)); }
+body.dark-mode .home-hero .quote-fun-text { color: #25121a; }
+body.dark-mode .qc-line, body.dark-mode .qc-mark, body.dark-mode .home-hero .quote-fun-sticker, body.dark-mode .home-hero .quote-fun-source { color: #7a1030; }
+body.dark-mode .qc-line { stroke: #8a3a4c; }
+body.dark-mode .home-hero .quote-fun-source { color: #f1d9a0; }
+body.dark-mode .home-hero .quote-fun-card a { color: #5a0016; }

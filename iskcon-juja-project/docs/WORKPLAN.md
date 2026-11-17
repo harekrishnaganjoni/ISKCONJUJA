@@ -27,8 +27,8 @@ Any Nectar problem reported by the owner jumps the queue. No open Nectar problem
 | Q2 | Big books: all 15 files received (CC Adi, Madhya, Antya; SB cantos 1-12). Extract candidates, vet in rounds, exact-text check, produce draft files in the same paste format | DONE round 1 (16 Nov): 75,070 passages found, best 6,282 reviewed, 1,371 kept as drafts (364 public, 1,007 members) in `big-books-draft.txt`. Owner pastes into Admin > Quotes > Import | 
 | Q2b | Compile everything into one master file (4,813 quotes) + reset SQL 27/28 + chunked import (admin.js) so the owner can wipe the old quotes and load the complete set | DONE (16 Nov); WAITING-OWNER to run 27 and paste the file |
 | Q2c | 17 Nov: quote cloud on hero, Sunday card edits, image-link option | DONE |
-| Q3 | (NEXT, DOING: weekday theme sorting, 2 of 6 chunks done) Pool everything (Gita, small books, letters/lectures, SB, CC), pick the cream: about 1,830 public quotes (5 years of daily quotes), repetition allowed | TODO. Public pool is about 2,200 candidates so far (letters/lectures about 1,170, big books 364, Gita and small books about 560), enough for 5 years once the owner approves |
-| Q4 | Weekday themes: tag each chosen quote with a theme (one theme per weekday) and add the public "Quote of the Day" rotation (needs one new SQL file, tested) | TODO (after Q3) |
+| Q3 | Weekday-theme sorting of the 2,001 public candidates | DONE (18 Nov): 1,365 kept with a theme (Sun 160, Mon 205, Tue 245, Wed 237, Thu 234, Fri 87, Sat 197), 636 set aside as drafts. 899 of the kept are live public, 466 are still drafts until the owner approves them. Friday (chanting and company) is thin because the public pool has few such quotes; more are in the members pool |
+| Q4 | Public "Quote of the day": `theme` column, import accepts `theme=N`, `get_daily_quote()`, home card shows it (falls back to the weekly quote), file `all-quotes-master-v2.txt` | DONE in code, tested (SQL 29/30 pass). WAITING-OWNER: run 27, then 29, then paste the v2 file (Admin > Quotes > Import), then approve drafts |
 | Q5 | Second-round small-book candidates (about 3,600 held back) | BACKLOG |
 
 ## P2b: Streamline the member portal and admin portal (after quotes; owner's order of 16 Nov)
@@ -47,6 +47,7 @@ Any Nectar problem reported by the owner jumps the queue. No open Nectar problem
 | B3 | Load the books; link from the Learn more page (replacing the Vedabase link only after B0) | TODO |
 
 ## P4: Backlog (owner may reorder)
+- Events (owner, 18 Nov): when working on the calendar, (1) remove special events automatically once their time has passed; (2) mark events that recur every year so they are reposted automatically each year; the admin sees them about a week before to confirm.
 - 6 Vaishnava lunar days with no "said today" quote: (masa.tithi) 1.11, 5.2, 12.5, 12.14, 12.20, 12.27.
 - Nectar of Instruction into the course system (after 24 Nov).
 - SEO checklist (README "REMINDER: SEO").

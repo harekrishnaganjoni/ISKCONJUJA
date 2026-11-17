@@ -354,8 +354,12 @@
     }
     hideQuoteBox(box);
     if (!READY) return;
-    client.rpc("get_weekly_quote").then(function (r) {
-      if (r.error || !r.data || !r.data.length) return;
+    // one quote a day (the weekday's theme); if that is not set up yet, fall back to the quote of the week
+    client.rpc("get_daily_quote").then(function (r) {
+      if (r.error || !r.data || !r.data.length) return client.rpc("get_weekly_quote");
+      return r;
+    }).then(function (r) {
+      if (!r || r.error || !r.data || !r.data.length) return;
       var sec = box.closest("section"); if (sec) sec.hidden = false; box.hidden = false;
       paint(r.data[0]);
       placeQuote(box);

@@ -395,9 +395,9 @@
         parsed = []; var bad = [], lines = ta.value.split("\n");
         lines.forEach(function (ln, i) {
           if (!ln.trim()) return;
-          // optional extras at the end of a line:  | date=1974-11-20 | v=6.20 | url=https://vedabase.io/...
+          // optional extras at the end of a line:  | date=1974-11-20 | v=6.20 | theme=3 | url=https://vedabase.io/...
           var ex = {}, mm;
-          while ((mm = /\s\|\s(date|v|url)=(\S+)\s*$/i.exec(ln))) { ex[mm[1].toLowerCase()] = mm[2]; ln = ln.slice(0, mm.index); }
+          while ((mm = /\s\|\s(date|v|url|theme)=(\S+)\s*$/i.exec(ln))) { ex[mm[1].toLowerCase()] = mm[2]; ln = ln.slice(0, mm.index); }
           var hasAud = /\|\s*(draft-public|draft-members|public|members)\s*$/i.test(ln); var k = hasAud ? ln.lastIndexOf("|", ln.lastIndexOf("|") - 1) : ln.lastIndexOf("|"); var q = k > 0 ? ln.slice(0, k).trim() : "", ref = k > 0 ? ln.slice(k + 1).trim() : "";
           if (q.length < 10 || q.length > 2000 || ref.length < 2 || ref.length > 200) { bad.push("Line " + (i + 1) + ": needs  quote | reference"); return; }
           var aud = null, am = /\s*\|\s*(draft-public|draft-members|public|members)\s*$/i.exec(ref), draftAud = null;
@@ -407,7 +407,7 @@
           var bk = inf.book || (/^Srila Prabhupada, Letter/i.test(ref) ? "Letters" : /^Srila Prabhupada, (Lecture|Conversation)/i.test(ref) ? "Lectures and conversations" : null);
           var dt = ex.date && /^\d{4}-\d\d-\d\d$/.test(ex.date) ? ex.date : null, vv = ex.v && /^(\d{1,2})\.(\d{1,2})$/.exec(ex.v);
           parsed.push({ quote_text: q, source: ref, book: bk, source_url: (ex.url && /^https:\/\/vedabase\.io\//.test(ex.url)) ? ex.url : (inf.url || null),
-            said_on: dt, vaish_masa: vv ? +vv[1] : null, vaish_tithi: vv ? +vv[2] : null,
+            said_on: dt, vaish_masa: vv ? +vv[1] : null, vaish_tithi: vv ? +vv[2] : null, theme: /^[0-6]$/.test(ex.theme || "") ? +ex.theme : null,
             use_weekly: draftAud ? false : aud ? aud === "public" : document.getElementById("qimp-weekly").checked,
             use_votd: draftAud ? false : aud ? true : document.getElementById("qimp-votd").checked, suggested_aud: draftAud });
         });

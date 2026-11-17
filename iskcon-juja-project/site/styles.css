@@ -2581,3 +2581,72 @@ article.story .story-text { padding-bottom: 14px; }
 .home-hero .quote-fun-text { color: var(--body-text); }
 .home-hero .quote-fun-source { color: var(--maroon); }
 .home-hero .quote-fun-card::after { background: var(--gold); opacity: .35; }
+
+
+/* ---- Quote of the week v2: hand-drawn cloud outline, see-through, handwritten (17 Nov) ---- */
+.home-hero .quote-fun-card { padding: 58px 50px 74px; font-family: "Patrick Hand", "Segoe Print", "Comic Sans MS", cursive; }
+.home-hero .quote-fun-card::before, .home-hero .quote-fun-card::after { content: none; display: none; }
+.qc-shape { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; overflow: visible;
+  fill: rgba(255, 252, 240, .74); stroke: var(--maroon); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round;
+  vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 14px rgba(255, 236, 170, .55)) drop-shadow(0 8px 16px rgba(0, 0, 0, .28)); }
+.qc-shape path { vector-effect: non-scaling-stroke; }
+.qc-mark { position: absolute; font-family: "Patrick Hand", Georgia, serif; font-size: 78px; line-height: .6; font-weight: 700; color: var(--maroon); pointer-events: none; }
+.qc-close { top: 17%; right: 9%; }
+.qc-open { bottom: 25%; left: 6%; }
+.home-hero .quote-fun-sticker { position: static; display: block; background: none; box-shadow: none; padding: 0; transform: rotate(-2deg);
+  color: var(--maroon); font-family: inherit; font-weight: 400; font-size: 16px; letter-spacing: .04em; margin: 0 0 6px; }
+.home-hero .quote-fun-text { font-family: inherit; font-weight: 400; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.35; color: #3a1520; }
+.home-hero .quote-fun-source { font-family: inherit; font-weight: 400; font-size: 17px; color: var(--maroon); margin-top: 8px; }
+@media (max-width: 899px) { .home-hero .quote-fun-card { padding: 54px 44px 70px; } .qc-mark { font-size: 64px; } }
+
+.qc-shape { fill: none; stroke: none; }
+.qc-fill { fill: rgba(255, 252, 240, .86); stroke: none; }
+.qc-line { fill: none; stroke: var(--maroon); stroke-width: 3; }
+.home-hero .quote-fun-sticker { color: #7a1030; font-size: 17px; }
+.home-hero .quote-fun-text { color: #2a0f18; }
+.home-hero .quote-fun-card { padding: 92px 62px 78px 66px; }
+@media (max-width: 899px) { .home-hero .quote-fun-card { padding: 84px 54px 74px 56px; } }
+.home-hero .quote-fun-sticker { margin-left: 22px; }
+.home-hero .quote-fun-text { padding-left: 8px; }
+
+/* v3 (17 Nov): wider cloud, text kept inside, citation under the tail, dirty-white in dark mode */
+.home-hero .quote-fun-card { padding: 84px 64px 92px 68px; }
+.home-hero .quote-fun-text { font-size: clamp(16px, 1.4vw, 20px); padding-left: 0; text-wrap: balance; }
+.home-hero .quote-fun-sticker { margin: 0 0 4px 0; text-align: center; }
+.home-hero .quote-fun-source { position: absolute; left: 41%; right: 4%; bottom: 4px; margin: 0; text-align: left; font-size: 15px; line-height: 1.2; }
+.home-hero .quote-fun-source a { font-size: 13px; }
+@media (min-width: 900px) {
+  .home-hero .quote-fun-card { width: min(580px, 46vw); }
+  .home-hero .section-inner { padding-right: min(600px, 48vw); }
+}
+@media (max-width: 899px) { .home-hero .quote-fun-card { width: min(520px, 98%); padding: 78px 52px 90px 54px; } }
+body.dark-mode .qc-fill { fill: rgba(206, 196, 176, .84); }
+body.dark-mode .qc-shape { filter: drop-shadow(0 0 10px rgba(206, 196, 176, .18)) drop-shadow(0 8px 16px rgba(0, 0, 0, .4)); }
+body.dark-mode .home-hero .quote-fun-text { color: #25121a; }
+body.dark-mode .qc-line, body.dark-mode .qc-mark, body.dark-mode .home-hero .quote-fun-sticker, body.dark-mode .home-hero .quote-fun-source { color: #7a1030; }
+body.dark-mode .qc-line { stroke: #8a3a4c; }
+body.dark-mode .home-hero .quote-fun-source { color: #f1d9a0; }
+body.dark-mode .home-hero .quote-fun-card a { color: #5a0016; }
+/* v4: parchment, more see-through */
+.qc-fill { fill: rgba(255, 250, 232, .68); }
+body.dark-mode .qc-fill { fill: rgba(222, 190, 135, .58); }
+body.dark-mode .qc-shape { filter: drop-shadow(0 0 12px rgba(222, 190, 135, .22)) drop-shadow(0 8px 16px rgba(0, 0, 0, .4)); }
+body.dark-mode .qc-line { stroke: #a8603f; }
+body.dark-mode .home-hero .quote-fun-text { color: #fbeed4; text-shadow: 0 1px 3px rgba(0,0,0,.55); }
+body.dark-mode .home-hero .quote-fun-sticker, body.dark-mode .qc-mark { color: #f1c27a; }
+body.dark-mode .home-hero .quote-fun-card a { color: #f1c27a; }
+
+.event-cards .card .ev-desc { margin: 8px 0 10px; }
+.ev-past { opacity: .62; }
+.ev-tag { margin-left: 8px; font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--maroon); }
+
+/* v5: fully see-through cloud: outline only, light text with a soft shadow */
+.qc-fill { fill: none; }
+.qc-line, body.dark-mode .qc-line { stroke: #fbeed4; stroke-width: 2.5; }
+.qc-shape, body.dark-mode .qc-shape { filter: drop-shadow(0 0 3px rgba(0, 0, 0, .75)) drop-shadow(0 0 14px rgba(241, 194, 122, .35)); }
+.home-hero .quote-fun-text, body.dark-mode .home-hero .quote-fun-text { color: #fff7e6; text-shadow: 0 1px 4px rgba(0, 0, 0, .9), 0 0 12px rgba(0, 0, 0, .55); }
+.home-hero .quote-fun-sticker, .qc-mark, body.dark-mode .home-hero .quote-fun-sticker, body.dark-mode .qc-mark { color: #f1c27a; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); }
+.home-hero .quote-fun-card a, body.dark-mode .home-hero .quote-fun-card a { color: #f1c27a; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); }
+body.dark-mode .qc-fill { fill: none; }
+.qc-line, body.dark-mode .qc-line { stroke: #e9b24c; stroke-width: 2.8; }
+.qc-shape, body.dark-mode .qc-shape { filter: drop-shadow(0 0 2px rgba(60, 20, 10, .8)) drop-shadow(0 0 12px rgba(241, 194, 122, .3)); }

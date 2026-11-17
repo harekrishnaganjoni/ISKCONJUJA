@@ -76,11 +76,21 @@
       .then(function (r) {
         if (r.error || !r.data || !r.data.length) return;
         box.hidden = false;
+        // Newest first: coming up (soonest first), then happening now, then ended ones last (dimmed).
+        var today = new Date(Date.now() + 3 * 3600 * 1000).toISOString().slice(0, 10);
+        function rank(e) { var end = e.end_date || e.start_date; return e.start_date > today ? 0 : end >= today ? 1 : 2; }
+        r.data.sort(function (a, b) {
+          var ra = rank(a), rb = rank(b); if (ra !== rb) return ra - rb;
+          if (ra === 0) return a.start_date < b.start_date ? -1 : 1;
+          var ea = a.end_date || a.start_date, eb = b.end_date || b.start_date;
+          return ra === 1 ? (ea < eb ? -1 : 1) : (ea < eb ? 1 : -1);
+        });
         box.innerHTML = '<div class="card-grid-3">' + r.data.map(function (e) {
           var when = escapeHtml(e.start_date) + (e.end_date ? " &ndash; " + escapeHtml(e.end_date) : "");
-          return '<article class="card">' +
+          var rk = rank(e), tag = rk === 1 ? ' <strong class="ev-tag">Happening now</strong>' : rk === 2 ? ' <strong class="ev-tag">Ended</strong>' : '';
+          return '<article class="card' + (rk === 2 ? ' ev-past' : '') + '">' +
             (e.image_url ? '<img src="' + escapeHtml(e.image_url) + '" alt="' + escapeHtml(e.title) + '" loading="lazy" style="width:100%;max-height:150px;object-fit:cover;border-radius:10px;margin-bottom:10px;display:block;">' : '') +
-            '<div class="eyebrow">' + when + '</div>' +
+            '<div class="eyebrow">' + when + tag + '</div>' +
             '<h3>' + escapeHtml(e.title) + '</h3>' +
             (e.speakers ? '<p><strong>With:</strong> ' + escapeHtml(e.speakers) + '</p>' : '') +
             (e.schedule ? '<p><strong>Schedule:</strong> ' + escapeHtml(e.schedule) + '</p>' : '') +
@@ -92,7 +102,9 @@
         // special events join the swipeable row of event cards (same size as the weekly cards)
         var track = document.querySelector(".event-cards");
         if (track) {
-          Array.prototype.slice.call(box.querySelectorAll("article.card")).forEach(function (a) { track.appendChild(a); });
+          // special events go in front of the weekly cards (the regular programs take the back seat)
+          Array.prototype.slice.call(box.querySelectorAll("article.card")).reverse().forEach(function (a) { track.insertBefore(a, track.firstChild); });
+          track.scrollLeft = 0;
           box.hidden = true;
           window.dispatchEvent(new Event("resize"));
         }
@@ -342,8 +354,12 @@
     }
     hideQuoteBox(box);
     if (!READY) return;
-    client.rpc("get_weekly_quote").then(function (r) {
-      if (r.error || !r.data || !r.data.length) return;
+    // one quote a day (the weekday's theme); if that is not set up yet, fall back to the quote of the week
+    client.rpc("get_daily_quote").then(function (r) {
+      if (r.error || !r.data || !r.data.length) return client.rpc("get_weekly_quote");
+      return r;
+    }).then(function (r) {
+      if (!r || r.error || !r.data || !r.data.length) return;
       var sec = box.closest("section"); if (sec) sec.hidden = false; box.hidden = false;
       paint(r.data[0]);
       placeQuote(box);

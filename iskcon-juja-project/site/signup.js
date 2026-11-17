@@ -37,9 +37,9 @@
     if (h < 0) { h += 24; d.setUTCDate(d.getUTCDate() - 1); }
     return [ymd(d), pad(h) + m + "00"];
   }
-  function weeklyIcs() {
+  function weeklyIcs(only) {
     var lines = [];
-    programs.forEach(function (pr, i) {
+    (only || programs).forEach(function (pr, i) {
       var s = new Date(); s.setUTCHours(0, 0, 0, 0);
       while (s.getUTCDay() !== pr.weekday) s.setUTCDate(s.getUTCDate() + 1);
       var a = utcParts(s, String(pr.start_time)), b = utcParts(s, String(pr.end_time));
@@ -50,25 +50,35 @@
         "LOCATION:" + icsText(pr.place || PLACE), "DESCRIPTION:" + icsText((pr.description || "") + " https://iskconjuja.co.ke/#events"),
         "URL:https://iskconjuja.co.ke/#events"].concat(alarm("-P1D", "Tomorrow: ISKCON Juja " + pr.title + " program, " + time12), alarm("-PT3H", "ISKCON Juja " + pr.title + " program today at " + time12)).concat(["END:VEVENT"]));
     });
-    download("iskcon-juja-weekly-program.ics", lines);
+    download(only ? "iskcon-juja-" + String(only[0].title).toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-program.ics" : "iskcon-juja-weekly-program.ics", lines);
   }
   function fmtTime(t) { t = String(t).slice(0, 5); var h = parseInt(t.slice(0, 2), 10), m = t.slice(3, 5); return ((h + 11) % 12 + 1) + ":" + m + " " + (h >= 12 ? "PM" : "AM"); }
   var DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-  // Show the programs from the admin panel on the page (the built-in text stays if there are none).
+  // One card per weekly program (Tuesday, Friday...). The built-in cards stay if the admin has no rows.
   function showPrograms(rows) {
-    var list = document.querySelector("[data-wk-list]"), eb = document.querySelector("[data-wk-eyebrow]"), pl = document.querySelector("[data-wk-place]");
-    if (list) list.innerHTML = rows.map(function (r) {
-      return '<li><span>&#127928;</span><span><strong>' + esc(r.title) + '</strong> (' + DAYS[r.weekday] + ', ' + fmtTime(r.start_time) + ' &ndash; ' + fmtTime(r.end_time) + ')' + (r.description ? ' &mdash; ' + esc(r.description) : '') + '</span></li>';
-    }).join("");
-    var sameTime = rows.every(function (r) { return r.start_time === rows[0].start_time && r.end_time === rows[0].end_time; });
-    if (eb) eb.textContent = sameTime
-      ? rows.map(function (r) { return DAYS[r.weekday] + "s"; }).join(" & ") + ", " + fmtTime(rows[0].start_time).replace(":00", "") + " \u2013 " + fmtTime(rows[0].end_time).replace(":00", "")
-      : rows.map(function (r) { return DAYS[r.weekday] + "s " + fmtTime(r.start_time).replace(":00", ""); }).join(" \u00b7 ");
-    if (pl && rows[0].place) pl.textContent = "Held at " + rows[0].place + ".";
+    var cards = Array.prototype.slice.call(document.querySelectorAll("[data-wk-card]"));
+    if (!cards.length) return;
+    var byDay = {}; cards.forEach(function (c) { byDay[c.getAttribute("data-day")] = c; });
+    var last = cards[cards.length - 1], used = {};
+    rows.forEach(function (r) {
+      var c = byDay[r.weekday];
+      if (!c) { c = cards[0].cloneNode(true); c.removeAttribute("data-toc"); c.setAttribute("data-day", r.weekday); last.parentNode.insertBefore(c, last.nextSibling); last = c; byDay[r.weekday] = c; }
+      used[r.weekday] = true;
+      c.querySelector("[data-wk-title]").textContent = "Juja: " + DAYS[r.weekday] + "s";
+      c.querySelector("[data-wk-eyebrow]").textContent = fmtTime(r.start_time).replace(":00", "") + " \u2013 " + fmtTime(r.end_time).replace(":00", "");
+      if (r.place) c.querySelector("[data-wk-place]").textContent = "Held at " + r.place + ".";
+      var d = c.querySelector("[data-wk-desc]"); if (r.description) d.innerHTML = "<span>&#127928;</span> " + esc(r.description);
+      var j = c.querySelector("[data-wk-join]"); if (j) { j.setAttribute("data-whatsapp", "Hi ISKCON JUJA! I would like to join the next " + DAYS[r.weekday] + " program. Please send me the location and any details I need."); j.textContent = "Join the next " + DAYS[r.weekday]; }
+      var box = c.querySelector("[data-signup-weekly]"); box.setAttribute("data-day", r.weekday);
+      mount(box, "Juja " + DAYS[r.weekday] + " program", null, r);
+    });
+    cards.forEach(function (c) { if (!used[c.getAttribute("data-day")]) c.remove(); });
+    document.dispatchEvent(new CustomEvent("iskcon:rerender-whatsapp"));
+    window.dispatchEvent(new Event("resize"));
   }
   function loadPrograms() {
-    if (!READY || !document.querySelector("[data-wk-list]")) return;
+    if (!READY || !document.querySelector("[data-wk-card]")) return;
     client.from("programs").select("*").eq("published", true).order("weekday", { ascending: true }).then(function (r) {
       if (r.error || !r.data || !r.data.length) return;
       r.data.forEach(function (x) { x.start_time = String(x.start_time).slice(0, 5); x.end_time = String(x.end_time).slice(0, 5); });
@@ -110,7 +120,7 @@
       '<button type="button" class="button secondary" data-open-form>&#9998; Save my spot</button></div>' +
       '<div data-form-slot hidden>' + formHtml(prog, eventId) + '</div>' +
       '<p style="font-size:12px;color:var(--muted);margin-top:6px;">The calendar file reminds you the day before and 3 hours before.</p>';
-    box.querySelector("[data-cal]").addEventListener("click", function () { ev ? eventIcs(ev) : weeklyIcs(); });
+    box.querySelector("[data-cal]").addEventListener("click", function () { ev ? (ev.start_date ? eventIcs(ev) : weeklyIcs([ev])) : weeklyIcs(); });
     box.querySelector("[data-open-form]").addEventListener("click", function () { box.querySelector("[data-form-slot]").hidden = false; });
     var form = box.querySelector("form"), msg = box.querySelector(".signup-msg");
     form.addEventListener("submit", function (e) {
@@ -170,8 +180,11 @@
   function init() {
     applySunday();
     initMembership();
-    var w = document.querySelector("[data-signup-weekly]");
-    if (w) mount(w, WEEKLY, null, null);
+    Array.prototype.forEach.call(document.querySelectorAll("[data-signup-weekly]"), function (w) {
+      var d = parseInt(w.getAttribute("data-day"), 10), pr = null;
+      programs.forEach(function (x) { if (x.weekday === d) pr = x; });
+      mount(w, "Juja " + DAYS[d] + " program", null, pr);
+    });
     loadPrograms();
   }
   window.ISKCON_SIGNUP = { mount: mount, init: init };

@@ -6,6 +6,7 @@
  <meta name="description" content="ISKCON JUJA — A vibrant youth-driven spiritual community in Juja, Kenya.">
  <title>ISKCON JUJA</title>
  <link rel="icon" href="images/favicon.png" type="image/png">
+ <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap">
  <link rel="stylesheet" href="styles.css">
 </head>
 <body data-pat="1">
@@ -81,8 +82,10 @@
        <p class="hero-cta"><a class="button" href="#get-involved">Get involved</a></p>
       </div>
      </div>
-     <aside class="quote-fun-card" aria-labelledby="quote-heading" data-quote-of-week data-toc="Quote of the week" hidden>
-      <span class="quote-fun-sticker" id="quote-heading">&#10024; Quote of the week</span>
+     <aside class="quote-fun-card" aria-labelledby="quote-heading" data-quote-of-week data-toc="Quote of the day" hidden>
+      <svg class="qc-shape" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs><mask id="qc-gaps" maskUnits="userSpaceOnUse" x="-20" y="-20" width="440" height="340"><rect x="-20" y="-20" width="440" height="340" fill="#fff"/><rect x="300" y="30" width="66" height="62" rx="20" fill="#000"/><rect x="22" y="212" width="78" height="62" rx="20" fill="#000"/></mask></defs><path class="qc-fill" d="M70 250C18 250 6 196 38 178C14 110 60 64 118 82C130 40 200 20 250 50C300 20 376 54 368 118C410 140 396 250 330 250L176 250L150 292L136 250Z"/><path class="qc-line" d="M70 250C18 250 6 196 38 178C14 110 60 64 118 82C130 40 200 20 250 50C300 20 376 54 368 118C410 140 396 250 330 250L176 250L150 292L136 250Z" mask="url(#qc-gaps)"/></svg>
+      <span class="qc-mark qc-open" aria-hidden="true">&#8220;</span><span class="qc-mark qc-close" aria-hidden="true">&#8221;</span>
+      <span class="quote-fun-sticker" id="quote-heading">Quote of the day</span>
       <p class="quote-fun-text" data-quote-text></p>
       <p class="quote-fun-source" data-quote-source></p>
      </aside>
@@ -105,16 +108,21 @@
       <div class="ev-carousel">
        <button type="button" class="ev-arrow ev-prev" aria-label="Previous events" hidden>&#8249;</button>
        <div class="event-cards">
-       <div class="card event-ticket" data-toc="Weekly events">
-        <h3>Juja: Tuesdays &amp; Fridays</h3>
+       <div class="card event-ticket" data-wk-card data-day="2" data-toc="Weekly events">
+        <h3 data-wk-title>Juja: Tuesdays</h3>
         <p class="ev-when" data-wk-eyebrow>5:30 &ndash; 7:00 PM</p>
         <p class="ev-where" data-wk-place>Anthusia Apartments, Muraya Access Road, Juja.</p>
-        <ul class="timeline-list" data-wk-list>
-         <li><span>&#127928;</span><span><strong>Tuesday</strong> &mdash; Music, a talk or open discussion, and a free vegetarian feast.</span></li>
-         <li><span>&#128214;</span><span><strong>Friday</strong> &mdash; Music, group book reading and discussion, and a free vegetarian feast.</span></li>
-        </ul>
-        <div data-signup-weekly></div>
-        <a class="button" href="#" data-whatsapp="Hi ISKCON JUJA! I would like to join the next program. Please send me the location and any details I need.">Join the next program</a>
+        <p class="ev-desc" data-wk-desc><span>&#127928;</span> Music, a talk or open discussion, and a free vegetarian feast.</p>
+        <div data-signup-weekly data-day="2"></div>
+        <a class="button" href="#" data-wk-join data-whatsapp="Hi ISKCON JUJA! I would like to join the next Tuesday program. Please send me the location and any details I need.">Join the next Tuesday</a>
+       </div>
+       <div class="card event-ticket" data-wk-card data-day="5">
+        <h3 data-wk-title>Juja: Fridays</h3>
+        <p class="ev-when" data-wk-eyebrow>5:30 &ndash; 7:00 PM</p>
+        <p class="ev-where" data-wk-place>Anthusia Apartments, Muraya Access Road, Juja.</p>
+        <p class="ev-desc" data-wk-desc><span>&#128214;</span> Music, group book reading and discussion, and a free vegetarian feast.</p>
+        <div data-signup-weekly data-day="5"></div>
+        <a class="button" href="#" data-wk-join data-whatsapp="Hi ISKCON JUJA! I would like to join the next Friday program. Please send me the location and any details I need.">Join the next Friday</a>
        </div>
        <div class="card" data-toc="Sunday program">
         <h3 data-sun-title>Sundays: Nairobi (Ngara) temple</h3>

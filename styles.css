@@ -2635,3 +2635,18 @@ body.dark-mode .qc-line { stroke: #a8603f; }
 body.dark-mode .home-hero .quote-fun-text { color: #fbeed4; text-shadow: 0 1px 3px rgba(0,0,0,.55); }
 body.dark-mode .home-hero .quote-fun-sticker, body.dark-mode .qc-mark { color: #f1c27a; }
 body.dark-mode .home-hero .quote-fun-card a { color: #f1c27a; }
+
+.event-cards .card .ev-desc { margin: 8px 0 10px; }
+.ev-past { opacity: .62; }
+.ev-tag { margin-left: 8px; font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--maroon); }
+
+/* v5: fully see-through cloud: outline only, light text with a soft shadow */
+.qc-fill { fill: none; }
+.qc-line, body.dark-mode .qc-line { stroke: #fbeed4; stroke-width: 2.5; }
+.qc-shape, body.dark-mode .qc-shape { filter: drop-shadow(0 0 3px rgba(0, 0, 0, .75)) drop-shadow(0 0 14px rgba(241, 194, 122, .35)); }
+.home-hero .quote-fun-text, body.dark-mode .home-hero .quote-fun-text { color: #fff7e6; text-shadow: 0 1px 4px rgba(0, 0, 0, .9), 0 0 12px rgba(0, 0, 0, .55); }
+.home-hero .quote-fun-sticker, .qc-mark, body.dark-mode .home-hero .quote-fun-sticker, body.dark-mode .qc-mark { color: #f1c27a; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); }
+.home-hero .quote-fun-card a, body.dark-mode .home-hero .quote-fun-card a { color: #f1c27a; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); }
+body.dark-mode .qc-fill { fill: none; }
+.qc-line, body.dark-mode .qc-line { stroke: #e9b24c; stroke-width: 2.8; }
+.qc-shape, body.dark-mode .qc-shape { filter: drop-shadow(0 0 2px rgba(60, 20, 10, .8)) drop-shadow(0 0 12px rgba(241, 194, 122, .3)); }

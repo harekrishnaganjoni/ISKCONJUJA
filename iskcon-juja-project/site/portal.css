@@ -1,0 +1,238 @@
+/* ISKCON JUJA member portal and admin portal look (18 Nov 2026).
+   Colours of Krishna and Balarama / Gaura-Nitai: deep blue, gold, black and maroon.
+   Only active on portal pages (html.in-portal); the public site keeps its own look. */
+
+/* ---------- palette ---------- */
+html.in-portal body {
+  --navy: #0e2347; --navy-2: #1a3d78; --sky: #2f6bb5; --ink: #05070d;
+  --gold: #d9a521; --gold-2: #f0cf75; --gold-soft: rgba(217, 165, 33, .14);
+  --maroon: #7a1030; --maroon-dark: #560a22;
+  --canvas: #f2f5fb; --band-bg: #e7edf8; --card: #ffffff; --row-tint: rgba(14, 35, 71, .045);
+  --body-text: #1b2740; --muted: #56627f; --line: rgba(14, 35, 71, .15);
+  --shadow: 0 10px 30px rgba(14, 35, 71, .13);
+  --drawer-bg: #ffffff; --footer-bg: #e7edf8; --quote-bg: #fff8e1;
+  --side-bg: #0e2347; --side-text: #e9eefa; --side-hover: rgba(255, 255, 255, .09); --side-active: rgba(217, 165, 33, .22); --side-accent: #f0cf75; --side-line: rgba(217, 165, 33, .35);
+  --veil: rgba(242, 245, 251, .86); --veil-strong: rgba(242, 245, 251, .92); --band-veil: rgba(231, 237, 248, .88);
+}
+html.in-portal body.dark-mode {
+  --navy: #0b1a38; --navy-2: #14305f; --sky: #4f8fe0; --ink: #03050a;
+  --gold: #e6b53a; --gold-2: #f3d98c; --gold-soft: rgba(230, 181, 58, .13);
+  --maroon: #a3203f; --maroon-dark: #e0728a;
+  --canvas: #070a13; --band-bg: #0c1325; --card: #101931; --row-tint: rgba(255, 255, 255, .05);
+  --body-text: #eef1f8; --muted: #aab4cc; --line: rgba(230, 181, 58, .22);
+  --shadow: 0 10px 30px rgba(0, 0, 0, .5);
+  --drawer-bg: #0c1325; --footer-bg: #0a1020; --quote-bg: #101931;
+  --side-bg: #0a1020; --side-text: #e9eefa; --side-hover: rgba(255, 255, 255, .07); --side-active: rgba(230, 181, 58, .2); --side-accent: #f3d98c; --side-line: rgba(230, 181, 58, .3);
+  --veil: rgba(7, 10, 19, .88); --veil-strong: rgba(7, 10, 19, .93); --band-veil: rgba(12, 19, 37, .9);
+}
+html.in-portal body { background: var(--canvas); color: var(--body-text); }
+html.in-portal h1, html.in-portal h2, html.in-portal h3 { color: var(--navy); }
+html.in-portal body.dark-mode h1, html.in-portal body.dark-mode h2, html.in-portal body.dark-mode h3 { color: var(--gold-2); }
+html.in-portal .button { background: var(--maroon); color: #fff; border-color: var(--maroon); }
+html.in-portal .button:hover { background: var(--maroon-dark); }
+html.in-portal body.dark-mode .button:hover { background: #bd2c4e; }
+html.in-portal .button.secondary { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+html.in-portal .button.secondary:hover { background: var(--navy); color: var(--gold-2); }
+html.in-portal body.dark-mode .button.secondary { color: var(--gold-2); border-color: var(--gold); }
+html.in-portal body.dark-mode .button.secondary:hover { background: var(--gold); color: #0b1a38; }
+html.in-portal a { color: var(--navy-2); }
+html.in-portal body.dark-mode a { color: var(--gold-2); }
+html.in-portal .eyebrow { color: var(--gold); }
+html.in-portal .card, html.in-portal .gc-card { background: var(--card); border-color: var(--line); }
+html.in-portal input, html.in-portal select, html.in-portal textarea { background: var(--card); color: var(--body-text); border-color: var(--line); }
+html.in-portal input:focus, html.in-portal select:focus, html.in-portal textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+
+/* ---------- top: logo bar (black into deep blue) and menu bar ---------- */
+html.in-portal body[data-pat] .ph-top .header-top, html.in-portal .ph-top .header-top {
+  background: linear-gradient(90deg, #03050a 0%, #0e2347 50%, #03050a 100%); border-bottom: 1px solid rgba(217, 165, 33, .45);
+}
+html.in-portal .ph-top .header-mantra p { color: var(--gold-2); }
+html.in-portal .ph-top .prabhupada-caption { color: #cfd8ee; }
+html.in-portal .ph-top .brand { justify-content: flex-start; }
+html.in-portal .ph-top .brand-logo { filter: drop-shadow(0 0 6px rgba(240, 207, 117, .35)); }
+html.in-portal body[data-pat] .ph, html.in-portal .ph { background: linear-gradient(180deg, #112a55, #0b1a38); border-bottom: 3px solid var(--gold); }
+html.in-portal .ph-tag { color: var(--gold-2); }
+html.in-portal .ph-nav a { color: #dce5f7; }
+html.in-portal .ph-nav a:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+html.in-portal .ph-nav a.on { background: rgba(217, 165, 33, .2); color: #fff; box-shadow: inset 0 -3px 0 var(--gold); }
+html.in-portal .ph-out { color: var(--gold-2); }
+html.in-portal .ph .theme-switch-nav { background: rgba(255, 255, 255, .1); border-color: rgba(217, 165, 33, .5); }
+
+/* today's lunar day: two short lines, top right of the menu bar */
+.ph-today { display: block; text-align: right; line-height: 1.25; min-width: 0; }
+.ph-today .gc-strip { display: block; padding: 0; background: none; color: #f2e3b5; font-size: 12px; text-align: right; }
+.ph-today .gc-l1, .ph-today .gc-l2 { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ph-today .gc-l1 { font-weight: 600; font-size: 13px; }
+.ph-today .gc-strip b { color: #fff; }
+.ph-today .gc-l2 { color: #c9d4ee; font-size: 11.5px; }
+.ph-today .gc-strip-fast { background: rgba(240, 207, 117, .2); color: var(--gold-2); border-radius: 8px; padding: 0 6px; }
+.ph-today:empty { display: none; }
+@media (max-width: 900px) { .ph-today .gc-l2 { display: none; } .ph-today .gc-l1 { font-size: 12px; } }
+@media (max-width: 640px) {
+  .ph-in { flex-wrap: wrap; }
+  .ph-act { flex: 1 1 100%; justify-content: space-between; margin-left: 0; }
+  .ph-today { flex: 1; text-align: left; }
+  .ph-today .gc-strip { text-align: left; }
+}
+
+/* profile icon + menu */
+.ph-me { position: relative; }
+.ph-me-btn { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--gold); background: rgba(255, 255, 255, .08); color: var(--gold-2); cursor: pointer; padding: 0; }
+.ph-me-btn:hover, .ph-me-btn[aria-expanded="true"] { background: var(--gold); color: #0b1a38; }
+.ph-me-menu { position: absolute; right: 0; top: calc(100% + 10px); min-width: 210px; background: var(--card); border: 1px solid var(--gold); border-radius: 12px; box-shadow: 0 16px 40px rgba(0, 0, 0, .35); padding: 6px; z-index: 60; display: flex; flex-direction: column; }
+.ph-me-menu[hidden] { display: none; }
+.ph-me-menu a { display: block; padding: 10px 12px; border-radius: 8px; color: var(--body-text); text-decoration: none; font-weight: 600; font-size: 14px; background: none; text-align: left; }
+.ph-me-menu a:hover { background: var(--gold-soft); color: var(--navy); }
+html.in-portal body.dark-mode .ph-me-menu a:hover { color: var(--gold-2); }
+.ph-me-menu a[hidden] { display: none; }
+.ph-me-menu .ph-install { display: block; padding: 10px 12px; margin: 0; color: var(--body-text); background: none; }
+.ph-install { color: var(--navy); }
+
+/* welcome / digest banners */
+html.in-portal .gc-banner { background: var(--gold-soft); color: var(--body-text); border-bottom: 2px solid var(--gold); }
+
+/* ---------- pages ---------- */
+.pm { background: var(--canvas); padding: 34px 16px 50px; min-height: 70vh; }
+.pm-in { max-width: 1100px; margin: 0 auto; }
+.pm-title { font-family: var(--font-serif); font-size: clamp(26px, 3.4vw, 34px); margin: 0 0 18px; }
+html.in-portal main { background: var(--canvas) !important; }
+.pm-sec { margin: 0 0 34px; }
+.pm-sec h2 { font-size: 22px; margin: 0 0 12px; }
+.pm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.pm-empty { background: var(--card); border: 1px dashed var(--gold); border-radius: 14px; padding: 18px 20px; color: var(--muted); }
+.pm-empty p { margin: 0; }
+.pm-hello { margin-top: 0; }
+
+/* two sides of one coin */
+.coin { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 4px 0 30px; align-items: stretch; filter: drop-shadow(0 14px 26px rgba(14, 35, 71, .28)); }
+.coin:has(.coin-said[hidden]) { grid-template-columns: 1fr; }
+.coin-face { position: relative; padding: 34px 34px 28px; min-height: 250px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.coin-face .eyebrow { letter-spacing: .16em; font-size: 11.5px; margin: 0 0 12px; font-weight: 700; }
+/* obverse: the scripture, deep Krishna blue with gold */
+.coin-verse { border-radius: 70px 18px 18px 70px; color: #f7edcf;
+  background: radial-gradient(circle at 18% 8%, #2a5db0 0, #14336a 38%, #0a1634 78%, #05070d 100%);
+  box-shadow: inset 0 0 0 3px #0a1634, inset 0 0 0 5px rgba(240, 207, 117, .85), inset 0 0 0 9px #0a1634, inset 0 0 0 10px rgba(240, 207, 117, .35); }
+.coin-verse::before { content: "\201C"; position: absolute; left: 30px; top: -6px; font: 700 130px/1 var(--font-serif); color: rgba(240, 207, 117, .28); }
+.coin-verse .eyebrow { color: var(--gold-2); }
+.coin-verse .quote-text { font-family: var(--font-serif); font-style: italic; font-size: clamp(19px, 2vw, 25px); line-height: 1.45; color: #fbf3da; margin: 0 0 10px; position: relative; }
+.coin-verse .quote-source { margin: 0; color: var(--gold-2); font-weight: 700; font-size: 14px; position: relative; }
+.coin-verse a { color: var(--gold-2); font-size: 13px; }
+/* reverse: gold, in his own words, written like a letter */
+.coin-said { border-radius: 18px 70px 70px 18px; color: #3a0b19;
+  background: linear-gradient(145deg, #f6dd8f 0, #e6b94a 52%, #c98f1c 100%);
+  box-shadow: inset 0 0 0 3px #d9a521, inset 0 0 0 5px rgba(122, 16, 48, .8), inset 0 0 0 9px #d9a521, inset 0 0 0 10px rgba(122, 16, 48, .35); }
+.coin-said::after { content: "\201D"; position: absolute; right: 34px; bottom: -34px; font: 700 140px/1 var(--font-serif); color: rgba(122, 16, 48, .18); }
+.coin-said .eyebrow { color: #7a1030; }
+.coin-said .said-text { font-family: "Patrick Hand", "Segoe Print", "Comic Sans MS", cursive; font-size: clamp(19px, 1.9vw, 24px); line-height: 1.4; color: #2e0812; margin: 0 0 8px; position: relative; }
+.coin-said .said-source { margin: 0 0 6px; color: #5a0a22; font-weight: 700; font-size: 13.5px; position: relative; }
+.coin-said .said-tag { display: block; font-size: 12px; color: #6b1630; opacity: .9; position: relative; }
+.coin-said a { color: #5a0a22; }
+html.in-portal body.dark-mode .coin-said { background: linear-gradient(145deg, #d6ac45 0, #b68620 52%, #8a6414 100%); }
+@media (max-width: 760px) {
+  .coin { grid-template-columns: 1fr; gap: 16px; }
+  .coin-verse, .coin-said { border-radius: 36px 14px 36px 14px; min-height: 0; }
+}
+
+/* three shortcut cards */
+.pm-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.pm-card { display: flex; gap: 14px; align-items: center; padding: 18px 20px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--gold); text-decoration: none; color: var(--body-text); box-shadow: var(--shadow); transition: transform .15s; }
+.pm-card:hover { transform: translateY(-2px); border-left-color: var(--maroon); }
+.pm-card > span { font-size: 28px; }
+.pm-card strong { display: block; color: var(--navy); font-size: 16px; }
+html.in-portal body.dark-mode .pm-card strong { color: var(--gold-2); }
+.pm-card small { color: var(--muted); font-size: 13px; }
+
+/* profile sections */
+.pf-sec { background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin: 0 0 14px; overflow: hidden; }
+.pf-sec > summary { cursor: pointer; list-style: none; padding: 16px 20px; font-weight: 800; font-size: 17px; color: var(--navy); display: flex; align-items: baseline; gap: 10px; }
+html.in-portal body.dark-mode .pf-sec > summary { color: var(--gold-2); }
+.pf-sec > summary::-webkit-details-marker { display: none; }
+.pf-sec > summary::after { content: "\25BE"; margin-left: auto; color: var(--gold); }
+.pf-sec[open] > summary::after { content: "\25B4"; }
+.pf-sec > summary small { font-weight: 400; color: var(--muted); font-size: 13px; }
+.pf-sec[open] > summary { border-bottom: 1px solid var(--line); }
+.pf-sec > *:not(summary) { margin-left: 20px; margin-right: 20px; }
+.pf-sec > *:last-child { margin-bottom: 20px; }
+.pf-sec > summary + * { margin-top: 18px; }
+.pf-sec .gc-card { border: 0; box-shadow: none; padding: 0; background: none; }
+.pf-h { font-size: 15px; margin: 18px 0 8px; }
+
+/* messages: floating button and window */
+.msg-fab[hidden] { display: none; }
+.msg-fab-btn { position: fixed; right: 18px; bottom: 18px; z-index: 70; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; background: var(--maroon); color: #fff; border: 3px solid var(--gold); box-shadow: 0 10px 26px rgba(0, 0, 0, .4); padding: 0; }
+.msg-fab-btn:hover { transform: scale(1.06); }
+.msg-win { position: fixed; right: 18px; bottom: 92px; z-index: 71; width: min(410px, calc(100vw - 24px)); height: min(620px, 78vh); background: var(--card); border: 2px solid var(--gold); border-radius: 18px; box-shadow: 0 24px 60px rgba(0, 0, 0, .5); display: flex; flex-direction: column; overflow: hidden; }
+.msg-win[hidden] { display: none; }
+.msg-win header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: linear-gradient(180deg, #112a55, #0b1a38); color: var(--gold-2); }
+.msg-win header strong { flex: 1; font-size: 16px; letter-spacing: .04em; }
+.msg-win header a { color: var(--gold-2); text-decoration: none; font-size: 18px; }
+.msg-win header button { background: none; border: 0; color: var(--gold-2); font-size: 26px; line-height: 1; cursor: pointer; }
+.msg-win iframe { flex: 1; width: 100%; border: 0; background: var(--canvas); }
+@media (max-width: 560px) { .msg-win { right: 0; left: 0; bottom: 0; top: 0; width: auto; height: auto; border-radius: 0; border: 0; } .msg-fab-btn { right: 14px; bottom: 14px; } }
+
+/* the board shown inside the window: no page chrome */
+html.embed .ph, html.embed .ph-top, html.embed .ph-foot, html.embed .gc-top, html.embed .msg-fab, html.embed .float-whatsapp { display: none !important; }
+html.embed .pm, html.embed main { padding-top: 12px !important; min-height: 0 !important; }
+
+/* footer */
+html.in-portal .ph-foot { background: var(--band-bg); color: var(--muted); border-top: 1px solid var(--line); }
+.ph-install-foot { font-weight: 700; color: var(--navy); text-decoration: none; }
+html.in-portal body.dark-mode .ph-install-foot { color: var(--gold-2); }
+
+/* ---------- admin portal ---------- */
+html.in-portal body[data-pat] .ph.ph-admin, html.in-portal .ph.ph-admin { background: linear-gradient(180deg, #05070d, #0b1a38); border-bottom: 3px solid var(--gold); }
+.ph-admin .ph-tag-admin { color: var(--gold-2); }
+.ph-admin .ph-nav a.on { background: var(--gold); color: #0b1a38; box-shadow: none; }
+.ph-admin .ph-out { color: var(--gold-2); }
+.adm-main { background: var(--canvas); }
+.adm-main .admin-tabs { background: linear-gradient(180deg, #0e2347, #070f24); border: 1px solid rgba(217, 165, 33, .35); border-radius: 16px; padding: 14px 10px; box-shadow: var(--shadow); }
+.admin-tabs .admin-tab-btn { color: #dce5f7; border-radius: 10px; text-align: left; }
+.admin-tabs .admin-tab-btn:hover { background: rgba(255, 255, 255, .1); }
+.admin-tabs .admin-tab-btn.active { background: linear-gradient(90deg, var(--gold), var(--gold-2)); color: #0b1a38; font-weight: 800; }
+.admin-group-label { color: var(--gold-2); opacity: .9; letter-spacing: .14em; font-size: 11px; text-transform: uppercase; padding: 14px 12px 4px; font-weight: 800; }
+.adm-later { opacity: .6; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; margin-left: 6px; }
+.admin-collapse { color: var(--gold-2); border-color: rgba(217, 165, 33, .45); background: transparent; }
+.adm-main .admin-content { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--gold); box-shadow: var(--shadow); }
+.adm-title { color: var(--navy); font-family: var(--font-serif); }
+html.in-portal body.dark-mode .adm-title { color: var(--gold-2); }
+.adm-sub { color: var(--muted); }
+.adm-stat { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--gold); }
+.adm-stat b { color: var(--navy); }
+html.in-portal body.dark-mode .adm-stat b { color: var(--gold-2); }
+.adm-stat:hover { box-shadow: 0 8px 22px rgba(14, 35, 71, .18); border-left-color: var(--maroon); }
+.adm-drawer { background: var(--card); border-color: var(--line); border-left: 4px solid var(--navy-2); }
+.adm-drawer > summary .dt { color: var(--navy); }
+html.in-portal body.dark-mode .adm-drawer > summary .dt { color: var(--gold-2); }
+.adm-drawer[open] { border-left-color: var(--gold); }
+.adm-badge { background: var(--maroon); color: #fff; }
+.admin-tab-btn.active .adm-badge { background: #0b1a38; color: var(--gold-2); }
+.adm-savebar { background: var(--card); border-top: 1px solid var(--line); }
+.quote-row { border-left: 3px solid var(--navy-2); }
+
+/* specificity fixes for the coin */
+html.in-portal .coin-verse .eyebrow, html.in-portal .coin-verse a { color: var(--gold-2); }
+html.in-portal .coin-said .eyebrow { color: #7a1030; }
+html.in-portal .coin-said a { color: #5a0a22; }
+.coin-verse::before { left: 22px; top: 40px; font-size: 110px; color: rgba(240, 207, 117, .16); }
+.pm-card small { display: block; line-height: 1.4; }
+.pm-card strong { line-height: 1.3; }
+
+.adm-panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+.adm-panel { border: 1px solid var(--line); border-top: 4px solid var(--navy-2); border-radius: 12px; padding: 14px 16px; background: var(--card); }
+.adm-panel h4 { margin: 0 0 8px; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.ov-quote { font-family: var(--font-serif); font-style: italic; font-size: 15px; line-height: 1.5; margin: 0 0 6px; }
+.ov-src { margin: 0; font-size: 12.5px; color: var(--muted); font-weight: 600; }
+.ov-line { margin: 0 0 6px; font-size: 14px; }
+.ov-big { margin: 0; font-size: 38px; font-family: var(--font-serif); color: var(--navy); line-height: 1.1; }
+html.in-portal body.dark-mode .ov-big { color: var(--gold-2); }
+#admin-not-super { padding: 10px 16px !important; }
+#admin-not-super p { margin: 0; font-size: 13px; }
+.msg-win { height: min(560px, calc(100vh - 130px)); }
+@media (max-width: 560px) { .msg-win { height: auto; } }
+
+/* course editor buttons keep readable text; sign-in panel in Krishna blue */
+html.in-portal .ce-btn { color: #fff; }
+html.in-portal .ce-btn.alt { color: var(--maroon); }
+html.in-portal body.dark-mode .ce-btn.alt { color: var(--gold-2); border-color: var(--gold); }
+html.in-portal .sign-quote { background: radial-gradient(circle at 25% 0%, rgba(240, 207, 117, .26), transparent 55%), radial-gradient(circle at 90% 100%, rgba(122, 16, 48, .45), transparent 55%), linear-gradient(160deg, #05070d 0%, #0e2347 55%, #0a1634 100%); }
+html.in-portal .sign-quote footer, html.in-portal .sign-quote blockquote::before { color: var(--gold-2); }

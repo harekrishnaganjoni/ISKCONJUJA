@@ -6,6 +6,7 @@
  <title>ISKCON JUJA | My Courses</title>
  <link rel="icon" href="images/favicon.png" type="image/png">
  <link rel="stylesheet" href="styles.css">
+ <link rel="stylesheet" href="portal.css">
 </head>
 <body data-pat="3" data-no-toc>
  <header class="site-header">
@@ -70,24 +71,26 @@
   </aside>
   <label class="menu-scrim" for="menu-toggle" aria-label="Close menu"></label>
  </header>
- <main>
-  <section class="page-hero">
-   <div class="section-inner">
-    <div class="eyebrow">Member Area</div>
-    <h1>My Courses</h1>
-    <p>Courses you have joined and your progress will appear here.</p>
-    <p style="font-style:italic;font-size:16px;margin-top:20px;border-left:3px solid var(--gold);padding-left:14px;">&ldquo;If you want to know me, read my books.&rdquo; <span style="display:block;font-size:13px;opacity:0.85;margin-top:4px;">&mdash; Srila Prabhupada</span></p>
-   </div>
-  </section>
-  <section class="section">
-   <div class="section-inner" style="max-width:720px;margin:0 auto;">
-    <div class="empty-state" data-my-courses-list>
-     <h3>You have not joined any courses yet</h3>
-     <p>Browse the course catalog to see what is available. Member accounts and course progress tracking are coming soon.</p>
-     <p style="margin-top:16px;"><a class="button" href="courses.html">Browse the Course Catalog</a></p>
+ <main class="pm">
+  <div class="pm-in">
+   <h1 class="pm-title">Courses</h1>
+   <section class="pm-sec">
+    <h2>My courses</h2>
+    <div class="empty-state pm-empty" data-my-courses-list>
+     <p>You have not joined a course yet. Pick one below and press its button to join.</p>
     </div>
-   </div>
-  </section>
+   </section>
+   <section class="pm-sec" id="catalog">
+    <h2>Open for enrollment</h2>
+    <!-- Courses load from the database. Nothing is hardcoded here. -->
+    <div id="courses-list" class="pm-grid" data-courses-list>
+     <div class="empty-state" style="grid-column: 1 / -1;">
+      <h3>No courses are open for enrollment right now</h3>
+      <p>Courses will appear here once they are added. Ask us on WhatsApp if you would like to suggest one.</p>
+     </div>
+    </div>
+   </section>
+  </div>
  </main>
  <footer class="footer">
    <div class="footer-grid">

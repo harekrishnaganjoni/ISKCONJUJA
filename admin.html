@@ -6,6 +6,7 @@
  <title>Admin Control Panel | ISKCON JUJA</title>
  <link rel="icon" href="images/favicon.png" type="image/png">
  <link rel="stylesheet" href="styles.css">
+ <link rel="stylesheet" href="portal.css">
 </head>
 <body data-pat="3" class="internal-portal admin-workspace" data-no-toc>
  <header class="site-header">
@@ -83,23 +84,20 @@
       <nav class="admin-tabs" aria-label="Admin sections">
        <button type="button" class="admin-collapse" id="admin-collapse" aria-label="Collapse menu" title="Collapse menu">&#8249;</button>
        <button type="button" class="admin-tab-btn active" data-tab="overview">&#127968; Overview</button>
-       <div class="admin-group-label">Every day</div>
+       <div class="admin-group-label">People &amp; community</div>
        <button type="button" class="admin-tab-btn" data-tab="people">People <i class="adm-badge" id="badge-people" hidden></i></button>
-       <button type="button" class="admin-tab-btn" data-tab="board">Message Board</button>
+       <button type="button" class="admin-tab-btn" data-tab="board">Message board</button>
        <button type="button" class="admin-tab-btn" data-tab="testimonials">Testimonials <i class="adm-badge" id="badge-testimonials" hidden></i></button>
-       <div class="admin-group-label">Content</div>
-       <button type="button" class="admin-tab-btn" data-tab="events">Events &amp; Programs</button>
-       <button type="button" class="admin-tab-btn" data-tab="quotes">Quotes</button>
        <button type="button" class="admin-tab-btn" data-tab="registrations">Sign-ups</button>
+       <div class="admin-group-label">Content</div>
+       <button type="button" class="admin-tab-btn" data-tab="events">Events &amp; programs</button>
+       <button type="button" class="admin-tab-btn" data-tab="quotes">Quotes</button>
        <button type="button" class="admin-tab-btn" data-tab="courses">Courses</button>
-       <div class="admin-group-label">Site</div>
+       <button type="button" class="admin-tab-btn" data-tab="articles">Articles <small class="adm-later">later</small></button>
+       <div class="admin-group-label">Shop &amp; site</div>
+       <button type="button" class="admin-tab-btn" data-tab="products">Merchandise</button>
+       <button type="button" class="admin-tab-btn" data-tab="card">Business card</button>
        <button type="button" class="admin-tab-btn" data-tab="settings">Settings</button>
-       <details class="admin-more">
-        <summary>More tools</summary>
-        <button type="button" class="admin-tab-btn" data-tab="articles">Articles</button>
-        <button type="button" class="admin-tab-btn" data-tab="products">Merchandise</button>
-        <button type="button" class="admin-tab-btn" data-tab="card">Business Card</button>
-       </details>
       </nav>
       <div class="admin-content">
 
@@ -112,6 +110,12 @@
        <button type="button" class="adm-stat" data-goto="testimonials"><b id="st-testi">-</b><span>Testimonials to review</span></button>
        <button type="button" class="adm-stat" data-goto="people"><b id="st-apps">-</b><span>New membership applications</span></button>
        <button type="button" class="adm-stat" data-goto="events"><b id="st-events">-</b><span>Upcoming events</span></button>
+      </div>
+      <h3 class="adm-sub">Today</h3>
+      <div class="adm-panels">
+       <section class="adm-panel"><h4>Quote of the day</h4><div id="ov-quote"><p class="adm-help">Loading...</p></div></section>
+       <section class="adm-panel"><h4>Next events</h4><div id="ov-events"><p class="adm-help">Loading...</p></div></section>
+       <section class="adm-panel"><h4>Sign-ups this week</h4><div id="ov-signups"><p class="adm-help">Loading...</p></div></section>
       </div>
       <h3 class="adm-sub">Quick actions</h3>
       <div class="adm-quick">
@@ -210,14 +214,15 @@
      <!-- EVENTS TAB -->
      <section class="admin-tab-panel" data-tab-panel="quotes" hidden>
       <h2 class="adm-title">Quote Library</h2>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:660px;">Every quote here is word for word with its exact reference. Tick where each may appear: <strong>Quote of the Week</strong> (home page) and/or <strong>Verse of the Day</strong> (member dashboard). Nothing shows where it is not ticked. You can also pick a date for a quote's Verse of the Day (for example a festival day); other days rotate through the rest without repeating.</p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:660px;">Every quote here is word for word with its exact reference. Tick where each may appear: <strong>Public quote of the day</strong> (home page, by weekday theme) and/or <strong>Verse of the Day</strong> (member dashboard). Nothing shows where it is not ticked. You can also pick a date for a quote's Verse of the Day (for example a festival day); other days rotate through the rest without repeating.</p>
       <details class="admin-drawer card">
-       <summary>+ Paste many quotes<small>One per line: quote | reference | public or members</small></summary>
+       <summary>+ Add many quotes<small>Upload a text file or paste: one per line, quote | reference | public or members</small></summary>
        <div class="admin-drawer-body">
         <p style="font-size:13px;color:var(--muted);margin:0 0 8px;">Example: <code>A sober person who can tolerate the urge to speak ... | Bg. 2.13</code>. For a purport quote end the reference with <code>, Purport</code>. Add <code>| public</code> or <code>| members</code> at the end of a line to choose who sees it (lines without it use the two ticks below). The book and the Vedabase link are filled in for Bg., SB, NoI and ISO references. Duplicates are skipped. Then press <b>Add these quotes</b> (under the two ticks): the lines are checked first, and anything wrong is listed instead of being added.</p>
+        <p style="margin:0 0 10px;"><label class="button secondary" style="cursor:pointer;display:inline-block;">&#128194; Upload a text file<input type="file" id="qimp-file" accept=".txt,.csv,text/plain" style="display:none;"></label> <span style="font-size:13px;color:var(--muted);">or paste the lines below. Lines can end with <code>| theme=3</code> (0 Sunday ... 6 Saturday) to choose the weekday theme.</span></p>
         <textarea id="qimp-text" rows="8" placeholder="quote | reference" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:4px;"></textarea>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin:8px 0;font-size:13px;">
-         <label style="color:var(--body-text);"><input type="checkbox" id="qimp-weekly" checked> Quote of the Week (public)</label>
+         <label style="color:var(--body-text);"><input type="checkbox" id="qimp-weekly" checked> Public quote of the day (home page)</label>
          <label style="color:var(--body-text);"><input type="checkbox" id="qimp-votd" checked> Verse of the Day (members)</label></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;"><button type="button" class="button" id="qimp-go">Add these quotes</button></div>
         <p id="qimp-status" style="font-size:13px;white-space:pre-line;"></p>
@@ -232,7 +237,7 @@
          <input name="book" placeholder="Book, e.g. Bhagavad-gita" maxlength="100" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
          <input name="source_url" type="url" placeholder="Vedabase link (optional)" maxlength="300" style="padding:8px;border:1px solid var(--line);border-radius:4px;">
          <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;align-items:center;">
-          <label style="color:var(--body-text);"><input type="checkbox" name="use_weekly" checked> Quote of the Week (public)</label>
+          <label style="color:var(--body-text);"><input type="checkbox" name="use_weekly" checked> Public quote of the day (home page)</label>
           <label style="color:var(--body-text);"><input type="checkbox" name="use_votd" checked> Verse of the Day (members)</label>
           <label style="color:var(--body-text);">Show as Verse of the Day on <input type="date" name="verse_date" style="padding:6px;border:1px solid var(--line);border-radius:4px;"></label></div>
          <button class="button" type="submit" style="width:100%;">Add Quote</button>
@@ -243,23 +248,25 @@
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;">
        <input id="quote-search" type="search" placeholder="Search quotes..." style="padding:8px;border:1px solid var(--line);border-radius:4px;flex:1;min-width:180px;max-width:360px;">
        <select id="quote-status-filter" style="padding:8px;border:1px solid var(--line);border-radius:4px;"><option value="">All quotes</option><option value="draft">Drafts to review</option><option value="live">Approved only</option></select>
+       <select id="quote-theme" style="padding:8px;border:1px solid var(--line);border-radius:4px;"><option value="">All themes</option><option value="0">Sun: Devotion and service</option><option value="1">Mon: The mind and self-control</option><option value="2">Tue: Who we are</option><option value="3">Wed: Knowledge and wisdom</option><option value="4">Thu: Peace and real happiness</option><option value="5">Fri: Chanting, good company and community</option><option value="6">Sat: Work, duty and detachment</option><option value="none">No theme</option></select>
        <select id="quote-book" style="padding:8px;border:1px solid var(--line);border-radius:4px;"><option value="">All books</option></select>
        <button type="button" id="quote-approve-all" class="button" style="font-size:12px;padding:6px 12px;min-height:auto;">Approve all shown drafts as suggested</button>
        <span id="quote-count" style="font-size:13px;color:var(--muted);align-self:center;"></span></div>
+      <p id="quote-summary" style="font-size:13px;color:var(--muted);margin:0 0 10px;"></p>
       <div id="quotes-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
      <section class="admin-tab-panel" data-tab-panel="registrations" hidden>
       <h2 class="adm-title">Sign-ups</h2>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">People who pressed <strong>Save my spot</strong> on the Events page. Only admins can see this list. Delete a person when they ask, or when the event is over.</p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">People who pressed <strong>Save my spot</strong> in the Events section of the home page. Only admins can see this list. Delete a person when they ask, or when the event is over.</p>
       <p style="margin-bottom:12px;"><button type="button" class="button secondary" id="reg-csv">Download list (CSV)</button></p>
       <div id="reg-list" style="display:flex;flex-direction:column;gap:8px;"></div>
      </section>
      <section class="admin-tab-panel" data-tab-panel="events" hidden>
       <h2 class="adm-title">Events &amp; programs</h2>
       <details class="admin-drawer card">
-      <summary>Weekly programs<small>The regular days and times shown on the Events page</small></summary>
+      <summary>Weekly programs<small>The regular days and times shown in the home page Events section</small></summary>
       <div class="admin-drawer-body">
-       <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">These are the weekly programs on the Events page (and in the visitor's calendar file). Times are Nairobi time. Un-tick <strong>Published</strong> to hide one.</p>
+       <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">These are the weekly programs in the home page Events section (and in the visitor's calendar file). Times are Nairobi time. Un-tick <strong>Published</strong> to hide one.</p>
        <form id="program-form" style="display:flex;flex-direction:column;gap:12px;">
         <label style="font-size:12px;font-weight:700;">Day
          <select name="weekday" required style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option></select></label>

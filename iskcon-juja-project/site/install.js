@@ -52,8 +52,11 @@
   function mount() {
     var df = document.querySelector(".drawer-footer");
     if (df && !df.querySelector("[data-install-app]")) df.appendChild(make("button secondary install-btn"));
-    var nav = document.querySelector(".ph-nav");
-    if (onPortal && nav && !nav.querySelector("[data-install-app]")) nav.appendChild(make("ph-install"));
+    // Portal: in the profile menu and in the footer (no longer in the menu bar).
+    var me = document.getElementById("ph-me-install");
+    if (onPortal && me && !me.querySelector("[data-install-app]")) me.appendChild(make("ph-install"));
+    var pf = document.querySelector(".ph-foot");
+    if (onPortal && pf && !pf.querySelector("[data-install-app]")) { var row = document.createElement("p"); row.className = "pf-row"; row.appendChild(make("ph-install ph-install-foot")); pf.appendChild(row); }
     if (onPortal && /[?&]install=1/.test(location.search)) { setTimeout(function () { if (deferred) { var b = document.querySelector("[data-install-app]"); if (b) b.classList.add("pulse"); } else if (isIOS || /Android/.test(ua)) steps(); }, 600); }
   }
   if (document.readyState === "complete") setTimeout(mount, 0); else window.addEventListener("load", function () { setTimeout(mount, 50); });

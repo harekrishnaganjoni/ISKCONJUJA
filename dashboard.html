@@ -6,6 +6,8 @@
  <title>Devotee Dashboard | ISKCON JUJA</title>
  <link rel="icon" href="images/favicon.png" type="image/png">
  <link rel="stylesheet" href="styles.css">
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap">
+ <link rel="stylesheet" href="portal.css">
 </head>
 <body data-pat="3" class="internal-portal">
  <header class="site-header">
@@ -73,31 +75,30 @@
  <main style="background: var(--canvas); padding: 40px 20px;">
     <div style="max-width: 1100px; margin: 0 auto;">
      
-     <!-- SECTION 1: VERSE OF THE DAY -->
-     <section class="quote-card" data-verse-of-day style="margin-bottom: 32px;">
-      <div class="eyebrow">&#128214; Verse of the Day</div>
-      <p class="quote-text" data-verse-text>Loading...</p>
-      <p class="quote-source" data-verse-source></p>
-     </section>
+     <h1 class="pm-title pm-hello">Hare Krishna</h1>
 
-     <!-- WHAT SRILA PRABHUPADA SAID TODAY (hidden until approved dated quotes exist for today) -->
-     <section class="quote-card said-today" hidden style="margin-bottom: 32px;">
-      <div data-said-today>
-       <div class="eyebrow">&#128220; What Srila Prabhupada said today</div>
-       <div data-said-list></div>
-      </div>
-     </section>
+     <!-- Two sides of one coin: the verse (scripture) and what Srila Prabhupada said today (his own words). -->
+     <div class="coin" data-coin>
+      <section class="coin-face coin-verse" data-verse-of-day>
+       <div class="eyebrow">&#128214; Verse of the day</div>
+       <p class="quote-text" data-verse-text>Loading...</p>
+       <p class="quote-source" data-verse-source></p>
+      </section>
 
-   <!-- No courses are hardcoded here — they come from the admin panel. -->
-   <section class="section" style="padding: 32px 0; border-top: 1px solid #eee;">
-    <div class="card" style="padding: 24px; text-align: center;">
-     <div class="eyebrow">&#127891; Education</div>
-     <h3 style="margin: 6px 0 10px;">Explore Our Courses</h3>
-     <p style="color: var(--muted); font-size: 14px; margin-bottom: 16px;">See what courses are currently open for enrollment.</p>
-     <a class="button" href="courses.html">Browse the Course Catalog</a>
-    </div>
-   </section>
+      <!-- hidden until approved dated quotes exist for today's lunar day -->
+      <section class="coin-face coin-said said-today" hidden>
+       <div data-said-today>
+        <div class="eyebrow">&#128220; What Srila Prabhupada said today</div>
+        <div data-said-list></div>
+       </div>
+      </section>
+     </div>
 
+     <div class="pm-cards">
+      <a class="pm-card" href="my-courses.html#catalog"><span aria-hidden="true">&#127891;</span><div><strong>Courses</strong><small>Your courses and the ones open for enrollment</small></div></a>
+      <a class="pm-card" href="calendar.html"><span aria-hidden="true">&#128197;</span><div><strong>Vaishnava calendar</strong><small>Festivals, fasting days, your own dates</small></div></a>
+      <a class="pm-card" href="portal-board.html" data-open-messages><span aria-hidden="true">&#128172;</span><div><strong>Messages</strong><small>Talk with other devotees</small></div></a>
+     </div>
 
   </div>
  </main>

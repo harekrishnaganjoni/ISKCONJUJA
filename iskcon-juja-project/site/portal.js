@@ -41,9 +41,21 @@
   var brandBar = document.createElement("header");
   brandBar.className = "ph-top";
   brandBar.innerHTML = topHtml;
+  Array.prototype.forEach.call(brandBar.querySelectorAll(".brand-text"), function (n) { n.parentNode.removeChild(n); });   // the logo says it already
   var bl = brandBar.querySelector("a.brand"); if (bl) { bl.setAttribute("href", publicUrl("index.html")); bl.setAttribute("title", "Go to the public website"); }
 
   var isAdminPage = page === "admin.html" || page === "course-editor.html";
+  // The profile icon (top right): Profile, Admin portal (admins only), Install the app, Sign out.
+  function profileMenu() {
+    return '<div class="ph-me" data-member-nav hidden>' +
+      '<button type="button" class="ph-me-btn" id="ph-me-btn" aria-haspopup="true" aria-expanded="false" aria-label="My account"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>' +
+      '<div class="ph-me-menu" id="ph-me-menu" hidden>' +
+        '<a href="profile.html"' + on("profile.html") + '>&#128100; My profile</a>' +
+        '<a href="admin.html" data-admin-nav hidden>&#128274; Admin portal</a>' +
+        '<span id="ph-me-install"></span>' +
+        '<a href="#" class="sign-out-trigger">&#128682; Sign out</a>' +
+      '</div></div>';
+  }
   var head = document.createElement("div");
   head.className = "ph" + (isAdminPage ? " ph-admin" : "");
   head.innerHTML =
@@ -55,15 +67,13 @@
       : '<span class="ph-tag">Member Portal</span>' +
       (page === "devotees.html" || page === "register.html" ? "" : '<nav class="ph-nav" aria-label="Portal">' +
         '<a href="dashboard.html"' + on("dashboard.html") + '>Home</a>' +
-        '<a href="my-courses.html"' + on("my-courses.html") + '>My Courses</a>' +
+        '<a href="my-courses.html"' + (/^(my-courses|courses)\.html$/.test(page) ? ' class="on" aria-current="page"' : "") + '>Courses</a>' +
         '<a href="calendar.html"' + on("calendar.html") + '>Calendar</a>' +
-        '<a href="portal-board.html"' + on("portal-board.html") + '>Messages</a>' +
-        '<a href="profile.html"' + on("profile.html") + '>Profile</a>' +
-        '<a href="admin.html" data-admin-nav hidden>Admin portal</a>' +
       '</nav>') +
       '<div class="ph-act">' +
+        '<span class="ph-today" id="ph-today"></span>' +
         '<button class="theme-switch-nav" type="button" data-theme-toggle aria-label="Toggle theme"></button>' +
-        '<a href="#" class="sign-out-trigger ph-out" data-member-nav hidden>Sign Out</a>' +
+        (page === "devotees.html" || page === "register.html" ? '<a href="#" class="sign-out-trigger ph-out" data-member-nav hidden>Sign Out</a>' : profileMenu()) +
       '</div>') +
     '</div>';
   if (old) { old.parentNode.insertBefore(brandBar, old); old.parentNode.insertBefore(head, old); old.parentNode.removeChild(old); }
@@ -96,5 +106,31 @@
     var l = document.createElement("link"); l.rel = "manifest"; l.href = "/portal.webmanifest"; document.head.appendChild(l);
     var m = document.createElement("meta"); m.name = "theme-color"; m.content = "#800020"; document.head.appendChild(m);
     if ("serviceWorker" in navigator) { try { navigator.serviceWorker.register("/portal-sw.js"); } catch (e) {} }
+  }
+
+  // Profile menu open/close.
+  document.addEventListener("click", function (e) {
+    var b = document.getElementById("ph-me-btn"), m = document.getElementById("ph-me-menu");
+    if (!b || !m) return;
+    if (b.contains(e.target)) { m.hidden = !m.hidden; b.setAttribute("aria-expanded", m.hidden ? "false" : "true"); }
+    else if (!m.contains(e.target) || e.target.closest("a")) { m.hidden = true; b.setAttribute("aria-expanded", "false"); }
+  });
+
+  // Messages: a floating button that opens the message board in a window (the board page itself, without the page chrome).
+  var embed = /[?&]embed=1/.test(location.search);
+  if (embed) document.documentElement.classList.add("embed");
+  if (!embed && !isAdminPage && page !== "devotees.html" && page !== "register.html" && page !== "portal-board.html") {
+    var fab = document.createElement("div");
+    fab.className = "msg-fab";
+    fab.hidden = true; fab.setAttribute("data-member-nav", "");
+    fab.innerHTML = '<button type="button" class="msg-fab-btn" id="msg-open" aria-label="Messages" title="Messages"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>' +
+      '<section class="msg-win" id="msg-win" hidden role="dialog" aria-label="Messages"><header><strong>Messages</strong><a href="portal-board.html" title="Open full page">&#8599;</a><button type="button" id="msg-close" aria-label="Close">&times;</button></header><iframe id="msg-frame" title="Message board" loading="lazy"></iframe></section>';
+    document.body.appendChild(fab);
+    var win = fab.querySelector("#msg-win"), frame = fab.querySelector("#msg-frame");
+    function toggle(open) { win.hidden = !open; if (open && !frame.getAttribute("src")) frame.setAttribute("src", "portal-board.html?embed=1"); }
+    fab.querySelector("#msg-open").addEventListener("click", function () { toggle(win.hidden); });
+    fab.querySelector("#msg-close").addEventListener("click", function () { toggle(false); });
+    document.addEventListener("click", function (e) { var t = e.target.closest && e.target.closest("[data-open-messages]"); if (t) { e.preventDefault(); toggle(true); } });
+    if (/[?&]messages=1/.test(location.search)) toggle(true);
   }
 })();

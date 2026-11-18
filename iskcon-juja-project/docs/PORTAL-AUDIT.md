@@ -22,7 +22,7 @@ Main: Overview, People, Message Board, Testimonials, Events and Programs, Quotes
 | Quotes: only a paste box; list is long | Add "Upload a text file" (owner request), a theme filter (Sun to Sat), theme shown on each row, and a count of live and draft quotes |
 | Overview: 4 counters and 4 quick actions | Add: quote of today, next 3 events, sign-ups this week |
 | Settings: "Payments (on hold)" drawer is not in use | Hide until payments are started |
-| Articles: no public page shows articles any more | Hide the tab, keep the data |
+| Articles: the home page Insights section is switched off in the settings, so the tab is unused | Hide the tab while the section is off, keep the data |
 | Message Board and Testimonials are separate small tabs | Merge into one "Community" tab with two sections |
 | Business Card | Keep under More tools |
 | Events: no automatic clean-up; no yearly repeat | Owner's calendar item: remove events after they pass, mark yearly events, remind admin a week before |

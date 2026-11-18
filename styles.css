@@ -2650,3 +2650,21 @@ body.dark-mode .home-hero .quote-fun-card a { color: #f1c27a; }
 body.dark-mode .qc-fill { fill: none; }
 .qc-line, body.dark-mode .qc-line { stroke: #e9b24c; stroke-width: 2.8; }
 .qc-shape, body.dark-mode .qc-shape { filter: drop-shadow(0 0 2px rgba(60, 20, 10, .8)) drop-shadow(0 0 12px rgba(241, 194, 122, .3)); }
+
+/* Merchandise cards (19 Nov): all the same size, whole picture, description trails off, "Read more" opens the full text */
+.store-grid { align-items: stretch; }
+.prod-card { display: flex !important; flex-direction: column; padding: 16px !important; height: clamp(440px, 66vh, 540px); overflow: hidden; }
+.prod-pic { position: relative; flex: 0 0 clamp(170px, 26vh, 230px); display: block; background: rgba(0, 0, 0, .05); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+.prod-pic img { position: absolute; inset: 0; width: 100% !important; height: 100% !important; max-width: none; object-fit: contain !important; display: block; }
+.prod-pic.prod-pic-empty { display: grid; place-items: center; font-size: 54px; }
+.prod-card h3 { margin: 4px 0 6px; font-size: 20px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.prod-desc { flex: 0 0 auto; margin: 0 0 12px; font-size: 15px; line-height: 1.5; max-height: 6em; overflow: hidden !important; display: -webkit-box !important; -webkit-line-clamp: 4 !important; line-clamp: 4; -webkit-box-orient: vertical !important; }
+.prod-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; flex-wrap: wrap; }
+.prod-more { background: none; border: 0; color: var(--maroon); font-weight: 700; text-decoration: underline; cursor: pointer; padding: 0; font-size: 14px; }
+.prod-modal { position: fixed; inset: 0; z-index: 200; background: rgba(5, 8, 20, .66); display: grid; place-items: center; padding: 16px; }
+.prod-modal[hidden] { display: none; }
+.prod-dialog { position: relative; width: min(560px, 100%); max-height: 90vh; overflow: auto; background: var(--card, #fff); color: var(--body-text); border-radius: 18px; padding: 22px; box-shadow: 0 30px 80px rgba(0, 0, 0, .5); }
+.prod-dialog img { display: block; max-width: 100%; max-height: 52vh; margin: 0 auto 14px; border-radius: 10px; }
+.prod-dialog p { line-height: 1.6; }
+.prod-syn { color: var(--muted); font-size: 14.5px; }
+.prod-x { position: absolute; top: 8px; right: 12px; background: none; border: 0; font-size: 30px; line-height: 1; cursor: pointer; color: var(--muted); }

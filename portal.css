@@ -331,3 +331,19 @@ html.in-portal .coin-said .eyebrow { margin-left: 18px; }
 @media (max-width: 760px) { html.in-portal .coin-face { padding-top: 124px; } }
 html.in-portal body:not(.dark-mode) .ph-act a, html.in-portal body:not(.dark-mode) .ph-admin .ph-act a { color: #0e2347 !important; font-weight: 700; }
 html.in-portal body:not(.dark-mode) .ph-act a:hover { color: #05070d !important; text-decoration: underline; }
+
+/* v3 (19 Nov): wider, flatter clouds, rougher handwriting */
+@media (min-width: 761px) { .coin { margin-left: -56px; margin-right: -56px; gap: 6px; } }
+html.in-portal .coin-face { min-height: 270px; padding: 104px 84px 92px 88px; }
+html.in-portal .coin-verse .quote-text, html.in-portal .coin-said .said-text { font-family: "Kalam", "Patrick Hand", "Segoe Print", "Comic Sans MS", cursive; font-style: normal; font-weight: 400; font-size: clamp(15px, 1.35vw, 18px); line-height: 1.45; }
+html.in-portal .coin-verse .quote-source, html.in-portal .coin-said .said-source { font-family: "Kalam", "Patrick Hand", cursive; font-weight: 700; font-size: 14px; }
+html.in-portal .coin-face .eyebrow { font-family: "Kalam", "Patrick Hand", cursive; font-weight: 700; letter-spacing: .08em; font-size: 12px; }
+.qd-mark { font-family: "Kalam", "Patrick Hand", Georgia, serif; font-size: 70px; }
+.qd-close { top: 15%; right: 6%; } .qd-open { bottom: 27%; left: 4%; } .qd-m-tl { top: 15%; left: 6%; } .qd-m-br { bottom: 27%; right: 4%; }
+@media (max-width: 760px) { html.in-portal .coin-face { min-height: 280px; padding: 100px 58px 92px 62px; } }
+
+/* v3: logo bar is gold in light mode too (blue-black only in dark mode) */
+html.in-portal body:not(.dark-mode) .ph-top .header-top, html.in-portal body:not(.dark-mode)[data-pat] .ph-top .header-top { background: linear-gradient(90deg, #f3d98c 0%, #fbe9b0 50%, #f3d98c 100%); border-bottom: 1px solid rgba(14, 35, 71, .25); }
+html.in-portal body:not(.dark-mode) .ph-top .header-mantra p { color: #0e2347; }
+html.in-portal body:not(.dark-mode) .ph-top .prabhupada-caption { color: #3a3216; }
+html.in-portal body:not(.dark-mode) .ph-top .brand-logo { filter: none; }

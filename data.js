@@ -125,39 +125,43 @@
     client.from("products").select("*").eq("published", true).order("created_at", { ascending: false })
       .then(function (r) {
         if (r.error || !r.data || !r.data.length) return;
-        box.innerHTML = r.data.map(function (p) {
-          var free = !p.price_kes || p.price_kes <= 0;
-          var priceLine = free ? "Free" : "KES " + p.price_kes;
-          var action = free && p.file_url
+        var byId = {};
+        function actionFor(p) {
+          var free = !p.price_kes || p.price_kes <= 0, priceLine = free ? "Free" : "KES " + p.price_kes;
+          return free && p.file_url
             ? '<a class="button secondary" href="' + escapeHtml(p.file_url) + '" target="_blank" rel="noopener">Download</a>'
             : '<a class="button" href="#" data-whatsapp="Hi ISKCON JUJA! I would like to buy: ' + escapeHtml(p.name) + '">Order (' + priceLine + ')</a>';
+        }
+        // every card is the same size: the whole picture (never cropped), the title, a few lines of the description, then the buttons
+        box.innerHTML = r.data.map(function (p) {
+          byId[p.id] = p;
           var photo = p.image_url
-            ? '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" style="width:100%;height:180px;object-fit:cover;border-radius:6px;margin-bottom:12px;">'
-            : '';
-          var synopsisId = "synopsis-" + p.id;
-          var synopsis = p.synopsis
-            ? '<div id="' + synopsisId + '" hidden style="margin-top:8px;font-size:14px;color:var(--muted);">' + escapeHtml(p.synopsis) + '</div>' +
-              '<button type="button" class="read-more-toggle" data-toggle-target="' + synopsisId + '" style="background:none;border:none;color:var(--maroon);font-weight:700;cursor:pointer;padding:0;text-decoration:underline;font-size:13px;margin-top:6px;">Read Synopsis</button>'
-            : '';
-          return '<article class="card highlight" data-category="' + escapeHtml(p.category || "") + '" style="padding:20px;display:flex;flex-direction:column;justify-content:space-between;">' +
-            '<div>' + photo + '<div class="eyebrow">' + escapeHtml(p.category) + '</div><h3>' + escapeHtml(p.name) + '</h3>' +
-            '<p>' + escapeHtml(p.description || "") + '</p>' + synopsis + '</div>' +
-            '<div style="margin-top:16px;">' + action + '</div></article>';
+            ? '<div class="prod-pic"><img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" loading="lazy"></div>'
+            : '<div class="prod-pic prod-pic-empty" aria-hidden="true">&#128214;</div>';
+          var long = (p.description || "").length > 120 || !!p.synopsis;
+          return '<article class="card highlight prod-card" data-category="' + escapeHtml(p.category || "") + '">' +
+            photo + '<div class="eyebrow">' + escapeHtml(p.category) + '</div><h3>' + escapeHtml(p.name) + '</h3>' +
+            '<p class="prod-desc">' + escapeHtml(p.description || "") + '</p>' +
+            '<div class="prod-foot">' + (long ? '<button type="button" class="prod-more" data-prod="' + escapeHtml(p.id) + '">Read more</button>' : '<span></span>') + actionFor(p) + '</div></article>';
         }).join("");
         var storeFilters = document.querySelector("[data-store-filters]");
         if (storeFilters) storeFilters.hidden = false; // the search only appears once there are products to search
         document.dispatchEvent(new CustomEvent("iskcon:rerender-whatsapp"));
-        // re-wire the new "Read Synopsis" toggle buttons (site.js wires these on page load,
-        // but these cards are added after that, so wire them here too)
-        box.querySelectorAll(".read-more-toggle").forEach(function (btn) {
-          if (btn._wired) return; btn._wired = true;
-          btn.addEventListener("click", function () {
-            var target = document.getElementById(btn.getAttribute("data-toggle-target"));
-            if (!target) return;
-            var nowHidden = !target.hidden;
-            target.hidden = nowHidden;
-            btn.textContent = nowHidden ? "Read Synopsis" : "Hide Synopsis";
-          });
+        // "Read more" opens the full picture and the whole description in a window
+        box.addEventListener("click", function (e) {
+          var b = e.target.closest && e.target.closest("[data-prod]"); if (!b) return;
+          var p = byId[b.getAttribute("data-prod")]; if (!p) return;
+          var m = document.getElementById("prod-modal");
+          if (!m) { m = document.createElement("div"); m.id = "prod-modal"; m.className = "prod-modal"; m.hidden = true; document.body.appendChild(m);
+            m.addEventListener("click", function (ev) { if (ev.target === m || ev.target.closest("[data-prod-close]")) m.hidden = true; });
+            document.addEventListener("keydown", function (ev) { if (ev.key === "Escape") m.hidden = true; }); }
+          m.innerHTML = '<div class="prod-dialog" role="dialog" aria-modal="true" aria-label="' + escapeHtml(p.name) + '"><button type="button" class="prod-x" data-prod-close aria-label="Close">&times;</button>' +
+            (p.image_url ? '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '">' : '') +
+            '<div class="eyebrow">' + escapeHtml(p.category) + '</div><h3>' + escapeHtml(p.name) + '</h3>' +
+            '<p>' + escapeHtml(p.description || "") + '</p>' + (p.synopsis ? '<p class="prod-syn">' + escapeHtml(p.synopsis) + '</p>' : '') +
+            '<div class="prod-foot">' + actionFor(p) + '</div></div>';
+          m.hidden = false;
+          document.dispatchEvent(new CustomEvent("iskcon:rerender-whatsapp"));
         });
       });
   }

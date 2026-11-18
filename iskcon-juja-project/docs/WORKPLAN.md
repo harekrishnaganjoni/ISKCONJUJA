@@ -34,7 +34,7 @@ Any Nectar problem reported by the owner jumps the queue. No open Nectar problem
 ## P2b: Streamline the member portal and admin portal (after quotes; owner's order of 16 Nov)
 | # | Item | Status |
 |---|------|--------|
-| M1 | Audit every member page and admin tab: list what is used, what is clutter; owner approves the slimmed list | TODO |
+| M1 | Audit every member page and admin tab: list what is used, what is clutter; owner approves the slimmed list | DONE 18 Nov, see docs/PORTAL-AUDIT.md. WAITING-OWNER to approve the list |
 | M2 | Build the slimmed member portal and admin portal; test; merge. REMIND OWNER: quotes should be uploadable as a text file (no pasting) | TODO |
 
 ## P3: Book site (separate repo; "everything a devotee needs in one place")

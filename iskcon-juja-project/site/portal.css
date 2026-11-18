@@ -236,3 +236,98 @@ html.in-portal .ce-btn.alt { color: var(--maroon); }
 html.in-portal body.dark-mode .ce-btn.alt { color: var(--gold-2); border-color: var(--gold); }
 html.in-portal .sign-quote { background: radial-gradient(circle at 25% 0%, rgba(240, 207, 117, .26), transparent 55%), radial-gradient(circle at 90% 100%, rgba(122, 16, 48, .45), transparent 55%), linear-gradient(160deg, #05070d 0%, #0e2347 55%, #0a1634 100%); }
 html.in-portal .sign-quote footer, html.in-portal .sign-quote blockquote::before { color: var(--gold-2); }
+
+/* =====================================================================
+   v2 (19 Nov): LIGHT mode is gold-led (blue and black support it);
+   DARK mode reverses the roles (blue and black lead, gold supports).
+   ===================================================================== */
+html.in-portal body:not(.dark-mode) {
+  --canvas: #fdf5dd; --band-bg: #f6e3a6; --card: #fffcf0; --row-tint: rgba(217, 165, 33, .12);
+  --line: rgba(120, 88, 8, .28); --gold-soft: rgba(217, 165, 33, .22); --muted: #5a4f27; --body-text: #1a2038;
+  --footer-bg: #f6e3a6; --drawer-bg: #fffcf0; --quote-bg: #fff1c2; --shadow: 0 10px 28px rgba(120, 88, 8, .2);
+}
+/* menu bar: gold with blue text */
+html.in-portal body:not(.dark-mode) .ph, html.in-portal body:not(.dark-mode)[data-pat] .ph, html.in-portal body:not(.dark-mode) .ph.ph-admin {
+  background: linear-gradient(180deg, #f7de92, #e1b13c); border-bottom: 3px solid #0e2347; }
+html.in-portal body:not(.dark-mode) .ph-tag, html.in-portal body:not(.dark-mode) .ph-admin .ph-tag-admin { color: #0e2347; }
+html.in-portal body:not(.dark-mode) .ph-nav a { color: #0e2347; }
+html.in-portal body:not(.dark-mode) .ph-nav a:hover { background: rgba(14, 35, 71, .12); color: #05070d; }
+html.in-portal body:not(.dark-mode) .ph-nav a.on, html.in-portal body:not(.dark-mode) .ph-admin .ph-nav a.on { background: #0e2347; color: #f3d98c; box-shadow: none; }
+html.in-portal body:not(.dark-mode) .ph-out, html.in-portal body:not(.dark-mode) .ph-admin .ph-out { color: #0e2347; font-weight: 800; }
+html.in-portal body:not(.dark-mode) .ph .theme-switch-nav { background: #0e2347; border-color: #0e2347; }
+html.in-portal body:not(.dark-mode) .ph-me-btn { background: #0e2347; color: #f3d98c; border-color: #0e2347; }
+html.in-portal body:not(.dark-mode) .ph-me-btn:hover, html.in-portal body:not(.dark-mode) .ph-me-btn[aria-expanded="true"] { background: #05070d; color: #fff; }
+html.in-portal body:not(.dark-mode) .ph-today .gc-strip { color: #0e2347; }
+html.in-portal body:not(.dark-mode) .ph-today .gc-strip b { color: #05070d; }
+html.in-portal body:not(.dark-mode) .ph-today .gc-l2 { color: #3a3216; }
+html.in-portal body:not(.dark-mode) .ph-today .gc-strip-fast { background: #0e2347; color: #f3d98c; }
+/* admin: gold sidebar in light mode */
+html.in-portal body:not(.dark-mode) .adm-main .admin-tabs { background: linear-gradient(180deg, #f7de92, #e0b03a); border-color: #0e2347; }
+html.in-portal body:not(.dark-mode) .admin-tabs .admin-tab-btn { color: #0e2347; }
+html.in-portal body:not(.dark-mode) .admin-tabs .admin-tab-btn:hover { background: rgba(14, 35, 71, .12); }
+html.in-portal body:not(.dark-mode) .admin-tabs .admin-tab-btn.active { background: #0e2347; color: #f3d98c; }
+html.in-portal body:not(.dark-mode) .admin-group-label { color: #7a1030; }
+html.in-portal body:not(.dark-mode) .admin-collapse { color: #0e2347; border-color: #0e2347; }
+html.in-portal body:not(.dark-mode) .admin-tab-btn.active .adm-badge { background: #f3d98c; color: #0e2347; }
+html.in-portal body:not(.dark-mode) .adm-main .admin-content { border-top: 5px solid #d9a521; }
+html.in-portal body:not(.dark-mode) .pm-card, html.in-portal body:not(.dark-mode) .adm-stat, html.in-portal body:not(.dark-mode) .adm-panel { background: linear-gradient(180deg, #fffdf6, #fbefc4); }
+html.in-portal body:not(.dark-mode) .pm-card { border-left: 5px solid #d9a521; }
+html.in-portal body:not(.dark-mode) .msg-win header { background: linear-gradient(180deg, #f7de92, #e1b13c); color: #0e2347; }
+html.in-portal body:not(.dark-mode) .msg-win header a, html.in-portal body:not(.dark-mode) .msg-win header button { color: #0e2347; }
+/* admin: blue leads in dark mode, gold supports */
+html.in-portal body.dark-mode .admin-tabs .admin-tab-btn.active { background: rgba(79, 143, 224, .28); color: var(--gold-2); box-shadow: inset 4px 0 0 var(--gold); }
+html.in-portal body.dark-mode .ph-nav a.on { background: rgba(79, 143, 224, .25); box-shadow: inset 0 -3px 0 var(--gold); }
+
+/* verse and Prabhupada's words as clouds: outline only, no fill, no box */
+.coin { filter: none; gap: 14px; margin: 6px 0 34px; }
+html.in-portal .coin-face { background: none; box-shadow: none; border-radius: 0; overflow: visible; color: var(--body-text); min-height: 330px; padding: 88px 66px 96px 70px; justify-content: center; }
+.coin-face::before, .coin-face::after { content: none !important; }
+.qd-shape { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; fill: none; pointer-events: none; }
+.qd-line { fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.qd-mark { position: absolute; font: 700 76px/.6 "Patrick Hand", Georgia, serif; pointer-events: none; }
+.qd-close { top: 15%; right: 8%; } .qd-open { bottom: 25%; left: 5%; }
+.qd-m-tl { top: 15%; left: 8%; } .qd-m-br { bottom: 25%; right: 5%; }
+.coin-face .eyebrow { text-align: center; margin: 0 0 8px; letter-spacing: .12em; }
+.coin-face > * { position: relative; }
+.coin-face > .qd-shape, .coin-face > .qd-mark { position: absolute; }
+/* verse: gold outline, blue text (light) / blue outline, pale text (dark) */
+html.in-portal .coin-verse .quote-text { font-family: var(--font-serif); font-style: italic; font-size: clamp(18px, 1.8vw, 23px); line-height: 1.45; color: #12295c; text-align: center; }
+html.in-portal .coin-verse .quote-source { text-align: center; color: #7a1030; font-weight: 700; }
+html.in-portal .coin-verse .eyebrow { color: #7a1030; }
+html.in-portal .coin-verse a { color: #12295c; }
+html.in-portal .coin-verse .qd-line { stroke: #d9a521; stroke-width: 3.5; }
+html.in-portal .coin-verse .qd-shape { filter: drop-shadow(0 0 10px rgba(217, 165, 33, .45)); }
+html.in-portal .coin-verse .qd-mark { color: #d9a521; }
+/* said today: maroon outline, handwritten black text (light) / gold outline, cream text (dark) */
+html.in-portal .coin-said .said-text { font-family: "Patrick Hand", "Segoe Print", "Comic Sans MS", cursive; font-size: clamp(18px, 1.8vw, 23px); line-height: 1.4; color: #0b0b10; text-align: center; margin: 0 0 8px; }
+html.in-portal .coin-said .said-source { text-align: center; color: #7a1030; font-weight: 700; font-size: 13.5px; margin: 0 0 4px; }
+html.in-portal .coin-said .said-tag { text-align: center; color: #5a4f27; font-size: 12px; }
+html.in-portal .coin-said .eyebrow { color: #12295c; }
+html.in-portal .coin-said .qd-line { stroke: #7a1030; }
+html.in-portal .coin-said .qd-mark { color: #7a1030; }
+html.in-portal .coin-said a { color: #12295c; }
+html.in-portal body.dark-mode .coin-verse .quote-text { color: #e9f0ff; }
+html.in-portal body.dark-mode .coin-verse .quote-source, html.in-portal body.dark-mode .coin-verse .eyebrow { color: var(--gold-2); }
+html.in-portal body.dark-mode .coin-verse a { color: #9cc3ff; }
+html.in-portal body.dark-mode .coin-verse .qd-line { stroke: #4f8fe0; }
+html.in-portal body.dark-mode .coin-verse .qd-shape { filter: drop-shadow(0 0 12px rgba(79, 143, 224, .55)); }
+html.in-portal body.dark-mode .coin-verse .qd-mark { color: #4f8fe0; }
+html.in-portal body.dark-mode .coin-said .said-text { color: #fff6dc; }
+html.in-portal body.dark-mode .coin-said .said-source, html.in-portal body.dark-mode .coin-said .eyebrow { color: var(--gold-2); }
+html.in-portal body.dark-mode .coin-said .said-tag { color: #c9bf9a; }
+html.in-portal body.dark-mode .coin-said a { color: var(--gold-2); }
+html.in-portal body.dark-mode .coin-said .qd-line { stroke: #e6b53a; }
+html.in-portal body.dark-mode .coin-said .qd-shape { filter: drop-shadow(0 0 12px rgba(230, 181, 58, .4)); }
+html.in-portal body.dark-mode .coin-said .qd-mark { color: #e6b53a; }
+@media (max-width: 760px) { html.in-portal .coin-face { min-height: 300px; padding: 80px 50px 90px 54px; } .coin { gap: 22px; } }
+html.in-portal body.dark-mode .coin-said, html.in-portal body.dark-mode .coin-verse { background: none; }
+html.in-portal .coin-face { min-height: 400px; padding: 124px 84px 110px 90px; }
+html.in-portal .coin-verse .quote-text, html.in-portal .coin-said .said-text { font-size: clamp(16px, 1.5vw, 20px); }
+.coin-face .eyebrow { font-size: 11px; }
+.qd-close { top: 17%; right: 7%; } .qd-m-tl { top: 17%; left: 7%; }
+@media (max-width: 760px) { html.in-portal .coin-face { min-height: 360px; padding: 112px 62px 104px 66px; } }
+html.in-portal .coin-face { padding-top: 140px; }
+html.in-portal .coin-said .eyebrow { margin-left: 18px; }
+@media (max-width: 760px) { html.in-portal .coin-face { padding-top: 124px; } }
+html.in-portal body:not(.dark-mode) .ph-act a, html.in-portal body:not(.dark-mode) .ph-admin .ph-act a { color: #0e2347 !important; font-weight: 700; }
+html.in-portal body:not(.dark-mode) .ph-act a:hover { color: #05070d !important; text-decoration: underline; }

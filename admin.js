@@ -255,7 +255,15 @@
       }
 
       function load() {
-        client.from(table).select("*").order("created_at", { ascending: false }).then(function (r) {
+        // The database sends at most 1000 rows per request, so ask page by page until everything is here.
+        function page(from, all) {
+          return client.from(table).select("*").order("created_at", { ascending: false }).order("id").range(from, from + 999).then(function (r) {
+            if (r.error || !r.data) return r.error ? r : { data: all };
+            all = all.concat(r.data);
+            return r.data.length === 1000 ? page(from + 1000, all) : { data: all };
+          });
+        }
+        page(0, []).then(function (r) {
           if (r.error || !r.data) return;
           rowsById = {};
           r.data.forEach(function (row) { rowsById[row.id] = row; });

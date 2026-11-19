@@ -2754,3 +2754,193 @@ body.dark-mode .qc-fill { fill: none; }
 .fl-mantra { font-size: 1.1em; }
 .fl-t4::before { height: 30em; }
 .fl-t4::before { height: 33em; }
+
+/* card v3: title points to Prabhupada (right-aligned); bigger mantra on the back; ink-saving back */
+.bcf-title { text-align: right; padding-right: 2px; }
+.bc-back .bc-top { height: 28px; }
+.bc-back .bcb-mantra p { font-size: 9.6px; line-height: 1.35; }
+.bc-back .bc-quote p { }
+.bc-back.ink { background: #fff; color: #4a1020; }
+.bc-back.ink .bc-frame { border-color: rgba(154, 103, 0, .8); }
+.bc-back.ink .bc-quote p { color: #4a1020; }
+.bc-back.ink .bc-quote span { color: #7a1030; }
+.bc-back.ink svg, .bc-back.ink svg * { stroke: #9a6700; }
+.bc-back.ink svg [fill]:not([fill="none"]) { fill: #9a6700; }
+.bc-back.ink .bcb-mantra { border-top-color: rgba(154, 103, 0, .7); }
+.bc-back.ink .bcb-mantra p { color: #7a1030; }
+.bc-back.ink .bc-deco-img { border-color: #9a6700; }
+
+/* ===== fliers v2 (19 Nov): Prabhupada prominent on every flier, title right-aligned to him, ink-saving mode, casual handwritten looks ===== */
+#fl-form label:has(textarea) { grid-column: 1 / -1; }
+.fl { gap: .8em; padding: 3em 3em 2.4em; }
+.fl-top { width: 100%; display: grid; grid-template-columns: 7em 1fr 15.5em; align-items: center; column-gap: 1.2em; position: relative; }
+.fl-top .fl-logo { height: 7em; align-self: start; }
+.fl-prabtitle { text-align: right; font-size: .95em; line-height: 1.45; letter-spacing: .05em; text-transform: uppercase; font-weight: 600; opacity: .92; }
+.fl-prabtitle b { display: block; margin-top: .25em; font-weight: 800; font-size: 1.12em; }
+.fl-prab { width: 15em; height: 15em; border-radius: 50%; object-fit: cover; border: .3em solid #d4ac0d; display: block; max-width: none; justify-self: end; }
+.fl-kicker { font-size: 1.05em; }
+.fl-title { font-size: 3.7em; max-width: 14em; }
+.fl-t4 .fl-title { font-size: 3.9em; }
+.fl-mid { display: contents; }
+.fl-when { font-size: 1.7em; }
+.fl-when::after { margin-top: .7em; }
+.fl-pic { width: 13em; height: 10em; }   /* any other picture is always smaller than Prabhupada's */
+.fl-desc { font-size: 1.3em; max-width: 31em; margin-top: .2em; }
+.fl-where { font-size: 1.4em; }
+.fl-note { font-size: 1.1em; }
+.fl-qr { width: 8em; height: 8em; }
+.fl-contact b { font-size: 1.45em; display: block; } .fl-contact span { font-size: 1.2em; }
+.fl-t4::before { height: 38em; }
+.fl-t1 .fl-prab, .fl-t2 .fl-prab { border-color: #e8c85a; }
+
+/* ink-saving: no coloured background, dark text and fine lines only */
+.fl.ink { background: #fff !important; color: #2a1018 !important; box-shadow: 0 8px 26px rgba(0,0,0,.2); }
+.fl.ink::before, .fl.ink::after { display: none !important; }
+.fl.ink .fl-frame { border-color: #b8861a !important; display: block; }
+.fl.ink .fl-kicker, .fl.ink .fl-when, .fl.ink .fl-mantra { color: #9a6700 !important; }
+.fl.ink .fl-title { color: #7a1030 !important; }
+.fl.ink .fl-logo svg { filter: none !important; }
+.fl.ink .fl-qr { border: .08em solid #d8c48a; }
+.fl.ink.fl-t2 .fl-title { color: #0e2347 !important; }
+
+/* casual looks: handwritten, tilted, not everything in a line */
+.fl-casual { font-family: "Kalam", "Segoe Print", "Comic Sans MS", cursive; background: #fffdf4; color: #3a1a22; gap: 0; }
+.fl-casual p, .fl-casual h1, .fl-casual b, .fl-casual span { font-family: inherit; }
+.fl-casual .fl-frame { display: none; }
+.fl-casual .fl-top { margin-bottom: .6em; }
+.fl-casual .fl-prabtitle { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.fl-casual .fl-prab { transform: rotate(3deg); }
+.fl-casual .fl-kicker { font-size: 1.7em; text-transform: none; letter-spacing: .02em; color: #9a6700; transform: rotate(-3deg); align-self: flex-start; margin: .2em 0 0 .6em; font-weight: 700; }
+.fl-casual .fl-title { font-family: "Caveat Brush", "Kalam", cursive; font-weight: 400; font-size: 6.2em; line-height: .95; color: #7a1030; transform: rotate(-3.5deg); max-width: 9em; margin: .1em 0 .1em; text-wrap: balance; text-decoration: underline wavy #d4ac0d .06em; text-underline-offset: .14em; }
+.fl-casual .fl-mid { display: grid; grid-template-columns: 1fr 1.15fr; gap: .9em 1.2em; width: 100%; align-items: center; margin-top: .6em; text-align: left; }
+.fl-casual .fl-when { grid-column: 1; display: grid; place-items: center; width: 12.5em; height: 12.5em; border: .18em dashed #b8861a; border-radius: 50%; transform: rotate(-6deg); font-size: 1.55em; line-height: 1.25; text-align: center; justify-self: center; padding: .6em; box-sizing: border-box; font-weight: 700; color: #7a1030; }
+.fl-casual .fl-when::after { display: none; }
+.fl-casual .fl-desc { grid-column: 2; grid-row: 1 / span 2; font-size: 1.42em; line-height: 1.4; transform: rotate(2deg); border: .14em dashed #7a1030; border-radius: .6em; padding: .8em .9em; max-width: none; margin: 0; text-align: left; background: transparent; }
+.fl-casual .fl-pic { grid-column: 1; width: 13em; height: 10em; background: #fff; padding: .5em .5em 1.4em; box-sizing: border-box; border: .08em solid #d8c48a; transform: rotate(4deg); justify-self: center; border-radius: .2em; }
+.fl-casual .fl-pic img { border-radius: .1em; }
+.fl-casual .fl-where { grid-column: 1 / -1; justify-self: end; transform: rotate(-2deg); font-size: 1.7em; color: #7a1030; font-weight: 700; text-align: right; }
+.fl-casual .fl-where::before { content: "\2794 "; color: #b8861a; }
+.fl-casual .fl-note { grid-column: 1 / -1; justify-self: start; transform: rotate(1.5deg); font-size: 1.35em; text-decoration: underline wavy #d4ac0d .05em; text-underline-offset: .18em; margin-left: .6em; }
+.fl-casual .fl-foot { transform: rotate(-1.5deg); margin-top: auto; align-self: flex-start; margin-left: .8em; }
+.fl-casual .fl-qr { border: .12em solid #3a1a22; border-radius: .3em; transform: rotate(-4deg); }
+.fl-casual .fl-contact b { font-size: 1.6em; }
+.fl-casual .fl-mantra { margin-top: .8em; font-family: "Kalam", cursive; font-size: 1.15em; color: #9a6700; font-style: normal; }
+
+/* c1 on-screen colour (when ink saving is off): paper-yellow note and sticker */
+.fl-c1:not(.ink) .fl-desc { background: #fff1a8; border-color: #d4ac0d; }
+.fl-c1:not(.ink) .fl-when { background: #f6d56a; border-style: solid; }
+.fl-c1.ink .fl-pic { box-shadow: none; }
+/* c2: doodle, circled title, stars */
+.fl-c2 { background: #fff; }
+.fl-c2 .fl-title { text-decoration: none; border: .1em solid #7a1030; border-radius: 52% 48% 50% 46% / 56% 50% 50% 44%; padding: .25em .7em .3em; max-width: 7.5em; transform: rotate(-2deg); font-size: 5.4em; align-self: center; }
+.fl-c2 .fl-kicker { align-self: center; transform: rotate(2deg); }
+.fl-c2 .fl-mid::before { content: "\2726  \2736   \2726"; grid-column: 1 / -1; text-align: center; color: #d4ac0d; letter-spacing: .5em; font-size: 1.6em; transform: rotate(-3deg); }
+.fl-c2 .fl-when { border-radius: .5em; border-style: double; border-width: .3em; transform: rotate(3deg); width: auto; height: auto; padding: .7em 1em; place-items: center; }
+.fl-c2 .fl-desc { border-style: solid; border-radius: 1.4em .5em 1.6em .6em; transform: rotate(-1.5deg); }
+.fl-c2:not(.ink) { background: #fff7e0; }
+.fl-c2:not(.ink) .fl-when { background: #fde6ee; }
+.fl-c2 .fl-where { transform: rotate(1.5deg); }
+
+@media print { body.flyer-printing .fl { box-shadow: none; } }
+
+.ev-focus { outline: 4px solid #e9b24c; outline-offset: 4px; box-shadow: 0 0 0 10px rgba(233, 178, 76, .25); transition: box-shadow .4s; }
+
+/* casual looks: tighter so everything fits on the page */
+.fl-casual { padding-top: 2.4em; }
+.fl-casual .fl-top { margin-bottom: .2em; }
+.fl-casual .fl-kicker { font-size: 1.45em; margin-top: 0; }
+.fl-casual .fl-title { font-size: 4.9em; margin: 0; }
+.fl-casual .fl-mid { margin-top: .3em; gap: .7em 1em; }
+.fl-casual .fl-when { width: 10.6em; height: 10.6em; font-size: 1.3em; }
+.fl-casual .fl-pic { width: 12em; height: 8.4em; }
+.fl-casual .fl-desc { font-size: 1.28em; padding: .6em .8em; }
+.fl-casual .fl-where { font-size: 1.45em; }
+.fl-casual .fl-note { font-size: 1.15em; }
+.fl-casual .fl-qr { width: 7em; height: 7em; }
+.fl-casual .fl-contact b { font-size: 1.35em; }
+.fl-casual .fl-mantra { margin-top: .5em; font-size: 1.05em; }
+.fl-c2 .fl-title { font-size: 4.2em; padding: .2em .6em .25em; max-width: 8em; }
+.fl-c2 .fl-mid::before { font-size: 1.2em; }
+.fl-casual .fl-title { font-size: 4.5em; }
+.fl-casual .fl-desc { font-size: 1.18em; line-height: 1.35; }
+.fl-casual .fl-when { width: 9.8em; height: 9.8em; font-size: 1.2em; }
+.fl-casual .fl-pic { height: 7.6em; width: 11em; }
+.fl-casual .fl-where { font-size: 1.3em; }
+.fl-casual .fl-note { font-size: 1.05em; }
+.fl-casual .fl-mid { margin-top: .1em; gap: .5em .9em; }
+.fl-casual .fl-prab { width: 15em; height: 15em; }
+.fl-c2 .fl-mid { position: relative; }
+.fl-c2 .fl-mid::before { position: absolute; top: -.4em; right: 1em; grid-column: auto; font-size: 1.3em; }
+.fl-c2 .fl-title { font-size: 3.9em; margin-bottom: .2em; }
+.fl-c2 .fl-when { width: 9.8em; height: auto; min-height: 5em; font-size: 1.2em; }
+.fl-casual { padding-bottom: 2em; }
+
+/* ===== foldable pamphlets (admin): A4 landscape sheet = 90em x 63.6em at 1em = 3.3mm ===== */
+.pp-sheet { width: 90em; height: 63.6em; font-size: 3.3mm; display: flex; box-sizing: border-box; overflow: hidden; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #2a1018; background: #fff; box-shadow: 0 6px 22px rgba(0,0,0,.25); flex: none; max-width: none; }
+.pp-sheet :where(p, h1, h2) { margin: 0; color: inherit; }
+.pp-panel { flex: 1 1 0; min-width: 0; box-sizing: border-box; padding: 2.6em 2.4em; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1em; position: relative; overflow: hidden; }
+.pp-panel + .pp-panel { border-left: .07em dashed rgba(90, 60, 40, .35); }
+.pp-top { width: 100%; display: grid; grid-template-columns: 4.4em 1fr 10.6em; column-gap: .8em; align-items: center; }
+.pp-bi .pp-top { grid-template-columns: 6em 1fr 13em; column-gap: 1.2em; }
+.pp-logo { height: 5em; display: flex; justify-content: center; align-self: start; } .pp-logo svg { height: 100%; width: auto; }
+.pp-prabtitle { text-align: right; font-size: .72em; line-height: 1.45; letter-spacing: .05em; text-transform: uppercase; font-weight: 600; }
+.pp-prabtitle b { display: block; margin-top: .25em; font-weight: 800; font-size: 1.1em; }
+.pp-prab { width: 10.6em; height: 10.6em; border-radius: 50%; object-fit: cover; border: .25em solid #d4ac0d; display: block; max-width: none; justify-self: end; }
+.pp-bi .pp-prab { width: 13em; height: 13em; } .pp-bi .pp-logo { height: 6em; }
+.pp-covertitle { font-family: Georgia, "Times New Roman", serif; font-size: 3.1em; line-height: 1.1; margin-top: 1.2em; text-wrap: balance; }
+.pp-bi .pp-covertitle { font-size: 3.8em; }
+.pp-tagline { font-size: 1.25em; line-height: 1.4; max-width: 18em; }
+.pp-mantra { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: .85em; line-height: 1.4; margin-top: auto; }
+.pp-cover { justify-content: flex-start; }
+.pp-h { font-family: Georgia, "Times New Roman", serif; font-size: 1.9em; line-height: 1.15; margin-top: .8em; padding-bottom: .5em; border-bottom: .1em solid currentColor; align-self: stretch; }
+.pp-t { font-size: 1.08em; line-height: 1.55; text-align: left; align-self: stretch; }
+.pp-pic { width: 12em; height: 9em; border-radius: .6em; overflow: hidden; } .pp-pic img { width: 100%; height: 100%; object-fit: cover; display: block; max-width: none; }
+.pp-flap .pp-h, .pp-in .pp-h { text-align: center; }
+.pp-back { justify-content: flex-start; }
+.pp-prabline { font-size: .8em; line-height: 1.5; letter-spacing: .04em; text-transform: uppercase; } .pp-prabline b { display: block; font-weight: 800; margin-top: .2em; }
+.pp-logo-b { height: 6em; margin-top: 1.4em; }
+.pp-qr { width: 9em; height: 9em; background: #fff; padding: .5em; box-sizing: border-box; border-radius: .4em; line-height: 0; margin-top: 1em; border: .08em solid #d8c48a; }
+.pp-qr img, .pp-qr canvas { width: 100% !important; height: 100% !important; display: block; }
+.pp-scan { font-size: .8em; opacity: .8; margin-top: -.5em; }
+.pp-contact { font-size: 1.05em; line-height: 1.5; display: flex; flex-direction: column; gap: .3em; margin-top: .6em; } .pp-contact b { font-size: 1.1em; }
+
+/* look f1: maroon and gold */
+.pp-f1 .pp-cover, .pp-f1 .pp-back { background: radial-gradient(circle at 50% 30%, #6e0a24 0%, #4a000f 75%, #34000a 100%); color: #fbeede; }
+.pp-f1 .pp-covertitle, .pp-f1 .pp-tagline, .pp-f1 .pp-mantra, .pp-f1 .pp-prabline { color: #f0d27a; } .pp-f1 .pp-cover .pp-prab { border-color: #e8c85a; }
+.pp-f1 .pp-logo svg { filter: brightness(0) invert(1); } .pp-f1 .pp-in, .pp-f1 .pp-flap { background: #fffaf0; } .pp-f1 .pp-h { color: #7a1030; border-color: #d4ac0d; }
+/* look f2: deep blue and gold */
+.pp-f2 .pp-cover, .pp-f2 .pp-back { background: linear-gradient(160deg, #0c1b3d, #17346b); color: #eaf0ff; }
+.pp-f2 .pp-covertitle, .pp-f2 .pp-tagline, .pp-f2 .pp-mantra, .pp-f2 .pp-prabline { color: #f0c15a; } .pp-f2 .pp-logo svg { filter: brightness(0) invert(1); }
+.pp-f2 .pp-in, .pp-f2 .pp-flap { background: #f5f8ff; } .pp-f2 .pp-h { color: #0e2347; border-color: #d4ac0d; }
+/* look cz: casual */
+.pp-cz { font-family: "Kalam", "Segoe Print", "Comic Sans MS", cursive; }
+.pp-cz .pp-h, .pp-cz .pp-covertitle { font-family: "Caveat Brush", "Kalam", cursive; font-weight: 400; color: #7a1030; transform: rotate(-3deg); border-bottom: 0; text-decoration: underline wavy #d4ac0d .06em; text-underline-offset: .15em; }
+.pp-cz .pp-covertitle { font-size: 3.6em; } .pp-cz .pp-h { font-size: 2.4em; }
+.pp-cz .pp-t { border: .13em dashed #7a1030; border-radius: .6em; padding: .7em .8em; transform: rotate(1.2deg); }
+.pp-cz .pp-pic { transform: rotate(-4deg); background: #fff; padding: .4em .4em 1.2em; box-sizing: border-box; border: .08em solid #d8c48a; border-radius: .2em; }
+.pp-cz .pp-prab { transform: rotate(3deg); } .pp-cz .pp-tagline { color: #9a6700; transform: rotate(-1.5deg); font-weight: 700; }
+.pp-cz .pp-prabtitle, .pp-cz .pp-prabline { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.pp-cz .pp-in:nth-child(2) .pp-t { transform: rotate(-1.4deg); } .pp-cz .pp-mantra { font-family: "Kalam", cursive; font-style: normal; color: #9a6700; }
+.pp-cz:not(.ink) .pp-in, .pp-cz:not(.ink) .pp-flap { background: #fff7e0; } .pp-cz:not(.ink) .pp-cover { background: #fde9a8; }
+/* ink saving: white paper, dark lines */
+.pp-sheet.ink .pp-panel { background: #fff !important; color: #2a1018 !important; }
+.pp-sheet.ink .pp-covertitle, .pp-sheet.ink .pp-h { color: #7a1030 !important; } .pp-sheet.ink.pp-f2 .pp-covertitle, .pp-sheet.ink.pp-f2 .pp-h { color: #0e2347 !important; }
+.pp-sheet.ink .pp-tagline, .pp-sheet.ink .pp-mantra, .pp-sheet.ink .pp-prabline { color: #9a6700 !important; } .pp-sheet.ink .pp-logo svg { filter: none !important; }
+
+#pam-print-root { display: none; }
+@media print {
+  body.pam-printing > *:not(#pam-print-root) { display: none !important; }
+  body.pam-printing { background: #fff !important; margin: 0 !important; }
+  body.pam-printing #pam-print-root { display: block; }
+  body.pam-printing .pp-page { width: 297mm; height: 209mm; overflow: hidden; page-break-after: always; break-after: page; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body.pam-printing .pp-page:last-child { page-break-after: auto; break-after: auto; }
+  body.pam-printing .pp-sheet { box-shadow: none; width: 297mm; height: 209mm; }
+}
+
+.pp-t { font-size: 1.32em; line-height: 1.6; }
+.pp-h { font-size: 2.25em; margin-top: 1em; }
+.pp-covertitle { font-size: 3.7em; margin-top: 1.6em; } .pp-bi .pp-covertitle { font-size: 4.6em; }
+.pp-tagline { font-size: 1.5em; }
+.pp-mantra { font-size: .95em; padding-bottom: .4em; }
+.pp-cz .pp-covertitle { font-size: 4.2em; } .pp-cz .pp-h { font-size: 2.7em; }
+.pp-contact { font-size: 1.2em; }

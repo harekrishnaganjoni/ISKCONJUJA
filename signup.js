@@ -64,7 +64,7 @@
     rows.forEach(function (r) {
       var c = byDay[r.weekday];
       if (!c) { c = cards[0].cloneNode(true); c.removeAttribute("data-toc"); c.setAttribute("data-day", r.weekday); last.parentNode.insertBefore(c, last.nextSibling); last = c; byDay[r.weekday] = c; }
-      used[r.weekday] = true;
+      used[r.weekday] = true; c.id = "program-" + r.weekday;
       c.querySelector("[data-wk-title]").textContent = "Juja: " + DAYS[r.weekday] + "s";
       c.querySelector("[data-wk-eyebrow]").textContent = fmtTime(r.start_time).replace(":00", "") + " \u2013 " + fmtTime(r.end_time).replace(":00", "");
       if (r.place) c.querySelector("[data-wk-place]").textContent = "Held at " + r.place + ".";
@@ -76,6 +76,7 @@
     cards.forEach(function (c) { if (!used[c.getAttribute("data-day")]) c.remove(); });
     document.dispatchEvent(new CustomEvent("iskcon:rerender-whatsapp"));
     window.dispatchEvent(new Event("resize"));
+    if (window.ISKCON_FOCUS_HASH) window.ISKCON_FOCUS_HASH();
   }
   function loadPrograms() {
     if (!READY || !document.querySelector("[data-wk-card]")) return;

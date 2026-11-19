@@ -88,7 +88,7 @@
         box.innerHTML = '<div class="card-grid-3">' + r.data.map(function (e) {
           var when = escapeHtml(e.start_date) + (e.end_date ? " &ndash; " + escapeHtml(e.end_date) : "");
           var rk = rank(e), tag = rk === 1 ? ' <strong class="ev-tag">Happening now</strong>' : rk === 2 ? ' <strong class="ev-tag">Ended</strong>' : '';
-          return '<article class="card' + (rk === 2 ? ' ev-past' : '') + '">' +
+          return '<article id="event-' + escapeHtml(e.id) + '" class="card' + (rk === 2 ? ' ev-past' : '') + '">' +
             (e.image_url ? '<img src="' + escapeHtml(e.image_url) + '" alt="' + escapeHtml(e.title) + '" loading="lazy" style="width:100%;max-height:150px;object-fit:cover;border-radius:10px;margin-bottom:10px;display:block;">' : '') +
             '<div class="eyebrow">' + when + tag + '</div>' +
             '<h3>' + escapeHtml(e.title) + '</h3>' +
@@ -107,6 +107,7 @@
           track.scrollLeft = 0;
           box.hidden = true;
           window.dispatchEvent(new Event("resize"));
+          if (window.ISKCON_FOCUS_HASH) window.ISKCON_FOCUS_HASH();
         }
         if (window.ISKCON_SIGNUP) {
           var byId = {}; r.data.forEach(function (e) { byId[e.id] = e; });
@@ -117,6 +118,14 @@
         }
       });
   }
+
+  // A link like /#event-<id> or /#program-2 (the QR code on a flier) opens the home page at that event card and highlights it.
+  window.ISKCON_FOCUS_HASH = function () {
+    var h = location.hash || ""; if (!/^#(event|program)-[\w-]+$/.test(h)) return;
+    var el = document.getElementById(h.slice(1)); if (!el || el.getAttribute("data-focused")) return;
+    el.setAttribute("data-focused", "1");
+    setTimeout(function () { try { el.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" }); } catch (e) { el.scrollIntoView(); } el.classList.add("ev-focus"); setTimeout(function () { el.classList.remove("ev-focus"); }, 5000); }, 400);
+  };
 
   // ---------- PRODUCTS (Merchandise) ----------
   function renderProducts() {

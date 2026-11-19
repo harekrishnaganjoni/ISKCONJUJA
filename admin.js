@@ -27,7 +27,7 @@
       apply();
     })();
     // Each major section is its own page in the portal header; its sub-pages live in the side menu.
-    var SECTIONS = { overview: ["overview"], community: ["people", "board", "responses", "aboutq", "testimonials", "registrations"], content: ["events", "quotes", "courses", "articles"], shop: ["products", "card", "flyer", "settings"] };
+    var SECTIONS = { overview: ["overview"], community: ["people", "board", "responses", "aboutq", "testimonials", "registrations"], content: ["events", "quotes", "courses", "articles"], shop: ["products", "card", "flyer", "pamphlet", "settings"] };
     var SEC_TITLES = { overview: "Overview", community: "People & community", content: "Content", shop: "Shop & site" };
     function sectionOf(tab) { for (var k in SECTIONS) if (SECTIONS[k].indexOf(tab) >= 0) return k; return "overview"; }
     function paintSection(sec) {
@@ -887,14 +887,14 @@
       var customQ = document.getElementById("bc-custom-quote");
       var customS = document.getElementById("bc-custom-source");
       var zoomSel = document.getElementById("bc-zoom");
-      var decoInput = document.getElementById("bc-deco-image");
+      var decoInput = document.getElementById("bc-deco-image"), decoSel = document.getElementById("bc-deco-kind"), inkIn = document.getElementById("bc-ink"), ph2In = document.getElementById("bc-phone2"), nm2In = document.getElementById("bc-name2");
       var HOSTS = window.ISKCON_HOSTS || {}, siteUrl = HOSTS.publicOrigin || window.location.origin.replace("//portal.", "//");   // the PUBLIC site, never the member portal
       var primary = (window.ISKCON && window.ISKCON.WHATSAPP_PRIMARY) || "";
       var data = {
         address: "Anthusia Apartments, Muraya Access Road, Juja",
         phone: primary ? "+" + primary.slice(0, 3) + " " + primary.slice(3, 6) + " " + primary.slice(6, 9) + " " + primary.slice(9) : "",
         site: siteUrl.replace(/^https?:\/\//, ""),
-        socials: [], till: "", quotes: [], quote: "", source: "", deco: "", logoSvg: "", name: ""
+        socials: [], till: "", quotes: [], quote: "", source: "", deco: "", logoSvg: "", name: "", phone2: "", name2: "", deco: "", ink: true
       };
       function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
       var ICON = {
@@ -925,7 +925,8 @@
           '<div class="bc-qr"></div>' +
           '<div class="bc-lines bcf-details">' +
              '<p>' + ICON.pin + esc(data.address) + '</p>' +
-             (data.phone ? '<p><b>' + ICON.whatsapp + (data.name ? esc(data.name) + ' &middot; ' : '') + esc(data.phone) + '</b></p>' : "") +
+             (data.phone ? '<p><b>' + ICON.whatsapp + esc(data.phone) + (data.name ? ' (' + esc(data.name) + ')' : '') + '</b></p>' : "") +
+             (data.phone2 ? '<p><b>' + ICON.whatsapp + esc(data.phone2) + (data.name2 ? ' (' + esc(data.name2) + ')' : '') + '</b></p>' : "") +
              '<p><b>' + ICON.web + esc(data.site) + '</b></p>' +
              (data.till ? '<p>M-Pesa Till: <b>' + esc(data.till) + '</b></p>' : "") +
              (soc ? '<p class="bc-socs">' + soc + '</p>' : "") +
@@ -939,13 +940,20 @@
         lotus: '<svg viewBox="0 0 60 30" width="46" height="23" fill="none" stroke="#e8c85a" stroke-width="1.3"><path d="M30 28C24 22 24 10 30 3c6 7 6 19 0 25zM30 28C20 26 12 18 12 9c9 1 16 8 18 19zM30 28c10-2 18-10 18-19-9 1-16 8-18 19zM30 28C16 28 6 22 3 14c10-1 20 4 27 14zM30 28c14 0 24-6 27-14-10-1-20 4-27 14z"/></svg>',
         mridanga: '<svg viewBox="0 0 80 28" width="62" height="22" fill="none" stroke="#e8c85a" stroke-width="1.3"><path d="M4 8c0-3 3-4 5-4h2l14 4c10 3 20 3 30 0l14-4h2c2 0 5 1 5 4v12c0 3-3 4-5 4h-2l-14-4c-10-3-20-3-30 0L11 24H9c-2 0-5-1-5-4z"/><ellipse cx="7" cy="14" rx="3" ry="8"/><ellipse cx="73" cy="14" rx="3" ry="8"/><path d="M26 7l4 14M36 9l3 10M44 9l-3 10M54 7l-4 14"/></svg>',
         karatalas: '<svg viewBox="0 0 40 28" width="30" height="21" fill="none" stroke="#e8c85a" stroke-width="1.3"><circle cx="11" cy="17" r="8"/><circle cx="29" cy="17" r="8"/><circle cx="11" cy="17" r="2.5"/><circle cx="29" cy="17" r="2.5"/><path d="M11 9C13 3 27 3 29 9"/></svg>',
+        feather: '<svg viewBox="0 0 30 34" width="22" height="25" fill="none" stroke="#e8c85a" stroke-width="1.2" stroke-linecap="round"><path d="M15 33C15 26 15 19 15 12"/><ellipse cx="15" cy="9" rx="7" ry="9"/><ellipse cx="15" cy="9" rx="3.7" ry="5.2"/><circle cx="15" cy="9" r="1.3" fill="#e8c85a"/><path d="M15 23l-6-3M15 26l-7-3M15 23l6-3M15 26l7-3"/></svg>',
+        flute: '<svg viewBox="0 0 44 34" width="34" height="26" fill="none" stroke="#e8c85a" stroke-width="1.2" stroke-linecap="round"><circle cx="22" cy="7" r="3.2"/><path d="M20.3 3.6c.4-2.2 2.6-3 4-.8M22.5 3.2v-2.4"/><path d="M22 10.5c-2.4 5 2.2 9 0 14"/><path d="M22 24.5l-5.5 8.5M22 24.5l6.5 8.5"/><path d="M13 13.5l22-5"/><path d="M22 13.5c-3 .6-6-.2-9-.8M22 13.5c3 0 7-1.6 11-4.3"/></svg>',
+        gaura: '<svg viewBox="0 0 50 34" width="38" height="26" fill="none" stroke="#e8c85a" stroke-width="1.2" stroke-linecap="round"><circle cx="15" cy="7" r="2.9"/><path d="M15 10l-.8 11M14.6 12.5L8 4M14.8 12.5L22 5M14 21l-5 10M14 21l7 7"/><circle cx="35" cy="7" r="2.9"/><path d="M35 10l.8 11M35.4 12.5L42 4M35.2 12.5L28 5M36 21l5 10M36 21l-7 7"/></svg>',
+        conch: '<svg viewBox="0 0 40 30" width="30" height="22" fill="none" stroke="#e8c85a" stroke-width="1.2" stroke-linecap="round"><path d="M4 22c0-9 8-17 18-17 7 0 12 4 13 9 1 6-4 11-10 11-5 0-8-3-8-7 0-3 2-5 5-5 2 0 3 1.500 3 3"/><path d="M4 22c2 4 7 6 12 5M30 24l6 4M33 21l5 1"/></svg>',
         corner: '<svg viewBox="0 0 30 30" width="18" height="18" fill="none" stroke="#e8c85a" stroke-width="1.2"><path d="M2 28V10C2 5 5 2 10 2h18"/><path d="M8 28V14c0-3 3-6 6-6h14" opacity=".6"/><circle cx="4" cy="4" r="1.6" fill="#e8c85a" stroke="none"/></svg>'
       };
       function backFace(q) {
         var d = document.createElement("div");
         d.className = "bc-face bc-back";
         q = q || { text: data.quote, source: data.source };
-        var top = data.deco ? '<img class="bc-deco-img" src="' + esc(data.deco) + '" alt="">' : DECO.lotus;
+        var kinds = ["lotus", "feather", "flute", "gaura", "conch", "mridanga"], pick = decoSel ? decoSel.value : "random";
+        if (pick === "random") pick = q ? kinds[Math.floor(Math.random() * kinds.length)] : (data.previewDeco = data.previewDeco || kinds[Math.floor(Math.random() * kinds.length)]);
+        var top = data.deco ? '<img class="bc-deco-img" src="' + esc(data.deco) + '" alt="">' : (DECO[pick] || DECO.lotus);
+        if (data.ink) d.className += " ink";
         d.innerHTML =
           '<div class="bc-frame"></div>' +
           '<span class="bc-c bc-c1">' + DECO.corner + '</span><span class="bc-c bc-c2">' + DECO.corner + '</span><span class="bc-c bc-c3">' + DECO.corner + '</span><span class="bc-c bc-c4">' + DECO.corner + '</span>' +
@@ -978,9 +986,18 @@
       }
       function refresh() { customBox.hidden = sel.value !== "__custom"; currentQuote(); render(); }
       var shuffleBtn = document.getElementById("bc-shuffle"), nameIn = document.getElementById("bc-name");
-      if (shuffleBtn) shuffleBtn.addEventListener("click", function () { sel.value = "__random"; curRand = null; refresh(); });
-      try { data.name = localStorage.getItem("bc_name") || ""; if (nameIn) nameIn.value = data.name; } catch (e) {}
-      if (nameIn) nameIn.addEventListener("input", function () { data.name = nameIn.value.trim(); try { localStorage.setItem("bc_name", data.name); } catch (e) {} render(); });
+      if (shuffleBtn) shuffleBtn.addEventListener("click", function () { sel.value = "__random"; curRand = null; data.previewDeco = null; refresh(); });
+      function nicePhone(raw) { var d = String(raw || "").replace(/\D/g, ""); if (d.charAt(0) === "0") d = "254" + d.slice(1); return d.length === 12 ? "+" + d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6, 9) + " " + d.slice(9) : String(raw || "").trim(); }
+      function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+      function stored(k, dflt) { try { var v = localStorage.getItem(k); return v === null ? dflt : v; } catch (e) { return dflt; } }
+      var raw2 = stored("bc_phone2", "0743184998");
+      data.name = stored("bc_name1", ""); data.name2 = stored("bc_name2", "Dan"); data.phone2 = nicePhone(raw2); data.ink = stored("bc_ink", "1") === "1";
+      if (nameIn) nameIn.value = data.name; if (nm2In) nm2In.value = data.name2; if (ph2In) ph2In.value = raw2; if (inkIn) inkIn.checked = data.ink;
+      if (nameIn) nameIn.addEventListener("input", function () { data.name = nameIn.value.trim(); store("bc_name1", data.name); render(); });
+      if (nm2In) nm2In.addEventListener("input", function () { data.name2 = nm2In.value.trim(); store("bc_name2", data.name2); render(); });
+      if (ph2In) ph2In.addEventListener("input", function () { store("bc_phone2", ph2In.value.trim()); data.phone2 = nicePhone(ph2In.value); render(); });
+      if (inkIn) inkIn.addEventListener("change", function () { data.ink = inkIn.checked; store("bc_ink", data.ink ? "1" : "0"); render(); });
+      if (decoSel) decoSel.addEventListener("change", render);
       sel.addEventListener("change", function () { curRand = null; refresh(); });
       [customQ, customS].forEach(function (x) { x.addEventListener("input", refresh); });
       zoomSel.addEventListener("change", render);

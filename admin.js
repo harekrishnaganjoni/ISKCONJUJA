@@ -27,7 +27,7 @@
       apply();
     })();
     // Each major section is its own page in the portal header; its sub-pages live in the side menu.
-    var SECTIONS = { overview: ["overview"], community: ["people", "board", "responses", "aboutq", "testimonials", "registrations"], content: ["events", "quotes", "courses", "articles"], shop: ["products", "card", "settings"] };
+    var SECTIONS = { overview: ["overview"], community: ["people", "board", "responses", "aboutq", "testimonials", "registrations"], content: ["events", "quotes", "courses", "articles"], shop: ["products", "card", "flyer", "settings"] };
     var SEC_TITLES = { overview: "Overview", community: "People & community", content: "Content", shop: "Shop & site" };
     function sectionOf(tab) { for (var k in SECTIONS) if (SECTIONS[k].indexOf(tab) >= 0) return k; return "overview"; }
     function paintSection(sec) {
@@ -888,13 +888,13 @@
       var customS = document.getElementById("bc-custom-source");
       var zoomSel = document.getElementById("bc-zoom");
       var decoInput = document.getElementById("bc-deco-image");
-      var siteUrl = window.location.origin;
+      var HOSTS = window.ISKCON_HOSTS || {}, siteUrl = HOSTS.publicOrigin || window.location.origin.replace("//portal.", "//");   // the PUBLIC site, never the member portal
       var primary = (window.ISKCON && window.ISKCON.WHATSAPP_PRIMARY) || "";
       var data = {
         address: "Anthusia Apartments, Muraya Access Road, Juja",
         phone: primary ? "+" + primary.slice(0, 3) + " " + primary.slice(3, 6) + " " + primary.slice(6, 9) + " " + primary.slice(9) : "",
         site: siteUrl.replace(/^https?:\/\//, ""),
-        socials: [], till: "", quotes: [], quote: "", source: "", deco: "", logoSvg: ""
+        socials: [], till: "", quotes: [], quote: "", source: "", deco: "", logoSvg: "", name: ""
       };
       function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
       var ICON = {
@@ -913,26 +913,25 @@
         if (window.QRCode) new QRCode(holder, { text: siteUrl, width: size, height: size, colorDark: "#800020", colorLight: "#ffffff" });
       }
 
+      var MANTRA = 'Hare K&#7771;&#7779;&#7751;a Hare K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a Hare Hare<br>Hare R&#257;ma Hare R&#257;ma R&#257;ma R&#257;ma Hare Hare';
       function frontFace() {
         var d = document.createElement("div");
-        d.className = "bc-face bc-front";
+        d.className = "bc-face bc-front bcf";
         var soc = data.socials.map(function (s) { return '<span class="bc-soc">' + ICON[s.kind] + esc(s.text) + "</span>"; }).join("");
         d.innerHTML =
-          '<div class="bc-left">' +
-           '<p class="bc-title">ISKCON Founder-&#256;c&#257;rya<br>His Divine Grace A.C. Bhaktivedanta Swami Prabhup&#257;da</p>' +
-           '<p class="bc-mantra">Hare K&#7771;&#7779;&#7751;a Hare K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a Hare Hare<br>Hare R&#257;ma Hare R&#257;ma R&#257;ma R&#257;ma Hare Hare</p>' +
-           '<div class="bc-rule"></div>' +
-           '<div class="bc-contact"><div class="bc-lines">' +
+          '<div class="bcf-logo">' + data.logoSvg + '</div>' +
+          '<p class="bcf-title">ISKCON Founder-&#256;c&#257;rya<br><b>His Divine Grace<br>A.C. Bhaktivedanta Swami Prabhup&#257;da</b></p>' +
+          '<img class="bc-photo" src="images/prabhupada-sitting.webp" alt="">' +
+          '<div class="bc-qr"></div>' +
+          '<div class="bc-lines bcf-details">' +
              '<p>' + ICON.pin + esc(data.address) + '</p>' +
-             (data.phone ? '<p><b>' + ICON.whatsapp + esc(data.phone) + '</b></p>' : "") +
+             (data.phone ? '<p><b>' + ICON.whatsapp + (data.name ? esc(data.name) + ' &middot; ' : '') + esc(data.phone) + '</b></p>' : "") +
              '<p><b>' + ICON.web + esc(data.site) + '</b></p>' +
              (data.till ? '<p>M-Pesa Till: <b>' + esc(data.till) + '</b></p>' : "") +
              (soc ? '<p class="bc-socs">' + soc + '</p>' : "") +
-           '</div><div class="bc-qr"></div></div>' +
           '</div>' +
-          '<div class="bc-right"><img class="bc-photo" src="images/prabhupada-sitting.webp" alt="">' +
-          '<div class="bc-logo">' + data.logoSvg + '</div></div>';
-        qrInto(d.querySelector(".bc-qr"), 44);
+          '<p class="bc-mantra bcf-mantra">' + MANTRA + '</p>';
+        qrInto(d.querySelector(".bc-qr"), 58);
         return d;
       }
 
@@ -942,16 +941,17 @@
         karatalas: '<svg viewBox="0 0 40 28" width="30" height="21" fill="none" stroke="#e8c85a" stroke-width="1.3"><circle cx="11" cy="17" r="8"/><circle cx="29" cy="17" r="8"/><circle cx="11" cy="17" r="2.5"/><circle cx="29" cy="17" r="2.5"/><path d="M11 9C13 3 27 3 29 9"/></svg>',
         corner: '<svg viewBox="0 0 30 30" width="18" height="18" fill="none" stroke="#e8c85a" stroke-width="1.2"><path d="M2 28V10C2 5 5 2 10 2h18"/><path d="M8 28V14c0-3 3-6 6-6h14" opacity=".6"/><circle cx="4" cy="4" r="1.6" fill="#e8c85a" stroke="none"/></svg>'
       };
-      function backFace() {
+      function backFace(q) {
         var d = document.createElement("div");
         d.className = "bc-face bc-back";
+        q = q || { text: data.quote, source: data.source };
         var top = data.deco ? '<img class="bc-deco-img" src="' + esc(data.deco) + '" alt="">' : DECO.lotus;
         d.innerHTML =
           '<div class="bc-frame"></div>' +
           '<span class="bc-c bc-c1">' + DECO.corner + '</span><span class="bc-c bc-c2">' + DECO.corner + '</span><span class="bc-c bc-c3">' + DECO.corner + '</span><span class="bc-c bc-c4">' + DECO.corner + '</span>' +
           '<div class="bc-top">' + top + '</div>' +
-          '<div class="bc-quote"><p>&ldquo;' + esc(data.quote) + '&rdquo;</p>' + (data.source ? '<span>&mdash; ' + esc(data.source) + '</span>' : "") + '</div>' +
-          '<div class="bc-bottom"><span class="bc-kar">' + DECO.karatalas + '</span>' + DECO.mridanga + '<span class="bc-kar bc-flip">' + DECO.karatalas + '</span></div>';
+          '<div class="bc-quote"><p>&ldquo;' + esc(q.text) + '&rdquo;</p>' + (q.source ? '<span>&mdash; ' + esc(q.source) + '</span>' : "") + '</div>' +
+          '<div class="bc-bottom bcb-mantra"><p>' + MANTRA + '</p></div>';
         return d;
       }
 
@@ -969,12 +969,19 @@
         fh.appendChild(f); bh.appendChild(b);
       }
 
+      var pool = [], curRand = null;
+      function shuffled(n) { var a = pool.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a.slice(0, n); }
       function currentQuote() {
         if (sel.value === "__custom") { data.quote = customQ.value.trim() || "Your quote here"; data.source = customS.value.trim(); }
+        else if (sel.value === "__random") { if (!curRand) curRand = shuffled(1)[0] || { quote_text: "", source: "" }; data.quote = curRand.quote_text; data.source = curRand.source; }
         else { var q = data.quotes[parseInt(sel.value, 10)]; data.quote = q ? q.quote_text : ""; data.source = q ? q.source : ""; }
       }
       function refresh() { customBox.hidden = sel.value !== "__custom"; currentQuote(); render(); }
-      sel.addEventListener("change", refresh);
+      var shuffleBtn = document.getElementById("bc-shuffle"), nameIn = document.getElementById("bc-name");
+      if (shuffleBtn) shuffleBtn.addEventListener("click", function () { sel.value = "__random"; curRand = null; refresh(); });
+      try { data.name = localStorage.getItem("bc_name") || ""; if (nameIn) nameIn.value = data.name; } catch (e) {}
+      if (nameIn) nameIn.addEventListener("input", function () { data.name = nameIn.value.trim(); try { localStorage.setItem("bc_name", data.name); } catch (e) {} render(); });
+      sel.addEventListener("change", function () { curRand = null; refresh(); });
       [customQ, customS].forEach(function (x) { x.addEventListener("input", refresh); });
       zoomSel.addEventListener("change", render);
       decoInput.addEventListener("change", function () {
@@ -989,20 +996,23 @@
       Promise.all([
         fetch("images/juja-logo.svg").then(function (r) { return r.text(); }).catch(function () { return ""; }),
         client.from("site_settings").select("key,value"),
-        client.from("quotes").select("quote_text,source").order("created_at", { ascending: true })
+        client.from("quotes").select("quote_text", { count: "exact", head: true }).eq("use_weekly", true)
       ]).then(function (res) {
+        // a random window of the PUBLIC quotes (the database hands out at most 1000 at a time)
+        var total = res[2].count || 0, from = Math.max(0, Math.floor(Math.random() * Math.max(1, total - 999)));
+        return client.from("quotes").select("quote_text,source").eq("use_weekly", true).order("id", { ascending: true }).range(from, from + 999).then(function (q) { res[2] = q; return res; });
+      }).then(function (res) {
         data.logoSvg = (res[0] || "").replace(/<svg /, '<svg height="100%" ');
         var set = {}; (res[1].data || []).forEach(function (r) { set[r.key] = r.value; });
         data.till = set.mpesa_till || "";
         [["instagram_url", "instagram"], ["tiktok_url", "tiktok"], ["youtube_url", "youtube"], ["facebook_url", "facebook"]].forEach(function (p) {
           if (set[p[0]]) data.socials.push({ kind: p[1], text: handleOf(set[p[0]]) });
         });
-        data.quotes = (res[2].data || []).filter(function (q) { return q.quote_text && q.quote_text.length <= 160; });
-        var pref = data.quotes.findIndex(function (q) { return /simple living and high thinking/i.test(q.quote_text); });
-        sel.innerHTML = data.quotes.map(function (q, i) { return '<option value="' + i + '">' + esc(q.quote_text.length > 70 ? q.quote_text.slice(0, 70) + "…" : q.quote_text) + "</option>"; }).join("") +
+        data.quotes = (res[2].data || []).filter(function (q) { return q.quote_text && q.quote_text.length <= 140; });
+        pool = data.quotes;
+        sel.innerHTML = '<option value="__random">A different random public quote on every card (recommended)</option>' + data.quotes.slice(0, 150).map(function (q, i) { return '<option value="' + i + '">' + esc(q.quote_text.length > 70 ? q.quote_text.slice(0, 70) + "…" : q.quote_text) + "</option>"; }).join("") +
           '<option value="__custom">Write my own quote…</option>';
-        if (pref >= 0) sel.value = String(pref);
-        if (!data.quotes.length) sel.value = "__custom";
+        sel.value = data.quotes.length ? "__random" : "__custom";
         refresh();
       });
 
@@ -1013,7 +1023,8 @@
         root = document.createElement("div"); root.id = "card-print-root";
         [frontFace, backFace].forEach(function (make) {
           var sheet = document.createElement("div"); sheet.className = "bc-sheet";
-          for (var i = 0; i < 10; i++) { var f = make(); if (make === backFace) fitQuote(f); sheet.appendChild(f); }
+          var picks = (make === backFace && sel.value === "__random") ? shuffled(10) : [];
+          for (var i = 0; i < 10; i++) { var f = (make === backFace && picks.length) ? make({ text: picks[i % picks.length].quote_text, source: picks[i % picks.length].source }) : make(); if (make === backFace) fitQuote(f); sheet.appendChild(f); }
           root.appendChild(sheet);
         });
         document.body.appendChild(root);

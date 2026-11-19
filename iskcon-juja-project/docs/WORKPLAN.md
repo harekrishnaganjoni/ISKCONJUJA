@@ -53,7 +53,8 @@ Any Nectar problem reported by the owner jumps the queue. No open Nectar problem
 - SEO checklist (README "REMINDER: SEO").
 - Older items: README sections 12 and 12A (still valid unless listed above).
 
-## REMINDER (owner, 19 Nov): Business card
-Remind the owner about the Business card (Admin > Shop & site) when we get to it. Not started.
+## DONE 19 Nov: Business card v2 (owner layout: logo | title | Prabhupada; QR + details; mantra both sides; a different public quote on every card; name field) and Fliers tab (4 templates).
 
 ## DONE 19 Nov: About me questions editable in Admin (People > About me questions). Owner must run SQL file 31 once.
+
+- VAPID phone notifications (owner asked 19 Nov; proposed after the calendar work): service worker + push_subscriptions table + scheduled sender; iPhone needs the installed app.

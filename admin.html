@@ -100,6 +100,7 @@
        <div class="admin-group-label">Shop &amp; site</div>
        <button type="button" class="admin-tab-btn" data-tab="products">Merchandise</button>
        <button type="button" class="admin-tab-btn" data-tab="card">Business card</button>
+       <button type="button" class="admin-tab-btn" data-tab="flyer">Fliers</button>
        <button type="button" class="admin-tab-btn" data-tab="settings">Settings</button>
       </nav>
       <div class="admin-content">
@@ -175,6 +176,34 @@
        <div id="pending-list" style="display:flex;flex-direction:column;gap:10px;"></div>
        <h3 style="margin:24px 0 12px;">Everyone Else</h3>
        <div id="people-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+      </div>
+     </section>
+
+     <!-- FLIERS TAB -->
+     <section class="admin-tab-panel" data-tab-panel="flyer" hidden>
+      <h2 class="adm-title">Fliers</h2>
+      <p style="font-size:14px;color:var(--muted);max-width:640px;margin-bottom:16px;">Make a flier for an event or an invitation. Choose a look, fill in the details (or pick an upcoming event to fill most of it), then print it or download it as a picture.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;">
+       <form id="fl-form" class="card" style="padding:16px;flex:1 1 320px;max-width:460px;display:grid;gap:10px;" onsubmit="return false">
+        <label style="font-size:12px;font-weight:700;">Look <select id="fl-tpl" style="width:100%;padding:8px;margin-top:4px;"></select></label>
+        <label style="font-size:12px;font-weight:700;">Size <select id="fl-size" style="width:100%;padding:8px;margin-top:4px;"><option value="a5">A5 (two on one A4 sheet, cut in half)</option><option value="a4">A4 (one per sheet)</option></select></label>
+        <select id="fl-event" style="width:100%;padding:8px;"></select>
+        <label style="font-size:12px;font-weight:700;">Small line above the title <input id="fl-kicker" maxlength="60" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <label style="font-size:12px;font-weight:700;">Title <textarea id="fl-title" rows="2" maxlength="90" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
+        <label style="font-size:12px;font-weight:700;">When <textarea id="fl-when" rows="2" maxlength="120" placeholder="Sunday 23 November 2026, 10:00 am" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
+        <label style="font-size:12px;font-weight:700;">Where <input id="fl-where" maxlength="120" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <label style="font-size:12px;font-weight:700;">A few words about it <textarea id="fl-desc" rows="4" maxlength="320" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
+        <label style="font-size:12px;font-weight:700;">Extra line (entry, food, what to bring) <input id="fl-note" maxlength="90" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <label style="font-size:12px;font-weight:700;">Contact name <input id="fl-name" maxlength="40" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <label style="font-size:12px;font-weight:700;">Contact phone <input id="fl-phone" maxlength="40" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <label style="font-size:12px;font-weight:700;">QR code goes to <input id="fl-link" maxlength="200" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <label style="font-size:12px;font-weight:700;">Picture (optional) <input type="file" id="fl-pic" accept="image/*" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <label style="font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="fl-mantra" checked style="width:auto;"> Show the maha mantra at the bottom</label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="button" type="button" id="fl-print">Print</button><button class="button secondary" type="button" id="fl-png">Download as a picture</button></div>
+        <p id="fl-status" style="font-size:13px;margin:0;"></p>
+        <p style="font-size:12px;color:var(--muted);margin:0;">When printing: paper A4, scale 100%, margins none, Background graphics ON.</p>
+       </form>
+       <div id="fl-holder" style="flex:1 1 360px;"></div>
       </div>
      </section>
 
@@ -410,8 +439,12 @@
       <p style="font-size:14px;color:var(--muted);max-width:640px;margin-bottom:16px;">Business card, 85 &times; 55 mm. Everything fills in from details already on the site (phone, address, social links, logo). The front carries all the contact details. The back carries a quote and decoration. Pick the quote below or write your own.</p>
 
       <div class="bc-controls card" style="padding:16px;max-width:640px;margin-bottom:20px;display:grid;gap:12px;">
+       <label style="font-size:12px;font-weight:700;">Name to show next to the phone number (optional)
+        <input id="bc-name" maxlength="40" placeholder="for example: Dan" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
        <label style="font-size:12px;font-weight:700;">Quote for the back
+        <span style="font-weight:400;color:var(--muted);">(the printed sheet gives every card its own quote)</span>
         <select id="bc-quote-select" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
+       <div><button type="button" class="button secondary" id="bc-shuffle">&#128256; Shuffle the quote</button></div>
        <div id="bc-custom-box" hidden style="display:grid;gap:8px;">
         <label style="font-size:12px;font-weight:700;">Your quote (up to 140 characters)
          <textarea id="bc-custom-quote" maxlength="140" rows="2" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></textarea></label>
@@ -493,6 +526,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="admin.js"></script>
+  <script src="flyer.js"></script>
   <div class="float-stack">
    <div class="float-menu" id="float-menu" hidden>
     <a href="#" data-whatsapp="Hi ISKCON JUJA! I would like to get in touch.">&#128241; Chat on WhatsApp</a>

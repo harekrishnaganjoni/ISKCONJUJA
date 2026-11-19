@@ -1,0 +1,123 @@
+// ADMIN: flier templates for events and invitations. Fill in the form, pick a look, print (A4, or A5 two to a sheet) or download a picture.
+(function () {
+  "use strict";
+  var holder = document.getElementById("fl-holder");
+  if (!holder || !window.ISKCON_DATA || !window.ISKCON_DATA.client) return;
+  var client = window.ISKCON_DATA.client, H = window.ISKCON_HOSTS || {};
+  var $ = function (id) { return document.getElementById(id); };
+  var MON = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var WD = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  var MANTRA = "Hare K&#7771;&#7779;&#7751;a Hare K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a Hare Hare<br>Hare R&#257;ma Hare R&#257;ma R&#257;ma R&#257;ma Hare Hare";
+  var primary = (window.ISKCON && window.ISKCON.WHATSAPP_PRIMARY) || "";
+  var logoSvg = "", picture = "", events = [];
+  var TEMPLATES = [
+    { id: "t1", name: "Festival (maroon and gold)" },
+    { id: "t2", name: "Kirtan night (deep blue and gold)" },
+    { id: "t3", name: "Invitation (cream, elegant)" },
+    { id: "t4", name: "Bold notice (white and gold)" }
+  ];
+  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function nl(t) { return esc(t).replace(/\n/g, "<br>"); }
+  function phoneNice(p) { return p ? "+" + p.slice(0, 3) + " " + p.slice(3, 6) + " " + p.slice(6, 9) + " " + p.slice(9) : ""; }
+  function longDate(iso) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || ""); if (!m) return ""; var d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])); return { wd: WD[d.getUTCDay()], d: +m[3], m: MON[+m[2] - 1], y: +m[1] }; }
+  function rangeText(a, b) {
+    var s = longDate(a); if (!s) return "";
+    var e = b && b !== a ? longDate(b) : null;
+    if (!e) return s.wd + " " + s.d + " " + s.m + " " + s.y;
+    if (e.m === s.m && e.y === s.y) return s.wd + " " + s.d + " to " + e.wd + " " + e.d + " " + s.m + " " + s.y;
+    return s.d + " " + s.m + " to " + e.d + " " + e.m + " " + e.y;
+  }
+  function vals() {
+    return { tpl: $("fl-tpl").value, kicker: $("fl-kicker").value.trim(), title: $("fl-title").value.trim() || "Your event title", when: $("fl-when").value.trim(), where: $("fl-where").value.trim(),
+      desc: $("fl-desc").value.trim(), note: $("fl-note").value.trim(), name: $("fl-name").value.trim(), phone: $("fl-phone").value.trim(), link: $("fl-link").value.trim() || H.publicOrigin || location.origin,
+      mantra: $("fl-mantra").checked, size: $("fl-size").value };
+  }
+  function build(v, px) {
+    var d = document.createElement("div");
+    d.className = "fl fl-" + v.tpl + " " + (v.size === "a5" ? "fl-a5" : "fl-a4");
+    if (px) d.style.fontSize = px + "px";
+    d.innerHTML =
+      '<div class="fl-frame"></div>' +
+      '<div class="fl-logo">' + logoSvg + '</div>' +
+      (v.kicker ? '<p class="fl-kicker">' + esc(v.kicker) + '</p>' : '') +
+      '<h1 class="fl-title">' + nl(v.title) + '</h1>' +
+      (v.when ? '<p class="fl-when">' + nl(v.when) + '</p>' : '') +
+      (picture ? '<div class="fl-pic"><img src="' + esc(picture) + '" alt=""></div>' : '') +
+      (v.desc ? '<p class="fl-desc">' + nl(v.desc) + '</p>' : '') +
+      (v.where ? '<p class="fl-where"><span class="fl-pin">&#9679;</span> ' + nl(v.where) + '</p>' : '') +
+      (v.note ? '<p class="fl-note">' + esc(v.note) + '</p>' : '') +
+      '<div class="fl-foot"><div class="fl-qr"></div><div class="fl-contact">' +
+        '<b>' + esc(v.name ? v.name + ": " : "") + esc(v.phone) + '</b><span>' + esc((H.publicOrigin || location.origin).replace(/^https?:\/\//, "")) + '</span><small>Scan to see more</small></div></div>' +
+      (v.mantra ? '<p class="fl-mantra">' + MANTRA + '</p>' : '');
+    var qr = d.querySelector(".fl-qr");
+    if (window.QRCode) new QRCode(qr, { text: v.link, width: 128, height: 128, colorDark: "#2a1018", colorLight: "#ffffff" });
+    return d;
+  }
+  function render() { var v = vals(); holder.innerHTML = ""; holder.appendChild(build(v, 8.6)); }
+
+  function fillFromEvent(i) {
+    var e = events[i]; if (!e) return;
+    $("fl-title").value = e.title || "";
+    var t = e.start_time ? " at " + String(e.start_time).slice(0, 5) : "";
+    $("fl-when").value = rangeText(e.start_date, e.end_date) + t;
+    $("fl-desc").value = (e.description || "").slice(0, 320);
+    if (!$("fl-kicker").value) $("fl-kicker").value = "You are invited";
+    render();
+  }
+
+  // ---- inputs ----
+  $("fl-tpl").innerHTML = TEMPLATES.map(function (t) { return '<option value="' + t.id + '">' + esc(t.name) + '</option>'; }).join("");
+  $("fl-phone").value = phoneNice(primary);
+  $("fl-where").value = "Anthusia Apartments, Muraya Access Road, Juja";
+  $("fl-link").value = H.publicOrigin || location.origin;
+  $("fl-kicker").value = "You are warmly invited";
+  $("fl-note").value = "Everyone is welcome. Free entry. Prasadam served.";
+  try { $("fl-name").value = localStorage.getItem("bc_name") || ""; } catch (e) {}
+  Array.prototype.forEach.call(document.querySelectorAll("#fl-form input, #fl-form textarea, #fl-form select"), function (el) { if (el.type !== "file") el.addEventListener("input", function () { if (el.id !== "fl-event") render(); }); });
+  $("fl-event").addEventListener("change", function () { if ($("fl-event").value !== "") fillFromEvent(parseInt($("fl-event").value, 10)); });
+  $("fl-pic").addEventListener("change", function () {
+    var f = $("fl-pic").files[0]; if (!f) { picture = ""; render(); return; }
+    var rd = new FileReader(); rd.onload = function () { picture = rd.result; render(); }; rd.readAsDataURL(f);
+  });
+
+  // ---- print: A4 one flier per page, or A5 two to a landscape A4 sheet ----
+  $("fl-print").addEventListener("click", function () {
+    var v = vals(), old = $("flyer-print-root"); if (old) old.remove();
+    var root = document.createElement("div"); root.id = "flyer-print-root";
+    var page = document.createElement("div"); page.className = "flyer-sheet " + (v.size === "a5" ? "two" : "one");
+    var copies = v.size === "a5" ? 2 : 1;
+    for (var i = 0; i < copies; i++) { var f = build(v); f.style.fontSize = ""; page.appendChild(f); }
+    root.appendChild(page); document.body.appendChild(root);
+    var st = $("flyer-page-style") || document.head.appendChild(Object.assign(document.createElement("style"), { id: "flyer-page-style" }));
+    st.textContent = "@media print { @page { size: " + (v.size === "a5" ? "A4 landscape" : "A4") + "; margin: 0; } }";
+    document.body.classList.add("flyer-printing");
+    function done() { document.body.classList.remove("flyer-printing"); window.removeEventListener("afterprint", done); }
+    window.addEventListener("afterprint", done);
+    setTimeout(function () { window.print(); }, 300);
+  });
+
+  // ---- picture ----
+  $("fl-png").addEventListener("click", function () {
+    var status = $("fl-status");
+    if (!window.html2canvas) { status.textContent = "The picture-export library did not load. Check your internet connection."; return; }
+    status.textContent = "Making the picture...";
+    var v = vals(), stage = document.createElement("div"); stage.style.cssText = "position:fixed;left:-9999px;top:0;";
+    var f = build(v, 14); stage.appendChild(f); document.body.appendChild(stage);
+    var imgs = Array.from(stage.querySelectorAll("img")).map(function (img) { return img.complete ? Promise.resolve() : new Promise(function (r) { img.onload = img.onerror = r; }); });
+    Promise.all(imgs).then(function () { return html2canvas(f, { scale: 2.5, backgroundColor: null, useCORS: true }); }).then(function (cv) {
+      var a = document.createElement("a"); a.download = "iskcon-juja-flier.png"; a.href = cv.toDataURL("image/png"); a.click(); status.textContent = "Downloaded.";
+    }).catch(function (e) { status.textContent = "Could not make the picture: " + e.message; }).then(function () { stage.remove(); });
+  });
+
+  // ---- data ----
+  var today = new Date(Date.now() + 3 * 3600 * 1000).toISOString().slice(0, 10);
+  Promise.all([
+    fetch("images/juja-logo.svg").then(function (r) { return r.text(); }).catch(function () { return ""; }),
+    client.from("events").select("*").gte("start_date", today).order("start_date", { ascending: true }).limit(25)
+  ]).then(function (r) {
+    logoSvg = (r[0] || "").replace(/<svg /, '<svg height="100%" ');
+    events = (r[1] && r[1].data) || [];
+    $("fl-event").innerHTML = '<option value="">Fill from an upcoming event (optional)</option>' + events.map(function (e, i) { return '<option value="' + i + '">' + esc(e.title) + " (" + esc(e.start_date) + ")</option>"; }).join("");
+    render();
+  });
+})();

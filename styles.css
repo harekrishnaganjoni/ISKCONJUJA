@@ -2668,3 +2668,89 @@ body.dark-mode .qc-fill { fill: none; }
 .prod-dialog p { line-height: 1.6; }
 .prod-syn { color: var(--muted); font-size: 14.5px; }
 .prod-x { position: absolute; top: 8px; right: 12px; background: none; border: 0; font-size: 30px; line-height: 1; cursor: pointer; color: var(--muted); }
+
+/* ===== business card v2 (19 Nov): logo | title | Prabhupada on top; QR + details in the middle; mantra (2 lines) at the bottom ===== */
+.bc-front.bcf { display: grid; grid-template-columns: 72px 1fr 72px; grid-template-rows: 66px auto auto; column-gap: 8px; row-gap: 5px; padding: 8px 12px 8px; align-content: space-between; }
+.bcf-logo { grid-column: 1; grid-row: 1; height: 66px; display: flex; align-items: center; justify-content: center; }
+.bcf-logo svg { height: 100%; width: auto; max-width: 72px; }
+.bcf-title { grid-column: 2; grid-row: 1; margin: 0; align-self: center; text-align: center; font-size: 6.4px; line-height: 1.4; letter-spacing: .05em; text-transform: uppercase; color: #6a5757; font-weight: 600; }
+.bcf-title b { display: block; margin-top: 2px; color: #800020; font-weight: 700; }
+.bcf .bc-photo { grid-column: 3; grid-row: 1; width: 64px; height: 64px; justify-self: center; align-self: center; }
+.bcf .bc-qr { grid-column: 1; grid-row: 2; width: 58px; height: 58px; justify-self: center; align-self: center; }
+.bcf .bc-qr img, .bcf .bc-qr canvas { width: 58px !important; height: 58px !important; }
+.bcf-details { grid-column: 2 / 4; grid-row: 2; align-self: center; border-left: 1px solid rgba(212, 172, 13, .6); padding-left: 9px; }
+.bcf-details p { margin: 0 0 3px; font-size: 8.6px; }
+.bcf-mantra { grid-column: 1 / 4; grid-row: 3; margin: 0; padding-top: 4px; border-top: 1px solid rgba(212, 172, 13, .6); font-size: 8.4px; line-height: 1.35; }
+.bc-back .bcb-mantra { height: auto; display: block; padding-top: 4px; border-top: 1px solid rgba(232, 200, 90, .55); }
+.bc-back .bcb-mantra p { margin: 0; text-align: center; font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: 7.6px; line-height: 1.35; color: #e8c85a; }
+.bc-back { padding: 14px 20px 12px; }
+
+/* ===== fliers (admin). All sizes in em, so one design prints at A4 or A5 ===== */
+.fl { position: relative; width: 50em; height: 70.71em; box-sizing: border-box; overflow: hidden; display: flex; flex-direction: column; align-items: center; text-align: center; gap: .8em; padding: 3.4em 3.2em 2.6em; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; box-shadow: 0 8px 26px rgba(0,0,0,.28); flex: none; max-width: none; }
+.fl-a4 { font-size: 4.2mm; } .fl-a5 { font-size: 2.96mm; }
+.fl p, .fl h1 { margin: 0; }
+.fl-frame { position: absolute; inset: 1.3em; pointer-events: none; border: .08em solid; border-radius: .4em; }
+.fl-logo { height: 6em; display: flex; justify-content: center; position: relative; }
+.fl-logo svg { height: 100%; width: auto; }
+.fl-kicker { text-transform: uppercase; letter-spacing: .22em; font-size: 1em; font-weight: 700; position: relative; }
+.fl-title { font-family: Georgia, "Times New Roman", serif; font-weight: 700; font-size: 3.3em; line-height: 1.1; max-width: 13em; text-wrap: balance; position: relative; }
+.fl-when { font-size: 1.5em; font-weight: 700; line-height: 1.3; position: relative; }
+.fl-pic { width: 100%; height: 15em; border-radius: .7em; overflow: hidden; position: relative; }
+.fl-pic img { width: 100%; height: 100%; object-fit: cover; display: block; max-width: none; }
+.fl-desc { font-size: 1.2em; line-height: 1.5; max-width: 34em; position: relative; }
+.fl-where { font-size: 1.25em; font-weight: 700; position: relative; }
+.fl-pin { font-size: .7em; vertical-align: .15em; }
+.fl-note { font-style: italic; font-size: 1.05em; position: relative; }
+.fl-foot { margin-top: auto; display: flex; align-items: center; gap: 1.3em; position: relative; }
+.fl-qr { width: 7.4em; height: 7.4em; background: #fff; padding: .45em; border-radius: .4em; box-sizing: border-box; line-height: 0; }
+.fl-qr img, .fl-qr canvas { width: 100% !important; height: 100% !important; display: block; }
+.fl-contact { display: flex; flex-direction: column; align-items: flex-start; gap: .25em; text-align: left; }
+.fl-contact b { font-size: 1.5em; } .fl-contact span { font-size: 1.15em; } .fl-contact small { font-size: .85em; opacity: .8; }
+.fl-mantra { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: 1em; line-height: 1.4; position: relative; }
+
+.fl-t1 { background: radial-gradient(circle at 50% 35%, #6e0a24 0%, #4a000f 70%, #34000a 100%); color: #fbeede; }
+.fl-t1 .fl-frame { border-color: rgba(232,200,90,.8); } .fl-t1 .fl-kicker, .fl-t1 .fl-when, .fl-t1 .fl-mantra { color: #e8c85a; } .fl-t1 .fl-title { color: #fff4dc; }
+.fl-t1 .fl-logo svg { filter: brightness(0) invert(1) sepia(.5) saturate(2) hue-rotate(-10deg) brightness(1.1); }
+
+.fl-t2 { background: radial-gradient(circle at 20% 15%, rgba(255,255,255,.07) 0 .2em, transparent .25em) 0 0 / 3em 3em, linear-gradient(160deg, #0c1b3d 0%, #17346b 100%); color: #eaf0ff; }
+.fl-t2 .fl-frame { border-color: rgba(233,178,76,.85); } .fl-t2 .fl-kicker, .fl-t2 .fl-mantra, .fl-t2 .fl-when { color: #f0c15a; } .fl-t2 .fl-title { color: #fff; }
+.fl-t2 .fl-logo svg { filter: brightness(0) invert(1); }
+
+.fl-t3 { background: #fbf3dd; color: #4a1020; }
+.fl-t3 .fl-frame { border: .3em double #b8861a; inset: 1.1em; } .fl-t3 .fl-kicker { color: #9a6700; } .fl-t3 .fl-title { color: #7a1030; font-style: italic; } .fl-t3 .fl-when { color: #9a6700; } .fl-t3 .fl-mantra { color: #9a6700; }
+.fl-t3 .fl-qr { border: .08em solid #d8c48a; }
+
+.fl-t4 { background: #fff; color: #1f1a1a; }
+.fl-t4::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 27em; background: linear-gradient(135deg, #f6d56a, #e2a928); }
+.fl-t4::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.4em; background: #7a1030; }
+.fl-t4 .fl-frame { display: none; } .fl-t4 .fl-kicker { color: #7a1030; } .fl-t4 .fl-title { color: #0e2347; font-size: 3.6em; } .fl-t4 .fl-when { color: #7a1030; margin-top: .3em; }
+.fl-t4 .fl-qr { border: .08em solid #e0d6c0; } .fl-t4 .fl-mantra { color: #7a1030; margin-bottom: .8em; }
+
+#flyer-print-root, .flyer-sheet { display: none; }
+@media print {
+  body.flyer-printing > *:not(#flyer-print-root) { display: none !important; }
+  body.flyer-printing { background: #fff !important; margin: 0 !important; }
+  body.flyer-printing #flyer-print-root { display: block; }
+  body.flyer-printing .flyer-sheet { display: flex; align-items: flex-start; justify-content: center; width: 100%; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body.flyer-printing .fl { box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body.flyer-printing .flyer-sheet.two { width: 297mm; height: 209mm; overflow: hidden; }
+  body.flyer-printing .flyer-sheet.one { width: 210mm; height: 296mm; overflow: hidden; }
+}
+/* flier tune-up */
+.fl { gap: 1.15em; padding-top: 3.6em; }
+.fl p, .fl h1, .fl b, .fl span, .fl small { color: inherit; }
+.fl-logo { height: 8em; }
+.fl-kicker { font-size: 1.15em; margin-top: .4em; }
+.fl-title { font-size: 4.1em; margin-top: .15em; }
+.fl-t4 .fl-title { font-size: 4.3em; }
+.fl-when { font-size: 1.9em; }
+.fl-when::after { content: ""; display: block; width: 9em; height: .09em; margin: .9em auto 0; background: currentColor; opacity: .5; }
+.fl-pic { height: 19em; }
+.fl-desc { font-size: 1.45em; line-height: 1.55; max-width: 29em; margin-top: .4em; }
+.fl-where { font-size: 1.5em; }
+.fl-note { font-size: 1.2em; }
+.fl-qr { width: 8.6em; height: 8.6em; }
+.fl-contact b { font-size: 1.75em; } .fl-contact span { font-size: 1.3em; }
+.fl-mantra { font-size: 1.1em; }
+.fl-t4::before { height: 30em; }
+.fl-t4::before { height: 33em; }

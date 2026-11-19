@@ -9,7 +9,7 @@
   var WD = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   var MANTRA = "Hare K&#7771;&#7779;&#7751;a Hare K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a Hare Hare<br>Hare R&#257;ma Hare R&#257;ma R&#257;ma R&#257;ma Hare Hare";
   var primary = (window.ISKCON && window.ISKCON.WHATSAPP_PRIMARY) || "";
-  var logoSvg = "", picture = "", events = [];
+  var logoSvg = "", picture = "", events = [], artIds = [];
   var TEMPLATES = [
     { id: "t1", name: "Festival (maroon and gold)" },
     { id: "t2", name: "Kirtan night (deep blue and gold)" },
@@ -33,7 +33,7 @@
   function vals() {
     return { tpl: $("fl-tpl").value, kicker: $("fl-kicker").value.trim(), title: $("fl-title").value.trim() || "Your event title", when: $("fl-when").value.trim(), where: $("fl-where").value.trim(),
       desc: $("fl-desc").value.trim(), note: $("fl-note").value.trim(), name: $("fl-name").value.trim(), phone: $("fl-phone").value.trim(), phone2: nice($("fl-phone2").value), name2: $("fl-name2").value.trim(), ink: $("fl-ink").checked, link: $("fl-link").value.trim() || H.publicOrigin || location.origin,
-      mantra: $("fl-mantra").checked, size: $("fl-size").value };
+      mantra: $("fl-mantra").checked, size: $("fl-size").value, art: artIds };
   }
   function build(v, px) {
     var d = document.createElement("div");
@@ -52,6 +52,7 @@
       '<div class="fl-mid">' +
       (v.when ? '<p class="fl-when"><span>' + nl(v.when) + '</span></p>' : '') +
       (picture ? '<div class="fl-pic"><img src="' + esc(picture) + '" alt=""></div>' : '') +
+      (v.art.length ? ART.strip(v.art, (!v.ink && /^t[12]$/.test(v.tpl)) ? "y" : "m", "fl-art") : '') +
       (v.desc ? '<p class="fl-desc">' + nl(v.desc) + '</p>' : '') +
       (v.where ? '<p class="fl-where">' + nl(v.where) + '</p>' : '') +
       (v.note ? '<p class="fl-note">' + esc(v.note) + '</p>' : '') +
@@ -63,6 +64,9 @@
     if (window.QRCode) new QRCode(qr, { text: v.link, width: 128, height: 128, colorDark: "#2a1018", colorLight: "#ffffff" });
     return d;
   }
+  function reArt() { artIds = ART.ids($("fl-art").value, parseInt($("fl-art-n").value, 10) || 2); render(); }
+  $("fl-art").innerHTML = ART.options('<option value="none">No pictures</option><option value="random">Random (a mix)</option>');
+  $("fl-art").addEventListener("change", reArt); $("fl-art-n").addEventListener("change", reArt); $("fl-art-shuffle").addEventListener("click", reArt);
   function render() { var v = vals(); holder.innerHTML = ""; holder.appendChild(build(v, 8.6)); }
 
   function fillFromEvent(i) {

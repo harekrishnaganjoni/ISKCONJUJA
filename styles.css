@@ -2944,3 +2944,14 @@ body.dark-mode .qc-fill { fill: none; }
 .pp-mantra { font-size: .95em; padding-bottom: .4em; }
 .pp-cz .pp-covertitle { font-size: 4.2em; } .pp-cz .pp-h { font-size: 2.7em; }
 .pp-contact { font-size: 1.2em; }
+
+/* owner's line-art pictures */
+.bc-art { display: flex; align-items: center; justify-content: center; gap: 9px; height: 100%; }
+.bc-art img { height: 100%; width: auto; max-width: 84px; object-fit: contain; display: block; }
+.bc-art1 img { max-width: 110px; } .bc-art3 img { max-width: 62px; }
+.bc-back .bc-top { height: 52px; }
+.fl-art { display: flex; align-items: center; justify-content: center; gap: 1.6em; height: 6.5em; width: 100%; }
+.fl-art img { height: 100%; width: auto; max-width: 11em; object-fit: contain; display: block; }
+.fl-casual .fl-art { transform: rotate(-2deg); }
+.pp-art { display: flex; align-items: center; justify-content: center; gap: 1em; height: 8em; width: 100%; margin-top: .9em; }
+.pp-art img { height: 100%; width: auto; max-width: 8em; object-fit: contain; display: block; }

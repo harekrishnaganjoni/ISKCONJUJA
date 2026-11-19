@@ -887,7 +887,7 @@
       var customQ = document.getElementById("bc-custom-quote");
       var customS = document.getElementById("bc-custom-source");
       var zoomSel = document.getElementById("bc-zoom");
-      var decoInput = document.getElementById("bc-deco-image"), decoSel = document.getElementById("bc-deco-kind"), inkIn = document.getElementById("bc-ink"), ph2In = document.getElementById("bc-phone2"), nm2In = document.getElementById("bc-name2");
+      var decoInput = document.getElementById("bc-deco-image"), decoSel = document.getElementById("bc-deco-kind"), countSel = document.getElementById("bc-deco-count"), inkIn = document.getElementById("bc-ink"), ph2In = document.getElementById("bc-phone2"), nm2In = document.getElementById("bc-name2");
       var HOSTS = window.ISKCON_HOSTS || {}, siteUrl = HOSTS.publicOrigin || window.location.origin.replace("//portal.", "//");   // the PUBLIC site, never the member portal
       var primary = (window.ISKCON && window.ISKCON.WHATSAPP_PRIMARY) || "";
       var data = {
@@ -950,9 +950,12 @@
         var d = document.createElement("div");
         d.className = "bc-face bc-back";
         q = q || { text: data.quote, source: data.source };
-        var kinds = ["lotus", "feather", "flute", "gaura", "conch", "mridanga"], pick = decoSel ? decoSel.value : "random";
-        if (pick === "random") pick = q ? kinds[Math.floor(Math.random() * kinds.length)] : (data.previewDeco = data.previewDeco || kinds[Math.floor(Math.random() * kinds.length)]);
-        var top = data.deco ? '<img class="bc-deco-img" src="' + esc(data.deco) + '" alt="">' : (DECO[pick] || DECO.lotus);
+        var pick = decoSel ? decoSel.value : "random", n = parseInt(countSel && countSel.value, 10) || 2, ids;
+        if (data.deco) ids = null;
+        else if (pick === "lotus" || pick === "feather") ids = null;
+        else if (q) ids = ART.ids(pick, n);                                  // every card on the sheet gets its own pictures
+        else { if (!data.previewArt || data.previewArt.length !== n || data.previewKey !== pick) { data.previewArt = ART.ids(pick, n); data.previewKey = pick; } ids = data.previewArt; }
+        var top = data.deco ? '<img class="bc-deco-img" src="' + esc(data.deco) + '" alt="">' : ids ? ART.strip(ids, data.ink ? "g" : "y", "bc-art bc-art" + ids.length) : (DECO[pick] || DECO.lotus);
         if (data.ink) d.className += " ink";
         d.innerHTML =
           '<div class="bc-frame"></div>' +
@@ -986,7 +989,7 @@
       }
       function refresh() { customBox.hidden = sel.value !== "__custom"; currentQuote(); render(); }
       var shuffleBtn = document.getElementById("bc-shuffle"), nameIn = document.getElementById("bc-name");
-      if (shuffleBtn) shuffleBtn.addEventListener("click", function () { sel.value = "__random"; curRand = null; data.previewDeco = null; refresh(); });
+      if (shuffleBtn) shuffleBtn.addEventListener("click", function () { sel.value = "__random"; curRand = null; data.previewDeco = null; data.previewArt = null; refresh(); });
       function nicePhone(raw) { var d = String(raw || "").replace(/\D/g, ""); if (d.charAt(0) === "0") d = "254" + d.slice(1); return d.length === 12 ? "+" + d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6, 9) + " " + d.slice(9) : String(raw || "").trim(); }
       function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
       function stored(k, dflt) { try { var v = localStorage.getItem(k); return v === null ? dflt : v; } catch (e) { return dflt; } }
@@ -997,8 +1000,9 @@
       if (nm2In) nm2In.addEventListener("input", function () { data.name2 = nm2In.value.trim(); store("bc_name2", data.name2); render(); });
       if (ph2In) ph2In.addEventListener("input", function () { store("bc_phone2", ph2In.value.trim()); data.phone2 = nicePhone(ph2In.value); render(); });
       if (inkIn) inkIn.addEventListener("change", function () { data.ink = inkIn.checked; store("bc_ink", data.ink ? "1" : "0"); render(); });
-      if (decoSel) decoSel.addEventListener("change", render);
-      sel.addEventListener("change", function () { curRand = null; refresh(); });
+      if (decoSel) { decoSel.innerHTML = ART.options('<option value="random">A different one on every card</option><option value="lotus">Lotus (drawn)</option><option value="feather">Peacock feather (drawn)</option>'); decoSel.addEventListener("change", render); }
+      if (countSel) countSel.addEventListener("change", render);
+      sel.addEventListener("change", function () { curRand = null; data.previewArt = null; refresh(); });
       [customQ, customS].forEach(function (x) { x.addEventListener("input", refresh); });
       zoomSel.addEventListener("change", render);
       decoInput.addEventListener("change", function () {

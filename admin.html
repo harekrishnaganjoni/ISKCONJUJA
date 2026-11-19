@@ -201,6 +201,10 @@
         <label style="font-size:12px;font-weight:700;">Phone 2 <input id="fl-phone2" maxlength="40" style="width:100%;padding:8px;margin-top:4px;"></label>
         <label style="font-size:12px;font-weight:700;">Name in brackets <input id="fl-name2" maxlength="40" style="width:100%;padding:8px;margin-top:4px;"></label>
         <label style="font-size:12px;font-weight:700;">QR code goes to (filled in for you when you pick an event) <input id="fl-link" maxlength="200" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <div style="display:grid;grid-template-columns:2fr 1fr auto;gap:8px;align-items:end;">
+         <label style="font-size:12px;font-weight:700;">Decoration pictures <select id="fl-art" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
+         <label style="font-size:12px;font-weight:700;">How many <select id="fl-art-n" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option>1</option><option selected>2</option><option>3</option></select></label>
+         <button type="button" class="button secondary" id="fl-art-shuffle" title="Pick different pictures">&#128256;</button></div>
         <label style="font-size:12px;font-weight:700;">Picture (optional) <input type="file" id="fl-pic" accept="image/*" style="width:100%;padding:8px;margin-top:4px;"></label>
         <label style="font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="fl-mantra" checked style="width:auto;"> Show the maha mantra at the bottom</label>
         <label style="font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="fl-ink" checked style="width:auto;"> Save ink: no coloured background when printing</label>
@@ -230,6 +234,10 @@
         <label style="font-size:12px;font-weight:700;">Inside 2: text <textarea id="pam-t2" rows="5" maxlength="520" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
         <label style="font-size:12px;font-weight:700;">Inside 3: heading <input id="pam-h3" maxlength="50" style="width:100%;padding:8px;margin-top:4px;"></label>
         <label style="font-size:12px;font-weight:700;">Inside 3: text <textarea id="pam-t3" rows="5" maxlength="520" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
+        <div style="display:grid;grid-template-columns:2fr 1fr auto;gap:8px;align-items:end;">
+         <label style="font-size:12px;font-weight:700;">Decoration pictures <select id="pam-art" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
+         <label style="font-size:12px;font-weight:700;">How many <select id="pam-art-n" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option>1</option><option selected>2</option><option>3</option></select></label>
+         <button type="button" class="button secondary" id="pam-art-shuffle" title="Pick different pictures">&#128256;</button></div>
         <label style="font-size:12px;font-weight:700;">Picture for inside 2 (optional) <input type="file" id="pam-pic" accept="image/*" style="width:100%;padding:8px;margin-top:4px;"></label>
         <label style="font-size:12px;font-weight:700;">Address <textarea id="pam-where" rows="2" maxlength="140" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
         <label style="font-size:12px;font-weight:700;">Phone 1 <input id="pam-phone" maxlength="30" style="width:100%;padding:8px;margin-top:4px;"></label>
@@ -486,11 +494,13 @@
         <label style="font-size:12px;font-weight:700;">Name shown in brackets <input id="bc-name2" maxlength="40" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
        </div>
        <label style="font-size:12px;font-weight:700;">Picture at the top of the back
-        <select id="bc-deco-kind" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option value="random">A different one on every card</option><option value="lotus">Lotus</option><option value="feather">Peacock feather</option><option value="flute">Krishna playing the flute</option><option value="gaura">Gaura-Nitai dancing</option><option value="conch">Conch</option><option value="mridanga">Mridanga</option></select></label>
+        <select id="bc-deco-kind" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
        <label style="font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="bc-ink" checked style="width:auto;"> Save ink: no coloured background when printing (white card, maroon and gold lines)</label>
        <label style="font-size:12px;font-weight:700;">Quote for the back
         <span style="font-weight:400;color:var(--muted);">(the printed sheet gives every card its own quote)</span>
         <select id="bc-quote-select" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
+       <label style="font-size:12px;font-weight:700;">How many pictures on the back
+        <select id="bc-deco-count" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option value="1">One</option><option value="2" selected>Two</option><option value="3">Three</option></select></label>
        <div><button type="button" class="button secondary" id="bc-shuffle">&#128256; Shuffle the quote</button></div>
        <div id="bc-custom-box" hidden style="display:grid;gap:8px;">
         <label style="font-size:12px;font-weight:700;">Your quote (up to 140 characters)
@@ -572,6 +582,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="art.js"></script>
   <script src="admin.js"></script>
   <script src="flyer.js"></script>
   <script src="pamphlet.js"></script>

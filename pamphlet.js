@@ -8,7 +8,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var MANTRA = "Hare K&#7771;&#7779;&#7751;a Hare K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a Hare Hare<br>Hare R&#257;ma Hare R&#257;ma R&#257;ma R&#257;ma Hare Hare";
   var primary = (window.ISKCON && window.ISKCON.WHATSAPP_PRIMARY) || "";
-  var logoSvg = "", picture = "";
+  var logoSvg = "", picture = "", artIds = [];
   function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function nl(t) { return esc(t).replace(/\n/g, "<br>"); }
   function nice(raw) { var d = String(raw || "").replace(/\D/g, ""); if (d.charAt(0) === "0") d = "254" + d.slice(1); return d.length === 12 ? "+" + d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6, 9) + " " + d.slice(9) : String(raw || "").trim(); }
@@ -16,13 +16,13 @@
     var secs = [1, 2, 3].map(function (i) { return { h: $("pam-h" + i).value.trim(), t: $("pam-t" + i).value.trim() }; });
     return { type: $("pam-type").value, tpl: $("pam-tpl").value, title: $("pam-title").value.trim() || "Your title", tagline: $("pam-tagline").value.trim(),
       flapH: $("pam-flap-h").value.trim(), flapT: $("pam-flap-t").value.trim(), secs: secs, where: $("pam-where").value.trim(), link: $("pam-link").value.trim() || H.publicOrigin || location.origin,
-      phone: $("pam-phone").value.trim(), name: $("pam-name").value.trim(), phone2: nice($("pam-phone2").value), name2: $("pam-name2").value.trim(), mantra: $("pam-mantra").checked, ink: $("pam-ink").checked };
+      phone: $("pam-phone").value.trim(), name: $("pam-name").value.trim(), phone2: nice($("pam-phone2").value), name2: $("pam-name2").value.trim(), mantra: $("pam-mantra").checked, ink: $("pam-ink").checked, art: artIds };
   }
   function cover(v) {
     return '<div class="pp-top"><div class="pp-logo">' + logoSvg + '</div>' +
       '<p class="pp-prabtitle">ISKCON Founder-&#256;c&#257;rya<br><b>His Divine Grace<br>A.C. Bhaktivedanta Swami Prabhup&#257;da</b></p>' +
       '<img class="pp-prab" src="images/prabhupada-sitting.webp" alt="His Divine Grace A.C. Bhaktivedanta Swami Prabhup&#257;da"></div>' +
-      '<h1 class="pp-covertitle">' + nl(v.title) + '</h1>' + (v.tagline ? '<p class="pp-tagline">' + nl(v.tagline) + '</p>' : '') +
+      '<h1 class="pp-covertitle">' + nl(v.title) + '</h1>' + (v.tagline ? '<p class="pp-tagline">' + nl(v.tagline) + '</p>' : '') + (v.art.length ? ART.strip(v.art, (!v.ink && /^f[12]$/.test(v.tpl)) ? "y" : "m", "pp-art") : '') +
       (v.mantra ? '<p class="pp-mantra">' + MANTRA + '</p>' : '');
   }
   function textPanel(h, t, withPic) {
@@ -57,6 +57,9 @@
                      : [panel("pp-in", textPanel(S[0].h, S[0].t, false)), panel("pp-in", textPanel(S[1].h, S[1].t, true))];
     return [sheet(v, "Page 1: outside (the cover is on the right)", outside, px), sheet(v, "Page 2: inside", inside, px)];
   }
+  function reArt() { artIds = ART.ids($("pam-art").value, parseInt($("pam-art-n").value, 10) || 2); render(); }
+  $("pam-art").innerHTML = ART.options('<option value="none">No pictures</option><option value="random">Random (a mix)</option>');
+  $("pam-art").addEventListener("change", reArt); $("pam-art-n").addEventListener("change", reArt); $("pam-art-shuffle").addEventListener("click", reArt);
   function render() {
     var v = vals();
     var tri = v.type === "tri";

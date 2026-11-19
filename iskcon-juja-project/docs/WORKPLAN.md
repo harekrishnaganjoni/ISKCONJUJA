@@ -7,3 +7,10 @@
 
 ---
 
+
+
+## Calendar housekeeping (19 Nov 2026) - DONE
+- Past one-off events disappear from the site by themselves (they stay in admin, tagged "past").
+- "Repeats every year" tick on events: the event moves to its next date automatically; the admin Overview shows a reminder 7 days before. Festivals that follow the moon (e.g. Gaura Purnima) still need their date updated each year (the reminder says so).
+- Needs SQL 33 (events-repeat-yearly) run once.
+- Doodle watermark now behind member and admin pages; thin maroon lines removed.

@@ -71,7 +71,7 @@
         cnt(client.from("profiles").select("id", { count: "exact", head: true }).eq("approval", "pending")),
         cnt(client.from("testimonials").select("id", { count: "exact", head: true }).eq("published", false)),
         cnt(client.from("membership_applications").select("id", { count: "exact", head: true }).eq("status", "new")),
-        cnt(client.from("events").select("id", { count: "exact", head: true }).gte("start_date", today))
+        client.from("events").select("*").then(function (r) { return r.error ? null : (r.data || []).map(function (e) { return window.EVD ? EVD.occurrence(e) : e; }).filter(function (e) { return !e._past; }).length; }, function () { return null; })
       ]).then(function (n) {
         ["st-pending", "st-testi", "st-apps", "st-events"].forEach(function (id, i) { var el = document.getElementById(id); if (el) el.textContent = n[i] == null ? "-" : n[i]; });
         setBadge("badge-people", (n[0] || 0) + (n[2] || 0)); setBadge("badge-testimonials", n[1] || 0);
@@ -87,9 +87,10 @@
         var q = r && r.data && r.data[0];
         qb.innerHTML = q ? '<p class="ov-quote">\u201C' + esc(q.quote_text) + '\u201D</p><p class="ov-src">' + esc(q.source) + '</p>' : '<p class="adm-help">No quote yet. Add some in the Quotes tab.</p>';
       }, function () {});
-      if (eb) client.from("events").select("title,start_date,end_date").gte("start_date", today).order("start_date", { ascending: true }).limit(3).then(function (r) {
-        var l = (r && r.data) || [];
-        eb.innerHTML = l.length ? l.map(function (e) { return '<p class="ov-line"><b>' + esc(e.start_date) + '</b> ' + esc(e.title) + '</p>'; }).join("") : '<p class="adm-help">Nothing coming up. Add an event in Events &amp; programs.</p>';
+      if (eb) client.from("events").select("*").then(function (r) {
+        var l = ((r && r.data) || []).map(function (e) { return window.EVD ? EVD.occurrence(e) : e; }).filter(function (e) { return !e._past; });
+        l.sort(function (a, b) { return a.start_date < b.start_date ? -1 : 1; }); l = l.slice(0, 3);
+        eb.innerHTML = l.length ? l.map(function (e) { return '<p class="ov-line"><b>' + esc(e.start_date) + '</b> ' + esc(e.title) + (e._shifted ? ' <span class="adm-help">(repeats yearly)</span>' : '') + '</p>'; }).join("") : '<p class="adm-help">Nothing coming up. Add an event in Events &amp; programs.</p>';
       }, function () {});
       if (sb) client.from("registrations").select("id", { count: "exact", head: true }).gte("created_at", weekAgo).then(function (r) {
         var n = r && !r.error ? (r.count != null ? r.count : (r.data || []).length) : null;
@@ -97,6 +98,22 @@
       }, function () {});
     }
     loadOverviewPanels();
+
+    // Reminder: yearly events that come round again within the next 7 days (check the date, guests and details are still right).
+    (function () {
+      var box = document.getElementById("ov-yearly"); if (!box || !window.EVD) return;
+      client.from("events").select("*").eq("repeat_yearly", true).then(function (r) {
+        if (r.error) return;
+        var t = EVD.today(), soon = ((r.data) || []).map(function (e) { return EVD.occurrence(e, t); }).filter(function (e) { var d = EVD.days(t, e.start_date); return d >= 0 && d <= 7; });
+        if (!soon.length) { box.innerHTML = ""; return; }
+        box.innerHTML = soon.map(function (e) {
+          var d = EVD.days(t, e.start_date);
+          return '<div class="adm-remind"><b>Reminder:</b> &ldquo;' + esc(e.title) + '&rdquo; comes round again ' + (d === 0 ? 'today' : d === 1 ? 'tomorrow' : 'in ' + d + ' days (' + esc(e.start_date) + ')') + '. Check that the date, guests and details are still right (festivals that follow the moon move each year). <a href="#" data-goto-events>Open Events &amp; programs</a></div>';
+        }).join("");
+        var g = box.querySelector("[data-goto-events]");
+        if (g) box.querySelectorAll("[data-goto-events]").forEach(function (x) { x.addEventListener("click", function (ev) { ev.preventDefault(); var b = document.querySelector('.admin-tab-btn[data-tab="events"]'); if (b) b.click(); }); });
+      });
+    })();
 
     // ---------- Know our own role, to gate People actions ----------
     var myRole = null;
@@ -422,7 +439,7 @@
         var row = {};
         Array.from(form.elements).forEach(function (el) {
           if (!el.name) return;
-          if (el.type === "checkbox") row[el.name] = el.checked;
+          if (el.type === "checkbox") { if (el.name === "repeat_yearly" && !el.checked && !(editingId && rowsById[editingId] && "repeat_yearly" in rowsById[editingId])) return; row[el.name] = el.checked; }
           else if (el.type === "number") row[el.name] = el.value ? Number(el.value) : null;
           else row[el.name] = el.value || null;
         });
@@ -598,7 +615,7 @@
       return rowShell("programs", g.id, g.published, g.title, DAY_NAMES[g.weekday] + " " + String(g.start_time).slice(0, 5) + "\u2013" + String(g.end_time).slice(0, 5));
     });
     wireTable("events", "event-form", "events-admin-list", "event-status", function (ev) {
-      return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.start_time ? " " + String(ev.start_time).slice(0, 5) : "") + (ev.image_url ? " \u00b7 has picture" : ""));
+      return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.start_time ? " " + String(ev.start_time).slice(0, 5) : "") + (ev.image_url ? " \u00b7 has picture" : "") + (ev.repeat_yearly ? " \u00b7 repeats every year" : (window.EVD && EVD.occurrence(ev)._past ? " \u00b7 past (hidden from the site)" : "")));
     });
 
     // Membership applications

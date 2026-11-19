@@ -75,6 +75,9 @@
     client.from("events").select("*").eq("published", true).order("start_date", { ascending: true })
       .then(function (r) {
         if (r.error || !r.data || !r.data.length) return;
+        // past events drop off by themselves; "repeats every year" events move to their next date
+        r.data = r.data.map(function (e) { return window.EVD ? EVD.occurrence(e) : e; }).filter(function (e) { return !e._past; });
+        if (!r.data.length) return;
         box.hidden = false;
         // Newest first: coming up (soonest first), then happening now, then ended ones last (dimmed).
         var today = new Date(Date.now() + 3 * 3600 * 1000).toISOString().slice(0, 10);

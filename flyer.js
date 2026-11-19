@@ -133,7 +133,7 @@
     client.from("programs").select("*").order("weekday", { ascending: true })
   ]).then(function (r) {
     logoSvg = (r[0] || "").replace(/<svg /, '<svg height="100%" ');
-    var ev = ((r[1] && r[1].data) || []).map(function (e) {
+    var ev = ((r[1] && r[1].data) || []).map(function (e) { return window.EVD ? EVD.occurrence(e) : e; }).map(function (e) {
       var end = e.end_date || e.start_date, t = e.start_time ? " at " + hm(e.start_time) : "";
       return { label: e.title + " (" + e.start_date + (end < today ? ", ended" : "") + ")", sort: end < today ? 1 : 0, key: e.start_date, title: e.title, when: rangeText(e.start_date, e.end_date) + t, description: e.description, place: "", hash: "#event-" + e.id };
     });

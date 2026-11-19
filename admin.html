@@ -117,6 +117,7 @@
        <button type="button" class="adm-stat" data-goto="people"><b id="st-apps">-</b><span>New membership applications</span></button>
        <button type="button" class="adm-stat" data-goto="events"><b id="st-events">-</b><span>Upcoming events</span></button>
       </div>
+      <div id="ov-yearly"></div>
       <h3 class="adm-sub">Today</h3>
       <div class="adm-panels">
        <section class="adm-panel"><h4>Quote of the day</h4><div id="ov-quote"><p class="adm-help">Loading...</p></div></section>
@@ -407,6 +408,7 @@
          <input type="hidden" name="image_url" id="event-image-url">
          <span id="event-photo-status" style="font-size:12px;color:var(--muted);display:block;margin-top:4px;"></span>
         </label>
+        <label style="font-size:13px;display:flex;align-items:center;gap:8px;"><input name="repeat_yearly" type="checkbox" style="width:auto;"> Repeats every year (it comes back by itself on the same date, and I remind you a week before)</label>
         <label style="font-size:13px;display:flex;align-items:center;gap:8px;"><input name="published" type="checkbox" checked style="width:auto;"> Publish immediately</label>
         <button class="button" type="submit" style="width:100%;">Add Event</button>
         <p id="event-status" style="font-size:13px;"></p>
@@ -576,6 +578,7 @@
   <script src="supabase-config.js"></script>
   <script src="portal.js" data-mode="always"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="evdate.js"></script>
   <script src="data.js"></script>
   <script src="site.js"></script>
   <script src="auth-guard.js" data-require="admin"></script>

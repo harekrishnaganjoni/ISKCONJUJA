@@ -44,7 +44,7 @@ html.in-portal input:focus, html.in-portal select:focus, html.in-portal textarea
 
 /* ---------- top: logo bar (black into deep blue) and menu bar ---------- */
 html.in-portal body[data-pat] .ph-top .header-top, html.in-portal .ph-top .header-top {
-  background: linear-gradient(90deg, #03050a 0%, #0e2347 50%, #03050a 100%); border-bottom: 1px solid rgba(217, 165, 33, .45);
+  background: linear-gradient(90deg, #05070d 0%, #1b4590 50%, #05070d 100%); border-bottom: 1px solid rgba(217, 165, 33, .55);
 }
 html.in-portal .ph-top .header-mantra p { color: var(--gold-2); }
 html.in-portal .ph-top .prabhupada-caption { color: #cfd8ee; }
@@ -342,8 +342,37 @@ html.in-portal .coin-face .eyebrow { font-family: "Kalam", "Patrick Hand", cursi
 .qd-close { top: 15%; right: 6%; } .qd-open { bottom: 27%; left: 4%; } .qd-m-tl { top: 15%; left: 6%; } .qd-m-br { bottom: 27%; right: 4%; }
 @media (max-width: 760px) { html.in-portal .coin-face { min-height: 280px; padding: 100px 58px 92px 62px; } }
 
-/* v3: logo bar is gold in light mode too (blue-black only in dark mode) */
-html.in-portal body:not(.dark-mode) .ph-top .header-top, html.in-portal body:not(.dark-mode)[data-pat] .ph-top .header-top { background: linear-gradient(90deg, #f3d98c 0%, #fbe9b0 50%, #f3d98c 100%); border-bottom: 1px solid rgba(14, 35, 71, .25); }
-html.in-portal body:not(.dark-mode) .ph-top .header-mantra p { color: #0e2347; }
-html.in-portal body:not(.dark-mode) .ph-top .prabhupada-caption { color: #3a3216; }
-html.in-portal body:not(.dark-mode) .ph-top .brand-logo { filter: none; }
+/* v4: citation sits under the cloud, beside the tail */
+.coin { padding-bottom: 74px; }
+html.in-portal .coin-face { overflow: visible; }
+.qd-cite { position: absolute; top: calc(100% - 6px); left: 40%; width: 58%; text-align: left; }
+.coin-said .qd-cite { left: auto; right: 40%; text-align: right; }
+.qd-cite p { margin: 0; }
+.qd-cite .quote-source, .qd-cite .said-source { font-size: 14px; }
+.qd-cite a { font-size: 13px; }
+.qd-cite .said-tag { display: block; margin-top: 2px; font-size: 12.5px; letter-spacing: .04em; text-transform: none; color: var(--muted); }
+@media (max-width: 760px) { .coin { padding-bottom: 66px; gap: 80px; } .qd-cite, .coin-said .qd-cite { left: 38%; right: auto; width: 60%; text-align: left; } }
+.qd-cite .quote-source, .qd-cite .said-source, .qd-cite a { text-align: inherit; display: block; }
+.coin-said .qd-cite { width: 62%; }
+
+/* profile: side menu */
+.pf-layout { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 28px; align-items: start; }
+.pf-nav { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 4px; padding: 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+.pf-nav a { padding: 10px 12px; border-radius: 9px; color: var(--body-text); text-decoration: none; font-weight: 600; font-size: 14px; border-left: 4px solid transparent; }
+.pf-nav a:hover { background: var(--gold-soft); }
+.pf-nav a.on { background: var(--gold-soft); border-left-color: var(--gold); color: var(--navy); font-weight: 800; }
+html.in-portal body.dark-mode .pf-nav a.on { color: var(--gold-2); }
+.pf-layout .pf-sec > summary { display: none; }
+.pf-layout .pf-sec { border: 0; background: none; padding: 0; }
+@media (max-width: 859px) { .pf-layout { grid-template-columns: 1fr; gap: 14px; } .pf-nav { position: static; flex-direction: row; overflow-x: auto; } .pf-nav a { white-space: nowrap; border-left: 0; border-bottom: 3px solid transparent; } .pf-nav a.on { border-bottom-color: var(--gold); } .pf-layout .pf-sec > summary { display: none; } }
+
+/* admin: sections are header pages, side menu holds sub-pages */
+.admin-side-title { color: var(--gold-2); font-family: "Playfair Display", Georgia, serif; font-size: 19px; font-weight: 700; padding: 6px 12px 10px; }
+html.in-portal body:not(.dark-mode) .admin-side-title { color: #7a1030; }
+.admin-layout.no-side .admin-tabs { display: none; }
+.admin-layout.admin-collapsed .admin-side-title { display: none; }
+.admin-tab-btn[hidden] { display: none !important; }
+.adm-main .adm-wrap { max-width: 1180px; }
+.adm-main .admin-content { padding: 22px 26px; }
+.adm-main .adm-title { margin-bottom: 18px; }
+.adm-main .adm-panel, .adm-main .adm-stats { gap: 18px; }

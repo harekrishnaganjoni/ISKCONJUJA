@@ -310,10 +310,13 @@
     var md = (m < 10 ? "0" : "") + m + "-" + (d < 10 ? "0" : "") + d;
     var doy = Math.round((Date.UTC(y, m - 1, d) - Date.UTC(y, 0, 1)) / 86400000);
     var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    fetch("calendar-data/y" + y + ".json").then(function (r) { return r.ok ? r.json() : null; })
+    var NAMES = null, day = null;
+    fetch("calendar-data/names.json").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+      .then(function (nm) { NAMES = nm; return fetch("calendar-data/y" + y + ".json"); })
+      .then(function (r) { return r.ok ? r.json() : null; })
       .catch(function () { return null; })
       .then(function (Y) {
-        var day = Y && Y.days && Y.days[doy];
+        day = Y && Y.days && Y.days[doy];
         return client.rpc("get_said_today", { p_masa: day ? day[1] : -1, p_tithi: day ? day[0] : -1, p_md: md, p_year: y });
       }).then(function (r) {
         if (!r || r.error || !r.data || !r.data.length) return;
@@ -321,13 +324,17 @@
         list.innerHTML = "";
         var item = document.createElement("div"); item.className = "said-item";
         var p = document.createElement("p"); p.className = "said-text"; p.textContent = "\u201C" + q.quote_text + "\u201D"; item.appendChild(p);
-        var s = document.createElement("p"); s.className = "said-source"; item.appendChild(s);
+        var cite = document.createElement("div"); cite.className = "qd-cite";
+        var s = document.createElement("p"); s.className = "said-source"; cite.appendChild(s);
         var lab = document.createElement("span"); lab.className = "said-tag";
         var dt = q.said_on ? String(q.said_on).split("-") : null;
-        var when = dt ? (+dt[2]) + " " + MONTHS[(+dt[1]) - 1] + " " + dt[0] : "";
-        lab.textContent = (q.match === "lunar" ? "Said on this same Vaishnava lunar day" : "Said on this same date") + (when ? " \u00B7 by the normal calendar: " + when : "");
-        item.appendChild(lab);
+        var when = dt ? (+dt[2]) + " " + MONTHS[(+dt[1]) - 1].slice(0, 3) + " " + dt[0] : "";
+        var vdate = (q.match === "lunar" && NAMES && day) ? NAMES.tithi[day[0]] + ", " + NAMES.masa[day[1]] : "";
+        lab.textContent = [vdate, when].filter(Boolean).join(" \u00B7 ");
+        if (lab.textContent) cite.appendChild(lab);
         setSource(s, q);
+        var oldc = sec.querySelector(".qd-cite"); if (oldc) oldc.remove();
+        sec.appendChild(cite);
         list.appendChild(item);
         sec.hidden = false;
       }).catch(function () {});

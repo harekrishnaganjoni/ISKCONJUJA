@@ -20,23 +20,42 @@
   function select(name, list, val) {
     return '<select name="' + name + '" ' + inp + '>' + list.map(function (o) { var v = Array.isArray(o) ? o[0] : o, l = Array.isArray(o) ? o[1] : o; return '<option value="' + esc(v) + '"' + (v === (val || "") ? " selected" : "") + '>' + esc(l) + '</option>'; }).join("") + '</select>';
   }
-  function render(el, v) {
+  function render(el, v, qs) {
     v = v || {};
-    el.innerHTML =
-      '<label class="ob-q">How many rounds do you chant daily?' + select("rounds", O.rounds, v.rounds) + '</label>' +
-      '<fieldset class="ob-q"><legend>Which of the four regulative principles are part of your life at the moment? <small>Tick any. It is fine to tick none.</small></legend>' + checks("principles", O.principles, v.principles) + '</fieldset>' +
-      '<fieldset class="ob-q"><legend>What brought you to ISKCON? <small>Tick any.</small></legend>' + checks("why", O.why, v.why) +
-        '<input name="why_other" maxlength="300" placeholder="Something else (optional)" value="' + esc(v.why_other) + '" ' + inp + '></fieldset>' +
-      '<fieldset class="ob-q"><legend>What do you hope to gain from this site and app? <small>Tick any.</small></legend>' + checks("hope", O.hope, v.hope) +
-        '<input name="hope_other" maxlength="300" placeholder="Something else (optional)" value="' + esc(v.hope_other) + '" ' + inp + '></fieldset>' +
-      '<label class="ob-q">How did you hear about us?' + select("how_heard", O.heard, v.how_heard) + '</label>' +
-      '<label class="ob-q">Where do you stay? <small>(area, e.g. Juja, Kalimoni. Optional)</small><input name="area" maxlength="100" value="' + esc(v.area) + '" ' + inp + '></label>' +
-      '<label class="ob-q">How should we reach you?' + select("contact_pref", O.contact, v.contact_pref) + '</label>';
+    var hidden = {}, custom = [];
+    (qs || []).forEach(function (q) { if (q.key) { if (q.active === false) hidden[q.key] = true; } else if (q.active !== false) custom.push(q); });
+    var B = {
+      rounds: '<label class="ob-q">How many rounds do you chant daily?' + select("rounds", O.rounds, v.rounds) + '</label>',
+      principles: '<fieldset class="ob-q"><legend>Which of the four regulative principles are part of your life at the moment? <small>Tick any. It is fine to tick none.</small></legend>' + checks("principles", O.principles, v.principles) + '</fieldset>',
+      why: '<fieldset class="ob-q"><legend>What brought you to ISKCON? <small>Tick any.</small></legend>' + checks("why", O.why, v.why) +
+        '<input name="why_other" maxlength="300" placeholder="Something else (optional)" value="' + esc(v.why_other) + '" ' + inp + '></fieldset>',
+      hope: '<fieldset class="ob-q"><legend>What do you hope to gain from this site and app? <small>Tick any.</small></legend>' + checks("hope", O.hope, v.hope) +
+        '<input name="hope_other" maxlength="300" placeholder="Something else (optional)" value="' + esc(v.hope_other) + '" ' + inp + '></fieldset>',
+      how_heard: '<label class="ob-q">How did you hear about us?' + select("how_heard", O.heard, v.how_heard) + '</label>',
+      area: '<label class="ob-q">Where do you stay? <small>(area, e.g. Juja, Kalimoni. Optional)</small><input name="area" maxlength="100" value="' + esc(v.area) + '" ' + inp + '></label>',
+      contact_pref: '<label class="ob-q">How should we reach you?' + select("contact_pref", O.contact, v.contact_pref) + '</label>'
+    };
+    var html = ["rounds", "principles", "why", "hope", "how_heard", "area", "contact_pref"].map(function (k) { return hidden[k] ? "" : B[k]; }).join("");
+    var ans = v.custom || {};
+    html += custom.map(function (q) {
+      var name = "cq_" + q.id, a = ans[q.id], opts = (q.options || []).map(String);
+      if (q.kind === "multi") return '<fieldset class="ob-q"><legend>' + esc(q.label) + ' <small>Tick any.</small></legend>' + checks(name, opts.map(function (o) { return [o, o]; }), Array.isArray(a) ? a : []) + '</fieldset>';
+      if (q.kind === "single") return '<label class="ob-q">' + esc(q.label) + select(name, [["", "Choose one (optional)"]].concat(opts), typeof a === "string" ? a : "") + '</label>';
+      return '<label class="ob-q">' + esc(q.label) + ' <small>(optional)</small><input name="' + name + '" maxlength="500" value="' + esc(typeof a === "string" ? a : "") + '" ' + inp + '></label>';
+    }).join("");
+    el.innerHTML = html;
+    el.setAttribute("data-custom", JSON.stringify(custom.map(function (q) { return { id: q.id, kind: q.kind }; })));
+  }
+  // The admin-managed questions (and which built-in ones are switched off). Fails quietly: then everything shows as before.
+  function questions(c) {
+    return c.from("profile_questions").select("*").order("sort", { ascending: true }).order("created_at", { ascending: true })
+      .then(function (r) { return (r && !r.error && r.data) || []; }, function () { return []; });
   }
   function read(el) {
     function all(n) { return Array.prototype.map.call(el.querySelectorAll('input[name="' + n + '"]:checked'), function (c) { return c.value; }); }
     function val(n) { var e = el.querySelector('[name="' + n + '"]'); return e ? e.value.trim() : ""; }
-    return { rounds: val("rounds"), principles: all("principles"), why: all("why"), why_other: val("why_other"), hope: all("hope"), hope_other: val("hope_other"), how_heard: val("how_heard"), area: val("area"), contact_pref: val("contact_pref") };
+    var custom = {}; try { JSON.parse((el.hasAttribute("data-custom") ? el : (el.querySelector("[data-custom]") || el)).getAttribute("data-custom") || "[]").forEach(function (q) { custom[q.id] = q.kind === "multi" ? all("cq_" + q.id) : val("cq_" + q.id); }); } catch (e) {}
+    return { custom: custom, rounds: val("rounds"), principles: all("principles"), why: all("why"), why_other: val("why_other"), hope: all("hope"), hope_other: val("hope_other"), how_heard: val("how_heard"), area: val("area"), contact_pref: val("contact_pref") };
   }
-  window.ISKCON_ONB = { render: render, read: read, OPTIONS: O };
+  window.ISKCON_ONB = { render: render, read: read, questions: questions, OPTIONS: O };
 })();

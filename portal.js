@@ -61,7 +61,7 @@
   head.innerHTML =
     '<div class="ph-in">' +
       (isAdminPage ? '<span class="ph-tag ph-tag-admin">&#128274; Admin Portal</span>' +
-        '<nav class="ph-nav" aria-label="Admin portal"><a href="admin.html"' + on("admin.html") + '>Manage the site</a><a href="course-editor.html"' + on("course-editor.html") + '>Course editor</a></nav>' +
+        '<nav class="ph-nav" aria-label="Admin portal"><a href="admin.html#overview" data-sec="overview">Overview</a><a href="admin.html#community" data-sec="community">People</a><a href="admin.html#content" data-sec="content">Content</a><a href="admin.html#shop" data-sec="shop">Shop &amp; site</a><a href="course-editor.html"' + on("course-editor.html") + '>Course editor</a></nav>' +
         '<div class="ph-act"><a class="ph-link" href="dashboard.html">&larr; Member portal</a><a class="ph-link" href="' + publicUrl("index.html") + '">Public site</a>' +
         '<button class="theme-switch-nav" type="button" data-theme-toggle aria-label="Toggle theme"></button><a href="#" class="sign-out-trigger ph-out" data-member-nav hidden>Sign Out</a></div>'
       : '<span class="ph-tag">Member Portal</span>' +

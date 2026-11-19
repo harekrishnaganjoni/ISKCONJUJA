@@ -58,8 +58,8 @@
     G.day(now).then(function (v) {
       // Two short lines, top right of the menu bar on wide screens (a slim line under it on phones). Tap = full calendar.
       var slot = document.getElementById("ph-today"), a = document.createElement("a"); a.className = "gc-strip"; a.href = "calendar.html"; a.title = "Open the Vaishnava calendar";
-      a.innerHTML = '<span class="gc-l1">&#10048; <b>' + esc(v.tithiName) + '</b> (' + v.paksa + ') &middot; ' + esc(v.masaName) + '</span>' +
-        '<span class="gc-l2">Gaurabda ' + v.gaurabdaYear + ' &middot; Sunrise ' + G.hm(v.sunrise) +
+      a.innerHTML = '<span class="gc-l1">&#10048; Lunar day: <b>' + esc(v.tithiName) + '</b> (' + (v.paksa === 'Gaura' ? 'waxing moon' : 'waning moon') + ')</span>' +
+        '<span class="gc-l2">Month: ' + esc(v.masaName) + ' &middot; Gaurabda year ' + v.gaurabdaYear +
         (v.fast ? ' &middot; <span class="gc-strip-fast">&#127807; ' + esc(v.ekadasi ? "Fast: " + v.ekadasi : "Fasting day") + '</span>' : '') +
         (v.parana ? ' &middot; <span class="gc-strip-fast">Break fast ' + G.hm(v.parana.from) + (v.parana.to >= 0 ? '&ndash;' + G.hm(v.parana.to) : '+') + '</span>' : '') + '</span>';
       if (slot) slot.appendChild(a); else mount(a);

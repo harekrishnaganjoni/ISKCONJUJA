@@ -39,18 +39,26 @@
   }
   var obf = document.getElementById("ob-form"), obs = document.getElementById("ob-status");
   function loadOnb() {
-    return c.from("member_onboarding").select("*").eq("user_id", uid).maybeSingle().then(function (q) {
-      var v = (q && q.data) || {};
-      window.ISKCON_ONB.render(document.getElementById("ob-fields"), v);
+    return Promise.all([c.from("member_onboarding").select("*").eq("user_id", uid).maybeSingle(), window.ISKCON_ONB.questions(c), c.from("profile_answers").select("question_id,answer").eq("user_id", uid)]).then(function (q) {
+      var v = (q[0] && q[0].data) || {};
+      v.custom = {}; ((q[2] && q[2].data) || []).forEach(function (a) { v.custom[a.question_id] = a.answer; });
+      window.ISKCON_ONB.render(document.getElementById("ob-fields"), v, q[1]);
       obf.initiated_name.value = v.initiated_name || "";
     });
   }
   obf.addEventListener("submit", function (e) {
     e.preventDefault(); obs.style.color = "var(--muted)"; obs.textContent = "Saving...";
     var row = window.ISKCON_ONB.read(obf); row.user_id = uid; row.initiated_name = obf.initiated_name.value.trim() || null;
+    var custom = row.custom || {}; delete row.custom;
     ["rounds", "why_other", "hope_other", "how_heard", "area", "contact_pref"].forEach(function (k) { row[k] = row[k] || null; });
     row.full_name = f.full_name.value.trim() || null; row.phone = f.phone.value.trim() || null;
-    c.from("member_onboarding").upsert(row).then(function (r) { obs.style.color = r.error ? "#b33a2e" : "#2E7D32"; obs.textContent = r.error ? "That did not save: " + r.error.message : "Saved."; });
+    var jobs = [c.from("member_onboarding").upsert(row)];
+    Object.keys(custom).forEach(function (id) {
+      var a = custom[id], empty = Array.isArray(a) ? !a.length : !a;
+      jobs.push(empty ? c.from("profile_answers").delete().eq("user_id", uid).eq("question_id", id)
+                      : c.from("profile_answers").upsert({ user_id: uid, question_id: id, answer: a, updated_at: new Date().toISOString() }));
+    });
+    Promise.all(jobs).then(function (rs) { var bad = rs.filter(function (r) { return r && r.error; })[0]; obs.style.color = bad ? "#b33a2e" : "#2E7D32"; obs.textContent = bad ? "That did not save: " + bad.error.message : "Saved."; });
   });
   function load() {
     return Promise.all([c.from("member_details").select("*").eq("user_id", uid).maybeSingle(), c.from("member_milestones").select("*").eq("user_id", uid).order("created_at", { ascending: true })]).then(function (q) {

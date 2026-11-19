@@ -26,16 +26,39 @@
       btn.addEventListener("click", function () { collapsed = !collapsed; try { localStorage.setItem("admin-menu-collapsed", collapsed ? "1" : "0"); } catch (e) {} apply(); });
       apply();
     })();
+    // Each major section is its own page in the portal header; its sub-pages live in the side menu.
+    var SECTIONS = { overview: ["overview"], community: ["people", "board", "aboutq", "testimonials", "registrations"], content: ["events", "quotes", "courses", "articles"], shop: ["products", "card", "settings"] };
+    var SEC_TITLES = { overview: "Overview", community: "People & community", content: "Content", shop: "Shop & site" };
+    function sectionOf(tab) { for (var k in SECTIONS) if (SECTIONS[k].indexOf(tab) >= 0) return k; return "overview"; }
+    function paintSection(sec) {
+      var tabs = SECTIONS[sec] || SECTIONS.overview, lay = document.getElementById("admin-layout");
+      document.querySelectorAll(".admin-tab-btn").forEach(function (b) { b.hidden = tabs.indexOf(b.getAttribute("data-tab")) < 0; });
+      document.querySelectorAll(".admin-group-label").forEach(function (l) { l.hidden = true; });
+      if (lay) { lay.classList.toggle("no-side", tabs.length < 2); lay.setAttribute("data-section", sec); }
+      var h = document.getElementById("admin-side-title"); if (h) h.textContent = SEC_TITLES[sec];
+      document.querySelectorAll(".ph-nav a[data-sec]").forEach(function (a) { var on = a.getAttribute("data-sec") === sec; a.classList.toggle("on", on); if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+    }
+    function openSection(sec) {
+      if (!SECTIONS[sec]) sec = "overview";
+      paintSection(sec);
+      var cur = document.querySelector(".admin-tab-btn.active"), curTab = cur && cur.getAttribute("data-tab");
+      if (SECTIONS[sec].indexOf(curTab) < 0) { var b = document.querySelector('.admin-tab-btn[data-tab="' + SECTIONS[sec][0] + '"]'); if (b) b.click(); }
+    }
+    window.addEventListener("hashchange", function () { openSection((location.hash || "#overview").slice(1)); });
     document.querySelectorAll(".admin-tab-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
         document.querySelectorAll(".admin-tab-btn").forEach(function (b) { b.classList.remove("active"); });
         btn.classList.add("active");
         var tab = btn.getAttribute("data-tab");
+        var sec = sectionOf(tab); paintSection(sec);
+        try { if (location.hash !== "#" + sec) history.replaceState(null, "", "#" + sec); } catch (e) {}
         document.querySelectorAll(".admin-tab-panel").forEach(function (p) {
           p.hidden = p.getAttribute("data-tab-panel") !== tab;
         });
       });
     });
+
+    openSection((location.hash || "#overview").slice(1));
 
     // ---------- Overview: counts, quick links, badges ----------
     function goTab(tab) { var b = document.querySelector('.admin-tab-btn[data-tab="' + tab + '"]'); if (b) b.click(); window.scrollTo({ top: 0 }); }
@@ -157,6 +180,61 @@
       });
     });
 
+
+    // ============================================================
+    // ABOUT ME QUESTIONS (admin decides what members are asked)
+    // ============================================================
+    var aqRows = [];
+    function loadAboutQ() {
+      var host = document.getElementById("aboutq-list"); if (!host) return;
+      client.from("profile_questions").select("*").order("sort", { ascending: true }).order("created_at", { ascending: true }).then(function (r) {
+        if (r.error) { host.innerHTML = '<p style="font-size:13px;color:#b33a2e;">This is not switched on yet: the database step (file 31) still has to be run. ' + esc(r.error.message) + '</p>'; return; }
+        aqRows = r.data || [];
+        host.innerHTML = aqRows.map(function (q, i) {
+          var builtIn = !!q.key, kind = { text: "short written answer", single: "choose one", multi: "tick any" }[q.kind] || q.kind;
+          return '<div class="card" style="padding:12px 14px;display:flex;flex-direction:column;gap:8px;" data-aq="' + q.id + '">' +
+            '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><label style="display:flex;gap:6px;align-items:center;font-weight:700;font-size:13px;"><input type="checkbox" data-aq-show' + (q.active ? " checked" : "") + ' style="width:auto;"> Show</label>' +
+            '<span style="font-size:12px;color:var(--muted);">' + (builtIn ? "Built-in &middot; " : "Yours &middot; ") + esc(kind) + '</span><span style="flex:1"></span>' +
+            '<button type="button" class="button secondary" data-aq-up' + (i === 0 ? " disabled" : "") + ' aria-label="Move up">&uarr;</button><button type="button" class="button secondary" data-aq-down' + (i === aqRows.length - 1 ? " disabled" : "") + ' aria-label="Move down">&darr;</button></div>' +
+            (builtIn ? '<div style="font-size:14px;">' + esc(q.label) + '</div>' :
+              '<input data-aq-label value="' + esc(q.label) + '" maxlength="300" style="width:100%;padding:8px;">' +
+              (q.kind === "text" ? "" : '<textarea data-aq-opts rows="4" style="width:100%;padding:8px;" aria-label="Choices, one per line">' + esc((q.options || []).join("\n")) + '</textarea>') +
+              '<div><button type="button" class="button secondary" data-aq-save>Save changes</button> <button type="button" class="button secondary" data-aq-del>Delete</button></div>') +
+            '</div>';
+        }).join("") || '<p style="font-size:13px;color:var(--muted);">No questions yet.</p>';
+      });
+    }
+    (function () {
+      var host = document.getElementById("aboutq-list"), form = document.getElementById("aboutq-add"); if (!host || !form) return;
+      function lines(t) { return String(t || "").split(/\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean).slice(0, 40); }
+      function rowOf(el) { var d = el.closest("[data-aq]"); return d && d.getAttribute("data-aq"); }
+      function fail(r) { if (r && r.error) alert(r.error.message); loadAboutQ(); }
+      host.addEventListener("click", function (e) {
+        var id = rowOf(e.target); if (!id) return;
+        var t = e.target.closest("button"); if (!t) return;
+        if (t.hasAttribute("data-aq-save")) { var d = e.target.closest("[data-aq]"), o = d.querySelector("[data-aq-opts]"), patch = { label: d.querySelector("[data-aq-label]").value.trim() }; if (o) patch.options = lines(o.value); client.from("profile_questions").update(patch).eq("id", id).then(fail); }
+        else if (t.hasAttribute("data-aq-del")) { if (confirm("Delete this question and everyone's answers to it?")) client.from("profile_questions").delete().eq("id", id).then(fail); }
+        else if (t.hasAttribute("data-aq-up") || t.hasAttribute("data-aq-down")) {
+          var i = aqRows.findIndex(function (q) { return q.id === id; }), j = i + (t.hasAttribute("data-aq-up") ? -1 : 1);
+          if (i < 0 || j < 0 || j >= aqRows.length) return;
+          var order = aqRows.slice(); var tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+          Promise.all(order.map(function (q, k) { return q.sort === (k + 1) * 10 ? null : client.from("profile_questions").update({ sort: (k + 1) * 10 }).eq("id", q.id); }).filter(Boolean)).then(function () { loadAboutQ(); });
+        }
+      });
+      host.addEventListener("change", function (e) { if (e.target.hasAttribute("data-aq-show")) client.from("profile_questions").update({ active: e.target.checked }).eq("id", rowOf(e.target)).then(fail); });
+      form.kind.addEventListener("change", function () { document.getElementById("aboutq-opts-wrap").hidden = form.kind.value === "text"; });
+      form.addEventListener("submit", function (e) {
+        e.preventDefault(); var st = document.getElementById("aboutq-status"), opts = lines(form.options.value);
+        if (form.kind.value !== "text" && opts.length < 2) { st.style.color = "#b33a2e"; st.textContent = "Add at least two choices."; return; }
+        var last = aqRows.reduce(function (m, q) { return Math.max(m, q.sort || 0); }, 0);
+        client.from("profile_questions").insert({ label: form.label.value.trim(), kind: form.kind.value, options: form.kind.value === "text" ? [] : opts, sort: last + 10 }).then(function (r) {
+          st.style.color = r.error ? "#b33a2e" : "#2E7D32"; st.textContent = r.error ? r.error.message : "Added.";
+          if (!r.error) { form.reset(); document.getElementById("aboutq-opts-wrap").hidden = true; loadAboutQ(); }
+        });
+      });
+    })();
+    loadAboutQ();
+
     // ============================================================
     // PEOPLE
     // ============================================================
@@ -171,11 +249,13 @@
       return '<details style="margin-top:6px;font-size:12px;"><summary style="cursor:pointer;font-weight:700;">Details and answers (confidential)</summary><div style="margin-top:6px;line-height:1.6;">' +
         'Legal name: ' + esc(o.full_name || "-") + '<br>Initiated name: ' + esc(o.initiated_name || "-") + '<br>Phone: ' + esc(o.phone || "-") + ' &middot; Prefers: ' + esc(OBL.contact[o.contact_pref] || "-") + '<br>' +
         'Rounds daily: ' + esc(OBL.rounds[o.rounds] || "-") + '<br>Principles: ' + esc(list(OBL.principles, o.principles)) + '<br>Why they joined: ' + esc(list(OBL.why, o.why, o.why_other)) +
-        '<br>Hopes: ' + esc(list(OBL.hope, o.hope, o.hope_other)) + '<br>Heard about us: ' + esc(o.how_heard || "-") + ' &middot; Area: ' + esc(o.area || "-") + '</div></details>';
+        '<br>Hopes: ' + esc(list(OBL.hope, o.hope, o.hope_other)) + '<br>Heard about us: ' + esc(o.how_heard || "-") + ' &middot; Area: ' + esc(o.area || "-") +
+        ((ansBy[o.user_id] || []).map(function (x) { return '<br>' + esc(x.l) + ': ' + esc(x.a); }).join("")) + '</div></details>';
     }
-    var onbById = {};
+    var onbById = {}, ansBy = {};
     function loadPeople() {
-      Promise.all([client.from("profiles").select("*").order("created_at", { ascending: false }), client.from("member_onboarding").select("*")]).then(function (q) {
+      Promise.all([client.from("profiles").select("*").order("created_at", { ascending: false }), client.from("member_onboarding").select("*"), client.from("profile_answers").select("*"), client.from("profile_questions").select("id,label")]).then(function (q) {
+        ansBy = {}; var lab = {}; ((q[3] && q[3].data) || []).forEach(function (x) { lab[x.id] = x.label; }); ((q[2] && q[2].data) || []).forEach(function (a) { (ansBy[a.user_id] = ansBy[a.user_id] || []).push({ l: lab[a.question_id] || "Question", a: Array.isArray(a.answer) ? a.answer.join(", ") : String(a.answer) }); });
         var r = q[0]; if (r.error || !r.data) return;
         onbById = {}; ((q[1] && q[1].data) || []).forEach(function (o) { onbById[o.user_id] = o; });
         var waiting = function (p) { return p.approval === "rejected" ? false : (p.approval === "pending" || p.role === "pending"); };

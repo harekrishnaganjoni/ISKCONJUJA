@@ -83,10 +83,12 @@
      <div class="admin-layout" id="admin-layout">
       <nav class="admin-tabs" aria-label="Admin sections">
        <button type="button" class="admin-collapse" id="admin-collapse" aria-label="Collapse menu" title="Collapse menu">&#8249;</button>
+       <div class="admin-side-title" id="admin-side-title"></div>
        <button type="button" class="admin-tab-btn active" data-tab="overview">&#127968; Overview</button>
        <div class="admin-group-label">People &amp; community</div>
        <button type="button" class="admin-tab-btn" data-tab="people">People <i class="adm-badge" id="badge-people" hidden></i></button>
        <button type="button" class="admin-tab-btn" data-tab="board">Message board</button>
+       <button type="button" class="admin-tab-btn" data-tab="aboutq">About me questions</button>
        <button type="button" class="admin-tab-btn" data-tab="testimonials">Testimonials <i class="adm-badge" id="badge-testimonials" hidden></i></button>
        <button type="button" class="admin-tab-btn" data-tab="registrations">Sign-ups</button>
        <div class="admin-group-label">Content</div>
@@ -173,6 +175,23 @@
        <h3 style="margin:24px 0 12px;">Everyone Else</h3>
        <div id="people-list" style="display:flex;flex-direction:column;gap:10px;"></div>
       </div>
+     </section>
+
+     <!-- ABOUT ME QUESTIONS TAB -->
+     <section class="admin-tab-panel" data-tab-panel="aboutq" hidden>
+      <h2 class="adm-title">About me questions</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:660px;">These are the optional questions members see under <strong>My profile &rarr; About me</strong>. Tick <strong>Show</strong> to switch a question on or off. Your own questions can also be edited or deleted; the built-in ones can only be hidden. Answers are private to the member and the admins. (The sign-up form keeps its own short set.)</p>
+      <div id="aboutq-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+      <details class="admin-drawer card" style="margin-top:16px;">
+       <summary>Add a question</summary>
+       <form id="aboutq-add" style="display:flex;flex-direction:column;gap:10px;padding-top:10px;max-width:560px;">
+        <label style="font-size:13px;font-weight:700;">Question <input name="label" required minlength="3" maxlength="300" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <label style="font-size:13px;font-weight:700;">Type
+         <select name="kind" style="width:100%;padding:8px;margin-top:4px;"><option value="text">A short written answer</option><option value="single">Choose one from a list</option><option value="multi">Tick any from a list</option></select></label>
+        <label style="font-size:13px;font-weight:700;" id="aboutq-opts-wrap" hidden>The choices (one per line)<textarea name="options" rows="5" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
+        <div><button type="submit" class="button">Add question</button> <span id="aboutq-status" style="font-size:13px;"></span></div>
+       </form>
+      </details>
      </section>
 
      <!-- TESTIMONIALS TAB -->

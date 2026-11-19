@@ -271,16 +271,16 @@
   }
 
   // Writes "- source" and, when the quote has a Vedabase link, a small "Read on Vedabase" link after it.
-  function setSource(el, q) {
+  function setSource(el, q, linkAfter) {
     if (!el) return;
     el.textContent = "\u2014 " + q.source;
-    var old = el.nextElementSibling;
+    var anchor = linkAfter || el, old = anchor.nextElementSibling;
     if (old && old.hasAttribute("data-src-link")) old.remove();
     if (q.source_url && /^https:\/\/vedabase\.io\//.test(q.source_url)) {
       var a = document.createElement("a");
       a.setAttribute("data-src-link", ""); a.href = q.source_url; a.target = "_blank"; a.rel = "noopener";
       a.textContent = "Read on Vedabase \u2192"; a.style.cssText = "font-size:13px;display:inline-block;margin-top:4px;";
-      el.insertAdjacentElement("afterend", a);
+      anchor.insertAdjacentElement("afterend", a);
     }
   }
   function renderVerseOfDay() {
@@ -288,7 +288,7 @@
     if (!box) return;
     var textEl = box.querySelector("[data-verse-text]");
     var sourceEl = box.querySelector("[data-verse-source]");
-    function paint(q) { if (textEl) textEl.textContent = q.quote_text; setSource(sourceEl, q); }
+    function paint(q) { if (textEl) textEl.textContent = q.quote_text; setSource(sourceEl, q, sourceEl && sourceEl.closest(".qd-cite") ? textEl : null); }
     box.hidden = true;
     if (!READY) return;
     client.rpc("get_verse_of_day").then(function (r) {
@@ -329,10 +329,16 @@
         var lab = document.createElement("span"); lab.className = "said-tag";
         var dt = q.said_on ? String(q.said_on).split("-") : null;
         var when = dt ? (+dt[2]) + " " + MONTHS[(+dt[1]) - 1].slice(0, 3) + " " + dt[0] : "";
-        var vdate = (q.match === "lunar" && NAMES && day) ? NAMES.tithi[day[0]] + ", " + NAMES.masa[day[1]] : "";
+        var vdate = "";
+        if (q.match === "lunar" && NAMES && day) {
+          var ti = day[0], tn = (ti % 15) + 1, tp = ti === 14 ? "new moon day" : ti === 29 ? "full moon day" : tn + (tn === 1 ? "st" : tn === 2 ? "nd" : tn === 3 ? "rd" : "th") + " day";
+          vdate = NAMES.tithi[ti] + " (" + tp + ", " + (ti >= 15 ? "waxing" : "waning") + " moon), " + NAMES.masa[day[1]] + " month";
+        }
         lab.textContent = [vdate, when].filter(Boolean).join(" \u00B7 ");
         if (lab.textContent) cite.appendChild(lab);
-        setSource(s, q);
+        setSource(s, q, p);
+        var clean = String(q.source || "").replace(/^Sr[i\u012B]la Prabhup[a\u0101]da,?\s*/i, "").replace(/,?\s*\d{1,2}\s+[A-Za-z]+\s+\d{4}\s*$/, "");
+        s.textContent = "\u2014 " + (clean || q.source);
         var oldc = sec.querySelector(".qd-cite"); if (oldc) oldc.remove();
         sec.appendChild(cite);
         list.appendChild(item);

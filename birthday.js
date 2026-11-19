@@ -58,7 +58,7 @@
     G.day(now).then(function (v) {
       // Two short lines, top right of the menu bar on wide screens (a slim line under it on phones). Tap = full calendar.
       var slot = document.getElementById("ph-today"), a = document.createElement("a"); a.className = "gc-strip"; a.href = "calendar.html"; a.title = "Open the Vaishnava calendar";
-      a.innerHTML = '<span class="gc-l1">&#10048; Lunar day: <b>' + esc(v.tithiName) + '</b> (' + (v.paksa === 'Gaura' ? 'waxing moon' : 'waning moon') + ')</span>' +
+      a.innerHTML = '<span class="gc-l1">&#10048; Lunar day: <b>' + esc(v.tithiName) + '</b> (' + G.tithiPlain(v.tithi) + ', ' + G.moonPlain(v.paksa) + ')</span>' +
         '<span class="gc-l2">Month: ' + esc(v.masaName) + ' &middot; Gaurabda year ' + v.gaurabdaYear +
         (v.fast ? ' &middot; <span class="gc-strip-fast">&#127807; ' + esc(v.ekadasi ? "Fast: " + v.ekadasi : "Fasting day") + '</span>' : '') +
         (v.parana ? ' &middot; <span class="gc-strip-fast">Break fast ' + G.hm(v.parana.from) + (v.parana.to >= 0 ? '&ndash;' + G.hm(v.parana.to) : '+') + '</span>' : '') + '</span>';
@@ -114,7 +114,7 @@
       hits = hits.filter(Boolean).slice(0, 3); if (!hits.length) return;
       quote(D, now).then(function (q) {
         hits.forEach(function (h) {
-          var w = G.words(h.m.kind, h.m.title), when = esc(h.b.tithiName) + ', ' + h.b.paksa + ' paksa of ' + esc(h.b.masaName) + ' masa';
+          var w = G.words(h.m.kind, h.m.title), when = esc(G.plain(h.b).tithi) + ' of ' + esc(h.b.masaName) + ' month';
           var q2 = q ? '<br><em>&ldquo;' + esc(q.quote_text) + '&rdquo;</em> <small>&mdash; ' + esc(q.source) + '</small>' : '';
           var el = document.createElement("div"); el.className = "gc-banner gc-bday";
           el.innerHTML = '<span>' + (h.today

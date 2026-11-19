@@ -14,9 +14,9 @@
   function detailHtml(v, isToday) {
     var h = '<div class="gc-card gc-detail">' +
       '<div class="gc-when">' + (isToday ? "Today &middot; " : "") + esc(label(v.date)) + '</div>' +
-      '<h2 class="gc-tithi">' + esc(v.tithiName) + ' <small>(' + v.paksa + ' paksa)</small></h2>' +
-      '<p class="gc-line">' + esc(v.masaName) + ' masa &middot; Gaurabda ' + v.gaurabdaYear + '</p>' +
-      '<p class="gc-line">Naksatra: ' + esc(v.naksatra) + ' &middot; Yoga: ' + esc(v.yoga) + '</p>' +
+      '<h2 class="gc-tithi">' + esc(v.tithiName) + ' <small>(' + G.tithiPlain(v.tithi) + ', ' + G.moonPlain(v.paksa) + ')</small></h2>' +
+      '<p class="gc-line">' + esc(v.masaName) + ' month &middot; Gaurabda year ' + v.gaurabdaYear + '</p>' +
+      '<p class="gc-line">Star (naksatra): ' + esc(v.naksatra) + ' &middot; Yoga (sun-moon combination): ' + esc(v.yoga) + '</p>' +
       '<p class="gc-line">&#127749; Sunrise <b>' + G.hm(v.sunrise) + '</b> &middot; Sunset <b>' + G.hm(v.sunset) + '</b>' + (v.moonrise >= 0 ? ' &middot; Moonrise ' + G.hm(v.moonrise) : '') + '</p>';
     if (v.ekadasi && v.fast) h += '<p class="gc-fast">&#127807; Fast today: <b>' + esc(v.ekadasi) + '</b></p>';
     else if (v.fast) h += '<p class="gc-fast">&#127807; Fasting day</p>';

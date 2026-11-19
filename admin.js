@@ -27,7 +27,7 @@
       apply();
     })();
     // Each major section is its own page in the portal header; its sub-pages live in the side menu.
-    var SECTIONS = { overview: ["overview"], community: ["people", "board", "aboutq", "testimonials", "registrations"], content: ["events", "quotes", "courses", "articles"], shop: ["products", "card", "settings"] };
+    var SECTIONS = { overview: ["overview"], community: ["people", "board", "responses", "aboutq", "testimonials", "registrations"], content: ["events", "quotes", "courses", "articles"], shop: ["products", "card", "settings"] };
     var SEC_TITLES = { overview: "Overview", community: "People & community", content: "Content", shop: "Shop & site" };
     function sectionOf(tab) { for (var k in SECTIONS) if (SECTIONS[k].indexOf(tab) >= 0) return k; return "overview"; }
     function paintSection(sec) {
@@ -181,6 +181,34 @@
     });
 
 
+
+    // ---------- About me answers (named and anonymous) ----------
+    function respLines(d) {
+      var L = [];
+      if (d.initiated) L.push("Initiated" + (d.initiated_name ? ": " + d.initiated_name : ""));
+      if (!d.initiated) { L.push("Rounds daily: " + (OBL.rounds[d.rounds] || "-")); L.push("Principles: " + list(OBL.principles, d.principles)); }
+      L.push("What brought them: " + list(OBL.why, d.why, d.why_other));
+      L.push("Hopes from the movement: " + list(OBL.movement, d.movement_hope, d.movement_hope_other));
+      L.push("Willing to commit: " + (OBL.commit[d.commitment] || "-"));
+      L.push("Hopes from this site: " + list(OBL.hope, d.hope, d.hope_other));
+      L.push("Heard about us: " + (d.how_heard || "-") + " \u00B7 Area: " + (d.area || "-"));
+      L.push("Prefers: " + (OBL.contact[d.contact_pref] || "-") + (d.contact_value ? " \u00B7 Contact: " + d.contact_value : ""));
+      (d.custom || []).forEach(function (x) { L.push(x.label + ": " + (Array.isArray(x.answer) ? x.answer.join(", ") : x.answer)); });
+      return L;
+    }
+    function loadResponses() {
+      var host = document.getElementById("resp-list"); if (!host) return;
+      client.rpc("admin_about_responses").then(function (r) {
+        if (r.error) { host.innerHTML = '<p style="font-size:13px;color:#b33a2e;">Not switched on yet: the database step (file 32) still has to be run. ' + esc(r.error.message) + '</p>'; return; }
+        var rows = r.data || [], an = rows.filter(function (x) { return x.anonymous; }).length;
+        document.getElementById("resp-summary").textContent = rows.length + " responses: " + (rows.length - an) + " named, " + an + " anonymous.";
+        host.innerHTML = rows.map(function (x) {
+          return '<div class="card" style="padding:12px 14px;"><div style="font-weight:800;margin-bottom:6px;">' + (x.anonymous ? "Anonymous" : esc(x.who || "Member")) + (x.submitted ? ' <small style="font-weight:400;color:var(--muted);">' + esc(String(x.submitted).slice(0, 10)) + '</small>' : '') + '</div><div style="font-size:13px;line-height:1.6;">' + respLines(x.data || {}).map(esc).join("<br>") + '</div></div>';
+        }).join("") || '<p style="font-size:13px;color:var(--muted);">No responses yet.</p>';
+      });
+    }
+    loadResponses();
+
     // ============================================================
     // ABOUT ME QUESTIONS (admin decides what members are asked)
     // ============================================================
@@ -242,14 +270,16 @@
       principles: { no_meat: "No meat, fish or eggs", no_intoxication: "No intoxication", no_illicit_sex: "No illicit sex", no_gambling: "No gambling", still_learning: "Still learning about them", prefer_not: "Would rather not say" },
       why: { knowledge: "Knowledge", peace: "Peace", association: "Friends and association", festivals: "Festivals", prasadam: "Prasadam", kirtan: "Kirtan and music", service: "Service", family: "Family or upbringing", curiosity: "Curiosity" },
       hope: { courses: "Courses", calendar: "Calendar and reminders", community: "Community and messages", chanting: "Learning to chant", service: "Service opportunities", inspiration: "Daily inspiration", news: "News of programs" },
-      contact: { whatsapp: "WhatsApp", call: "Phone call", email: "Email", any: "Any" } };
+      contact: { whatsapp: "WhatsApp", call: "Phone call", email: "Email", any: "Any" },
+      movement: { knowledge: "Clear knowledge and philosophy", peace: "Peace of mind", guidance: "Spiritual guidance", association: "Good friends on the path", character: "Better character and habits", service: "A chance to serve", meditation: "Learning to chant and meditate", family: "Better family life", scripture: "Understanding the scriptures", unsure: "Not sure yet" },
+      commit: { exploring: "Just exploring", occasional: "Programs and festivals now and then", regular: "Regularly (weekly programs)", chant: "Daily chanting and reading", principles: "Four principles and daily rounds", volunteer: "Regular service", initiation: "Preparing for initiation", unsure: "Not sure yet" } };
     function list(map, arr, other) { var a = (arr || []).map(function (k) { return map[k] || k; }); if (other) a.push("Other: " + other); return a.join(", ") || "-"; }
     function answersHtml(o) {
       if (!o) return "";
       return '<details style="margin-top:6px;font-size:12px;"><summary style="cursor:pointer;font-weight:700;">Details and answers (confidential)</summary><div style="margin-top:6px;line-height:1.6;">' +
         'Legal name: ' + esc(o.full_name || "-") + '<br>Initiated name: ' + esc(o.initiated_name || "-") + '<br>Phone: ' + esc(o.phone || "-") + ' &middot; Prefers: ' + esc(OBL.contact[o.contact_pref] || "-") + '<br>' +
         'Rounds daily: ' + esc(OBL.rounds[o.rounds] || "-") + '<br>Principles: ' + esc(list(OBL.principles, o.principles)) + '<br>Why they joined: ' + esc(list(OBL.why, o.why, o.why_other)) +
-        '<br>Hopes: ' + esc(list(OBL.hope, o.hope, o.hope_other)) + '<br>Heard about us: ' + esc(o.how_heard || "-") + ' &middot; Area: ' + esc(o.area || "-") +
+        '<br>Hopes from the movement: ' + esc(list(OBL.movement, o.movement_hope, o.movement_hope_other)) + '<br>Willing to commit: ' + esc(OBL.commit[o.commitment] || "-") + '<br>Hopes from this site: ' + esc(list(OBL.hope, o.hope, o.hope_other)) + (o.contact_value ? '<br>Contact: ' + esc(o.contact_value) : '') + '<br>Heard about us: ' + esc(o.how_heard || "-") + ' &middot; Area: ' + esc(o.area || "-") +
         ((ansBy[o.user_id] || []).map(function (x) { return '<br>' + esc(x.l) + ': ' + esc(x.a); }).join("")) + '</div></details>';
     }
     var onbById = {}, ansBy = {};

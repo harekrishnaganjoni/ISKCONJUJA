@@ -376,3 +376,38 @@ html.in-portal body:not(.dark-mode) .admin-side-title { color: #7a1030; }
 .adm-main .admin-content { padding: 22px 26px; }
 .adm-main .adm-title { margin-bottom: 18px; }
 .adm-main .adm-panel, .adm-main .adm-stats { gap: 18px; }
+
+/* v5: citations at the outer sides under each cloud, two lines; Vedabase link stays inside the cloud */
+html.in-portal .qd-cite { top: calc(100% + 2px); }
+html.in-portal .coin-verse .qd-cite { left: 2%; right: auto; width: 31%; text-align: left; }
+html.in-portal .coin-said .qd-cite { left: auto; right: 2%; width: 33%; text-align: right; }
+html.in-portal .coin-verse .qd-cite .quote-source { color: #7a1030; }
+html.in-portal .coin-said .qd-cite .said-source { color: #9a6700; }
+html.in-portal .coin-said .qd-cite .said-tag { color: #9a6700; opacity: .9; }
+html.in-portal body.dark-mode .coin-verse .qd-cite .quote-source { color: #e6b53a; }
+html.in-portal body.dark-mode .coin-said .qd-cite .said-source, html.in-portal body.dark-mode .coin-said .qd-cite .said-tag { color: #8fb8f2; }
+.coin-face .quote-text + a[data-src-link], .coin-face .said-text + a[data-src-link] { display: block; text-align: center; margin-top: 8px; font-size: 13px; }
+@media (max-width: 760px) {
+  html.in-portal .coin-verse .qd-cite, html.in-portal .coin-said .qd-cite { left: 4%; right: auto; width: 92%; top: calc(100% + 34px); text-align: center; }
+}
+
+/* v5: a little maroon (Balarama/Nitai) as thin lines */
+html.in-portal .ph { box-shadow: 0 3px 0 #7a1030; }
+html.in-portal body.dark-mode .ph { box-shadow: 0 3px 0 #a3203f; }
+html.in-portal .adm-title::after, html.in-portal .pm-title::after { content: ""; display: block; width: 52px; height: 3px; margin-top: 8px; border-radius: 2px; background: #7a1030; }
+html.in-portal body.dark-mode .adm-title::after, html.in-portal body.dark-mode .pm-title::after { background: #b3284c; }
+html.in-portal .ph-foot { border-top: 3px double #7a1030; }
+html.in-portal body.dark-mode .ph-foot { border-top-color: #a3203f; }
+html.in-portal .pm-card, html.in-portal .adm-stat { border-bottom: 2px solid rgba(122, 16, 48, .55); }
+html.in-portal .qd-cite { top: calc(100% - 22px); }
+html.in-portal .coin-verse .qd-cite { left: -2%; width: 34%; }
+html.in-portal .coin-said .qd-cite { right: -5%; width: 40%; }
+html.in-portal .coin-said .qd-cite .said-tag { font-size: 12px; line-height: 1.35; }
+@media (max-width: 760px) {
+  html.in-portal .coin { gap: 92px; padding-bottom: 120px; }
+  html.in-portal .coin-verse .qd-cite, html.in-portal .coin-said .qd-cite { left: 6%; right: auto; width: 88%; top: calc(100% + 6px); text-align: center; }
+  html.in-portal .coin-said .qd-cite .said-source, html.in-portal .coin-said .qd-cite .said-tag { text-align: center; }
+}
+
+/* initiated members are not asked about rounds / principles */
+#ob-fields[data-initiated="1"] .ob-noinit { display: none; }

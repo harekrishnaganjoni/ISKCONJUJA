@@ -88,6 +88,7 @@
        <div class="admin-group-label">People &amp; community</div>
        <button type="button" class="admin-tab-btn" data-tab="people">People <i class="adm-badge" id="badge-people" hidden></i></button>
        <button type="button" class="admin-tab-btn" data-tab="board">Message board</button>
+       <button type="button" class="admin-tab-btn" data-tab="responses">About me answers</button>
        <button type="button" class="admin-tab-btn" data-tab="aboutq">About me questions</button>
        <button type="button" class="admin-tab-btn" data-tab="testimonials">Testimonials <i class="adm-badge" id="badge-testimonials" hidden></i></button>
        <button type="button" class="admin-tab-btn" data-tab="registrations">Sign-ups</button>
@@ -175,6 +176,14 @@
        <h3 style="margin:24px 0 12px;">Everyone Else</h3>
        <div id="people-list" style="display:flex;flex-direction:column;gap:10px;"></div>
       </div>
+     </section>
+
+     <!-- ABOUT ME ANSWERS TAB -->
+     <section class="admin-tab-panel" data-tab-panel="responses" hidden>
+      <h2 class="adm-title">About me answers</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:660px;">What members chose to share. Some are shown with a name; <strong>anonymous</strong> ones are shown without a name or date, because the member asked for that. Please respect it and do not try to work out who they are.</p>
+      <div id="resp-summary" style="font-size:13px;margin-bottom:10px;"></div>
+      <div id="resp-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
 
      <!-- ABOUT ME QUESTIONS TAB -->

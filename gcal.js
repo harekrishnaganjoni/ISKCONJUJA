@@ -218,6 +218,15 @@
   }
 
   // wording for the different kinds of milestone
+  // Plain-English meanings for every calendar term shown to people.
+  function ord(n) { return n + (n % 100 >= 11 && n % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" }[n % 10] || "th")); }
+  G.tithiPlain = function (idx) { var n = (idx % 15) + 1; return idx === 14 ? "new moon day" : idx === 29 ? "full moon day" : ord(n) + " day"; };
+  G.moonPlain = function (paksa) { return paksa === "Gaura" ? "waxing moon" : "waning moon"; };
+  // "Dvitiya (2nd day, waning moon)", "Hrsikesa month", "Gaurabda year 513"
+  G.plain = function (v) {
+    var t = v.tithiName + " (" + G.tithiPlain(v.tithi) + ", " + G.moonPlain(v.paksa) + ")";
+    return { tithi: t, month: v.masaName + " month", year: "Gaurabda year " + v.gaurabdaYear, line: t + " \u00B7 " + v.masaName + " month \u00B7 Gaurabda year " + v.gaurabdaYear };
+  };
   G.words = function (kind, title) {
     var k = { birthday: { name: "birthday", today: "Happy birthday", ann: "your birthday" }, initiation: { name: "initiation anniversary", today: "Happy initiation anniversary", ann: "your initiation anniversary" },
       marriage: { name: "wedding anniversary", today: "Happy wedding anniversary", ann: "your wedding anniversary" } }[kind];

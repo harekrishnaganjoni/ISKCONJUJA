@@ -91,6 +91,8 @@
      <form id="pf-form" class="gc-card" style="display:flex;flex-direction:column;gap:10px;">
       <label style="font-size:13px;font-weight:700;">Full name <input name="full_name" maxlength="100" autocomplete="name" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
       <label style="font-size:13px;font-weight:700;">Phone (optional) <input name="phone" type="tel" maxlength="40" autocomplete="tel" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
+      <label style="font-size:14px;font-weight:700;display:flex;gap:8px;align-items:center;"><input type="checkbox" name="initiated" style="width:auto;"> I am initiated</label>
+      <label id="pf-init-wrap" style="font-size:13px;font-weight:700;" hidden>Initiated (spiritual) name <input name="initiated_name" maxlength="100" autocomplete="nickname" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
       <button class="button" type="submit">Save</button>
       <p id="pf-status" style="font-size:13px;margin:0;" aria-live="polite"></p>
      </form>
@@ -99,8 +101,11 @@
      <details class="pf-sec" id="pf-about"><summary>About me <small>optional, private</small></summary>
      <form id="ob-form" class="gc-card">
       <p class="gc-small" style="margin:0 0 12px;">Confidential: only you and the temple admins can read this, never other members. It helps us look after you better. Change or clear anything any time.</p>
-      <label class="ob-q">Initiated name <small>(if initiated)</small><input name="initiated_name" maxlength="100" autocomplete="nickname" style="width:100%;padding:9px;margin-top:4px;border:1px solid var(--line);border-radius:6px;"></label>
       <div id="ob-fields"></div>
+      <fieldset class="ob-q" id="pf-v2" hidden><legend>Who sees my answers?</legend>
+       <label class="ob-check"><input type="radio" name="share_mode" value="named" checked> <span>The admins can see my name with my answers</span></label>
+       <label class="ob-check"><input type="radio" name="share_mode" value="anonymous"> <span>Anonymous: the admins see my answers but not who I am (do not give a phone number or email above if you want to stay anonymous)</span></label>
+      </fieldset>
       <button class="button" type="submit">Save my answers</button>
       <p id="ob-status" style="font-size:13px;margin:8px 0 0;" aria-live="polite"></p>
      </form>

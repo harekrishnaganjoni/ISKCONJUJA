@@ -28,7 +28,7 @@
       list.innerHTML = rows.map(function (r) {
         var m = r.m, h = '<div class="gc-card" data-id="' + esc(m.id) + '"><div class="gc-when">' + esc(G.words(m.kind, m.title).name.replace(/^./, function (x) { return x.toUpperCase(); })) + '</div><h3 class="gc-tithi" style="font-size:18px;">' + esc(m.title) + '</h3>';
         if (r.err) h += '<p class="gc-problem">This date could not be converted right now (the calendar data is not available). Open this page again while online.</p>';
-        else h += '<p class="gc-line"><b>' + esc(r.b.tithiName) + '</b> (' + r.b.paksa + ' paksa) &middot; ' + esc(r.b.masaName) + ' masa &middot; Gaurabda ' + r.b.gaurabdaYear + (r.b.adhika ? ' <small>(extra month: the following month of the same name is used)</small>' : '') + '</p>' +
+        else h += '<p class="gc-line"><b>' + esc(r.b.tithiName) + '</b> (' + G.tithiPlain(r.b.tithi) + ', ' + G.moonPlain(r.b.paksa) + ') &middot; ' + esc(r.b.masaName) + ' month &middot; Gaurabda year ' + r.b.gaurabdaYear + (r.b.adhika ? ' <small>(extra month: the following month of the same name is used)</small>' : '') + '</p>' +
           '<p class="gc-line">Original date: ' + esc(lab(G.parseIso(m.event_date))) + '</p>' +
           '<p class="gc-line">Next: ' + r.next.map(function (x) { return esc(lab(x.date)) + (x.exact ? '' : ' *'); }).join(' &middot; ') + '</p>' + (r.next.some(function (x) { return !x.exact; }) ? '<p class="gc-small">* the tithi begins and ends between two sunrises, so it is kept on the day it falls.</p>' : '');
         h += '<p style="display:flex;gap:8px;flex-wrap:wrap;"><label class="gc-small" style="display:flex;gap:6px;align-items:center;"><input type="checkbox" data-remind="' + esc(m.id) + '" ' + (m.remind !== false ? 'checked' : '') + ' style="width:auto;"> Remind me</label>' +
@@ -38,20 +38,31 @@
     });
   }
   var obf = document.getElementById("ob-form"), obs = document.getElementById("ob-status");
+  var V2 = false, anon = false;
+  function setInit(on) { f.initiated.checked = on; document.getElementById("pf-init-wrap").hidden = !on; var h = document.getElementById("ob-fields"); if (h) h.setAttribute("data-initiated", on ? "1" : "0"); }
+  f.initiated.addEventListener("change", function () { setInit(f.initiated.checked); });
   function loadOnb() {
     return Promise.all([c.from("member_onboarding").select("*").eq("user_id", uid).maybeSingle(), window.ISKCON_ONB.questions(c), c.from("profile_answers").select("question_id,answer").eq("user_id", uid)]).then(function (q) {
       var v = (q[0] && q[0].data) || {};
+      V2 = (q[1] || []).some(function (x) { return x.key === "commitment"; });
       v.custom = {}; ((q[2] && q[2].data) || []).forEach(function (a) { v.custom[a.question_id] = a.answer; });
+      document.getElementById("pf-v2").hidden = !V2;
+      f.initiated.closest("label").hidden = !V2;
+      f.initiated_name.value = v.initiated_name || "";
+      anon = V2 && v.share_mode === "anonymous";
+      obf.share_mode.value = anon ? "anonymous" : "named";
       window.ISKCON_ONB.render(document.getElementById("ob-fields"), v, q[1]);
-      obf.initiated_name.value = v.initiated_name || "";
+      setInit(V2 ? !!v.initiated : !!v.initiated_name);
     });
   }
+  obf.addEventListener("change", function (e) { if (e.target.name === "share_mode") anon = e.target.value === "anonymous"; });
   obf.addEventListener("submit", function (e) {
     e.preventDefault(); obs.style.color = "var(--muted)"; obs.textContent = "Saving...";
-    var row = window.ISKCON_ONB.read(obf); row.user_id = uid; row.initiated_name = obf.initiated_name.value.trim() || null;
+    var row = window.ISKCON_ONB.read(document.getElementById("ob-fields")); row.user_id = uid;
     var custom = row.custom || {}; delete row.custom;
-    ["rounds", "why_other", "hope_other", "how_heard", "area", "contact_pref"].forEach(function (k) { row[k] = row[k] || null; });
-    row.full_name = f.full_name.value.trim() || null; row.phone = f.phone.value.trim() || null;
+    ["rounds", "why_other", "hope_other", "how_heard", "area", "contact_pref", "movement_hope_other", "commitment", "contact_value"].forEach(function (k) { if (row[k] !== undefined) row[k] = row[k] || null; });
+    if (V2) { row.share_mode = anon ? "anonymous" : "named"; } else { ["movement_hope", "movement_hope_other", "commitment", "contact_value"].forEach(function (k) { delete row[k]; }); }
+    row.full_name = anon ? null : (f.full_name.value.trim() || null); row.phone = anon ? null : (f.phone.value.trim() || null);
     var jobs = [c.from("member_onboarding").upsert(row)];
     Object.keys(custom).forEach(function (id) {
       var a = custom[id], empty = Array.isArray(a) ? !a.length : !a;
@@ -77,7 +88,7 @@
       function ymd(x) { return x.y + ("0" + x.m).slice(-2) + ("0" + x.d).slice(-2); }
       function t(s) { return String(s).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,"); }
       rows.filter(function (r) { return r.m.remind !== false; }).forEach(function (r) {
-        var w = G.words(r.m.kind, r.m.title), what = r.b.tithiName + " (" + r.b.paksa + " paksa), " + r.b.masaName + " masa";
+        var w = G.words(r.m.kind, r.m.title), what = G.plain(r.b).line;
         r.days.filter(function (x) { return G.cmp(x.date, now) >= 0; }).forEach(function (x) {
           out.push("BEGIN:VEVENT", "UID:gaurabda-" + r.m.id + "-" + ymd(x.date) + "@iskconjuja.co.ke", "DTSTAMP:" + stamp, "DTSTART;VALUE=DATE:" + ymd(x.date), "DTEND;VALUE=DATE:" + ymd(G.addDays(x.date, 1)),
             "SUMMARY:" + t(r.m.title + " (Gaurabda)"), "DESCRIPTION:" + t(what), "TRANSP:TRANSPARENT",
@@ -127,7 +138,12 @@
   f.addEventListener("submit", function (e) {
     e.preventDefault(); st.style.color = "var(--muted)"; st.textContent = "Saving...";
     c.from("member_details").upsert({ user_id: uid, full_name: f.full_name.value.trim() || null, phone: f.phone.value.trim() || null }).then(function (r) {
-      st.style.color = r.error ? "#b33a2e" : "#2E7D32"; st.textContent = r.error ? "That did not save: " + r.error.message : "Saved."; if (!r.error) { load(); c.from("member_onboarding").upsert({ user_id: uid, full_name: f.full_name.value.trim() || null, phone: f.phone.value.trim() || null }); }
+      if (r.error) { st.style.color = "#b33a2e"; st.textContent = "That did not save: " + r.error.message; return; }
+      var on = f.initiated.checked, o = { user_id: uid, full_name: anon ? null : (f.full_name.value.trim() || null), phone: anon ? null : (f.phone.value.trim() || null), initiated_name: on ? (f.initiated_name.value.trim() || null) : null };
+      if (V2) o.initiated = on;
+      c.from("member_onboarding").upsert(o).then(function (r2) {
+        st.style.color = r2.error ? "#b33a2e" : "#2E7D32"; st.textContent = r2.error ? "That did not save: " + r2.error.message : "Saved."; if (!r2.error) load();
+      });
     });
   });
   mf.addEventListener("submit", function (e) {

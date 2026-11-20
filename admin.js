@@ -71,7 +71,7 @@
         cnt(client.from("profiles").select("id", { count: "exact", head: true }).eq("approval", "pending")),
         cnt(client.from("testimonials").select("id", { count: "exact", head: true }).eq("published", false)),
         cnt(client.from("membership_applications").select("id", { count: "exact", head: true }).eq("status", "new")),
-        client.from("events").select("*").then(function (r) { return r.error ? null : (r.data || []).map(function (e) { return window.EVD ? EVD.occurrence(e) : e; }).filter(function (e) { return !e._past; }).length; }, function () { return null; })
+        client.from("events").select("*").then(function (r) { return r.error ? null : EVD.resolve(r.data || []).then(function (l) { return l.filter(function (e) { return !e._past; }).length; }); }, function () { return null; })
       ]).then(function (n) {
         ["st-pending", "st-testi", "st-apps", "st-events"].forEach(function (id, i) { var el = document.getElementById(id); if (el) el.textContent = n[i] == null ? "-" : n[i]; });
         setBadge("badge-people", (n[0] || 0) + (n[2] || 0)); setBadge("badge-testimonials", n[1] || 0);
@@ -88,9 +88,26 @@
         qb.innerHTML = q ? '<p class="ov-quote">\u201C' + esc(q.quote_text) + '\u201D</p><p class="ov-src">' + esc(q.source) + '</p>' : '<p class="adm-help">No quote yet. Add some in the Quotes tab.</p>';
       }, function () {});
       if (eb) client.from("events").select("*").then(function (r) {
-        var l = ((r && r.data) || []).map(function (e) { return window.EVD ? EVD.occurrence(e) : e; }).filter(function (e) { return !e._past; });
-        l.sort(function (a, b) { return a.start_date < b.start_date ? -1 : 1; }); l = l.slice(0, 3);
-        eb.innerHTML = l.length ? l.map(function (e) { return '<p class="ov-line"><b>' + esc(e.start_date) + '</b> ' + esc(e.title) + (e._shifted ? ' <span class="adm-help">(repeats yearly)</span>' : '') + '</p>'; }).join("") : '<p class="adm-help">Nothing coming up. Add an event in Events &amp; programs.</p>';
+        return EVD.resolve((r && r.data) || []).then(function (all) {
+          var l = all.filter(function (e) { return !e._past; });
+          l.sort(function (a, b) { return a.start_date < b.start_date ? -1 : 1; }); l = l.slice(0, 3);
+          eb.innerHTML = l.length ? l.map(function (e) { return '<p class="ov-line"><b>' + esc(e.start_date) + '</b> ' + esc(e.title) + (e._shifted ? ' <span class="adm-help">(repeats)</span>' : '') + '</p>'; }).join("") : '<p class="adm-help">Nothing coming up. Add an event in Events &amp; programs.</p>';
+        });
+      }, function () {});
+
+      // Reminder: repeating events that come round within the next 7 days (check date, guests and details are still right)
+      var yb = document.getElementById("ov-yearly");
+      if (yb) client.from("events").select("*").then(function (r) {
+        if (r.error) return;
+        var t = EVD.today(), rep = ((r && r.data) || []).filter(function (e) { return e.repeat_mode && e.repeat_mode !== "none"; });
+        return EVD.resolve(rep, t).then(function (l) {
+          var soon = l.filter(function (e) { var d = EVD.days(t, e.start_date); return !e._past && d >= 0 && d <= 7; });
+          yb.innerHTML = soon.map(function (e) {
+            var d = EVD.days(t, e.start_date);
+            return '<div class="adm-remind"><b>Reminder:</b> &ldquo;' + esc(e.title) + '&rdquo; comes round again ' + (d === 0 ? 'today' : d === 1 ? 'tomorrow' : 'in ' + d + ' days (' + esc(e.start_date) + ')') + (e._lunar ? ', worked out from the Gaurabda calendar' : '') + '. Check that the date, guests and details are right. <a href="#" data-goto-events>Open Events &amp; programs</a></div>';
+          }).join("");
+          yb.querySelectorAll("[data-goto-events]").forEach(function (x) { x.addEventListener("click", function (ev) { ev.preventDefault(); var b = document.querySelector('.admin-tab-btn[data-tab="events"]'); if (b) b.click(); }); });
+        });
       }, function () {});
       if (sb) client.from("registrations").select("id", { count: "exact", head: true }).gte("created_at", weekAgo).then(function (r) {
         var n = r && !r.error ? (r.count != null ? r.count : (r.data || []).length) : null;
@@ -367,6 +384,7 @@
           if (el.type === "checkbox") el.checked = !!row[el.name];
           else el.value = row[el.name] == null ? "" : row[el.name];
         });
+        form.dispatchEvent(new Event("rowloaded"));
         if (submitBtn) {
           submitBtn.textContent = "Save Changes";
           if (!form.querySelector(".cancel-edit-link")) {
@@ -424,6 +442,7 @@
         var row = {};
         Array.from(form.elements).forEach(function (el) {
           if (!el.name) return;
+          if ((el.name === "repeat_mode" || el.name === "g_masa" || el.name === "g_tithi") && form.elements.repeat_mode && form.elements.repeat_mode.value === "none" && !(editingId && rowsById[editingId] && "repeat_mode" in rowsById[editingId])) return;   // keeps working before SQL 33 is run
           if (el.type === "checkbox") row[el.name] = el.checked;
           else if (el.type === "number") row[el.name] = el.value ? Number(el.value) : null;
           else row[el.name] = el.value || null;
@@ -600,8 +619,37 @@
       return rowShell("programs", g.id, g.published, g.title, DAY_NAMES[g.weekday] + " " + String(g.start_time).slice(0, 5) + "\u2013" + String(g.end_time).slice(0, 5));
     });
     wireTable("events", "event-form", "events-admin-list", "event-status", function (ev) {
-      return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.start_time ? " " + String(ev.start_time).slice(0, 5) : "") + (ev.image_url ? " \u00b7 has picture" : "") + (window.EVD && EVD.occurrence(ev)._past ? " \u00b7 past (hidden from the site)" : ""));
+      return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.start_time ? " " + String(ev.start_time).slice(0, 5) : "") + (ev.image_url ? " \u00b7 has picture" : "") + (ev.repeat_mode === "gaurabda" ? " \u00b7 repeats by Gaurabda date" : ev.repeat_mode === "date" ? " \u00b7 repeats on the same date every year" : ((ev.end_date || ev.start_date) < EVD.today() ? " \u00b7 past (hidden from the site)" : "")));
     });
+
+    // Repeat choice on the event form: "by Gaurabda date" is worked out from the start date (month + lunar day).
+    (function () {
+      var form = document.getElementById("event-form"); if (!form || !form.elements.repeat_mode) return;
+      var info = document.getElementById("event-repeat-info"), mode = form.elements.repeat_mode, sd = form.elements.start_date;
+      var seq = 0;
+      function fmt(s) { var p = s.split("-"); return p[2] + "/" + p[1] + "/" + p[0]; }
+      function update() {
+        var my = ++seq, m = mode.value;
+        form.elements.g_masa.value = ""; form.elements.g_tithi.value = "";
+        if (m === "none") { info.textContent = ""; return; }
+        if (m === "date") { info.textContent = sd.value ? "It will come back on " + fmt(EVD.addYears(sd.value, 1).slice(0, 10)) + " next year, and the same day after that." : "Pick the start date first."; return; }
+        if (!sd.value) { info.textContent = "Pick the start date first. The Gaurabda day is worked out from it."; return; }
+        info.textContent = "Working out the Gaurabda date...";
+        EVD.loadG().then(function (G) {
+          var dt = G.parseIso(sd.value);
+          return G.vaishnavaDate(dt).then(function (v) {
+            if (my !== seq) return;
+            form.elements.g_masa.value = v.masa; form.elements.g_tithi.value = v.tithi;
+            return G.birthdaysFrom({ masa: v.masa, tithi: v.tithi }, dt, 4).then(function (l) {
+              if (my !== seq) return;
+              var next = l.slice(1, 4).map(function (x) { return fmt(G.iso(x.date)) + (x.exact ? "" : " (approx.)"); }).join(", ");
+              info.innerHTML = '<b>' + esc(v.masaName) + ' month, ' + esc(G.moonPlain(v.paksa)) + ', ' + esc(G.tithiPlain(v.tithi)) + '</b> (' + esc(v.tithiName) + '). It will be on: ' + esc(next || "dates not found") + '. If this is wrong, check the start date.';
+            });
+          });
+        }).catch(function () { if (my === seq) info.textContent = "The calendar could not be loaded just now. Try again in a moment."; });
+      }
+      mode.addEventListener("change", update); sd.addEventListener("change", update); form.addEventListener("rowloaded", function () { var gm = form.elements.g_masa.value, gt = form.elements.g_tithi.value; update(); });
+    })();
 
     // Membership applications
     (function () {

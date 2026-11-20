@@ -129,11 +129,11 @@
   var today = new Date(Date.now() + 3 * 3600 * 1000).toISOString().slice(0, 10);
   Promise.all([
     fetch("images/juja-logo.svg").then(function (r) { return r.text(); }).catch(function () { return ""; }),
-    client.from("events").select("*").order("start_date", { ascending: false }).limit(60),
+    Promise.resolve(client.from("events").select("*").order("start_date", { ascending: false }).limit(60)).then(function (res) { return (window.EVD ? EVD.resolve((res && res.data) || []) : Promise.resolve((res && res.data) || [])).then(function (l) { return { data: l }; }); }),
     client.from("programs").select("*").order("weekday", { ascending: true })
   ]).then(function (r) {
     logoSvg = (r[0] || "").replace(/<svg /, '<svg height="100%" ');
-    var ev = ((r[1] && r[1].data) || []).map(function (e) { return window.EVD ? EVD.occurrence(e) : e; }).map(function (e) {
+    var ev = ((r[1] && r[1].data) || []).map(function (e) {
       var end = e.end_date || e.start_date, t = e.start_time ? " at " + hm(e.start_time) : "";
       return { label: e.title + " (" + e.start_date + (end < today ? ", ended" : "") + ")", sort: end < today ? 1 : 0, key: e.start_date, title: e.title, when: rangeText(e.start_date, e.end_date) + t, description: e.description, place: "", hash: "#event-" + e.id };
     });

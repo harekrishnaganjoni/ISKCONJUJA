@@ -116,6 +116,7 @@
        <button type="button" class="adm-stat" data-goto="people"><b id="st-apps">-</b><span>New membership applications</span></button>
        <button type="button" class="adm-stat" data-goto="events"><b id="st-events">-</b><span>Upcoming events</span></button>
       </div>
+      <div id="ov-yearly"></div>
       <h3 class="adm-sub">Today</h3>
       <div class="adm-panels">
        <section class="adm-panel"><h4>Quote of the day</h4><div id="ov-quote"><p class="adm-help">Loading...</p></div></section>
@@ -400,6 +401,10 @@
          <input type="hidden" name="image_url" id="event-image-url">
          <span id="event-photo-status" style="font-size:12px;color:var(--muted);display:block;margin-top:4px;"></span>
         </label>
+        <label style="font-size:12px;font-weight:700;">Repeats
+         <select name="repeat_mode" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option value="none" selected>Does not repeat (disappears after it ends)</option><option value="gaurabda">Every year on the same Gaurabda date (follows the Vaishnava calendar)</option><option value="date">Every year on the same ordinary date</option></select></label>
+        <input type="hidden" name="g_masa"><input type="hidden" name="g_tithi">
+        <p id="event-repeat-info" style="font-size:12px;color:var(--muted);margin:0;"></p>
         <label style="font-size:13px;display:flex;align-items:center;gap:8px;"><input name="published" type="checkbox" checked style="width:auto;"> Publish immediately</label>
         <button class="button" type="submit" style="width:100%;">Add Event</button>
         <p id="event-status" style="font-size:13px;"></p>

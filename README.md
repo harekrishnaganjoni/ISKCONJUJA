@@ -6,7 +6,7 @@
 
 ## 0. NON-NEGOTIABLE OWNER RULES (read first, apply to everything)
 
-- **ALL ISKCON DOCUMENTS MUST HAVE THE FULL NAME AND TITLE OF HDG SRILA A.C. BHAKTIVEDANTA SWAMI PRABHUPADA AS THE FOUNDER-ACHARYA** ("ISKCON Founder-Acharya, His Divine Grace A.C. Bhaktivedanta Swami Prabhupada"). This covers business cards, fliers, pamphlets, posters, and any printed or shareable page we make. **His likeness must be larger and more prominent than any other person's likeness** on the same document. His title is right-aligned next to his picture (it points to him).
+- **ALL ISKCON DOCUMENTS MUST HAVE THE FULL NAME AND TITLE OF HDG SRILA A.C. BHAKTIVEDANTA SWAMI PRABHUPADA AS THE FOUNDER-ACHARYA** ("ISKCON Founder-Acharya, His Divine Grace A.C. Bhaktivedanta Swami Prabhupada"). This covers business cards, fliers, pamphlets, posters, and any printed or shareable page we make. **His likeness must be larger and more prominent than any other person's likeness** on the same document. His title is right-aligned next to his picture (it points to him). On fliers and pamphlets the title may be small fine print (owner, 20 Nov 2026) as long as it is legible; the photo stays large.
 - Any file the owner is asked to run or use must be attached **in the same chat message**, never only mentioned or stored in the project.
 - The owner does not want coloured backgrounds printed: printable designs default to an ink-saving (light background) version.
 - Work in the order of docs/WORKPLAN.md, easy items first; answer questions first.

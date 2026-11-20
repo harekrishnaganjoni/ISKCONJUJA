@@ -871,14 +871,14 @@
       var customQ = document.getElementById("bc-custom-quote");
       var customS = document.getElementById("bc-custom-source");
       var zoomSel = document.getElementById("bc-zoom");
-      var decoInput = document.getElementById("bc-deco-image"), decoSel = document.getElementById("bc-deco-kind"), countSel = document.getElementById("bc-deco-count"), inkIn = document.getElementById("bc-ink"), ph2In = document.getElementById("bc-phone2"), nm2In = document.getElementById("bc-name2");
+      var decoInput = document.getElementById("bc-deco-image"), decoSel = document.getElementById("bc-deco-kind"), inkIn = document.getElementById("bc-ink"), ph2In = document.getElementById("bc-phone2"), nm2In = document.getElementById("bc-name2");
       var HOSTS = window.ISKCON_HOSTS || {}, siteUrl = HOSTS.publicOrigin || window.location.origin.replace("//portal.", "//");   // the PUBLIC site, never the member portal
       var primary = (window.ISKCON && window.ISKCON.WHATSAPP_PRIMARY) || "";
       var data = {
         address: "Anthusia Apartments, Muraya Access Road, Juja",
         phone: primary ? "+" + primary.slice(0, 3) + " " + primary.slice(3, 6) + " " + primary.slice(6, 9) + " " + primary.slice(9) : "",
         site: siteUrl.replace(/^https?:\/\//, ""),
-        socials: [], till: "", quotes: [], quote: "", source: "", deco: "", logoSvg: "", name: "", phone2: "", name2: "", deco: "", ink: true
+        socials: [], till: "", quotes: [], quote: "", source: "", deco: "", logoSvg: "", phones: [], deco: "", ink: true
       };
       function esc(t) { return String(window.PLAIN ? PLAIN(t) : (t == null ? "" : t)).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
       var ICON = {
@@ -909,8 +909,7 @@
           '<div class="bc-qr"></div>' +
           '<div class="bc-lines bcf-details">' +
              '<p>' + ICON.pin + esc(data.address) + '</p>' +
-             (data.phone ? '<p><b>' + ICON.whatsapp + esc(data.phone) + (data.name ? ' (' + esc(data.name) + ')' : '') + '</b></p>' : "") +
-             (data.phone2 ? '<p><b>' + ICON.whatsapp + esc(data.phone2) + (data.name2 ? ' (' + esc(data.name2) + ')' : '') + '</b></p>' : "") +
+             data.phones.filter(function (p) { return p.phone && p.name; }).map(function (p) { return '<p><b>' + ICON.whatsapp + esc(nicePhone(p.phone)) + ' (' + esc(p.name) + ')</b></p>'; }).join("") +
              '<p><b>' + ICON.web + esc(data.site) + '</b></p>' +
              (data.till ? '<p>M-Pesa Till: <b>' + esc(data.till) + '</b></p>' : "") +
              (soc ? '<p class="bc-socs">' + soc + '</p>' : "") +
@@ -934,7 +933,7 @@
         var d = document.createElement("div");
         d.className = "bc-face bc-back";
         q = q || { text: data.quote, source: data.source };
-        var pick = decoSel ? decoSel.value : "random", n = parseInt(countSel && countSel.value, 10) || 2, ids;
+        var pick = decoSel ? decoSel.value : "random", n = 1, ids;
         if (data.deco) ids = null;
         else if (pick === "lotus" || pick === "feather") ids = null;
         else if (q) ids = ART.ids(pick, n);                                  // every card on the sheet gets its own pictures
@@ -953,7 +952,7 @@
       function fitQuote(root) {
         var q = root.querySelector(".bc-quote p"); if (!q) return;
         var len = q.textContent.length;
-        q.style.fontSize = len > 110 ? "9.5px" : len > 80 ? "10.5px" : "12px";
+        q.style.fontSize = len > 150 ? "10.6px" : len > 110 ? "11.6px" : len > 80 ? "12.6px" : "14px";
       }
 
       function render() {
@@ -977,15 +976,31 @@
       function nicePhone(raw) { var d = String(raw || "").replace(/\D/g, ""); if (d.charAt(0) === "0") d = "254" + d.slice(1); return d.length === 12 ? "+" + d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6, 9) + " " + d.slice(9) : String(raw || "").trim(); }
       function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
       function stored(k, dflt) { try { var v = localStorage.getItem(k); return v === null ? dflt : v; } catch (e) { return dflt; } }
-      var raw2 = stored("bc_phone2", "0743184998");
-      data.name = stored("bc_name1", ""); data.name2 = stored("bc_name2", "Dan"); data.phone2 = nicePhone(raw2); data.ink = stored("bc_ink", "1") === "1";
-      if (nameIn) nameIn.value = data.name; if (nm2In) nm2In.value = data.name2; if (ph2In) ph2In.value = raw2; if (inkIn) inkIn.checked = data.ink;
-      if (nameIn) nameIn.addEventListener("input", function () { data.name = nameIn.value.trim(); store("bc_name1", data.name); render(); });
-      if (nm2In) nm2In.addEventListener("input", function () { data.name2 = nm2In.value.trim(); store("bc_name2", data.name2); render(); });
-      if (ph2In) ph2In.addEventListener("input", function () { store("bc_phone2", ph2In.value.trim()); data.phone2 = nicePhone(ph2In.value); render(); });
+      // Phone numbers: a list, each with its own name. Removing a number removes its name too. A number without a name is left off the card.
+      var phBox = document.getElementById("bc-phones"), phAdd = document.getElementById("bc-phone-add"), phWarn = document.getElementById("bc-phone-warn");
+      var loaded = null; try { loaded = JSON.parse(stored("bc_phones", "null")); } catch (e) {}
+      data.phones = Array.isArray(loaded) ? loaded : [{ phone: primary ? "0" + primary.slice(3) : "", name: "Tim" }, { phone: "0743184998", name: "Dan" }];
+      data.ink = stored("bc_ink", "1") === "1";
+      function savePhones() { store("bc_phones", JSON.stringify(data.phones)); }
+      function drawPhones() {
+        phBox.innerHTML = "";
+        data.phones.forEach(function (p, i) {
+          var row = document.createElement("div"); row.style.cssText = "display:grid;grid-template-columns:1fr 1fr auto;gap:6px;";
+          row.innerHTML = '<input placeholder="Phone number" maxlength="20" style="padding:7px;border:1px solid var(--line);border-radius:4px;"><input placeholder="Name (needed)" maxlength="40" style="padding:7px;border:1px solid var(--line);border-radius:4px;"><button type="button" class="button secondary" title="Remove this number and its name" style="padding:4px 10px;min-height:auto;">&#10005;</button>';
+          var ins = row.querySelectorAll("input"); ins[0].value = p.phone; ins[1].value = p.name;
+          ins[0].addEventListener("input", function () { p.phone = ins[0].value.trim(); savePhones(); warn(); render(); });
+          ins[1].addEventListener("input", function () { p.name = ins[1].value.trim(); savePhones(); warn(); render(); });
+          row.querySelector("button").addEventListener("click", function () { data.phones.splice(i, 1); savePhones(); drawPhones(); render(); });
+          phBox.appendChild(row);
+        });
+        warn();
+      }
+      function warn() { var bad = data.phones.filter(function (p) { return p.phone && !p.name; }).length; phWarn.textContent = bad ? "Give every number a name. A number without a name is left off the card." : ""; }
+      if (phAdd) phAdd.addEventListener("click", function () { data.phones.push({ phone: "", name: "" }); drawPhones(); });
+      drawPhones();
+      if (inkIn) inkIn.checked = data.ink;
       if (inkIn) inkIn.addEventListener("change", function () { data.ink = inkIn.checked; store("bc_ink", data.ink ? "1" : "0"); render(); });
       if (decoSel) { decoSel.innerHTML = ART.options('<option value="random">A different one on every card</option><option value="lotus">Lotus (drawn)</option><option value="feather">Peacock feather (drawn)</option>'); decoSel.addEventListener("change", render); }
-      if (countSel) countSel.addEventListener("change", render);
       sel.addEventListener("change", function () { curRand = null; data.previewArt = null; refresh(); });
       [customQ, customS].forEach(function (x) { x.addEventListener("input", refresh); });
       zoomSel.addEventListener("change", render);

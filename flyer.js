@@ -14,9 +14,7 @@
     { id: "t1", name: "Festival (maroon and gold)" },
     { id: "t2", name: "Kirtan night (deep blue and gold)" },
     { id: "t3", name: "Invitation (cream, elegant)" },
-    { id: "t4", name: "Bold notice (white and gold)" },
-    { id: "c1", name: "Casual: scrapbook (handwritten, tilted notes)" },
-    { id: "c2", name: "Casual: doodle (handwritten, circles and stars)" }
+    { id: "t4", name: "Bold notice (white and gold)" }
   ];
   function esc(t) { return String(window.PLAIN ? PLAIN(t) : (t == null ? "" : t)).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function nl(t) { return esc(t).replace(/\n/g, "<br>"); }
@@ -37,7 +35,7 @@
   }
   function build(v, px) {
     var d = document.createElement("div");
-    d.className = "fl fl-" + v.tpl + " " + (v.size === "a5" ? "fl-a5" : "fl-a4") + (v.ink ? " ink" : "") + (/^c/.test(v.tpl) ? " fl-casual" : "");
+    d.className = "fl fl-" + v.tpl + " " + (v.size === "a5" ? "fl-a5" : "fl-a4") + (v.ink ? " ink" : "");
     if (px) d.style.fontSize = px + "px";
     var phones = [];
     if (v.phone) phones.push(esc(v.phone) + (v.name ? " (" + esc(v.name) + ")" : ""));
@@ -67,7 +65,9 @@
   function reArt() { artIds = ART.ids($("fl-art").value, parseInt($("fl-art-n").value, 10) || 2); render(); }
   $("fl-art").innerHTML = ART.options('<option value="none">No pictures</option><option value="random">Random (a mix)</option>');
   $("fl-art").addEventListener("change", reArt); $("fl-art-n").addEventListener("change", reArt); $("fl-art-shuffle").addEventListener("click", reArt);
-  function render() { var v = vals(); holder.innerHTML = ""; holder.appendChild(build(v, 8.6)); }
+  function render() { var v = vals(); holder.innerHTML = ""; holder.appendChild(build(v, 8.6 * zoom())); }
+  function zoom() { var z = $("fl-zoom"); return z ? (parseInt(z.value, 10) || 100) / 100 : 1; }
+  if ($("fl-zoom")) $("fl-zoom").addEventListener("input", function () { $("fl-zoom-v").textContent = this.value + "%"; render(); });
 
   function fillFromEvent(i) {
     var e = events[i]; if (!e) return;

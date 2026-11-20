@@ -12,6 +12,23 @@
   if (!D || !D.READY) { st1.textContent = "Registration is not connected yet. Please check back soon."; document.getElementById("reg-next").disabled = true; return; }
   var gb = document.getElementById("google-reg-btn");
   if (gb) gb.addEventListener("click", function () { st1.style.color = "var(--muted)"; st1.textContent = "Opening Google..."; D.signInWithGoogle().then(function (r) { if (r && r.error) { st1.style.color = "#b33a2e"; st1.textContent = "Google sign-in is not available right now."; } }); });
+  // ---- finish mode (register.html?finish=1): someone who signed in (for example with Google) without giving their details ----
+  var FINISH = /[?&]finish=1/.test(location.search), finishUser = null;
+  if (FINISH) {
+    D.getSessionAndRole().then(function (r) {
+      if (!r.session) { location.replace("devotees.html"); return; }
+      finishUser = r.session.user;
+      var meta = finishUser.user_metadata || {};
+      f.full_name.value = meta.full_name || meta.name || "";
+      ["email", "password"].forEach(function (n) { var el = f[n]; el.required = false; el.minLength = 0; el.closest("label").hidden = true; });
+      document.querySelector(".reg-tabs").hidden = true;
+      var g = document.querySelector('[data-show-if="google_signin_enabled"]'); if (g) g.hidden = true;
+      document.querySelector(".reg-steps [data-step-tag='1']").textContent = "1 Your name";
+      var h = document.createElement("p"); h.style.cssText = "margin:0 0 12px;font-size:14px;";
+      h.innerHTML = "<b>Welcome!</b> Before anything else, please tell us who you are and answer a few questions. The admins need this to approve your account.";
+      f.insertBefore(h, f.firstChild);
+    });
+  }
   // ---- survey: one question at a time ----
   var O = window.ISKCON_ONB.OPTIONS, A = { rounds: "", principles: [], why: [], why_other: "", hope: [], hope_other: "", how_heard: "", area: "", contact_pref: "" };
   var Q = [
@@ -60,8 +77,8 @@
   document.getElementById("reg-next").addEventListener("click", function () {
     var name = f.full_name.value.trim(), email = f.email.value.trim(), pw = f.password.value;
     if (!name) { st1.textContent = "Please enter your full name."; return; }
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { st1.textContent = "Please enter a valid email address."; return; }
-    if (pw.length < 8) { st1.textContent = "The password needs at least 8 characters."; return; }
+    if (!FINISH && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { st1.textContent = "Please enter a valid email address."; return; }
+    if (!FINISH && pw.length < 8) { st1.textContent = "The password needs at least 8 characters."; return; }
     if (f.birth_date.value && f.birth_date.value > f.birth_date.max) { st1.textContent = "The birth date cannot be in the future."; return; }
     st1.textContent = ""; go(2); showIntro();
   });
@@ -72,6 +89,21 @@
     var reg = answers();
     reg.full_name = f.full_name.value.trim(); reg.initiated_name = f.initiated_name.value.trim(); reg.phone = f.phone.value.trim();
     reg.birth_date = f.birth_date.value || null; reg.consent = true;
+    if (FINISH) {
+      if (!finishUser) { st2.textContent = "Please wait a moment and try again."; return; }
+      st2.style.color = "var(--muted)"; st2.textContent = "Saving...";
+      var row = { user_id: finishUser.id, full_name: reg.full_name || null, initiated_name: reg.initiated_name || null, phone: reg.phone || null,
+        rounds: reg.rounds || null, principles: reg.principles || [], why: reg.why || [], why_other: reg.why_other || null, hope: reg.hope || [], hope_other: reg.hope_other || null,
+        how_heard: reg.how_heard || null, area: reg.area || null, contact_pref: reg.contact_pref || null, consent_at: new Date().toISOString(), updated_at: new Date().toISOString() };
+      D.client.from("member_onboarding").upsert(row).then(function (x) {
+        if (x.error) { st2.style.color = "#b33a2e"; st2.textContent = x.error.message; return; }
+        try { localStorage.setItem("iskcon_onb_" + finishUser.id, "1"); } catch (e) {}
+        try { D.client.from("profiles").update({ full_name: reg.full_name }).eq("id", finishUser.id).then(function () {}, function () {}); } catch (e) {}
+        var go = function () { location.replace("dashboard.html"); };
+        if (reg.birth_date) D.client.auth.updateUser({ data: { reg: { birth_date: reg.birth_date } } }).then(go, go); else go();
+      });
+      return;
+    }
     st2.style.color = "var(--muted)"; st2.textContent = "Creating your account...";
     document.getElementById("reg-go").disabled = true;
     D.signUp(f.email.value.trim(), f.password.value, reg).then(function (r) {

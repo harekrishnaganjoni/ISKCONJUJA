@@ -143,6 +143,7 @@
         var l = [];
         if (v.fast) l.push(v.ekadasi ? v.ekadasi + " (fast)" : "Fasting day");
         v.events.forEach(function (t) { if (l.join("|").indexOf(t) < 0) l.push(t); });
+        if (v.parana) l.push("Break the fast " + hm(v.parana.from) + (v.parana.to >= 0 ? " to " + hm(v.parana.to) : " onwards"));
         if (v.tithi === 29) l.push("Purnima (full moon)"); else if (v.tithi === 14) l.push("Amavasya (new moon)");
         if (l.length) out.push({ date: v.date, items: l, fast: !!v.fast, parana: v.parana });
       });

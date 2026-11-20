@@ -16,3 +16,11 @@
 - Doodle watermark now behind member and admin pages; thin maroon lines removed.
 
 - Owner rules added 20 Nov 2026: ask before important changes; plain spellings on public things; events follow the Gaurabda calendar; message board removed. Owner chose per-event repeat (none / Gaurabda date / same ordinary date): BUILT, needs SQL 33. Message board data deletion needs SQL 34 (owner chose delete).
+
+## 20 Nov 2026 - owner requests done
+- Break-the-fast times listed with ekadashi (calendar list, digests, phone-calendar file).
+- Header/admin use the full screen width; flier and pamphlet previews sit beside their settings with a zoom slider.
+- New sign-ins (e.g. Google) must give their name and answer the onboarding questions first (register.html?finish=1) while pending approval.
+- Casual flier/pamphlet designs removed (owner will design his own and send them).
+- Business card: list of phone numbers, each with its own name (removing a number removes its name); one small picture on the back; quote biggest, then mantra, citation smallest.
+- Prabhupada's title is fine print on fliers and pamphlets (photo stays large).

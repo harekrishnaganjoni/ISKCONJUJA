@@ -40,7 +40,9 @@
     try { window.ISKCON_DATA.client.auth.getSession().then(function (s) {
       uid0 = s && s.data && s.data.session && s.data.session.user.id;
       try { cached = uid0 && localStorage.getItem(RK + uid0); } catch (e) {}
-      if (cached && allowed(cached)) {
+      var onbOk = false, apprC = null;
+      try { onbOk = localStorage.getItem("iskcon_onb_" + uid0) === "1"; apprC = localStorage.getItem("iskcon_appr_" + uid0); } catch (e) {}
+      if (cached && allowed(cached) && !(require === "member" && apprC === "pending" && !onbOk && cached === "member")) {
         window.ISKCON_CURRENT_ROLE = cached; document.body.classList.remove("auth-checking");
         try { if (localStorage.getItem("iskcon_appr_" + uid0) === "pending") setTimeout(function () { showPendingBanner(true); }, 0); } catch (e) {}
       }
@@ -80,6 +82,19 @@
           '<p>An admin needs to approve your account before you can access the member area.</p>' +
           '<p style="margin-top:16px;"><a class="button" href="index.html">Back to Homepage</a></p></div></main>';
         return;
+      }
+      // A new sign-in must give their name and answer the onboarding form first, otherwise there is nothing for the admins to approve.
+      if (require === "member" && !isAdmin && r.approval === "pending") {
+        var uid = r.session.user.id, have = false;
+        try { have = localStorage.getItem("iskcon_onb_" + uid) === "1"; } catch (e) {}
+        if (!have) {
+          window.ISKCON_DATA.client.from("member_onboarding").select("user_id").eq("user_id", uid).limit(1).then(function (q) {
+            if (!q.error && !(q.data && q.data.length)) { window.location.replace("register.html?finish=1"); return; }
+            try { localStorage.setItem("iskcon_onb_" + uid, "1"); } catch (e) {}
+            window.ISKCON_CURRENT_ROLE = role; document.body.classList.remove("auth-checking");
+          });
+          return;
+        }
       }
       // Passed — reveal the page and expose the role for pages that need it
       window.ISKCON_CURRENT_ROLE = role;

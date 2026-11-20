@@ -52,16 +52,17 @@
   function showMonth() {
     G.month(view.y, view.m).then(function (days) {
       monthBox.innerHTML = '<div class="gc-nav"><button type="button" data-nav="-1" aria-label="Previous month">&#8249;</button><h3>' + MON[view.m - 1] + ' ' + view.y + '</h3><button type="button" data-nav="1" aria-label="Next month">&#8250;</button></div>' +
-        gridHtml(days) + '<p class="gc-legend">&#127807; Ekadasi / fast &nbsp; &#10048; festival or acharya day &nbsp; &#127765; Purnima &nbsp; &#127761; Amavasya</p>' +
+        gridHtml(days) + '<p class="gc-legend">&#127807; Ekadasi / fast &nbsp; &#127869; break the fast &nbsp; &#10048; festival or acharya day &nbsp; &#127765; Purnima &nbsp; &#127761; Amavasya</p>' +
         '<p><button type="button" class="button secondary" data-nav="today">Today</button></p>';
     }).catch(fail);
   }
   function showUpcoming() {
     G.range(now, 75).then(function (list) {
-      var rows = list.filter(function (v) { return v.fast || v.events.length; }).slice(0, 14);
+      var rows = list.filter(function (v) { return v.fast || v.events.length || v.parana; }).slice(0, 14);
       upBox.innerHTML = rows.map(function (v) {
         return '<li><button type="button" data-d="' + G.iso(v.date) + '"><b>' + esc(short(v.date)) + '</b> ' + (v.fast ? '&#127807; ' + esc(v.ekadasi || "Fast") : '') +
-          (v.events.length ? (v.fast ? ' &middot; ' : '') + esc(v.events[0]) + (v.events.length > 1 ? ' +' + (v.events.length - 1) : '') : '') + '</button></li>';
+          (v.events.length ? (v.fast ? ' &middot; ' : '') + esc(v.events[0]) + (v.events.length > 1 ? ' +' + (v.events.length - 1) : '') : '') +
+          (v.parana ? ((v.fast || v.events.length) ? ' &middot; ' : '') + '&#127869; Break the fast ' + G.hm(v.parana.from) + (v.parana.to >= 0 ? '&ndash;' + G.hm(v.parana.to) : ' onwards') : '') + '</button></li>';
       }).join("") || "<li>Nothing in the next 75 days.</li>";
     }).catch(fail);
   }
@@ -87,7 +88,7 @@
       var stamp = ymd(now) + "T000000Z", out = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//ISKCON JUJA//Vaishnava calendar//EN", "CALSCALE:GREGORIAN", "X-WR-CALNAME:Vaishnava calendar (Nairobi)"];
       ev.forEach(function (e) {
         var alarm = e.fast || e.items.some(function (x) { return /masa begins|month begins|Kartika ends/.test(x); });
-        var title = e.items.slice(0, 2).join(" / "), desc = e.items.join("\n") + (e.parana ? "\nBreak the fast: " + G.hm(e.parana.from) + (e.parana.to >= 0 ? " - " + G.hm(e.parana.to) : " onwards") : "");
+        var title = e.items.slice(0, 2).join(" / "), desc = e.items.join("\n");
         out.push("BEGIN:VEVENT", "UID:gcal-" + ymd(e.date) + "@iskconjuja.co.ke", "DTSTAMP:" + stamp, "DTSTART;VALUE=DATE:" + ymd(e.date), "DTEND;VALUE=DATE:" + ymd(G.addDays(e.date, 1)), "SUMMARY:" + t(title), "DESCRIPTION:" + t(desc), "TRANSP:TRANSPARENT");
         if (alarm) out.push("BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + t("Tomorrow: " + title), "TRIGGER:-PT3H", "END:VALARM");
         out.push("END:VEVENT");

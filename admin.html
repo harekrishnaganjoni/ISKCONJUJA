@@ -186,7 +186,7 @@
       <h2 class="adm-title">Fliers</h2>
       <p style="font-size:14px;color:var(--muted);max-width:640px;margin-bottom:16px;">Make a flier for an event or an invitation. Choose a look, fill in the details (or pick an event or weekly program to fill most of it), then print it or download it as a picture.</p>
       <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;">
-       <form id="fl-form" class="card" style="padding:16px;flex:1 1 520px;max-width:620px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 16px;align-items:start;" onsubmit="return false">
+       <form id="fl-form" class="card" style="padding:16px;flex:0 1 480px;min-width:300px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 14px;align-items:start;" onsubmit="return false">
         <label style="font-size:12px;font-weight:700;">Look <select id="fl-tpl" style="width:100%;padding:8px;margin-top:4px;"></select></label>
         <label style="font-size:12px;font-weight:700;">Size <select id="fl-size" style="width:100%;padding:8px;margin-top:4px;"><option value="a5">A5 (two on one A4 sheet, cut in half)</option><option value="a4">A4 (one per sheet)</option></select></label>
         <select id="fl-event" style="width:100%;padding:8px;grid-column:1/-1;"></select>
@@ -212,7 +212,7 @@
         <p id="fl-status" style="font-size:13px;margin:0;"></p>
         <p style="font-size:12px;color:var(--muted);margin:0;">When printing: paper A4, scale 100%, margins none, Background graphics ON.</p>
        </form>
-       <div id="fl-holder" style="flex:1 1 360px;"></div>
+       <div style="flex:1 1 360px;min-width:0;"><div class="zoom-bar"><label>Zoom <input type="range" id="fl-zoom" min="50" max="200" step="5" value="100"></label><span id="fl-zoom-v">100%</span></div><div id="fl-holder"></div></div>
       </div>
      </section>
 
@@ -251,7 +251,7 @@
         <p id="pam-status" style="grid-column:1/-1;font-size:13px;margin:0;"></p>
         <p style="grid-column:1/-1;font-size:12px;color:var(--muted);margin:0;">Printing: paper A4, <strong>landscape</strong>, scale 100%, margins none. Choose <strong>two-sided, flip on short edge</strong>. Then fold: for a tri-fold, fold the left flap in first, then the cover over it.</p>
        </form>
-       <div id="pam-holder" style="flex:1 1 380px;"></div>
+       <div style="flex:1 1 380px;min-width:0;"><div class="zoom-bar"><label>Zoom <input type="range" id="pam-zoom" min="50" max="200" step="5" value="100"></label><span id="pam-zoom-v">100%</span></div><div id="pam-holder"></div></div>
       </div>
      </section>
 
@@ -485,11 +485,11 @@
       <p style="font-size:14px;color:var(--muted);max-width:640px;margin-bottom:16px;">Business card, 85 &times; 55 mm. Everything fills in from details already on the site (phone, address, social links, logo). The front carries all the contact details. The back carries a quote and decoration. Pick the quote below or write your own.</p>
 
       <div class="bc-controls card" style="padding:16px;max-width:900px;margin-bottom:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px 18px;align-items:start;">
-       <label style="font-size:12px;font-weight:700;">Name after the first phone number (optional)
-        <input id="bc-name" maxlength="40" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
-       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <label style="font-size:12px;font-weight:700;">Second phone number <input id="bc-phone2" maxlength="20" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
-        <label style="font-size:12px;font-weight:700;">Name shown in brackets <input id="bc-name2" maxlength="40" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></label>
+       <div id="bc-phones-box">
+        <p style="font-size:12px;font-weight:700;margin:0 0 6px;">Phone numbers on the card (each number has its own name; remove a number and its name goes with it)</p>
+        <div id="bc-phones" style="display:flex;flex-direction:column;gap:6px;"></div>
+        <button type="button" class="button secondary" id="bc-phone-add" style="margin-top:8px;font-size:12px;padding:5px 12px;min-height:auto;">+ Add a phone number</button>
+        <p id="bc-phone-warn" style="font-size:12px;color:#b33a2e;margin:6px 0 0;"></p>
        </div>
        <label style="font-size:12px;font-weight:700;">Picture at the top of the back
         <select id="bc-deco-kind" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
@@ -497,8 +497,6 @@
        <label style="font-size:12px;font-weight:700;">Quote for the back
         <span style="font-weight:400;color:var(--muted);">(the printed sheet gives every card its own quote)</span>
         <select id="bc-quote-select" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
-       <label style="font-size:12px;font-weight:700;">How many pictures on the back
-        <select id="bc-deco-count" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option value="1">One</option><option value="2" selected>Two</option><option value="3">Three</option></select></label>
        <div><button type="button" class="button secondary" id="bc-shuffle">&#128256; Shuffle the quote</button></div>
        <div id="bc-custom-box" hidden style="display:grid;gap:8px;">
         <label style="font-size:12px;font-weight:700;">Your quote (up to 140 characters)

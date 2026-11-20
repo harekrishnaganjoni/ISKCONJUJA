@@ -60,15 +60,17 @@
   function reArt() { artIds = ART.ids($("pam-art").value, parseInt($("pam-art-n").value, 10) || 2); render(); }
   $("pam-art").innerHTML = ART.options('<option value="none">No pictures</option><option value="random">Random (a mix)</option>');
   $("pam-art").addEventListener("change", reArt); $("pam-art-n").addEventListener("change", reArt); $("pam-art-shuffle").addEventListener("click", reArt);
+  function pzoom() { var z = $("pam-zoom"); return z ? (parseInt(z.value, 10) || 100) / 100 : 1; }
+  if ($("pam-zoom")) $("pam-zoom").addEventListener("input", function () { $("pam-zoom-v").textContent = this.value + "%"; render(); });
   function render() {
     var v = vals();
     var tri = v.type === "tri";
     ["flap-h", "flap-t", "h3", "t3"].forEach(function (k) { var el = $("pam-" + k); if (el) el.closest("label").hidden = !tri; });
     holder.innerHTML = "";
-    pages(v, 6.2).forEach(function (s) { var w = document.createElement("div"); w.innerHTML = '<p style="font-size:13px;font-weight:700;margin:0 0 6px;">' + esc(s.getAttribute("data-label")) + '</p>'; w.appendChild(s); w.style.marginBottom = "18px"; holder.appendChild(w); });
+    pages(v, 6.2 * pzoom()).forEach(function (s) { var w = document.createElement("div"); w.innerHTML = '<p style="font-size:13px;font-weight:700;margin:0 0 6px;">' + esc(s.getAttribute("data-label")) + '</p>'; w.appendChild(s); w.style.marginBottom = "18px"; holder.appendChild(w); });
   }
   [["pam-type", ""], ["pam-tpl", ""]].forEach(function () {});
-  $("pam-tpl").innerHTML = '<option value="f1">Formal (maroon and gold)</option><option value="f2">Deep blue and gold</option><option value="cz">Casual (handwritten, tilted)</option>';
+  $("pam-tpl").innerHTML = '<option value="f1">Formal (maroon and gold)</option><option value="f2">Deep blue and gold</option>';
   var DEF = { title: "Welcome to ISKCON Juja", tagline: "Peace, friendship and the joy of Krishna consciousness", flapH: "You are welcome", flapT: "Come as you are. No experience needed. Everyone is welcome to our programs.",
     h1: "What we do", t1: "Kirtan (joyful singing), a short talk from the Bhagavad-gita, and a free vegetarian feast (prasadam) at our weekly programs.", h2: "Learn and grow", t2: "Short courses on the Bhagavad-gita and Krishna consciousness, friendly discussion, and a community of young people on the same path.", h3: "Come and join us", t3: "See the days and times of our weekly programs on our website, or send us a WhatsApp message and we will gladly guide you." };
   Object.keys(DEF).forEach(function (k) { var id = { flapH: "pam-flap-h", flapT: "pam-flap-t" }[k] || "pam-" + k; if ($(id)) $(id).value = DEF[k]; });

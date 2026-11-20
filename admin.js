@@ -27,7 +27,7 @@
       apply();
     })();
     // Each major section is its own page in the portal header; its sub-pages live in the side menu.
-    var SECTIONS = { overview: ["overview"], community: ["people", "board", "responses", "aboutq", "testimonials", "registrations"], content: ["events", "quotes", "courses", "articles"], shop: ["products", "card", "flyer", "pamphlet", "settings"] };
+    var SECTIONS = { overview: ["overview"], community: ["people", "responses", "aboutq", "testimonials", "registrations"], content: ["events", "quotes", "courses", "articles"], shop: ["products", "card", "flyer", "pamphlet", "settings"] };
     var SEC_TITLES = { overview: "Overview", community: "People & community", content: "Content", shop: "Shop & site" };
     function sectionOf(tab) { for (var k in SECTIONS) if (SECTIONS[k].indexOf(tab) >= 0) return k; return "overview"; }
     function paintSection(sec) {
@@ -99,21 +99,6 @@
     }
     loadOverviewPanels();
 
-    // Reminder: yearly events that come round again within the next 7 days (check the date, guests and details are still right).
-    (function () {
-      var box = document.getElementById("ov-yearly"); if (!box || !window.EVD) return;
-      client.from("events").select("*").eq("repeat_yearly", true).then(function (r) {
-        if (r.error) return;
-        var t = EVD.today(), soon = ((r.data) || []).map(function (e) { return EVD.occurrence(e, t); }).filter(function (e) { var d = EVD.days(t, e.start_date); return d >= 0 && d <= 7; });
-        if (!soon.length) { box.innerHTML = ""; return; }
-        box.innerHTML = soon.map(function (e) {
-          var d = EVD.days(t, e.start_date);
-          return '<div class="adm-remind"><b>Reminder:</b> &ldquo;' + esc(e.title) + '&rdquo; comes round again ' + (d === 0 ? 'today' : d === 1 ? 'tomorrow' : 'in ' + d + ' days (' + esc(e.start_date) + ')') + '. Check that the date, guests and details are still right (festivals that follow the moon move each year). <a href="#" data-goto-events>Open Events &amp; programs</a></div>';
-        }).join("");
-        var g = box.querySelector("[data-goto-events]");
-        if (g) box.querySelectorAll("[data-goto-events]").forEach(function (x) { x.addEventListener("click", function (ev) { ev.preventDefault(); var b = document.querySelector('.admin-tab-btn[data-tab="events"]'); if (b) b.click(); }); });
-      });
-    })();
 
     // ---------- Know our own role, to gate People actions ----------
     var myRole = null;
@@ -439,7 +424,7 @@
         var row = {};
         Array.from(form.elements).forEach(function (el) {
           if (!el.name) return;
-          if (el.type === "checkbox") { if (el.name === "repeat_yearly" && !el.checked && !(editingId && rowsById[editingId] && "repeat_yearly" in rowsById[editingId])) return; row[el.name] = el.checked; }
+          if (el.type === "checkbox") row[el.name] = el.checked;
           else if (el.type === "number") row[el.name] = el.value ? Number(el.value) : null;
           else row[el.name] = el.value || null;
         });
@@ -615,7 +600,7 @@
       return rowShell("programs", g.id, g.published, g.title, DAY_NAMES[g.weekday] + " " + String(g.start_time).slice(0, 5) + "\u2013" + String(g.end_time).slice(0, 5));
     });
     wireTable("events", "event-form", "events-admin-list", "event-status", function (ev) {
-      return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.start_time ? " " + String(ev.start_time).slice(0, 5) : "") + (ev.image_url ? " \u00b7 has picture" : "") + (ev.repeat_yearly ? " \u00b7 repeats every year" : (window.EVD && EVD.occurrence(ev)._past ? " \u00b7 past (hidden from the site)" : "")));
+      return rowShell("events", ev.id, ev.published, ev.title, ev.start_date + (ev.end_date ? " to " + ev.end_date : "") + (ev.start_time ? " " + String(ev.start_time).slice(0, 5) : "") + (ev.image_url ? " \u00b7 has picture" : "") + (window.EVD && EVD.occurrence(ev)._past ? " \u00b7 past (hidden from the site)" : ""));
     });
 
     // Membership applications
@@ -824,72 +809,6 @@
     loadTestimonials();
 
     // ============================================================
-    // MESSAGE BOARD: hide / delete / reply as Admin
-    // ============================================================
-    function loadBoard() {
-      client.from("board_messages").select("*").order("created_at", { ascending: false }).then(function (r) {
-        if (r.error || !r.data) return;
-        var byId = {};
-        r.data.forEach(function (m) { byId[m.id] = m; });
-
-        var list = document.getElementById("board-admin-list");
-        list.innerHTML = r.data.length ? r.data.map(function (m) {
-          var parent = m.parent_id ? byId[m.parent_id] : null;
-          return '<div style="padding:12px;background:var(--row-tint);border-radius:6px;' + (m.hidden ? 'opacity:0.65;' : '') + '">' +
-            '<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">' +
-            '<strong style="font-size:13px;">' + esc(m.author_name) + (m.is_admin_reply ? ' <span style="color:var(--maroon);font-size:11px;">(Admin)</span>' : '') + (m.hidden ? ' <span style="color:#b33a2e;font-size:11px;">HIDDEN</span>' : '') + (m.visibility === 'admin' ? ' <span style="background:#fbe7c4;color:#7a4b00;font-size:11px;font-weight:700;padding:1px 8px;border-radius:99px;">ADMINS ONLY</span>' : '') + (m.author_kind === 'guest' ? '' : (m.author_kind === 'member' ? ' <span style="font-size:11px;color:var(--muted);">(member)</span>' : '')) + '</strong>' +
-            '<span style="font-size:11px;color:var(--muted);">' + new Date(m.created_at).toLocaleString() + '</span></div>' +
-            (parent ? '<div style="font-size:12px;color:var(--muted);margin-top:4px;">&hookrightarrow; reply to ' + esc(parent.author_name) + ': &ldquo;' + esc(parent.body.slice(0, 60)) + (parent.body.length > 60 ? "&hellip;" : "") + '&rdquo;</div>' : '') +
-            '<p style="margin:8px 0;font-size:14px;">' + esc(m.body) + '</p>' +
-            (m.contact ? '<div style="font-size:13px;margin:0 0 8px;"><strong>Reply to them on:</strong> ' + esc(m.contact) + '</div>' : '') +
-            '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">' +
-            '<label style="font-size:12px;display:flex;align-items:center;gap:4px;"><input type="checkbox" data-b-hide="' + m.id + '" ' + (m.hidden ? "checked" : "") + '> ' + (m.visibility === 'admin' ? 'Mark as handled' : 'Hide from public') + '</label>' +
-            ((m.visibility === 'admin' && !m.author_id && !m.is_admin_reply) ? '<span style="font-size:12px;color:var(--muted);">This visitor has no login, so reply on the contact above.</span>' : '<button type="button" data-b-reply="' + m.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">' + (m.visibility === 'admin' ? 'Reply privately' : 'Reply as Admin') + '</button>') +
-            '<button type="button" data-b-del="' + m.id + '" class="button secondary" style="font-size:11px;padding:4px 10px;min-height:auto;">Delete</button>' +
-            '</div>' +
-            '<div data-b-slot="' + m.id + '" hidden style="margin-top:10px;"></div>' +
-            '</div>';
-        }).join("") : '<p style="font-size:13px;color:var(--muted);">No messages have been posted yet.</p>';
-
-        list.querySelectorAll("[data-b-hide]").forEach(function (chk) {
-          chk.addEventListener("change", function () {
-            client.from("board_messages").update({ hidden: chk.checked }).eq("id", chk.getAttribute("data-b-hide")).then(loadBoard);
-          });
-        });
-        list.querySelectorAll("[data-b-del]").forEach(function (btn) {
-          btn.addEventListener("click", function () {
-            if (!confirm("Delete this message and any replies under it? This cannot be undone.")) return;
-            client.from("board_messages").delete().eq("id", btn.getAttribute("data-b-del")).then(loadBoard);
-          });
-        });
-        list.querySelectorAll("[data-b-reply]").forEach(function (btn) {
-          btn.addEventListener("click", function () {
-            var id = btn.getAttribute("data-b-reply");
-            var slot = list.querySelector('[data-b-slot="' + id + '"]');
-            if (!slot.hidden) { slot.hidden = true; slot.innerHTML = ""; return; }
-            slot.hidden = false;
-            slot.innerHTML = '<form style="display:flex;flex-direction:column;gap:8px;">' +
-              '<textarea name="body" required placeholder="Write your reply (it will show publicly as Admin)..." style="padding:8px;border:1px solid var(--line);border-radius:4px;min-height:60px;font-size:13px;"></textarea>' +
-              '<button class="button" type="submit" style="font-size:12px;padding:6px 12px;min-height:auto;width:fit-content;">Post Reply</button>' +
-              '<p style="font-size:12px;" data-b-status></p></form>';
-            slot.querySelector("form").addEventListener("submit", function (e) {
-              e.preventDefault();
-              var body = e.target.elements.body.value.trim();
-              if (!body) return;
-              client.from("board_messages").insert({
-                parent_id: id, author_name: "Admin", is_anonymous: false, body: body, is_admin_reply: true
-              }).then(function (res) {
-                if (res.error) { e.target.querySelector("[data-b-status]").textContent = res.error.message; return; }
-                loadBoard();
-              });
-            });
-          });
-        });
-      });
-    }
-    loadBoard();
-
-    // ============================================================
     // BUSINESS CARD (85 x 55 mm). Front = all contact details. Back = quote + decoration.
     // Print sheet: A4, 2 x 5 cards, 2 mm gaps, page 1 fronts, page 2 backs (double-sided, flip on long edge).
     // Everything fills in from data already on the site; nothing is hardcoded here except the layout.
@@ -913,7 +832,7 @@
         site: siteUrl.replace(/^https?:\/\//, ""),
         socials: [], till: "", quotes: [], quote: "", source: "", deco: "", logoSvg: "", name: "", phone2: "", name2: "", deco: "", ink: true
       };
-      function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+      function esc(t) { return String(window.PLAIN ? PLAIN(t) : (t == null ? "" : t)).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
       var ICON = {
         whatsapp: '<svg viewBox="0 0 24 24" width="9" height="9" fill="#25D366"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.4-1.7a11.9 11.9 0 0 0 5.6 1.4c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3z"/></svg>',
         web: '<svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="#800020" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c3 3 3 17 0 20M12 2c-3 3-3 17 0 20"/></svg>',
@@ -930,14 +849,14 @@
         if (window.QRCode) new QRCode(holder, { text: siteUrl, width: size, height: size, colorDark: "#800020", colorLight: "#ffffff" });
       }
 
-      var MANTRA = 'Hare K&#7771;&#7779;&#7751;a Hare K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a Hare Hare<br>Hare R&#257;ma Hare R&#257;ma R&#257;ma R&#257;ma Hare Hare';
+      var MANTRA = 'Hare Krishna Hare Krishna Krishna Krishna Hare Hare<br>Hare Rama Hare Rama Rama Rama Hare Hare';
       function frontFace() {
         var d = document.createElement("div");
         d.className = "bc-face bc-front bcf";
         var soc = data.socials.map(function (s) { return '<span class="bc-soc">' + ICON[s.kind] + esc(s.text) + "</span>"; }).join("");
         d.innerHTML =
           '<div class="bcf-logo">' + data.logoSvg + '</div>' +
-          '<p class="bcf-title">ISKCON Founder-&#256;c&#257;rya<br><b>His Divine Grace<br>A.C. Bhaktivedanta Swami Prabhup&#257;da</b></p>' +
+          '<p class="bcf-title">ISKCON Founder-Acharya<br><b>His Divine Grace<br>A.C. Bhaktivedanta Swami Prabhupada</b></p>' +
           '<img class="bc-photo" src="images/prabhupada-sitting.webp" alt="">' +
           '<div class="bc-qr"></div>' +
           '<div class="bc-lines bcf-details">' +

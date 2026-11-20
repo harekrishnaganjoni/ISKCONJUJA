@@ -88,7 +88,6 @@
        <button type="button" class="admin-tab-btn active" data-tab="overview">&#127968; Overview</button>
        <div class="admin-group-label">People &amp; community</div>
        <button type="button" class="admin-tab-btn" data-tab="people">People <i class="adm-badge" id="badge-people" hidden></i></button>
-       <button type="button" class="admin-tab-btn" data-tab="board">Message board</button>
        <button type="button" class="admin-tab-btn" data-tab="responses">About me answers</button>
        <button type="button" class="admin-tab-btn" data-tab="aboutq">About me questions</button>
        <button type="button" class="admin-tab-btn" data-tab="testimonials">Testimonials <i class="adm-badge" id="badge-testimonials" hidden></i></button>
@@ -117,7 +116,6 @@
        <button type="button" class="adm-stat" data-goto="people"><b id="st-apps">-</b><span>New membership applications</span></button>
        <button type="button" class="adm-stat" data-goto="events"><b id="st-events">-</b><span>Upcoming events</span></button>
       </div>
-      <div id="ov-yearly"></div>
       <h3 class="adm-sub">Today</h3>
       <div class="adm-panels">
        <section class="adm-panel"><h4>Quote of the day</h4><div id="ov-quote"><p class="adm-help">Loading...</p></div></section>
@@ -288,12 +286,6 @@
       <div id="testimonials-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
      </section>
 
-     <!-- MESSAGE BOARD TAB -->
-     <section class="admin-tab-panel" data-tab-panel="board" hidden>
-      <h2 class="adm-title">Message board</h2>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;max-width:640px;">Everything from the public message board, newest first, plus messages people wrote to the admins only. <strong>Hide</strong> removes a public message from the board without deleting it. Replies you post here appear publicly marked as Admin. Deleting a message also deletes the replies under it.</p>
-      <div id="board-admin-list" style="display:flex;flex-direction:column;gap:10px;"></div>
-     </section>
 
      <!-- ARTICLES TAB -->
      <section class="admin-tab-panel" data-tab-panel="articles" hidden>
@@ -408,7 +400,6 @@
          <input type="hidden" name="image_url" id="event-image-url">
          <span id="event-photo-status" style="font-size:12px;color:var(--muted);display:block;margin-top:4px;"></span>
         </label>
-        <label style="font-size:13px;display:flex;align-items:center;gap:8px;"><input name="repeat_yearly" type="checkbox" style="width:auto;"> Repeats every year (it comes back by itself on the same date, and I remind you a week before)</label>
         <label style="font-size:13px;display:flex;align-items:center;gap:8px;"><input name="published" type="checkbox" checked style="width:auto;"> Publish immediately</label>
         <button class="button" type="submit" style="width:100%;">Add Event</button>
         <p id="event-status" style="font-size:13px;"></p>
@@ -578,6 +569,7 @@
   <script src="supabase-config.js"></script>
   <script src="portal.js" data-mode="always"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="plain.js"></script>
   <script src="evdate.js"></script>
   <script src="data.js"></script>
   <script src="site.js"></script>

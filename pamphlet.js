@@ -6,10 +6,10 @@
   if (!holder || !window.ISKCON_DATA || !window.ISKCON_DATA.client) return;
   var H = window.ISKCON_HOSTS || {};
   var $ = function (id) { return document.getElementById(id); };
-  var MANTRA = "Hare K&#7771;&#7779;&#7751;a Hare K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a Hare Hare<br>Hare R&#257;ma Hare R&#257;ma R&#257;ma R&#257;ma Hare Hare";
+  var MANTRA = "Hare Krishna Hare Krishna Krishna Krishna Hare Hare<br>Hare Rama Hare Rama Rama Rama Hare Hare";
   var primary = (window.ISKCON && window.ISKCON.WHATSAPP_PRIMARY) || "";
   var logoSvg = "", picture = "", artIds = [];
-  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function esc(t) { return String(window.PLAIN ? PLAIN(t) : (t == null ? "" : t)).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function nl(t) { return esc(t).replace(/\n/g, "<br>"); }
   function nice(raw) { var d = String(raw || "").replace(/\D/g, ""); if (d.charAt(0) === "0") d = "254" + d.slice(1); return d.length === 12 ? "+" + d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6, 9) + " " + d.slice(9) : String(raw || "").trim(); }
   function vals() {
@@ -20,8 +20,8 @@
   }
   function cover(v) {
     return '<div class="pp-top"><div class="pp-logo">' + logoSvg + '</div>' +
-      '<p class="pp-prabtitle">ISKCON Founder-&#256;c&#257;rya<br><b>His Divine Grace<br>A.C. Bhaktivedanta Swami Prabhup&#257;da</b></p>' +
-      '<img class="pp-prab" src="images/prabhupada-sitting.webp" alt="His Divine Grace A.C. Bhaktivedanta Swami Prabhup&#257;da"></div>' +
+      '<p class="pp-prabtitle">ISKCON Founder-Acharya<br><b>His Divine Grace<br>A.C. Bhaktivedanta Swami Prabhupada</b></p>' +
+      '<img class="pp-prab" src="images/prabhupada-sitting.webp" alt="His Divine Grace A.C. Bhaktivedanta Swami Prabhupada"></div>' +
       '<h1 class="pp-covertitle">' + nl(v.title) + '</h1>' + (v.tagline ? '<p class="pp-tagline">' + nl(v.tagline) + '</p>' : '') + (v.art.length ? ART.strip(v.art, (!v.ink && /^f[12]$/.test(v.tpl)) ? "y" : "m", "pp-art") : '') +
       (v.mantra ? '<p class="pp-mantra">' + MANTRA + '</p>' : '');
   }
@@ -32,7 +32,7 @@
     var ph = [];
     if (v.phone) ph.push(esc(v.phone) + (v.name ? " (" + esc(v.name) + ")" : ""));
     if (v.phone2) ph.push(esc(v.phone2) + (v.name2 ? " (" + esc(v.name2) + ")" : ""));
-    return '<p class="pp-prabline">ISKCON Founder-&#256;c&#257;rya <b>His Divine Grace A.C. Bhaktivedanta Swami Prabhup&#257;da</b></p>' +
+    return '<p class="pp-prabline">ISKCON Founder-Acharya <b>His Divine Grace A.C. Bhaktivedanta Swami Prabhupada</b></p>' +
       '<div class="pp-logo pp-logo-b">' + logoSvg + '</div>' +
       '<div class="pp-qr"></div><p class="pp-scan">Scan to see more</p>' +
       '<div class="pp-contact">' + (v.where ? '<p>' + nl(v.where) + '</p>' : '') + ph.map(function (x) { return '<p><b>' + x + '</b></p>'; }).join("") + '<p>' + esc((H.publicOrigin || location.origin).replace(/^https?:\/\//, "")) + '</p></div>' +

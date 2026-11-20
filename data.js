@@ -11,8 +11,10 @@
   var READY = !!(window.SUPABASE_URL && window.SUPABASE_ANON_KEY && window.supabase);
   var client = READY ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY) : null;
 
+  // Public pages show the plain, familiar spellings (Krishna, Prabhupada); the member portal keeps the text as written.
+  function pub(t) { return (!window.ISKCON_IN_PORTAL && window.PLAIN) ? PLAIN(t) : t; }
   function escapeHtml(s) {
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return String(s == null ? "" : pub(s)).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
@@ -285,7 +287,7 @@
   // Writes "- source" and, when the quote has a Vedabase link, a small "Read on Vedabase" link after it.
   function setSource(el, q, linkAfter) {
     if (!el) return;
-    el.textContent = "\u2014 " + q.source;
+    el.textContent = "\u2014 " + pub(q.source);
     var anchor = linkAfter || el, old = anchor.nextElementSibling;
     if (old && old.hasAttribute("data-src-link")) old.remove();
     if (q.source_url && /^https:\/\/vedabase\.io\//.test(q.source_url)) {
@@ -300,7 +302,7 @@
     if (!box) return;
     var textEl = box.querySelector("[data-verse-text]");
     var sourceEl = box.querySelector("[data-verse-source]");
-    function paint(q) { if (textEl) textEl.textContent = q.quote_text; setSource(sourceEl, q, sourceEl && sourceEl.closest(".qd-cite") ? textEl : null); }
+    function paint(q) { if (textEl) textEl.textContent = pub(q.quote_text); setSource(sourceEl, q, sourceEl && sourceEl.closest(".qd-cite") ? textEl : null); }
     box.hidden = true;
     if (!READY) return;
     client.rpc("get_verse_of_day").then(function (r) {
@@ -378,7 +380,7 @@
     function paint(q) {
       var textEl = box.querySelector("[data-quote-text]");
       var sourceEl = box.querySelector("[data-quote-source]");
-      if (textEl) textEl.textContent = q.quote_text;
+      if (textEl) textEl.textContent = pub(q.quote_text);
       setSource(sourceEl, q);
     }
     hideQuoteBox(box);
@@ -468,115 +470,6 @@
     });
   }
 
-  // ---------- MESSAGE BOARD (public site) ----------
-  // Everything posted here is public, unless the visitor chooses "Only the admins".
-  // Private one-to-one messages exist only in the member portal (portal-board.html).
-  function boardNameOk(n) {
-    return !/(admin|moderator|iskcon|official)/.test(String(n || "").toLowerCase().replace(/[^a-z0-9]/g, ""));
-  }
-  function boardBadge(m) {
-    if (m.author_kind === "admin" || m.is_admin_reply) return ' <span class="board-badge board-badge-admin">Admin</span>';
-    if (m.author_kind === "member") return ' <span class="board-badge">Member</span>';
-    return ' <span class="board-badge board-badge-guest">Guest</span>';
-  }
-  function renderBoard() {
-    var box = document.querySelector("[data-board-list]");
-    if (!box || !READY) return;
-    client.from("board_messages").select("*").eq("visibility", "public").eq("hidden", false).order("created_at", { ascending: true })
-      .then(function (r) {
-        // before the Message Board v2 SQL has been run, the column does not exist yet: use the old query
-        if (r.error) return client.from("board_messages").select("*").eq("hidden", false).order("created_at", { ascending: true });
-        return r;
-      }).then(function (r) {
-        if (r.error || !r.data) return;
-        var byParent = {};
-        r.data.forEach(function (m) { (byParent[m.parent_id || "root"] = byParent[m.parent_id || "root"] || []).push(m); });
-        function renderThread(list) {
-          return (list || []).map(function (m) {
-            var replies = byParent[m.id] || [];
-            return '<div class="board-msg" data-msg-id="' + m.id + '">' +
-              '<strong class="board-author">' + escapeHtml(m.author_name) + boardBadge(m) + '</strong>' +
-              '<p class="board-body">' + escapeHtml(m.body) + '</p>' +
-              '<span class="board-date">' + new Date(m.created_at).toLocaleDateString() + '</span> ' +
-              '<button type="button" class="board-reply-toggle" data-reply-to="' + m.id + '">Reply</button>' +
-              '<div class="board-reply-form-slot" data-reply-slot="' + m.id + '" hidden></div>' +
-              (replies.length ? '<div class="board-replies">' + renderThread(replies) + '</div>' : '') +
-              '</div>';
-          }).join("");
-        }
-        box.innerHTML = renderThread(byParent.root) || '<p class="board-empty">No messages yet. Be the first to say hello.</p>';
-        wireReplyButtons(box);
-      });
-  }
-
-  function replyFormHtml(parentId) {
-    return '<form class="board-reply-form" data-reply-form data-parent-id="' + parentId + '">' +
-      '<input type="text" name="author_name" maxlength="40" autocomplete="nickname" placeholder="Your name (optional)">' +
-      '<textarea name="body" maxlength="2000" placeholder="Write a reply..." required></textarea>' +
-      '<button class="button secondary" type="submit">Post Reply</button>' +
-      '<p class="board-status" data-board-status></p>' +
-      '</form>';
-  }
-
-  function wireReplyButtons(scope) {
-    scope.querySelectorAll(".board-reply-toggle").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var slot = scope.querySelector('[data-reply-slot="' + btn.getAttribute("data-reply-to") + '"]');
-        if (!slot) return;
-        if (slot.hidden) { slot.innerHTML = replyFormHtml(btn.getAttribute("data-reply-to")); slot.hidden = false; wireSingleBoardForm(slot.querySelector("[data-reply-form]")); }
-        else { slot.hidden = true; slot.innerHTML = ""; }
-      });
-    });
-  }
-
-  function wireSingleBoardForm(form) {
-    if (!form) return;
-    var status = form.querySelector("[data-board-status]");
-    function say(t, bad) { if (status) { status.textContent = t; status.style.color = bad ? "#b33a2e" : "var(--muted)"; } }
-    var toAdmins = form.querySelectorAll('input[name="audience"]');
-    var contactBox = form.querySelector("[data-board-contact-box]");
-    function audience() { var c = form.querySelector('input[name="audience"]:checked'); return c ? c.value : "public"; }
-    toAdmins.forEach(function (r) { r.addEventListener("change", function () { if (contactBox) contactBox.hidden = audience() !== "admin"; }); });
-    addHoneypot(form);
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (!READY) return;
-      if (trapped(form)) { form.reset(); return; }
-      var f = new FormData(form);
-      var name = String(f.get("author_name") || "").trim();
-      var vis = audience();
-      var contact = String(f.get("contact") || "").trim();
-      if (name && !boardNameOk(name)) { say("That name is reserved. Please choose another name.", true); return; }
-      if (vis === "admin" && !contact) { say("Please leave a phone number or email so the admins can reply to you.", true); return; }
-      var row = {
-        author_name: name || "Anonymous", is_anonymous: !name, body: f.get("body"),
-        parent_id: form.getAttribute("data-parent-id") || null, visibility: vis
-      };
-      if (vis === "admin") row.contact = contact;
-      var btn = form.querySelector('button[type="submit"]'); if (btn) btn.disabled = true;
-      client.from("board_messages").insert(row).then(function (r) {
-        if (r.error && /visibility|contact|column/i.test(r.error.message || "")) {
-          // Message Board v2 SQL not run yet: public posts still work in the old way
-          if (vis === "admin") return { error: { message: "Writing to the admins only is not switched on yet. Please try again soon, or use the WhatsApp button." } };
-          var old = { author_name: row.author_name, is_anonymous: row.is_anonymous, body: row.body, parent_id: row.parent_id };
-          return client.from("board_messages").insert(old);
-        }
-        return r;
-      }).then(function (r) {
-        if (btn) btn.disabled = false;
-        if (r.error) { say(r.error.message, true); return; }
-        form.reset();
-        if (contactBox) contactBox.hidden = true;
-        if (vis === "admin") say("Sent to the admins only. They will reply on the contact you left.");
-        else { say(""); renderBoard(); }
-      });
-    });
-  }
-
-  function wireBoardForm() {
-    wireSingleBoardForm(document.querySelector("[data-board-form]"));
-  }
-
   // ---------- ROLE-AWARE NAV (member browsing any page sees only internal links) ----------
   function applyRoleNav() {
     if (!READY) return;
@@ -609,7 +502,6 @@
     renderVerseOfDay(); // same — works today, no backend required
     wireTestimonialForm();
     wireChangePassword();
-    wireBoardForm();
     if (READY) {
       loadSettings().then(function (s) { applySettings(s); applyHomepageHero(s); });
       renderArticles();
@@ -617,7 +509,6 @@
       renderProducts();
       renderCourses();
       renderTestimonials();
-      renderBoard();
       applyRoleNav();
     }
   });

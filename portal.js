@@ -116,21 +116,6 @@
     else if (!m.contains(e.target) || e.target.closest("a")) { m.hidden = true; b.setAttribute("aria-expanded", "false"); }
   });
 
-  // Messages: a floating button that opens the message board in a window (the board page itself, without the page chrome).
   var embed = /[?&]embed=1/.test(location.search);
   if (embed) document.documentElement.classList.add("embed");
-  if (!embed && !isAdminPage && page !== "devotees.html" && page !== "register.html" && page !== "portal-board.html") {
-    var fab = document.createElement("div");
-    fab.className = "msg-fab";
-    fab.hidden = true; fab.setAttribute("data-member-nav", "");
-    fab.innerHTML = '<button type="button" class="msg-fab-btn" id="msg-open" aria-label="Messages" title="Messages"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>' +
-      '<section class="msg-win" id="msg-win" hidden role="dialog" aria-label="Messages"><header><strong>Messages</strong><a href="portal-board.html" title="Open full page">&#8599;</a><button type="button" id="msg-close" aria-label="Close">&times;</button></header><iframe id="msg-frame" title="Message board" loading="lazy"></iframe></section>';
-    document.body.appendChild(fab);
-    var win = fab.querySelector("#msg-win"), frame = fab.querySelector("#msg-frame");
-    function toggle(open) { win.hidden = !open; if (open && !frame.getAttribute("src")) frame.setAttribute("src", "portal-board.html?embed=1"); }
-    fab.querySelector("#msg-open").addEventListener("click", function () { toggle(win.hidden); });
-    fab.querySelector("#msg-close").addEventListener("click", function () { toggle(false); });
-    document.addEventListener("click", function (e) { var t = e.target.closest && e.target.closest("[data-open-messages]"); if (t) { e.preventDefault(); toggle(true); } });
-    if (/[?&]messages=1/.test(location.search)) toggle(true);
-  }
 })();

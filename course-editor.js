@@ -320,7 +320,7 @@
           spec = [{ k: "quiz_id", l: "Quiz", kind: "select", options: [["", "Choose…"]].concat(quizzes.map(function (q) { return [q.id, "Module quiz (" + q.kind + ")"]; })) }];
         }
         var form = buildForm(spec, b.content || {}); body.appendChild(form.node);
-        if (b.type === "quote") body.appendChild(el("p", "ce-muted", "Quotes from Śrīla Prabhupāda's books are copyright of the BBT. Paste the exact words from Vedabase; confirm permission for reuse."));
+        if (b.type === "quote") body.appendChild(el("p", "ce-muted", "Quotes from Srila Prabhupada's books are copyright of the BBT. Paste the exact words from Vedabase; confirm permission for reuse."));
         var acts = el("div", "ce-row");
         acts.appendChild(btn("Save block", "", function () {
           try { var c = Object.assign({}, b.content || {}, form.read()); run(db.from("course_blocks").update({ content: c }).eq("id", b.id)).then(function () { toast("Saved."); viewLesson(l.id); }).catch(fail); } catch (e) { fail(e); }

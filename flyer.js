@@ -7,7 +7,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var MON = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var WD = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  var MANTRA = "Hare K&#7771;&#7779;&#7751;a Hare K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a K&#7771;&#7779;&#7751;a Hare Hare<br>Hare R&#257;ma Hare R&#257;ma R&#257;ma R&#257;ma Hare Hare";
+  var MANTRA = "Hare Krishna Hare Krishna Krishna Krishna Hare Hare<br>Hare Rama Hare Rama Rama Rama Hare Hare";
   var primary = (window.ISKCON && window.ISKCON.WHATSAPP_PRIMARY) || "";
   var logoSvg = "", picture = "", events = [], artIds = [];
   var TEMPLATES = [
@@ -18,7 +18,7 @@
     { id: "c1", name: "Casual: scrapbook (handwritten, tilted notes)" },
     { id: "c2", name: "Casual: doodle (handwritten, circles and stars)" }
   ];
-  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function esc(t) { return String(window.PLAIN ? PLAIN(t) : (t == null ? "" : t)).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function nl(t) { return esc(t).replace(/\n/g, "<br>"); }
   function nice(raw) { var d = String(raw || "").replace(/\D/g, ""); if (d.charAt(0) === "0") d = "254" + d.slice(1); return d.length === 12 ? "+" + d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6, 9) + " " + d.slice(9) : String(raw || "").trim(); }
   function phoneNice(p) { return p ? "+" + p.slice(0, 3) + " " + p.slice(3, 6) + " " + p.slice(6, 9) + " " + p.slice(9) : ""; }
@@ -45,8 +45,8 @@
     d.innerHTML =
       '<div class="fl-frame"></div>' +
       '<div class="fl-top"><div class="fl-logo">' + logoSvg + '</div>' +
-        '<p class="fl-prabtitle">ISKCON Founder-&#256;c&#257;rya<br><b>His Divine Grace<br>A.C. Bhaktivedanta Swami Prabhup&#257;da</b></p>' +
-        '<img class="fl-prab" src="images/prabhupada-sitting.webp" alt="His Divine Grace A.C. Bhaktivedanta Swami Prabhup&#257;da"></div>' +
+        '<p class="fl-prabtitle">ISKCON Founder-Acharya<br><b>His Divine Grace<br>A.C. Bhaktivedanta Swami Prabhupada</b></p>' +
+        '<img class="fl-prab" src="images/prabhupada-sitting.webp" alt="His Divine Grace A.C. Bhaktivedanta Swami Prabhupada"></div>' +
       (v.kicker ? '<p class="fl-kicker">' + esc(v.kicker) + '</p>' : '') +
       '<h1 class="fl-title">' + nl(v.title) + '</h1>' +
       '<div class="fl-mid">' +

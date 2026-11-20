@@ -10,6 +10,10 @@
 - Any file the owner is asked to run or use must be attached **in the same chat message**, never only mentioned or stored in the project.
 - The owner does not want coloured backgrounds printed: printable designs default to an ink-saving (light background) version.
 - Work in the order of docs/WORKPLAN.md, easy items first; answer questions first.
+- **ASK BEFORE CHANGING ANYTHING IMPORTANT** (how a feature works, data design, what happens to existing data, anything hard to undo). Describe the options and wait for the owner's choice. Never pick a design and push it, even when it "seems obvious". (Learned 19 Nov 2026 when a same-date "repeat yearly" was built without asking.)
+- **Public things use the familiar spellings WITHOUT diacritics** (business card, fliers, pamphlets, public website, any public post): Krishna, Rama, Prabhupada, Acharya, Chaitanya, Bhagavad-gita, Srimad-Bhagavatam, Gaura Purnima... never Krsna, Rama with a macron, etc.
+- **Events follow the Gaurabda (Vaishnava lunar) calendar** by default. Do not set a yearly repeat by Gregorian date without asking.
+- **The message board is removed**; do not bring it back.
 
 ---
 

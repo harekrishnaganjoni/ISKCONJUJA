@@ -158,20 +158,7 @@ html.in-portal body.dark-mode .pf-sec > summary { color: var(--gold-2); }
 .pf-h { font-size: 15px; margin: 18px 0 8px; }
 
 /* messages: floating button and window */
-.msg-fab[hidden] { display: none; }
-.msg-fab-btn { position: fixed; right: 18px; bottom: 18px; z-index: 70; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; background: var(--maroon); color: #fff; border: 3px solid var(--gold); box-shadow: 0 10px 26px rgba(0, 0, 0, .4); padding: 0; }
-.msg-fab-btn:hover { transform: scale(1.06); }
-.msg-win { position: fixed; right: 18px; bottom: 92px; z-index: 71; width: min(410px, calc(100vw - 24px)); height: min(620px, 78vh); background: var(--card); border: 2px solid var(--gold); border-radius: 18px; box-shadow: 0 24px 60px rgba(0, 0, 0, .5); display: flex; flex-direction: column; overflow: hidden; }
-.msg-win[hidden] { display: none; }
-.msg-win header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: linear-gradient(180deg, #112a55, #0b1a38); color: var(--gold-2); }
-.msg-win header strong { flex: 1; font-size: 16px; letter-spacing: .04em; }
-.msg-win header a { color: var(--gold-2); text-decoration: none; font-size: 18px; }
-.msg-win header button { background: none; border: 0; color: var(--gold-2); font-size: 26px; line-height: 1; cursor: pointer; }
-.msg-win iframe { flex: 1; width: 100%; border: 0; background: var(--canvas); }
-@media (max-width: 560px) { .msg-win { right: 0; left: 0; bottom: 0; top: 0; width: auto; height: auto; border-radius: 0; border: 0; } .msg-fab-btn { right: 14px; bottom: 14px; } }
 
-/* the board shown inside the window: no page chrome */
-html.embed .ph, html.embed .ph-top, html.embed .ph-foot, html.embed .gc-top, html.embed .msg-fab, html.embed .float-whatsapp { display: none !important; }
 html.embed .pm, html.embed main { padding-top: 12px !important; min-height: 0 !important; }
 
 /* footer */
@@ -227,8 +214,6 @@ html.in-portal .coin-said a { color: #5a0a22; }
 html.in-portal body.dark-mode .ov-big { color: var(--gold-2); }
 #admin-not-super { padding: 10px 16px !important; }
 #admin-not-super p { margin: 0; font-size: 13px; }
-.msg-win { height: min(560px, calc(100vh - 130px)); }
-@media (max-width: 560px) { .msg-win { height: auto; } }
 
 /* course editor buttons keep readable text; sign-in panel in Krishna blue */
 html.in-portal .ce-btn { color: #fff; }
@@ -272,8 +257,6 @@ html.in-portal body:not(.dark-mode) .admin-tab-btn.active .adm-badge { backgroun
 html.in-portal body:not(.dark-mode) .adm-main .admin-content { border-top: 5px solid #d9a521; }
 html.in-portal body:not(.dark-mode) .pm-card, html.in-portal body:not(.dark-mode) .adm-stat, html.in-portal body:not(.dark-mode) .adm-panel { background: linear-gradient(180deg, #fffdf6, #fbefc4); }
 html.in-portal body:not(.dark-mode) .pm-card { border-left: 5px solid #d9a521; }
-html.in-portal body:not(.dark-mode) .msg-win header { background: linear-gradient(180deg, #f7de92, #e1b13c); color: #0e2347; }
-html.in-portal body:not(.dark-mode) .msg-win header a, html.in-portal body:not(.dark-mode) .msg-win header button { color: #0e2347; }
 /* admin: blue leads in dark mode, gold supports */
 html.in-portal body.dark-mode .admin-tabs .admin-tab-btn.active { background: rgba(79, 143, 224, .28); color: var(--gold-2); box-shadow: inset 4px 0 0 var(--gold); }
 html.in-portal body.dark-mode .ph-nav a.on { background: rgba(79, 143, 224, .25); box-shadow: inset 0 -3px 0 var(--gold); }

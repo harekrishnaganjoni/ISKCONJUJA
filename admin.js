@@ -201,6 +201,40 @@
 
 
 
+    // ---------- Phone reminders: one-time key pair (public key saved on the site, secret key shown once) ----------
+    (function () {
+      var st = document.getElementById("pr-state"), mk = document.getElementById("pr-make"); if (!st || !mk) return;
+      function b64u(buf) { var s = ""; new Uint8Array(buf).forEach(function (x) { s += String.fromCharCode(x); }); return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+      function show() {
+        client.from("site_settings").select("key,value").in("key", ["vapid_public", "reminder_last_run"]).then(function (rr) {
+          var m = {}; ((rr && rr.data) || []).forEach(function (x) { m[x.key] = x.value; });
+          var has = m.vapid_public, last = m.reminder_last_run;
+          st.textContent = (has ? "Keys exist. Members can switch reminders on in their profile. " : "No keys yet. Press the button below once. ") +
+            (last ? "The sender last ran: " + last.replace("T", " ").replace(/:\d\d\.\d+Z/, " UTC") + "." : (has ? "The sender has not run yet (it needs the secret key and the service key in Cloudflare; it runs every 15 minutes)." : ""));
+          mk.textContent = has ? "Make new keys (switches every member's reminders off)" : "Create the reminder keys";
+          mk.setAttribute("data-has", has ? "1" : "");
+        });
+      }
+      show();
+      mk.addEventListener("click", function () {
+        if (mk.getAttribute("data-has") && mk.getAttribute("data-sure") !== "1") { mk.setAttribute("data-sure", "1"); mk.textContent = "Press again to confirm: everyone must switch reminders on again"; return; }
+        mk.setAttribute("data-sure", "");
+        crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, ["sign"]).then(function (kp) {
+          return Promise.all([crypto.subtle.exportKey("raw", kp.publicKey), crypto.subtle.exportKey("jwk", kp.privateKey)]);
+        }).then(function (k) {
+          var pub = b64u(k[0]), priv = k[1].d;
+          return client.from("site_settings").upsert([{ key: "vapid_public", value: pub }]).then(function (r) {
+            if (r.error) { st.textContent = "Could not save: " + r.error.message; return; }
+            document.getElementById("pr-priv").textContent = priv; document.getElementById("pr-secret").hidden = false;
+            show();
+          });
+        }).catch(function (e) { st.textContent = "This browser could not make the keys: " + e.message; });
+      });
+      var cp = document.getElementById("pr-copy");
+      if (cp) cp.addEventListener("click", function () { var t = document.getElementById("pr-priv").textContent; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { cp.textContent = "Copied"; }).catch(function () { var r = document.createRange(); r.selectNodeContents(document.getElementById("pr-priv")); getSelection().removeAllRanges(); getSelection().addRange(r); cp.textContent = "Selected: press Ctrl+C"; }); });
+    })();
+
+
     // ---------- About me answers (named and anonymous) ----------
     function respLines(d) {
       var L = [];

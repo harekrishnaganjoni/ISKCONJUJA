@@ -23,7 +23,7 @@ Finish the STRUCTURE first; fill in details slowly afterwards. Nothing unfinishe
 | 3 | Member pages: dashboard, my courses, course catalogue/learn, calendar, events, profile, devotees | BUILT; owner to walk through once as a brand-new member before inviting people |
 | 4 | Admin: overview, people, content, events, courses, cards, fliers, pamphlets, settings | DONE |
 | 5 | Calendar (Gaurabda dates, ekadashi + break-fast, per-event repeat) | DONE |
-| 6 | Event reminders to members (day before + 3 to 5 hours before; SMS / Telegram / Calendar) | NOT VERIFIED: README #7 says "build in Phase 2". Check the real state and report before launch |
+| 6 | Event reminders to members. Owner (21 Nov): do BEFORE launch; each member chooses their own. | BUILT, needs owner set-up: SQL 35, keys in admin Settings, 2 secrets in Cloudflare (see docs/REMINDERS-SETUP.txt). Phone push only (free). SMS/Telegram not built. |
 | 7 | WhatsApp group invite link set in admin Settings and shown after registration | CHECK in Settings |
 | 8 | Installable phone app (PWA) | BUILT; check install prompt on a real phone |
 | 9 | SEO basics (page titles, descriptions, sitemap) | TODO, short checklist, easy |
@@ -36,8 +36,8 @@ Finish the STRUCTURE first; fill in details slowly afterwards. Nothing unfinishe
 - Owner's own flier and pamphlet designs: owner will send "later".
 - Business-card front/back already done.
 
-### C. Phone notifications (VAPID web push)
-Owner said OK (21 Nov). Build after launch, together with A6 (reminders). Ask before building anything that changes how members are notified.
+### C. Phone notifications (VAPID web push) - BUILT 21 Nov, before launch (owner)
+worker/index.js (Cloudflare cron every 15 min, no dependencies; RFC 8291 test vector verified), worker/push.js, reminders.js (profile), portal-sw.js (push), admin Settings > Phone reminders (key maker + "last ran" line), supabase/35. Members choose: events/programs (evening before, N hours before), fasts (evening before + break-fast time), festivals (eve/morning), own dates (eve/day). Free Cloudflare plan: 35 phone sends per 15 min run, rest go in the next run. Ask before adding SMS or Telegram.
 
 ### D. Friday theme top-up
 Owner asked "?" (did not understand the item). Explain it simply in the next reply and ask whether he wants it.

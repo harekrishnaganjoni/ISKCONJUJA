@@ -1,6 +1,6 @@
 /* Member portal offline helper. Online, the newest files are always used. Offline, saved copies of the pages are shown.
    Only this site's own files are saved; sign-in tokens and database answers are never cached here. */
-var VERSION = "p4";
+var VERSION = "p5";
 var CACHE = "portal-" + VERSION;
 // Save the calendar ahead of time so it works offline: this year, next year and the helper files (a failure here never blocks the install).
 var Y = new Date().getFullYear();
@@ -33,4 +33,20 @@ self.addEventListener("fetch", function (e) {
     if (res && res.ok) { var c = res.clone(); caches.open(CACHE).then(function (ca) { ca.put(r, c); }); }
     return res;
   }).catch(function () { return caches.match(r).then(function (m) { return m || caches.match("/dashboard.html"); }); }));
+});
+
+// Phone reminders sent by the website (see worker/reminders.js). The message is a small JSON: { title, body, url, tag }.
+self.addEventListener("push", function (e) {
+  var d = {}; try { d = e.data ? e.data.json() : {}; } catch (x) { d = { body: e.data ? e.data.text() : "" }; }
+  e.waitUntil(self.registration.showNotification(d.title || "ISKCON JUJA", {
+    body: d.body || "", tag: d.tag || undefined, icon: "/images/portal-192.png", badge: "/images/portal-192.png", data: { url: d.url || "/calendar.html" }
+  }));
+});
+self.addEventListener("notificationclick", function (e) {
+  e.notification.close();
+  var url = (e.notification.data && e.notification.data.url) || "/calendar.html";
+  e.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(function (cs) {
+    for (var i = 0; i < cs.length; i++) { if ("focus" in cs[i]) { cs[i].navigate && cs[i].navigate(url); return cs[i].focus(); } }
+    return self.clients.openWindow(url);
+  }));
 });

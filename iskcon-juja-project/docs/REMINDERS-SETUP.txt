@@ -1,0 +1,47 @@
+PHONE REMINDERS - SET-UP (one time, about 10 minutes)
+Hare Krishna Dan. Nothing here needs a computer program, only your browser.
+
+WHAT MEMBERS WILL GET
+Each member chooses, in My profile > Phone reminders, what they want:
+  - programs and special events: the evening before (6 pm) and/or a few hours before (they pick 1 to 5 hours)
+  - ekadashi and other fasts: the evening before, with the break-fast time
+  - festivals and acharya days: the evening before and/or the morning of
+  - their own dates (birthday, initiation, anniversary): the evening before and/or a greeting on the morning
+The reminder pops up on their phone like any app notification, even when the app is closed.
+It costs nothing. No SMS or Telegram account is needed.
+
+STEP 1 - the database (Supabase)
+  1. Open Supabase > your project > SQL Editor > New query.
+  2. Open the attached file  35-phone-reminders-run-thirty-fifth.sql  in Notepad, select all, copy.
+  3. Paste into the SQL Editor and press Run. It must say Success.
+
+STEP 2 - wait for the website to update
+  The new files are already pushed. Cloudflare updates the site by itself in a few minutes.
+
+STEP 3 - make the keys (admin portal)
+  1. Sign in to the admin portal > Shop & site > Settings.
+  2. Scroll down to "Phone reminders" and open it.
+  3. Press "Create the reminder keys".
+  4. A SECRET KEY appears (a line of about 43 letters). Press "Copy the secret key". Keep this window open until step 4 is done.
+     (It is shown only once. If you lose it, just press the button again to make new keys.)
+
+STEP 4 - give the sender its two secrets (Cloudflare)
+  1. Open Cloudflare > Workers & Pages > iskconjuja > Settings > Variables and Secrets.
+  2. Add a SECRET named exactly:   VAPID_PRIVATE      Value: paste the secret key from step 3.
+  3. Add a second SECRET named exactly:   SUPABASE_SERVICE_KEY
+     Value: Supabase > Project Settings > API > "service_role" key (press Reveal, copy). 
+     This key is very powerful. Never paste it in a chat or email. Only here.
+  4. Press Deploy / Save.
+  5. Settings > Triggers should show a schedule "*/15 * * * *" (every 15 minutes).
+
+STEP 5 - check it works
+  1. Wait 15 minutes. In admin > Settings > Phone reminders the line should say "The sender last ran: ...".
+  2. On your phone, open the member app (installed if possible; on an iPhone it must be added to the Home Screen first),
+     go to My profile > Phone reminders, press "Switch reminders on for this phone" and tap Allow.
+  3. Choose what you want and press "Save my choices".
+  4. At the next reminder time (for example 6 pm the evening before a Tuesday program) your phone will buzz.
+
+IF SOMETHING GOES WRONG
+  - "The sender last ran" line shows "problem: ..." : send me that exact line.
+  - Nothing at all shown after 30 minutes: step 4 is missing one of the two secrets, or the names are not exactly as written.
+  - Members must switch reminders on again (once) if you ever press "Make new keys".

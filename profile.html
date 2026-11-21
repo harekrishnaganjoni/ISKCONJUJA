@@ -82,6 +82,7 @@
     <nav class="pf-nav" aria-label="Profile sections">
      <a href="#pf-details">My details</a>
      <a href="#pf-about">About me</a>
+     <a href="#pf-remind">Phone reminders</a>
      <a href="#pf-plan">Plan ahead</a>
      <a href="#pf-dates">My dates and reminders</a>
      <a href="#pf-account">Account</a>
@@ -109,6 +110,10 @@
       <button class="button" type="submit">Save my answers</button>
       <p id="ob-status" style="font-size:13px;margin:8px 0 0;" aria-live="polite"></p>
      </form>
+     </details>
+
+     <details class="pf-sec" id="pf-remind"><summary>Phone reminders <small>choose what your phone tells you</small></summary>
+     <div id="rm-box"><p class="gc-small">Loading&hellip;</p></div>
      </details>
 
      <details class="pf-sec" id="pf-plan"><summary>Plan ahead <small>weekly and monthly event summaries</small></summary>
@@ -202,6 +207,7 @@ show((location.hash||'#pf-details').slice(1),false);})();
   <script src="gcal.js"></script>
   <script src="onboard-fields.js"></script>
   <script src="profile.js"></script>
+  <script src="reminders.js"></script>
   <div class="float-stack">
    <button type="button" class="float-whatsapp" id="float-toggle" aria-label="Get involved" title="Get involved" aria-expanded="false" aria-controls="act-panel">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>

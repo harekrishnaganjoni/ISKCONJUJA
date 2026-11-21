@@ -1,8 +1,16 @@
 {
   "name": "iskconjuja",
+  "main": "worker/index.js",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": ".",
+    "binding": "ASSETS",
     "not_found_handling": "404-page"
+  },
+  "vars": {
+    "SUPABASE_URL": "https://zwvgfhgxegxchwlpelbk.supabase.co"
+  },
+  "triggers": {
+    "crons": ["*/15 * * * *"]
   }
 }

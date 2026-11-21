@@ -145,6 +145,12 @@
 <details class="adm-drawer"><summary><span class="dt">Payments (on hold)</span><small>Till number and donation link; not in use yet</small></summary><div class="adm-drawer-body"><div class="fld-grid"><label class="fld"><span class="l">M-Pesa till number</span><input name="mpesa_till" type="text" placeholder="e.g. 123456"></label><label class="fld"><span class="l">Pesapal donation link</span><input name="pesapal_donate_url" type="text" inputmode="url" placeholder="https://..."></label></div></div></details>
        <div class="adm-savebar"><button class="button" type="submit">Save settings</button><p id="settings-status" role="status" aria-live="polite"></p></div>
       </form>
+      <details class="adm-drawer" id="pr-drawer" style="margin-top:14px;"><summary><span class="dt">Phone reminders</span><small>One-time set-up of the keys that let the site send reminders to members' phones</small></summary><div class="adm-drawer-body">
+       <p id="pr-state" class="adm-lead" style="margin:0 0 8px;">Checking&hellip;</p>
+       <p class="gc-small">Members choose which reminders they want in their own profile. This button makes the two keys the sender needs. The <b>public key</b> is saved on the site automatically. The <b>secret key</b> is shown only once: copy it into Cloudflare as <code>VAPID_PRIVATE</code> (the steps are in the file I sent with this update). Making new keys again switches every member's phone reminders off until they switch them on again.</p>
+       <p><button type="button" class="button secondary" id="pr-make">Create the reminder keys</button></p>
+       <div id="pr-secret" hidden style="border:1px dashed var(--line);border-radius:8px;padding:10px;"><b>Secret key (copy it now, it will not be shown again):</b><br><code id="pr-priv" style="word-break:break-all;user-select:all;"></code><p><button type="button" class="button" id="pr-copy">Copy the secret key</button></p></div>
+      </div></details>
      </section>
 
      <!-- PEOPLE TAB -->

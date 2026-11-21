@@ -4,8 +4,43 @@
 - Any file the owner is asked to run or use must be attached **in the same chat message**, never only mentioned or stored in the project.
 - The owner does not want coloured backgrounds printed: printable designs default to an ink-saving (light background) version.
 - Work in the order of docs/WORKPLAN.md, easy items first; answer questions first.
+- **Always read this WORKPLAN (and the README) before answering any status or "what is pending" question. An answer given without reading it is not valid.**
+- **Do not keep asking about past things.** If the owner has not answered, assume it is done (SQL files run, approvals done, etc.).
+- Public contact details on the website stay exactly as they are (owner, 21 Nov 2026).
+- Owner will not discuss: BBT permission, peacock-feather image, quote-image approvals. Do not raise them again.
+
 
 ---
+
+## CURRENT GOAL (owner, 21 Nov 2026): LAUNCH TO MEMBERS
+Finish the STRUCTURE first; fill in details slowly afterwards. Nothing unfinished may be visible to members (README rule 9).
+
+### A. Launch checklist (structure)
+| # | Item | State |
+|---|---|---|
+| 1 | Public site + members portal live on iskconjuja.co.ke / portal.iskconjuja.co.ke, full width, bigger header mantra | DONE |
+| 2 | Sign-up, name + onboarding questions first, admin approval, member sign-in | DONE (gate tested) |
+| 3 | Member pages: dashboard, my courses, course catalogue/learn, calendar, events, profile, devotees | BUILT; owner to walk through once as a brand-new member before inviting people |
+| 4 | Admin: overview, people, content, events, courses, cards, fliers, pamphlets, settings | DONE |
+| 5 | Calendar (Gaurabda dates, ekadashi + break-fast, per-event repeat) | DONE |
+| 6 | Event reminders to members (day before + 3 to 5 hours before; SMS / Telegram / Calendar) | NOT VERIFIED: README #7 says "build in Phase 2". Check the real state and report before launch |
+| 7 | WhatsApp group invite link set in admin Settings and shown after registration | CHECK in Settings |
+| 8 | Installable phone app (PWA) | BUILT; check install prompt on a real phone |
+| 9 | SEO basics (page titles, descriptions, sitemap) | TODO, short checklist, easy |
+| 10 | Remove anything dead or "coming soon" visible to members | CHECK as part of the walkthrough |
+
+### B. After launch, slowly (details)
+- Quotes for the Vaishnava lunar days that have no "said today" quote: use quotes that fit that calendar day (owner, 21 Nov).
+- Nectar of Instruction into the course system after 24 Nov. Cover: DESIGN OUR OWN original cover (owner, 21 Nov). Do NOT reuse the BBT painting from the photo he sent.
+- Book site (songs, bhajans, mantras, prayers, daily quote): later, with the owner ("we'll work on it").
+- Friday theme top-up.
+- Owner's own flier and pamphlet designs: owner will send "later".
+- Business-card front/back already done.
+
+### C. Dropped (owner, 21 Nov): possible VAPID phone notifications ("forget it" on the older idea list; phone reminders stay as in A6).
+
+---
+
 
 
 

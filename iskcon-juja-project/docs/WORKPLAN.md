@@ -33,11 +33,14 @@ Finish the STRUCTURE first; fill in details slowly afterwards. Nothing unfinishe
 - Quotes for the Vaishnava lunar days that have no "said today" quote: use quotes that fit that calendar day (owner, 21 Nov).
 - Nectar of Instruction into the course system after 24 Nov. Cover: DESIGN OUR OWN original cover (owner, 21 Nov). Do NOT reuse the BBT painting from the photo he sent.
 - Book site (songs, bhajans, mantras, prayers, daily quote): later, with the owner ("we'll work on it").
-- Friday theme top-up.
 - Owner's own flier and pamphlet designs: owner will send "later".
 - Business-card front/back already done.
 
-### C. Dropped (owner, 21 Nov): possible VAPID phone notifications ("forget it" on the older idea list; phone reminders stay as in A6).
+### C. Phone notifications (VAPID web push)
+Owner said OK (21 Nov). Build after launch, together with A6 (reminders). Ask before building anything that changes how members are notified.
+
+### D. Friday theme top-up
+Owner asked "?" (did not understand the item). Explain it simply in the next reply and ask whether he wants it.
 
 ---
 

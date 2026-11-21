@@ -190,29 +190,27 @@
         <label style="font-size:12px;font-weight:700;">Look <select id="fl-tpl" style="width:100%;padding:8px;margin-top:4px;"></select></label>
         <label style="font-size:12px;font-weight:700;">Size <select id="fl-size" style="width:100%;padding:8px;margin-top:4px;"><option value="a5">A5 (two on one A4 sheet, cut in half)</option><option value="a4">A4 (one per sheet)</option></select></label>
         <select id="fl-event" style="width:100%;padding:8px;grid-column:1/-1;"></select>
+        <div style="grid-column:1/-1;display:grid;grid-template-columns:2fr 1fr auto;gap:8px;align-items:end;">
+         <label style="font-size:12px;font-weight:700;">Decoration pictures <select id="fl-art" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
+         <label style="font-size:12px;font-weight:700;">How many <select id="fl-art-n" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option selected>1</option><option>2</option><option>3</option></select></label>
+         <button type="button" class="button secondary" id="fl-art-shuffle" title="Pick different pictures">&#128256;</button></div>
+        <label style="grid-column:1/-1;font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="fl-mantra" checked style="width:auto;"> Show the maha mantra at the bottom</label>
+        <label style="grid-column:1/-1;font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="fl-ink" checked style="width:auto;"> Save ink: no coloured background when printing</label>
+        <div style="grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;"><button class="button" type="button" id="fl-print">Print</button><button class="button secondary" type="button" id="fl-png">Download as a picture</button></div>
+        <p id="fl-status" style="grid-column:1/-1;font-size:13px;margin:0;"></p>
+        <p style="grid-column:1/-1;font-size:12px;color:var(--muted);margin:0;">When printing: paper A4, scale 100%, margins none, Background graphics ON.</p>
+<div class="fm-sep" style="grid-column:1/-1;border-top:1px solid var(--line);margin:4px 0 0;padding-top:6px;font-size:12px;font-weight:800;color:var(--muted);">The words</div>
         <label style="font-size:12px;font-weight:700;">Small line above the title <input id="fl-kicker" maxlength="60" style="width:100%;padding:8px;margin-top:4px;"></label>
         <label style="font-size:12px;font-weight:700;">Title <textarea id="fl-title" rows="2" maxlength="90" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
         <label style="font-size:12px;font-weight:700;">When <textarea id="fl-when" rows="2" maxlength="120" placeholder="Sunday 23 November 2026, 10:00 am" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
         <label style="font-size:12px;font-weight:700;">Where <input id="fl-where" maxlength="120" style="width:100%;padding:8px;margin-top:4px;"></label>
         <label style="font-size:12px;font-weight:700;">A few words about it <textarea id="fl-desc" rows="4" maxlength="320" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
         <label style="font-size:12px;font-weight:700;">Extra line (entry, food, what to bring) <input id="fl-note" maxlength="90" style="width:100%;padding:8px;margin-top:4px;"></label>
-        <label style="font-size:12px;font-weight:700;">Phone 1 <input id="fl-phone" maxlength="40" style="width:100%;padding:8px;margin-top:4px;"></label>
-        <label style="font-size:12px;font-weight:700;">Name in brackets (optional) <input id="fl-name" maxlength="40" style="width:100%;padding:8px;margin-top:4px;"></label>
-        <label style="font-size:12px;font-weight:700;">Phone 2 <input id="fl-phone2" maxlength="40" style="width:100%;padding:8px;margin-top:4px;"></label>
-        <label style="font-size:12px;font-weight:700;">Name in brackets <input id="fl-name2" maxlength="40" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <div id="fl-phones" style="grid-column:1/-1;"></div>
         <label style="font-size:12px;font-weight:700;">QR code goes to (filled in for you when you pick an event) <input id="fl-link" maxlength="200" style="width:100%;padding:8px;margin-top:4px;"></label>
-        <div style="display:grid;grid-template-columns:2fr 1fr auto;gap:8px;align-items:end;">
-         <label style="font-size:12px;font-weight:700;">Decoration pictures <select id="fl-art" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
-         <label style="font-size:12px;font-weight:700;">How many <select id="fl-art-n" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option>1</option><option selected>2</option><option>3</option></select></label>
-         <button type="button" class="button secondary" id="fl-art-shuffle" title="Pick different pictures">&#128256;</button></div>
         <label style="font-size:12px;font-weight:700;">Picture (optional) <input type="file" id="fl-pic" accept="image/*" style="width:100%;padding:8px;margin-top:4px;"></label>
-        <label style="font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="fl-mantra" checked style="width:auto;"> Show the maha mantra at the bottom</label>
-        <label style="font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="fl-ink" checked style="width:auto;"> Save ink: no coloured background when printing</label>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="button" type="button" id="fl-print">Print</button><button class="button secondary" type="button" id="fl-png">Download as a picture</button></div>
-        <p id="fl-status" style="font-size:13px;margin:0;"></p>
-        <p style="font-size:12px;color:var(--muted);margin:0;">When printing: paper A4, scale 100%, margins none, Background graphics ON.</p>
        </form>
-       <div style="flex:1 1 360px;min-width:0;"><div class="zoom-bar"><label>Zoom <input type="range" id="fl-zoom" min="50" max="200" step="5" value="100"></label><span id="fl-zoom-v">100%</span></div><div id="fl-holder"></div></div>
+       <div class="design-prev"><div class="zoom-bar"><label>Zoom <input type="range" id="fl-zoom" min="50" max="200" step="5" value="100"></label><span id="fl-zoom-v">100%</span></div><div id="fl-holder" class="design-holder"></div></div>
       </div>
      </section>
 
@@ -224,6 +222,16 @@
        <form id="pam-form" class="card" style="padding:16px;flex:1 1 520px;max-width:640px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 16px;align-items:start;" onsubmit="return false">
         <label style="font-size:12px;font-weight:700;">Type <select id="pam-type" style="width:100%;padding:8px;margin-top:4px;"><option value="tri">Tri-fold (3 panels)</option><option value="bi">Bi-fold (2 panels)</option></select></label>
         <label style="font-size:12px;font-weight:700;">Look <select id="pam-tpl" style="width:100%;padding:8px;margin-top:4px;"></select></label>
+        <div style="grid-column:1/-1;display:grid;grid-template-columns:2fr 1fr auto;gap:8px;align-items:end;">
+         <label style="font-size:12px;font-weight:700;">Decoration pictures <select id="pam-art" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
+         <label style="font-size:12px;font-weight:700;">How many <select id="pam-art-n" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option selected>1</option><option>2</option><option>3</option></select></label>
+         <button type="button" class="button secondary" id="pam-art-shuffle" title="Pick different pictures">&#128256;</button></div>
+        <label style="grid-column:1/-1;font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="pam-mantra" checked style="width:auto;"> Show the maha mantra</label>
+        <label style="grid-column:1/-1;font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="pam-ink" checked style="width:auto;"> Save ink: no coloured background when printing</label>
+        <div style="grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;"><button class="button" type="button" id="pam-print">Print</button><button class="button secondary" type="button" id="pam-png">Download as pictures</button></div>
+        <p id="pam-status" style="grid-column:1/-1;font-size:13px;margin:0;"></p>
+        <p style="grid-column:1/-1;font-size:12px;color:var(--muted);margin:0;">Printing: paper A4, <strong>landscape</strong>, scale 100%, margins none. Choose <strong>two-sided, flip on short edge</strong>. Then fold: for a tri-fold, fold the left flap in first, then the cover over it.</p>
+<div class="fm-sep" style="grid-column:1/-1;border-top:1px solid var(--line);margin:4px 0 0;padding-top:6px;font-size:12px;font-weight:800;color:var(--muted);">The words</div>
         <label style="font-size:12px;font-weight:700;">Cover title <textarea id="pam-title" rows="2" maxlength="80" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
         <label style="font-size:12px;font-weight:700;">Line under the title <textarea id="pam-tagline" rows="2" maxlength="120" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
         <label style="font-size:12px;font-weight:700;">Flap heading (shown on the outside, folds in) <input id="pam-flap-h" maxlength="50" style="width:100%;padding:8px;margin-top:4px;"></label>
@@ -234,24 +242,12 @@
         <label style="font-size:12px;font-weight:700;">Inside 2: text <textarea id="pam-t2" rows="5" maxlength="520" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
         <label style="font-size:12px;font-weight:700;">Inside 3: heading <input id="pam-h3" maxlength="50" style="width:100%;padding:8px;margin-top:4px;"></label>
         <label style="font-size:12px;font-weight:700;">Inside 3: text <textarea id="pam-t3" rows="5" maxlength="520" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
-        <div style="display:grid;grid-template-columns:2fr 1fr auto;gap:8px;align-items:end;">
-         <label style="font-size:12px;font-weight:700;">Decoration pictures <select id="pam-art" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
-         <label style="font-size:12px;font-weight:700;">How many <select id="pam-art-n" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"><option>1</option><option selected>2</option><option>3</option></select></label>
-         <button type="button" class="button secondary" id="pam-art-shuffle" title="Pick different pictures">&#128256;</button></div>
         <label style="font-size:12px;font-weight:700;">Picture for inside 2 (optional) <input type="file" id="pam-pic" accept="image/*" style="width:100%;padding:8px;margin-top:4px;"></label>
         <label style="font-size:12px;font-weight:700;">Address <textarea id="pam-where" rows="2" maxlength="140" style="width:100%;padding:8px;margin-top:4px;"></textarea></label>
-        <label style="font-size:12px;font-weight:700;">Phone 1 <input id="pam-phone" maxlength="30" style="width:100%;padding:8px;margin-top:4px;"></label>
-        <label style="font-size:12px;font-weight:700;">Name in brackets (optional) <input id="pam-name" maxlength="40" style="width:100%;padding:8px;margin-top:4px;"></label>
-        <label style="font-size:12px;font-weight:700;">Phone 2 <input id="pam-phone2" maxlength="30" style="width:100%;padding:8px;margin-top:4px;"></label>
-        <label style="font-size:12px;font-weight:700;">Name in brackets <input id="pam-name2" maxlength="40" style="width:100%;padding:8px;margin-top:4px;"></label>
+        <div id="pam-phones" style="grid-column:1/-1;"></div>
         <label style="font-size:12px;font-weight:700;">QR code goes to <input id="pam-link" maxlength="200" style="width:100%;padding:8px;margin-top:4px;"></label>
-        <label style="font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="pam-mantra" checked style="width:auto;"> Show the maha mantra</label>
-        <label style="font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="pam-ink" checked style="width:auto;"> Save ink: no coloured background when printing</label>
-        <div style="grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;"><button class="button" type="button" id="pam-print">Print</button><button class="button secondary" type="button" id="pam-png">Download as pictures</button></div>
-        <p id="pam-status" style="grid-column:1/-1;font-size:13px;margin:0;"></p>
-        <p style="grid-column:1/-1;font-size:12px;color:var(--muted);margin:0;">Printing: paper A4, <strong>landscape</strong>, scale 100%, margins none. Choose <strong>two-sided, flip on short edge</strong>. Then fold: for a tri-fold, fold the left flap in first, then the cover over it.</p>
        </form>
-       <div style="flex:1 1 380px;min-width:0;"><div class="zoom-bar"><label>Zoom <input type="range" id="pam-zoom" min="50" max="200" step="5" value="100"></label><span id="pam-zoom-v">100%</span></div><div id="pam-holder"></div></div>
+       <div class="design-prev"><div class="zoom-bar"><label>Zoom <input type="range" id="pam-zoom" min="50" max="200" step="5" value="100"></label><span id="pam-zoom-v">100%</span></div><div id="pam-holder" class="design-holder"></div></div>
       </div>
      </section>
 
@@ -485,12 +481,7 @@
       <p style="font-size:14px;color:var(--muted);max-width:640px;margin-bottom:16px;">Business card, 85 &times; 55 mm. Everything fills in from details already on the site (phone, address, social links, logo). The front carries all the contact details. The back carries a quote and decoration. Pick the quote below or write your own.</p>
 
       <div class="bc-controls card" style="padding:16px;max-width:900px;margin-bottom:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px 18px;align-items:start;">
-       <div id="bc-phones-box">
-        <p style="font-size:12px;font-weight:700;margin:0 0 6px;">Phone numbers on the card (each number has its own name; remove a number and its name goes with it)</p>
-        <div id="bc-phones" style="display:flex;flex-direction:column;gap:6px;"></div>
-        <button type="button" class="button secondary" id="bc-phone-add" style="margin-top:8px;font-size:12px;padding:5px 12px;min-height:auto;">+ Add a phone number</button>
-        <p id="bc-phone-warn" style="font-size:12px;color:#b33a2e;margin:6px 0 0;"></p>
-       </div>
+       <div id="bc-phones-box"></div>
        <label style="font-size:12px;font-weight:700;">Picture at the top of the back
         <select id="bc-deco-kind" style="width:100%;padding:8px;margin-top:4px;border:1px solid var(--line);border-radius:4px;"></select></label>
        <label style="font-size:13px;display:flex;gap:8px;align-items:center;"><input type="checkbox" id="bc-ink" checked style="width:auto;"> Save ink: no coloured background when printing (white card, maroon and gold lines)</label>
@@ -580,6 +571,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="phones.js"></script>
   <script src="art.js"></script>
   <script src="admin.js"></script>
   <script src="flyer.js"></script>

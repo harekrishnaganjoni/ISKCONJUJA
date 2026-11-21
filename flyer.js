@@ -30,16 +30,14 @@
   }
   function vals() {
     return { tpl: $("fl-tpl").value, kicker: $("fl-kicker").value.trim(), title: $("fl-title").value.trim() || "Your event title", when: $("fl-when").value.trim(), where: $("fl-where").value.trim(),
-      desc: $("fl-desc").value.trim(), note: $("fl-note").value.trim(), name: $("fl-name").value.trim(), phone: $("fl-phone").value.trim(), phone2: nice($("fl-phone2").value), name2: $("fl-name2").value.trim(), ink: $("fl-ink").checked, link: $("fl-link").value.trim() || H.publicOrigin || location.origin,
+      desc: $("fl-desc").value.trim(), note: $("fl-note").value.trim(),  ink: $("fl-ink").checked, link: $("fl-link").value.trim() || H.publicOrigin || location.origin,
       mantra: $("fl-mantra").checked, size: $("fl-size").value, art: artIds };
   }
   function build(v, px) {
     var d = document.createElement("div");
     d.className = "fl fl-" + v.tpl + " " + (v.size === "a5" ? "fl-a5" : "fl-a4") + (v.ink ? " ink" : "");
     if (px) d.style.fontSize = px + "px";
-    var phones = [];
-    if (v.phone) phones.push(esc(v.phone) + (v.name ? " (" + esc(v.name) + ")" : ""));
-    if (v.phone2) phones.push(esc(v.phone2) + (v.name2 ? " (" + esc(v.name2) + ")" : ""));
+    var phones = PHONES.lines(esc);
     d.innerHTML =
       '<div class="fl-frame"></div>' +
       '<div class="fl-top"><div class="fl-logo">' + logoSvg + '</div>' +
@@ -82,12 +80,12 @@
 
   // ---- inputs ----
   $("fl-tpl").innerHTML = TEMPLATES.map(function (t) { return '<option value="' + t.id + '">' + esc(t.name) + '</option>'; }).join("");
-  $("fl-phone").value = phoneNice(primary);
+  PHONES.mount($("fl-phones")); PHONES.onChange(function () { render(); });
   $("fl-where").value = "Anthusia Apartments, Muraya Access Road, Juja";
   $("fl-link").value = H.publicOrigin || location.origin;
   $("fl-kicker").value = "You are warmly invited";
   $("fl-note").value = "Everyone is welcome. Free entry. Prasadam served.";
-  try { $("fl-name").value = localStorage.getItem("bc_name1") || ""; $("fl-phone2").value = localStorage.getItem("bc_phone2") || "0743184998"; var n2 = localStorage.getItem("bc_name2"); $("fl-name2").value = n2 === null ? "Dan" : n2; var ik = localStorage.getItem("bc_ink"); $("fl-ink").checked = ik === null ? true : ik === "1"; } catch (e) { $("fl-phone2").value = "0743184998"; $("fl-name2").value = "Dan"; }
+  try { var ik = localStorage.getItem("bc_ink"); $("fl-ink").checked = ik === null ? true : ik === "1"; } catch (e) {}
   Array.prototype.forEach.call(document.querySelectorAll("#fl-form input, #fl-form textarea, #fl-form select"), function (el) { if (el.type !== "file") el.addEventListener("input", function () { if (el.id !== "fl-event") render(); }); });
   $("fl-event").addEventListener("change", function () { if ($("fl-event").value !== "") fillFromEvent(parseInt($("fl-event").value, 10)); });
   $("fl-pic").addEventListener("change", function () {

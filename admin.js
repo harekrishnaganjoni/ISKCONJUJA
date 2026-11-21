@@ -878,7 +878,7 @@
         address: "Anthusia Apartments, Muraya Access Road, Juja",
         phone: primary ? "+" + primary.slice(0, 3) + " " + primary.slice(3, 6) + " " + primary.slice(6, 9) + " " + primary.slice(9) : "",
         site: siteUrl.replace(/^https?:\/\//, ""),
-        socials: [], till: "", quotes: [], quote: "", source: "", deco: "", logoSvg: "", phones: [], deco: "", ink: true
+        socials: [], till: "", quotes: [], quote: "", source: "", deco: "", logoSvg: "", deco: "", ink: true
       };
       function esc(t) { return String(window.PLAIN ? PLAIN(t) : (t == null ? "" : t)).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
       var ICON = {
@@ -909,7 +909,7 @@
           '<div class="bc-qr"></div>' +
           '<div class="bc-lines bcf-details">' +
              '<p>' + ICON.pin + esc(data.address) + '</p>' +
-             data.phones.filter(function (p) { return p.phone && p.name; }).map(function (p) { return '<p><b>' + ICON.whatsapp + esc(nicePhone(p.phone)) + ' (' + esc(p.name) + ')</b></p>'; }).join("") +
+             PHONES.ready().map(function (p) { return '<p><b>' + ICON.whatsapp + esc(nicePhone(p.phone)) + ' (' + esc(p.name) + ')</b></p>'; }).join("") +
              '<p><b>' + ICON.web + esc(data.site) + '</b></p>' +
              (data.till ? '<p>M-Pesa Till: <b>' + esc(data.till) + '</b></p>' : "") +
              (soc ? '<p class="bc-socs">' + soc + '</p>' : "") +
@@ -976,28 +976,9 @@
       function nicePhone(raw) { var d = String(raw || "").replace(/\D/g, ""); if (d.charAt(0) === "0") d = "254" + d.slice(1); return d.length === 12 ? "+" + d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6, 9) + " " + d.slice(9) : String(raw || "").trim(); }
       function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
       function stored(k, dflt) { try { var v = localStorage.getItem(k); return v === null ? dflt : v; } catch (e) { return dflt; } }
-      // Phone numbers: a list, each with its own name. Removing a number removes its name too. A number without a name is left off the card.
-      var phBox = document.getElementById("bc-phones"), phAdd = document.getElementById("bc-phone-add"), phWarn = document.getElementById("bc-phone-warn");
-      var loaded = null; try { loaded = JSON.parse(stored("bc_phones", "null")); } catch (e) {}
-      data.phones = Array.isArray(loaded) ? loaded : [{ phone: primary ? "0" + primary.slice(3) : "", name: "Tim" }, { phone: "0743184998", name: "Dan" }];
+      // Phone numbers: one shared list (phones.js), each number with its own name.
+      PHONES.mount(document.getElementById("bc-phones-box")); PHONES.onChange(function () { render(); });
       data.ink = stored("bc_ink", "1") === "1";
-      function savePhones() { store("bc_phones", JSON.stringify(data.phones)); }
-      function drawPhones() {
-        phBox.innerHTML = "";
-        data.phones.forEach(function (p, i) {
-          var row = document.createElement("div"); row.style.cssText = "display:grid;grid-template-columns:1fr 1fr auto;gap:6px;";
-          row.innerHTML = '<input placeholder="Phone number" maxlength="20" style="padding:7px;border:1px solid var(--line);border-radius:4px;"><input placeholder="Name (needed)" maxlength="40" style="padding:7px;border:1px solid var(--line);border-radius:4px;"><button type="button" class="button secondary" title="Remove this number and its name" style="padding:4px 10px;min-height:auto;">&#10005;</button>';
-          var ins = row.querySelectorAll("input"); ins[0].value = p.phone; ins[1].value = p.name;
-          ins[0].addEventListener("input", function () { p.phone = ins[0].value.trim(); savePhones(); warn(); render(); });
-          ins[1].addEventListener("input", function () { p.name = ins[1].value.trim(); savePhones(); warn(); render(); });
-          row.querySelector("button").addEventListener("click", function () { data.phones.splice(i, 1); savePhones(); drawPhones(); render(); });
-          phBox.appendChild(row);
-        });
-        warn();
-      }
-      function warn() { var bad = data.phones.filter(function (p) { return p.phone && !p.name; }).length; phWarn.textContent = bad ? "Give every number a name. A number without a name is left off the card." : ""; }
-      if (phAdd) phAdd.addEventListener("click", function () { data.phones.push({ phone: "", name: "" }); drawPhones(); });
-      drawPhones();
       if (inkIn) inkIn.checked = data.ink;
       if (inkIn) inkIn.addEventListener("change", function () { data.ink = inkIn.checked; store("bc_ink", data.ink ? "1" : "0"); render(); });
       if (decoSel) { decoSel.innerHTML = ART.options('<option value="random">A different one on every card</option><option value="lotus">Lotus (drawn)</option><option value="feather">Peacock feather (drawn)</option>'); decoSel.addEventListener("change", render); }

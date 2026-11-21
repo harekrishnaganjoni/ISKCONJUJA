@@ -15,8 +15,7 @@
   function vals() {
     var secs = [1, 2, 3].map(function (i) { return { h: $("pam-h" + i).value.trim(), t: $("pam-t" + i).value.trim() }; });
     return { type: $("pam-type").value, tpl: $("pam-tpl").value, title: $("pam-title").value.trim() || "Your title", tagline: $("pam-tagline").value.trim(),
-      flapH: $("pam-flap-h").value.trim(), flapT: $("pam-flap-t").value.trim(), secs: secs, where: $("pam-where").value.trim(), link: $("pam-link").value.trim() || H.publicOrigin || location.origin,
-      phone: $("pam-phone").value.trim(), name: $("pam-name").value.trim(), phone2: nice($("pam-phone2").value), name2: $("pam-name2").value.trim(), mantra: $("pam-mantra").checked, ink: $("pam-ink").checked, art: artIds };
+      flapH: $("pam-flap-h").value.trim(), flapT: $("pam-flap-t").value.trim(), secs: secs, where: $("pam-where").value.trim(), link: $("pam-link").value.trim() || H.publicOrigin || location.origin,  mantra: $("pam-mantra").checked, ink: $("pam-ink").checked, art: artIds };
   }
   function cover(v) {
     return '<div class="pp-top"><div class="pp-logo">' + logoSvg + '</div>' +
@@ -29,9 +28,7 @@
     return (h ? '<h2 class="pp-h">' + nl(h) + '</h2>' : '') + (withPic && picture ? '<div class="pp-pic"><img src="' + esc(picture) + '" alt=""></div>' : '') + (t ? '<p class="pp-t">' + nl(t) + '</p>' : '');
   }
   function back(v) {
-    var ph = [];
-    if (v.phone) ph.push(esc(v.phone) + (v.name ? " (" + esc(v.name) + ")" : ""));
-    if (v.phone2) ph.push(esc(v.phone2) + (v.name2 ? " (" + esc(v.name2) + ")" : ""));
+    var ph = PHONES.lines(esc);
     return '<p class="pp-prabline">ISKCON Founder-Acharya <b>His Divine Grace A.C. Bhaktivedanta Swami Prabhupada</b></p>' +
       '<div class="pp-logo pp-logo-b">' + logoSvg + '</div>' +
       '<div class="pp-qr"></div><p class="pp-scan">Scan to see more</p>' +
@@ -76,8 +73,8 @@
   Object.keys(DEF).forEach(function (k) { var id = { flapH: "pam-flap-h", flapT: "pam-flap-t" }[k] || "pam-" + k; if ($(id)) $(id).value = DEF[k]; });
   $("pam-where").value = "Anthusia Apartments, Muraya Access Road, Juja";
   $("pam-link").value = H.publicOrigin || location.origin;
-  $("pam-phone").value = nice(primary);
-  try { $("pam-name").value = localStorage.getItem("bc_name1") || ""; $("pam-phone2").value = localStorage.getItem("bc_phone2") || "0743184998"; var n2 = localStorage.getItem("bc_name2"); $("pam-name2").value = n2 === null ? "Dan" : n2; var ik = localStorage.getItem("bc_ink"); $("pam-ink").checked = ik === null ? true : ik === "1"; } catch (e) { $("pam-phone2").value = "0743184998"; $("pam-name2").value = "Dan"; }
+  PHONES.mount($("pam-phones")); PHONES.onChange(function () { render(); });
+  try { var ik = localStorage.getItem("bc_ink"); $("pam-ink").checked = ik === null ? true : ik === "1"; } catch (e) {}
   Array.prototype.forEach.call(document.querySelectorAll("#pam-form input, #pam-form textarea, #pam-form select"), function (el) { if (el.type !== "file") el.addEventListener("input", render); });
   $("pam-pic").addEventListener("change", function () { var f = $("pam-pic").files[0]; if (!f) { picture = ""; render(); return; } var rd = new FileReader(); rd.onload = function () { picture = rd.result; render(); }; rd.readAsDataURL(f); });
 
